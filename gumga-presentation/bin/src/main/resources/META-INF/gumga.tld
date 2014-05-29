@@ -1,0 +1,30 @@
+<taglib	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee web-jsptaglibrary_2_1.xsd"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"	>
+	
+	<tlib-version>2.1</tlib-version>
+	<jsp-version>2.1</jsp-version>
+	<short-name>gumga</short-name>
+	<uri>http://gumga.com.br/jsp/tags</uri>
+
+	<tag-file>
+        <name>basetemplate</name>
+        <path>/META-INF/tags/basetemplate.tag</path>
+    </tag-file>
+	<tag-file>
+        <name>menu</name>
+        <path>/META-INF/tags/menu.tag</path>
+    </tag-file>
+	<tag-file>
+        <name>grid</name>
+        <path>/META-INF/tags/crud/grid.tag</path>
+    </tag-file>
+	<tag-file>
+        <name>form</name>
+        <path>/META-INF/tags/crud/form.tag</path>
+    </tag-file>
+	<tag-file>
+        <name>modalForm</name>
+        <path>/META-INF/tags/modalForm.tag</path>
+    </tag-file>
+</taglib>

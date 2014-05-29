@@ -10,11 +10,16 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+/**
+ * 
+ * A classe GumgaController representa uma unidade básica para ser utilizada
+ * como controller web. Existem métodos auxiliares necessários para uma
+ * página web via JSTL. Como por exemplo: menu e username.
+ *
+ */
 public abstract class GumgaController {
 	
 	protected Logger logger = Logger.getLogger(getClass().getSimpleName());
@@ -24,23 +29,6 @@ public abstract class GumgaController {
 	
 	@Autowired(required = false)
 	private GumgaSecurityService securityService;
-	
-	public abstract String path();
-	
-	@RequestMapping
-	public String index() {
-		return path() + "/base";
-	}
-
-	@RequestMapping("/grid")
-	public String grid(Model model) {
-		return path() + "/grid";
-	}
-
-	@RequestMapping("/form")
-	public String form(Model model) {
-		return path() + "/form";
-	}
 	
 	@ModelAttribute("menu")
 	public Menu loadMenu() throws IOException {
