@@ -5,7 +5,6 @@
     <artifactId>gumga-backend-all</artifactId>
     <version>0.1</version>
   </parent>
-  <groupId>gumga.framework.security</groupId>
   <artifactId>gumga-security</artifactId>
   <dependencies>
   	<dependency>
