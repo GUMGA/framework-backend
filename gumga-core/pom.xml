@@ -7,7 +7,7 @@
     <version>0.1</version>
   </parent>
   
-  <groupId>br.com.gumga</groupId>
+  <groupId>gumga.framework.core</groupId>
   <artifactId>gumga-core</artifactId>
   
 </project>
