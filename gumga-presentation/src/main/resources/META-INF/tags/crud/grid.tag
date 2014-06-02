@@ -35,7 +35,7 @@
 			<jsp:invoke fragment="gridColumns" />
 		</gumga:table>
 		
-        <gumga:pagination id="tag" items-per-page="list.pageSize" total-items="list.count" ng-model="page" boundary-links="true"></gumga:pagination>
+        <gumga:pagination ng-show="numberOfPages > 1" items-per-page="list.pageSize" total-items="list.count" ng-model="page" num-pages="numberOfPages" boundary-links="true"></gumga:pagination>
 	</div>
 	
 </div>
