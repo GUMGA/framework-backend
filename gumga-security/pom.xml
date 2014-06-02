@@ -1,28 +1,38 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>gumga.framework</groupId>
-    <artifactId>gumga-backend-all</artifactId>
-    <version>0.1</version>
-  </parent>
-  <artifactId>gumga-security</artifactId>
-  <dependencies>
-  	<dependency>
-  		<groupId>framework.gumga.presentation</groupId>
-  		<artifactId>gumga-presentation</artifactId>
-  		<version>0.1</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.springframework.security</groupId>
-  		<artifactId>spring-security-config</artifactId>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.springframework.security</groupId>
-  		<artifactId>spring-security-core</artifactId>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.springframework.security</groupId>
-  		<artifactId>spring-security-web</artifactId>
-  	</dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>gumga.framework</groupId>
+		<artifactId>gumga-backend-all</artifactId>
+		<version>0.1</version>
+	</parent>
+
+	<artifactId>gumga-security</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>gumga.framework</groupId>
+			<artifactId>gumga-presentation</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+	</dependencies>
+
 </project>
