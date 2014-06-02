@@ -19,9 +19,9 @@
 
 <title><fmt:message key="app.title" /> - ${title}</title>
 
-<link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/gumga-piloto/static/styles/main.css" />
-<link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/gumga-piloto/static/styles/gumga.css" />
-<link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/gumga-piloto/static/styles/menu.css" />
+<link rel="stylesheet" href="<c:url value='/static/styles/main.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/styles/gumga.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/styles/menu.css' />" />
 
 </head>
 <body>
@@ -74,11 +74,11 @@
 		</div>
 	</div>
 
-	<script src="https://s3-us-west-1.amazonaws.com/gumga-piloto/static/scripts/vendor/require.js"></script>
-	<script src="https://s3-us-west-1.amazonaws.com/gumga-piloto/static/scripts/config.js"></script>
-	<script src="https://s3-us-west-1.amazonaws.com/gumga-piloto/static/scripts/app-config.js"></script>
+    <script src="<c:url value='/static/scripts/vendor/require.js' />"></script>
+    <script src="<c:url value='/static/scripts/config.js' />"></script>
+    <script src="<c:url value='/static/scripts/app-config.js' />"></script>
 	<script>
-		requirejs.config({ baseUrl: 'https://s3-us-west-1.amazonaws.com/gumga-piloto/static/scripts/' });
+    	requirejs.config({ baseUrl: '${pageContext.request.contextPath}/static/scripts/' });
 	</script>
 	<jsp:invoke fragment="scripts" />
 </body>
