@@ -31,7 +31,16 @@
 	</c:if>
 	
 	<div class="col-xs-12">
-		<gumga:table values="${values}" class="table-condensed table-striped" selectable="multiple" selection="selection" on-sort="ctrl.doSort($column, $direction)" sort-by="sort.field" sort-direction="sort.direction">
+		<gumga:table 
+				values="${values}"
+				class="table-condensed table-striped"
+				selectable="multiple"
+				selection="selection"
+				on-sort="ctrl.doSort($column, $direction)"
+				sort-by="sort.field"
+				sort-direction="sort.direction"
+				empty-values-message="Sem resultados"
+				>
 			<jsp:invoke fragment="gridColumns" />
 		</gumga:table>
 		
