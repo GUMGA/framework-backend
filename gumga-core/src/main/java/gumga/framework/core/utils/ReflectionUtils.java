@@ -1,6 +1,8 @@
 package gumga.framework.core.utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 public class ReflectionUtils {
 	
@@ -28,6 +30,11 @@ public class ReflectionUtils {
 		}
 		
 		return null;
+	}
+	
+	public static Class<?> inferGenericType(Class<?> clazz) {
+		Type superClass = clazz.getGenericSuperclass();
+		return (Class<?>) ((ParameterizedType) superClass).getActualTypeArguments()[0];
 	}
 
 }

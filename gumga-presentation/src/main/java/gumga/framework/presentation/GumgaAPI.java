@@ -3,8 +3,8 @@ package gumga.framework.presentation;
 
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
-import gumga.framework.domain.GumgaModel;
-import gumga.framework.domain.GumgaRepository;
+import gumga.framework.domain.GumgaIdable;
+import gumga.framework.domain.GumgaService;
 import gumga.framework.domain.exception.InvalidEntityException;
 
 import java.lang.reflect.Constructor;
@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public abstract class GumgaAPI<T extends GumgaModel> {
+public abstract class GumgaAPI<T extends GumgaIdable> {
 
 	@Autowired
-	protected GumgaRepository<T> repository;
+	protected GumgaService<T> service;
 	protected Logger logger = Logger.getLogger(getClass().getSimpleName());
 	
 	public void beforeSearch(QueryObject query) { }
@@ -37,7 +37,7 @@ public abstract class GumgaAPI<T extends GumgaModel> {
 	@RequestMapping
 	public SearchResult<T> pesquisa(QueryObject query) {
 		beforeSearch(query);
-		SearchResult<T> pesquisa = repository.pesquisa(query);
+		SearchResult<T> pesquisa = service.pesquisa(query);
 		afterSearch(query);
 		 
 		return pesquisa;
@@ -62,7 +62,7 @@ public abstract class GumgaAPI<T extends GumgaModel> {
 	@RequestMapping("/{id}")
 	public T carrega(@PathVariable Long id) {
 		beforeLoad();
-		T entity = repository.load(id);
+		T entity = service.view(id);
 		afterLoad(entity);
 		
 		return entity;
@@ -88,10 +88,10 @@ public abstract class GumgaAPI<T extends GumgaModel> {
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable Long id, HttpServletRequest request) {
-		T entity = repository.load(id);
+		T entity = service.view(id);
 		
 		beforeDelete(entity);
-		repository.delete(entity);
+		service.delete(entity);
 		afterDelete();
 	}
 
@@ -102,7 +102,7 @@ public abstract class GumgaAPI<T extends GumgaModel> {
 
 	protected T initialValue() {
 		try {
-			Constructor<T> constructor = repository.clazz().getDeclaredConstructor();
+			Constructor<T> constructor = service.clazz().getDeclaredConstructor();
 			constructor.setAccessible(true);
 			return constructor.newInstance();
 		} catch (Exception e) {
@@ -114,7 +114,7 @@ public abstract class GumgaAPI<T extends GumgaModel> {
 		if (result.hasErrors())
 			throw new InvalidEntityException(result);
 
-		return repository.saveOrUpdate(model);
+		return service.save(model);
 	}
 
 }

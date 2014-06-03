@@ -6,9 +6,8 @@ import static org.hibernate.criterion.Projections.rowCount;
 import static org.hibernate.criterion.Restrictions.or;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
+import gumga.framework.core.utils.ReflectionUtils;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -18,12 +17,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public abstract class GumgaRepository<T extends GumgaIdable> {
+@Scope("prototype")
+public class GumgaRepository<T extends GumgaIdable> {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -35,11 +36,6 @@ public abstract class GumgaRepository<T extends GumgaIdable> {
 		return sessionFactory.getCurrentSession();
 	}
 	
-	@Transactional(readOnly = true)
-	public List<T> all() {
-		return pesquisa().list();
-	}
-	
 	@Transactional(propagation = Propagation.MANDATORY)
 	public T saveOrUpdate(T model) {
 		session().saveOrUpdate(model);
@@ -47,7 +43,7 @@ public abstract class GumgaRepository<T extends GumgaIdable> {
 	}
 	
 	@Transactional(propagation = Propagation.MANDATORY)
-	public void delete(GumgaModel model) {
+	public void delete(T model) {
 		session().delete(model);
 	}
 	
@@ -61,27 +57,14 @@ public abstract class GumgaRepository<T extends GumgaIdable> {
 		return entity;
 	}
 	
-	@Transactional(readOnly = true)
-	public Long count() {
-		Number count = (Number) pesquisa().setProjection(rowCount()).uniqueResult();
-		return count.longValue();
-	}
-	
-	@Transactional(readOnly = true)
-	public Pesquisa<T> pesquisa() {
-		return Pesquisa.createCriteria(session(), clazz());
-	}
-	
 	@SuppressWarnings("unchecked")
 	public Class<T> clazz() {
-		if (clazz == null) {
-			Type mySuperclass = getClass().getGenericSuperclass();
-			clazz = (Class<T>) ((ParameterizedType) mySuperclass).getActualTypeArguments()[0];
-		}
+		if (clazz == null) 
+			clazz = (Class<T>) ReflectionUtils.inferGenericType(getClass());
 		
 		return clazz;
 	}
-
+	
 	@Transactional(readOnly = true)
 	public SearchResult<T> pesquisa(QueryObject query) {
 		Long count = count(query);
@@ -130,6 +113,22 @@ public abstract class GumgaRepository<T extends GumgaIdable> {
 		
 		pesquisa.createAlias(chain[0], chain[0]);
 		pesquisa.addAlias(chain[0]);
+	}
+	
+	@Transactional(readOnly = true)
+	public Pesquisa<T> pesquisa() {
+		return Pesquisa.createCriteria(session(), clazz());
+	}
+	
+	@Transactional(readOnly = true)
+	public Long count() {
+		Number count = (Number) pesquisa().setProjection(rowCount()).uniqueResult();
+		return count.longValue();
+	}
+	
+
+	public void setClazz(Class<T> clazz) {
+		this.clazz = clazz;
 	}
 	
 }
