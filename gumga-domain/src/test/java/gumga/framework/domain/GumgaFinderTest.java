@@ -22,8 +22,6 @@ public class GumgaFinderTest {
 	public void testFeliz() {
 		assertNotNull(carRepository);
 		assertNotNull(service);
-		
-		System.out.println(carRepository.clazz());
 	}
 	
 }
