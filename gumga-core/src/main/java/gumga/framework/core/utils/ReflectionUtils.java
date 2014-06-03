@@ -14,7 +14,7 @@ public class ReflectionUtils {
 		if (clazz == null) 
 			throw new IllegalArgumentException("Class must not be null");
 		
-		if (name != null || type != null) 
+		if (name == null && type == null) 
 			throw new IllegalArgumentException("Either name or type of the field must be specified");
 			
 		Class<?> searchType = clazz;

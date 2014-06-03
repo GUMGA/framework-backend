@@ -52,10 +52,13 @@ public class HibernateQueryObject {
 		
 		List<Criterion> criterions = new ArrayList<>();
 		
-		for (String field : queryObject.getSearchFields())
+		for (String field : queryObject.getSearchFields()) {
 			try {
 				criterions.add(createCriterion(field, queryObject.getQ(), clazz));
-			} catch(Exception ex) { }
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 		
 		if (criterions.isEmpty())
 			forceNoResults(criterions);
