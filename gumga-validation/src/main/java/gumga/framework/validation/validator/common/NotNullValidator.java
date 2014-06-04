@@ -8,9 +8,12 @@ import org.springframework.validation.Errors;
 import com.google.common.base.Optional;
 
 /**
- * Validate if the specified value is True
+ * Validate if the specified value is not <code>null</code>
  */
 public class NotNullValidator extends GumgaAbstractValidator<Object> {
+
+	public static final String ERROR_CODE = "validation.notNull";
+	public static final NotNullValidator INSTANCE = new NotNullValidator(ERROR_CODE);
 
 	public NotNullValidator(String code) {
 		super(code);

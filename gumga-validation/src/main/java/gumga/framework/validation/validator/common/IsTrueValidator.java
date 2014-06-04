@@ -1,5 +1,6 @@
 package gumga.framework.validation.validator.common;
 
+import gumga.framework.validation.GumgaFieldValidator;
 import gumga.framework.validation.GumgaValidationError;
 import gumga.framework.validation.validator.GumgaAbstractValidator;
 
@@ -13,10 +14,7 @@ import com.google.common.base.Optional;
 public class IsTrueValidator extends GumgaAbstractValidator<Boolean> {
 
 	public static final String ERROR_CODE = "validation.isTrue";
-
-	public IsTrueValidator() {
-		super(ERROR_CODE);
-	}
+	public static final GumgaFieldValidator<Boolean> INSTANCE = new IsTrueValidator(ERROR_CODE);
 
 	public IsTrueValidator(String code) {
 		super(code);

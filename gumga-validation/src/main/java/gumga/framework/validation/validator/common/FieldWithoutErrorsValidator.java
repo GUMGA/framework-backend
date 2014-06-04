@@ -12,8 +12,14 @@ import com.google.common.base.Optional;
  */
 public class FieldWithoutErrorsValidator implements GumgaFieldValidator<Object> {
 
+	public static final String ERROR_CODE = "validation.fieldWithoutErrors";
+
 	private String field;
 	private String code;
+
+	public FieldWithoutErrorsValidator(String field) {
+		this(field, ERROR_CODE);
+	}
 
 	public FieldWithoutErrorsValidator(String field, String code) {
 		this.field = field;

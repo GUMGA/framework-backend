@@ -39,6 +39,10 @@ public class GumgaValidator {
 		return check(property, value, GumgaCommonValidator.isFalse());
 	}
 
+	public final GumgaValidator checkNotNull(String property, Object value) {
+		return check(property, value, GumgaCommonValidator.notNull());
+	}
+
 	public static final GumgaValidator with(Errors errors) {
 		return new GumgaValidator(errors);
 	}

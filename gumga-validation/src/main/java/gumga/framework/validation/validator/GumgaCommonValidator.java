@@ -17,7 +17,7 @@ public class GumgaCommonValidator {
 	}
 
 	public static final GumgaFieldValidator<Boolean> isTrue() {
-		return new IsTrueValidator();
+		return IsTrueValidator.INSTANCE;
 	}
 
 	public static final GumgaFieldValidator<Boolean> isFalse(String message) {
@@ -25,7 +25,7 @@ public class GumgaCommonValidator {
 	}
 
 	public static final GumgaFieldValidator<Boolean> isFalse() {
-		return new IsFalseValidator();
+		return IsFalseValidator.INSTANCE;
 	}
 
 	public static final GumgaFieldValidator<Object> notNull(String message) {
@@ -33,7 +33,7 @@ public class GumgaCommonValidator {
 	}
 
 	public static final GumgaFieldValidator<Object> notNull() {
-		return notNull("validation.isTrue");
+		return NotNullValidator.INSTANCE;
 	}
 
 	public static final GumgaFieldValidator<Object> fieldWithoutErrors(String field, String message) {

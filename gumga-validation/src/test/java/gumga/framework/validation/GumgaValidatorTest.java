@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import gumga.framework.validation.validator.common.IsFalseValidator;
 import gumga.framework.validation.validator.common.IsTrueValidator;
+import gumga.framework.validation.validator.common.NotNullValidator;
 import gumga.framework.validation.validator.string.NotNullOrEmptyValidator;
 
 import java.util.Date;
@@ -96,6 +97,29 @@ public class GumgaValidatorTest {
 
 		GumgaValidator.with(errors) //
 				.checkIsTrue(BIRTH_DATE_FIELD, true);
+
+		assertFalse(errors.hasErrors());
+		assertFalse(errors.hasFieldErrors(BIRTH_DATE_FIELD));
+
+	}
+
+	@Test
+	public void should_be_invalid_if_expression_is_null() {
+
+		GumgaValidator.with(errors) //
+				.checkNotNull(BIRTH_DATE_FIELD, null);
+
+		assertTrue(errors.hasErrors());
+		assertTrue(errors.hasFieldErrors(BIRTH_DATE_FIELD));
+		assertEquals(NotNullValidator.ERROR_CODE, errors.getFieldError(BIRTH_DATE_FIELD).getCode());
+
+	}
+
+	@Test
+	public void should_be_valid_if_expression_is_not_null() {
+
+		GumgaValidator.with(errors) //
+				.checkNotNull(BIRTH_DATE_FIELD, new Date());
 
 		assertFalse(errors.hasErrors());
 		assertFalse(errors.hasFieldErrors(BIRTH_DATE_FIELD));

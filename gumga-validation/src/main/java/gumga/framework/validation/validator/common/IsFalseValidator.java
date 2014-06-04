@@ -13,10 +13,7 @@ import com.google.common.base.Optional;
 public class IsFalseValidator extends GumgaAbstractValidator<Boolean> {
 
 	public static final String ERROR_CODE = "validation.isFalse";
-
-	public IsFalseValidator() {
-		super(ERROR_CODE);
-	}
+	public static final IsFalseValidator INSTANCE = new IsFalseValidator(ERROR_CODE);
 
 	public IsFalseValidator(String code) {
 		super(code);
