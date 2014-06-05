@@ -8,11 +8,12 @@ import gumga.framework.domain.GumgaService;
 import gumga.framework.domain.exception.InvalidEntityException;
 
 import java.lang.reflect.Constructor;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public abstract class GumgaAPI<T extends GumgaIdable> {
 
 	@Autowired
 	protected GumgaService<T> service;
-	protected Logger logger = Logger.getLogger(getClass().getSimpleName());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public void beforeSearch(QueryObject query) { }
 	public void afterSearch(QueryObject query) { }

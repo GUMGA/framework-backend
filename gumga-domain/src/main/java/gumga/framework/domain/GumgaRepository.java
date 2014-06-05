@@ -9,7 +9,6 @@ import gumga.framework.core.SearchResult;
 import gumga.framework.core.utils.ReflectionUtils;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -17,6 +16,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -31,7 +32,7 @@ public class GumgaRepository<T extends GumgaIdable> {
 	private SessionFactory sessionFactory;
 	private Class<T> clazz;
 	
-	protected Logger logger = Logger.getLogger(getClass().getSimpleName());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Transactional(propagation = Propagation.MANDATORY)
 	public T saveOrUpdate(T model) {

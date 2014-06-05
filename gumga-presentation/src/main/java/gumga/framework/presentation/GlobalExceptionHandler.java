@@ -30,7 +30,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	
-	private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+	private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	
 	@ExceptionHandler(InvalidEntityException.class)
 	public ResponseEntity<Object> handleCustomException(InvalidEntityException ex, WebRequest request) {
