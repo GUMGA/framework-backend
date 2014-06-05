@@ -139,4 +139,12 @@ public class GumgaRepository<T extends GumgaIdable> {
 		this.clazz = clazz;
 	}
 	
+	public void flush() {
+		session().flush();
+	}
+	
+	public void clear() {
+		session().clear();
+	}
+	
 }

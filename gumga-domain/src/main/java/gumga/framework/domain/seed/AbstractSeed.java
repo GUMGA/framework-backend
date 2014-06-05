@@ -34,8 +34,8 @@ public abstract class AbstractSeed<T extends GumgaIdable> implements AppSeed {
 			count++;
 			
 			if (count == 50) {
-				repository().session().flush();
-				repository().session().clear();
+				repository().flush();
+				repository().clear();
 				count = 0;
 			}
 		}
