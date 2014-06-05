@@ -5,8 +5,10 @@ import gumga.framework.validation.validator.GumgaCommonValidator;
 
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.MapBindingResult;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Maps;
 
 /**
  * Classe que realiza a validação em uma lista de {@link GumgaFieldValidator}
@@ -28,16 +30,17 @@ public class GumgaValidator {
 		this(new BeanPropertyBindingResult(object, name));
 	}
 
+	public GumgaValidator() {
+		this(new MapBindingResult(Maps.newHashMap(), "object"));
+	}
+
 	@SafeVarargs
-	public final <T> GumgaValidator check(String property, T value,
-			GumgaFieldValidator<? super T>... validators) {
+	public final <T> GumgaValidator check(String property, T value, GumgaFieldValidator<? super T>... validators) {
 		for (GumgaFieldValidator<? super T> validator : validators) {
-			Optional<GumgaValidationError> errorCode = validator.validate(
-					value, this.errors);
+			Optional<GumgaValidationError> errorCode = validator.validate(value, this.errors);
 			if (errorCode.isPresent()) {
 				GumgaValidationError error = errorCode.get();
-				this.errors.rejectValue(property, error.getCode(),
-						error.getArgs(), null);
+				this.errors.rejectValue(property, error.getCode(), error.getArgs(), null);
 				break;
 			}
 		}
@@ -58,6 +61,10 @@ public class GumgaValidator {
 
 	public static final GumgaValidator with(Errors errors) {
 		return new GumgaValidator(errors);
+	}
+
+	public static final GumgaValidator get() {
+		return new GumgaValidator();
 	}
 
 	public void check() {
