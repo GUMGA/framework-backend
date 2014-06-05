@@ -12,6 +12,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+	
+	private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	
 	@ExceptionHandler(InvalidEntityException.class)
 	public ResponseEntity<Object> handleCustomException(InvalidEntityException ex, WebRequest request) {
