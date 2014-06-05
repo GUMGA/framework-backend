@@ -1,9 +1,9 @@
 package gumga.framework.presentation;
 
 
-import gumga.framework.domain.exception.InvalidEntityException;
 import gumga.framework.presentation.validation.ErrorResource;
 import gumga.framework.presentation.validation.FieldErrorResource;
+import gumga.framework.validation.exception.InvalidEntityException;
 
 import java.util.ArrayList;
 import java.util.List;

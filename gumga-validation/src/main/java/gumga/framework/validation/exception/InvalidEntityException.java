@@ -1,4 +1,4 @@
-package gumga.framework.domain.exception;
+package gumga.framework.validation.exception;
 
 import org.springframework.validation.Errors;
 

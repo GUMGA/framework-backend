@@ -59,6 +59,11 @@
 			<groupId>net.jodah</groupId>
 			<artifactId>typetools</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>gumga.framework</groupId>
+			<artifactId>gumga-validation</artifactId>
+			<version>0.1</version>
+		</dependency>
 	</dependencies>
 
 </project>

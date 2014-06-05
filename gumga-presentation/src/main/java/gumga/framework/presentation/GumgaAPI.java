@@ -5,7 +5,7 @@ import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaIdable;
 import gumga.framework.domain.GumgaService;
-import gumga.framework.domain.exception.InvalidEntityException;
+import gumga.framework.validation.exception.InvalidEntityException;
 
 import java.lang.reflect.Constructor;
 
@@ -74,7 +74,7 @@ public abstract class GumgaAPI<T extends GumgaIdable> {
 
 	@Transactional
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public T update(@PathVariable("id") Long id, @RequestBody T model, BindingResult result) {
+	public T update(@PathVariable("id") Long id, @RequestBody @Valid T model, BindingResult result) {
 		beforeUpdate(model);
 		T entity = saveOrCry(model, result);
 		afterUpdate(entity);

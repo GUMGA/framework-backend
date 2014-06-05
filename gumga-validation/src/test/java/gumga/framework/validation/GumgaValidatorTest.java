@@ -5,6 +5,7 @@ import static gumga.framework.validation.validator.GumgaStringValidation.notNull
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import gumga.framework.validation.exception.InvalidEntityException;
 import gumga.framework.validation.validator.common.IsFalseValidator;
 import gumga.framework.validation.validator.common.IsTrueValidator;
 import gumga.framework.validation.validator.common.NotNullValidator;
@@ -56,7 +57,7 @@ public class GumgaValidatorTest {
 		assertFalse(errors.hasFieldErrors(BIRTH_DATE_FIELD));
 
 	}
-
+	
 	@Test
 	public void should_be_invalid_if_expression_is_true() {
 
@@ -124,6 +125,21 @@ public class GumgaValidatorTest {
 		assertFalse(errors.hasErrors());
 		assertFalse(errors.hasFieldErrors(BIRTH_DATE_FIELD));
 
+	}
+	
+	@Test(expected = InvalidEntityException.class)
+	public void should_throw_exception_if_validation_is_false() {
+		
+		GumgaValidator.with(errors) //
+			.check(BIRTH_DATE_FIELD, new Date(), notNull()) //
+			.check(NAME_FIELD, "", notNullOrEmpty())
+			.check();
+		
+		assertTrue(errors.hasErrors());
+		assertTrue(errors.hasFieldErrors(NAME_FIELD));
+		assertEquals(NotNullOrEmptyValidator.ERROR_CODE, errors.getFieldError(NAME_FIELD).getCode());
+		assertFalse(errors.hasFieldErrors(BIRTH_DATE_FIELD));
+		
 	}
 
 }

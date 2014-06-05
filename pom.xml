@@ -15,6 +15,7 @@
 		<module>gumga-presentation</module>
 		<module>gumga-security</module>
 		<module>gumga-dto</module>
+		<module>gumga-validation</module>
 	</modules>
 
 	<properties>
