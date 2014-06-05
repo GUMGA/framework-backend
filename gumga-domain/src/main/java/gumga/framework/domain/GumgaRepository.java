@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
@@ -31,10 +32,6 @@ public class GumgaRepository<T extends GumgaIdable> {
 	private Class<T> clazz;
 	
 	protected Logger logger = Logger.getLogger(getClass().getSimpleName());
-	
-	public Session session() {
-		return sessionFactory.getCurrentSession();
-	}
 	
 	@Transactional(propagation = Propagation.MANDATORY)
 	public T saveOrUpdate(T model) {
@@ -120,13 +117,24 @@ public class GumgaRepository<T extends GumgaIdable> {
 		return Pesquisa.createCriteria(session(), clazz());
 	}
 	
+	public Query createQuery(String query) {
+		return session().createQuery(query);
+	}
+	
+	public Query createSQLQuery(String query) {
+		return session().createSQLQuery(query);
+	}
+	
+	private Session session() {
+		return sessionFactory.getCurrentSession();
+	}
+	
 	@Transactional(readOnly = true)
 	public Long count() {
 		Number count = (Number) pesquisa().setProjection(rowCount()).uniqueResult();
 		return count.longValue();
 	}
 	
-
 	public void setClazz(Class<T> clazz) {
 		this.clazz = clazz;
 	}
