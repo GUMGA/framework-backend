@@ -54,34 +54,36 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
+        logger.info("InvalidEntity", ex);
         return handleExceptionInternal(ex, error, headers, HttpStatus.UNPROCESSABLE_ENTITY, request);
 	}
 	
 	@ExceptionHandler(EntityNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public @ResponseBody ErrorResource notFound(HttpServletRequest req, Exception ex) {
-		return new ErrorResource("ResourceNotFound", ex.getMessage());
+		logger.warn("ResourceNotFound", ex);
+		return new ErrorResource("EntityNotFound", "Entity not found", ex.getMessage());
 	}
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public @ResponseBody ErrorResource badRequest(HttpServletRequest req, Exception ex) {
-		ex.printStackTrace();
-		return new ErrorResource("BadRequest", ex.getMessage());
+		logger.warn("BadRequest", ex);
+		return new ErrorResource("IllegalArgument", "Invalid request", ex.getMessage());
 	}
 	
 	@ExceptionHandler({ConstraintViolationException.class, DataIntegrityViolationException.class})
 	@ResponseStatus(HttpStatus.CONFLICT)
 	public @ResponseBody ErrorResource constraintViolation(HttpServletRequest req, Exception ex) {
-		ex.printStackTrace();
-		return new ErrorResource("ConstraintViolationException", ex.getMessage());
+		logger.warn("Error on operation", ex);
+		return new ErrorResource("ConstraintViolation", "Error on operation", ex.getMessage());
 	}
 	
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.CONFLICT)
 	public @ResponseBody ErrorResource exception(HttpServletRequest req, Exception ex) {
-		ex.printStackTrace();
-		return new ErrorResource(ex.getClass().getSimpleName(), ex.getMessage());
+		logger.error("Error on operation", ex);
+		return new ErrorResource(ex.getClass().getSimpleName(), "Error on operation", ex.getMessage());
 	}
 
 }

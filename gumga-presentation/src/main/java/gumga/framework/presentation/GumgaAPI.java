@@ -49,12 +49,16 @@ public abstract class GumgaAPI<T extends GumgaIdable> {
 
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
-	public T save(@RequestBody @Valid T model, BindingResult result) {
+	public RestResponse<T> save(@RequestBody @Valid T model, BindingResult result) {
 		beforeCreate(model);
 		T entity = saveOrCry(model, result);
 		afterCreate(entity);
 		
-		return entity;
+		return new RestResponse<T>(entity, getEntitySavedMessage(entity));
+	}
+	
+	protected String getEntitySavedMessage(T entity) {
+		return entity.getClass().getSimpleName() + " saved successfully";
 	}
 	
 	public void beforeLoad() { 	}
@@ -74,12 +78,12 @@ public abstract class GumgaAPI<T extends GumgaIdable> {
 
 	@Transactional
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public T update(@PathVariable("id") Long id, @RequestBody @Valid T model, BindingResult result) {
+	public RestResponse<T> update(@PathVariable("id") Long id, @Valid @RequestBody T model, BindingResult result) {
 		beforeUpdate(model);
 		T entity = saveOrCry(model, result);
 		afterUpdate(entity);
 		
-		return entity;
+		return new RestResponse<T>(entity, getEntitySavedMessage(entity));
 	}
 	
 	public void beforeDelete(T entity) { }
@@ -88,12 +92,14 @@ public abstract class GumgaAPI<T extends GumgaIdable> {
 	@Transactional
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable Long id, HttpServletRequest request) {
+	public RestResponse<T> delete(@PathVariable Long id, HttpServletRequest request) {
 		T entity = service.view(id);
 		
 		beforeDelete(entity);
 		service.delete(entity);
 		afterDelete();
+		
+		return new RestResponse<T>("Resource deleted successfully");
 	}
 
 	@RequestMapping("/new")
