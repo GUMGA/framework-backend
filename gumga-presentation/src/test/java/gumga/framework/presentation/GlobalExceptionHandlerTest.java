@@ -72,5 +72,21 @@ public class GlobalExceptionHandlerTest {
 				.andExpect(MockMvcResultMatchers.jsonPath("$.code", is("Conflict"))) //
 				.andExpect(MockMvcResultMatchers.jsonPath("$.details", is("Message defined on conflict exception"))); //
 	}
+	
+	@Test
+	public void should_return_400_status_on_throw_a_BadRequestException() throws Exception {
+		this.mockMvc.perform(get("/teste/400").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)) //
+		.andExpect(status().isBadRequest()) //
+		.andExpect(MockMvcResultMatchers.jsonPath("$.code", is("BadRequest"))) //
+		.andExpect(MockMvcResultMatchers.jsonPath("$.details", is("Message defined on badRequest exception"))); //
+	}
+	
+	@Test
+	public void should_return_500_status_on_throw_any_untreated_exception() throws Exception {
+		this.mockMvc.perform(get("/teste/500").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)) //
+		.andExpect(status().isInternalServerError()) //
+		.andExpect(MockMvcResultMatchers.jsonPath("$.code", is("Exception"))) //
+		.andExpect(MockMvcResultMatchers.jsonPath("$.details", is("Message defined on any exception"))); //
+	}
 
 }

@@ -1,5 +1,6 @@
 package gumga.framework.presentation.controller;
 
+import gumga.framework.core.exception.BadRequestException;
 import gumga.framework.core.exception.ConflictException;
 import gumga.framework.core.exception.ForbiddenException;
 import gumga.framework.core.exception.NotFoundException;
@@ -31,5 +32,15 @@ public class ThrowCustomExceptionsController {
 	@RequestMapping("/401")
 	public @ResponseBody String unauthorized() {
 		throw new UnauthorizedException("Message defined on unauthorized exception");
+	}
+	
+	@RequestMapping("/400")
+	public @ResponseBody String badRequest() {
+		throw new BadRequestException("Message defined on badRequest exception");
+	}
+	
+	@RequestMapping("/500")
+	public @ResponseBody String anyException() throws Exception {
+		throw new Exception("Message defined on any exception");
 	}
 }
