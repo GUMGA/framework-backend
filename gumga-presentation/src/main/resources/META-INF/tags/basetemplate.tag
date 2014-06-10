@@ -1,6 +1,8 @@
 <%@tag description="Template Base" pageEncoding="UTF-8"%>
 <%@ attribute name="scripts" required="false" fragment="true" %>
 <%@ attribute name="title" required="true"  %>
+<%@ attribute name="init" required="true"  %>
+
 <%@ taglib uri="http://gumga.com.br/jsp/tags" prefix="g" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -21,7 +23,6 @@
 
 <link rel="stylesheet" href="<c:url value='/static/styles/main.css' />" />
 <link rel="stylesheet" href="<c:url value='/static/styles/gumga.css' />" />
-<link rel="stylesheet" href="<c:url value='/static/styles/menu.css' />" />
 
 </head>
 <body>
@@ -33,6 +34,7 @@
 				<span class="icon-bar"></span>  
 				<span class="icon-bar"></span>
 			</button>
+			<button class="gumga-offcanvas-reveal">Exibir Menu</button>
 			<a class="navbar-brand" href="#"><fmt:message key="app.title" /></a>
 		</div>
 		<div class="collapse navbar-collapse">
@@ -63,9 +65,9 @@
 
 	<div id="gumga-growl-container" class='notifications top-right'></div>
 
-	<div id="container">
+	<div id="container" class="gumga-offcanvas">
 		<div class="gumga-sidebar">
-			<div class="gumga-menu" id="cssmenu">
+			<div class="gumga-menu">
 				<g:menu items="${menu.menu}" />
 			</div>
 		</div>
@@ -79,6 +81,15 @@
     <script src="<c:url value='/static/scripts/app-config.js' />"></script>
 	<script>
     	requirejs.config({ baseUrl: '${pageContext.request.contextPath}/static/scripts/' });
+    	
+    	requirejs(['angular', '${init}', 'gumga/components/menu', 'angular-locale_pt-br'], function(angular, initModule) {
+    		
+    		var app = angular.module('app', [initModule.name, 'gumga.components.menu', 'ngLocale']);
+    		
+    		angular.bootstrap(document, [app.name]);
+    		
+    	})
+    	
 	</script>
 	<jsp:invoke fragment="scripts" />
 </body>

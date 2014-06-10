@@ -6,8 +6,8 @@
 	<c:forEach var="item" items="${items}">
 		<c:choose>
   			<c:when test="${item.grupo}">
-  				<li class="has-sub">
-  					<a href="#">${item.label}</a>
+  				<li class="submenu">
+  					<a tabindex="-1">${item.label}</a>
   					<c:if test="${fn:length(item.itens) > 0}">
 						<g:menu items="${item.itens}" />
 					</c:if>	
