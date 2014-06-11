@@ -33,8 +33,12 @@ public class ReflectionUtils {
 	}
 	
 	public static Class<?> inferGenericType(Class<?> clazz) {
+		return inferGenericType(clazz, 0);
+	}
+	
+	public static Class<?> inferGenericType(Class<?> clazz, int index) {
 		Type superClass = clazz.getGenericSuperclass();
-		return (Class<?>) ((ParameterizedType) superClass).getActualTypeArguments()[0];
+		return (Class<?>) ((ParameterizedType) superClass).getActualTypeArguments()[index];
 	}
 
 }

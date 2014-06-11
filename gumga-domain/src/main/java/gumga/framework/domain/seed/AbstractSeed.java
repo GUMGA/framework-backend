@@ -1,6 +1,6 @@
 package gumga.framework.domain.seed;
 
-import gumga.framework.domain.GumgaIdable;
+import gumga.framework.core.GumgaIdable;
 import gumga.framework.domain.GumgaRepository;
 
 import java.io.BufferedReader;

@@ -7,9 +7,9 @@ public class SearchResult<T> {
 	private final int pageSize;
 	private final Long count;
 	private final int start;
-	private final List<T> values;
+	private final List<?> values;
 	
-	public SearchResult(QueryObject query, Long count, List<T> data) {
+	public SearchResult(QueryObject query, Long count, List<?> data) {
 		this.pageSize = query.getPageSize();
 		this.count = count;
 		this.start = query.getStart();
@@ -29,7 +29,7 @@ public class SearchResult<T> {
 	}
 
 	public List<T> getValues() {
-		return values;
+		return (List<T>) values;
 	}
 
 }

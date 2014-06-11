@@ -1,5 +1,7 @@
 package gumga.framework.domain;
 
+import gumga.framework.core.GumgaIdable;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;

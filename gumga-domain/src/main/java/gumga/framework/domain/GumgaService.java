@@ -1,5 +1,6 @@
 package gumga.framework.domain;
 
+import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.core.utils.ReflectionUtils;

@@ -1,20 +1,19 @@
 package gumga.framework.presentation;
 
-
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaService;
-import gumga.framework.validation.exception.InvalidEntityException;
+import gumga.framework.domain.exception.InvalidEntityException;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -23,26 +22,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public abstract class GumgaAPI<T extends GumgaIdable> {
-
-	@Autowired
-	protected GumgaService<T> service;
+public abstract class GumgaAPIWithDTO<T> {
+	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public void beforeSearch(QueryObject query) { }
 	public void afterSearch(QueryObject query) { }
 	
-
+	@SuppressWarnings("unchecked")
 	@RequestMapping
 	public SearchResult<T> pesquisa(QueryObject query) {
 		beforeSearch(query);
-		SearchResult<T> pesquisa = service.pesquisa(query);
+		SearchResult<?> pesquisa = service().pesquisa(query);
 		afterSearch(query);
 		 
-		return new SearchResult<>(query, pesquisa.getCount(), pesquisa.getValues());
+		return new SearchResult<T>(query, pesquisa.getCount(), translator().from((List<GumgaIdable>) pesquisa.getValues()));
 	}
 	
 	public void beforeCreate(T entity) { }
@@ -50,25 +45,21 @@ public abstract class GumgaAPI<T extends GumgaIdable> {
 
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
-	public RestResponse<T> save(@RequestBody @Valid T model, BindingResult result) {
+	public T save(@RequestBody @Valid T model, BindingResult result) {
 		beforeCreate(model);
 		T entity = saveOrCry(model, result);
 		afterCreate(entity);
 		
-		return new RestResponse<T>(entity, getEntitySavedMessage(entity));
-	}
-	
-	protected String getEntitySavedMessage(T entity) {
-		return entity.getClass().getSimpleName() + " saved successfully";
+		return entity;
 	}
 	
 	public void beforeLoad() { 	}
 	public void afterLoad(T entity) { }
 
 	@RequestMapping("/{id}")
-	public Object carrega(@PathVariable Long id) {
+	public T carrega(@PathVariable Long id) {
 		beforeLoad();
-		T entity = service.view(id);
+		T entity = (T) translator().from(service().view(id));
 		afterLoad(entity);
 		
 		return entity;
@@ -79,12 +70,12 @@ public abstract class GumgaAPI<T extends GumgaIdable> {
 
 	@Transactional
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public RestResponse<T> update(@PathVariable("id") Long id, @Valid @RequestBody T model, BindingResult result) {
+	public T update(@PathVariable("id") Long id, @RequestBody T model, BindingResult result) {
 		beforeUpdate(model);
 		T entity = saveOrCry(model, result);
 		afterUpdate(entity);
 		
-		return new RestResponse<T>(entity, getEntitySavedMessage(entity));
+		return entity;
 	}
 	
 	public void beforeDelete(T entity) { }
@@ -93,14 +84,12 @@ public abstract class GumgaAPI<T extends GumgaIdable> {
 	@Transactional
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public RestResponse<T> delete(@PathVariable Long id, HttpServletRequest request) {
-		T entity = service.view(id);
+	public void delete(@PathVariable Long id, HttpServletRequest request) {
+		GumgaIdable entity = service().view(id);
 		
-		beforeDelete(entity);
-		service.delete(entity);
+		beforeDelete(translator().from(entity));
+		service().delete(entity);
 		afterDelete();
-		
-		return new RestResponse<T>("Resource deleted successfully");
 	}
 
 	@RequestMapping("/new")
@@ -110,7 +99,8 @@ public abstract class GumgaAPI<T extends GumgaIdable> {
 
 	protected T initialValue() {
 		try {
-			Constructor<T> constructor = service.clazz().getDeclaredConstructor();
+			@SuppressWarnings("unchecked")
+			Constructor<T> constructor = (Constructor<T>) translator().dtoClass().getDeclaredConstructors()[0];
 			constructor.setAccessible(true);
 			return constructor.newInstance();
 		} catch (Exception e) {
@@ -118,11 +108,15 @@ public abstract class GumgaAPI<T extends GumgaIdable> {
 		}
 	}
 	
-	private T saveOrCry(T model, BindingResult result) {
+	@SuppressWarnings("unchecked")
+	private <X extends GumgaIdable> T saveOrCry(T model, BindingResult result) {
 		if (result.hasErrors())
 			throw new InvalidEntityException(result);
 
-		return service.save(model);
+		return translator().from(service().save((X) translator().to(model)));
 	}
+	
+	public abstract <X extends GumgaIdable> GumgaService<X> service();
+	public abstract <X extends GumgaIdable> GumgaTranslator<X, T> translator();
 	
 }

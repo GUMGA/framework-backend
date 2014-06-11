@@ -1,4 +1,4 @@
-package gumga.framework.domain;
+package gumga.framework.core;
 
 public interface GumgaIdable {
 	
