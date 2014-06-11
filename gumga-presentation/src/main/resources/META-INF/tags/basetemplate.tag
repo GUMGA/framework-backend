@@ -23,7 +23,6 @@
 
 <link rel="stylesheet" href="<c:url value='/static/styles/main.css' />" />
 <link rel="stylesheet" href="<c:url value='/static/styles/gumga.css' />" />
-<link rel="stylesheet" href="<c:url value='/static/styles/nanoscroller.css' />" />
 
 </head>
 <body class="gumga-offcanvas">
@@ -88,9 +87,9 @@
 	<script>
     	requirejs.config({ baseUrl: '${pageContext.request.contextPath}/static/scripts/' });
     	
-    	requirejs(['angular', '${init}', 'gumga/components/menu', 'gumga/components/offcanvas', 'angular-scrollable', 'angular-locale_pt-br'], function(angular, initModule) {
+    	requirejs(['angular', '${init}', 'gumga/components/menu', 'gumga/components/offcanvas', 'angular-locale_pt-br'], function(angular, initModule) {
     		
-    		var app = angular.module('app', [initModule.name, 'gumga.components.menu', 'gumga.components.offcanvas', 'sun.scrollable', 'ngLocale']);
+    		var app = angular.module('app', [initModule.name, 'gumga.components.menu', 'gumga.components.offcanvas', 'ngLocale']);
     		
     		angular.bootstrap(document, [app.name]);
     		
