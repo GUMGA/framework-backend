@@ -23,9 +23,13 @@
 
 <link rel="stylesheet" href="<c:url value='/static/styles/main.css' />" />
 <link rel="stylesheet" href="<c:url value='/static/styles/gumga.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/styles/nanoscroller.css' />" />
 
 </head>
-<body>
+<body class="gumga-offcanvas">
+
+	
+
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -62,16 +66,18 @@
 		
 		<!--/.nav-collapse -->
 	</div>
-
+	
+	<div class="gumga-offcanvas-sidebar">
+		<div class="gumga-menu">
+			<g:menu items="${menu.menu}" />
+		</div>
+	</div>
+	
 	<div id="gumga-growl-container" class='notifications top-right'></div>
 
-	<div id="container" class="gumga-offcanvas">
-		<div class="gumga-sidebar">
-			<div class="gumga-menu">
-				<g:menu items="${menu.menu}" />
-			</div>
-		</div>
-		<div class="gumga-content">
+	<div class="gumga-offcanvas-content">
+		
+		<div id="container" class="gumga-content">
 			<jsp:doBody />
 		</div>
 	</div>
@@ -82,13 +88,13 @@
 	<script>
     	requirejs.config({ baseUrl: '${pageContext.request.contextPath}/static/scripts/' });
     	
-    	requirejs(['angular', '${init}', 'gumga/components/menu', 'angular-locale_pt-br'], function(angular, initModule) {
+    	requirejs(['angular', '${init}', 'gumga/components/menu', 'gumga/components/offcanvas', 'angular-scrollable', 'angular-locale_pt-br'], function(angular, initModule) {
     		
-    		var app = angular.module('app', [initModule.name, 'gumga.components.menu', 'ngLocale']);
+    		var app = angular.module('app', [initModule.name, 'gumga.components.menu', 'gumga.components.offcanvas', 'sun.scrollable', 'ngLocale']);
     		
     		angular.bootstrap(document, [app.name]);
     		
-    	})
+    	});
     	
 	</script>
 	<jsp:invoke fragment="scripts" />
