@@ -4,7 +4,7 @@ import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaService;
-import gumga.framework.domain.exception.InvalidEntityException;
+import gumga.framework.validation.exception.InvalidEntityException;
 
 import java.lang.reflect.Constructor;
 import java.util.List;

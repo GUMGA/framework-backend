@@ -14,7 +14,6 @@
 		<module>gumga-domain</module>
 		<module>gumga-presentation</module>
 		<module>gumga-security</module>
-		<module>gumga-dto</module>
 		<module>gumga-validation</module>
 	</modules>
 
