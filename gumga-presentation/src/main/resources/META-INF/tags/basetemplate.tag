@@ -18,6 +18,7 @@
 
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
 <title><fmt:message key="app.title" /> - ${title}</title>
 
@@ -29,7 +30,7 @@
 
 	
 
-	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="navbar navbar-gumga navbar-fixed-top" role="navigation">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				<span class="sr-only">Toggle navigation</span> 
@@ -75,8 +76,8 @@
 	<div id="gumga-growl-container" class='notifications top-right'></div>
 
 	<div class="gumga-offcanvas-content">
-		
 		<div id="container" class="gumga-content">
+			<h1 class="gumga-title">${title}</h1>
 			<jsp:doBody />
 		</div>
 	</div>
