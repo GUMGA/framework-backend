@@ -26,6 +26,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public abstract class GumgaDTOAPI<T> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	private final GumgaGateway<T> gateway;
+	
+	protected GumgaDTOAPI(GumgaGateway<T> gateway) {
+		this.gateway = gateway;
+	}
 	
 	public void beforeSearch(QueryObject query) { }
 	public void afterSearch(QueryObject query) { }
@@ -59,7 +64,7 @@ public abstract class GumgaDTOAPI<T> {
 	@RequestMapping("/{id}")
 	public T carrega(@PathVariable Long id) {
 		beforeLoad();
-		T entity = (T) getTranslator().from(service().view(id));
+		T entity = (T) getTranslator().from(getService().view(id));
 		afterLoad(entity);
 		
 		return entity;
@@ -85,7 +90,7 @@ public abstract class GumgaDTOAPI<T> {
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable Long id, HttpServletRequest request) {
-		GumgaIdable entity = service().view(id);
+		GumgaIdable entity = getService().view(id);
 		
 		beforeDelete(getTranslator().from(entity));
 		getService().delete(entity);
@@ -100,7 +105,7 @@ public abstract class GumgaDTOAPI<T> {
 	protected T initialValue() {
 		try {
 			@SuppressWarnings("unchecked")
-			Constructor<T> constructor = (Constructor<T>) translator().dtoClass().getDeclaredConstructors()[0];
+			Constructor<T> constructor = (Constructor<T>) getTranslator().dtoClass().getDeclaredConstructors()[0];
 			constructor.setAccessible(true);
 			return constructor.newInstance();
 		} catch (Exception e) {
@@ -113,20 +118,17 @@ public abstract class GumgaDTOAPI<T> {
 		if (result.hasErrors())
 			throw new InvalidEntityException(result);
 
-		return getTranslator().from(getService().save((X) translator().to(model)));
+		return getTranslator().from(getService().save((X) getTranslator().to(model)));
 	}
-	
-	public abstract GumgaService<?> service();
-	public abstract GumgaTranslator<?, T> translator();
-	
+		
 	@SuppressWarnings("unchecked")
 	private <X extends GumgaIdable> GumgaService<X> getService() {
-		return (GumgaService<X>) service();
+		return (GumgaService<X>) gateway.service();
 	}
 	
 	@SuppressWarnings("unchecked")
 	private <X extends GumgaIdable> GumgaTranslator<X, T> getTranslator() {
-		return (GumgaTranslator<X, T>) translator();
+		return (GumgaTranslator<X, T>) gateway.translator();
 	}
 	
 }
