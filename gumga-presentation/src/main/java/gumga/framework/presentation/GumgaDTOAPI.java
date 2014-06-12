@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-public abstract class GumgaAPIWithDTO<T> {
+public abstract class GumgaDTOAPI<T> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -34,10 +34,10 @@ public abstract class GumgaAPIWithDTO<T> {
 	@RequestMapping
 	public SearchResult<T> pesquisa(QueryObject query) {
 		beforeSearch(query);
-		SearchResult<?> pesquisa = service().pesquisa(query);
+		SearchResult<?> pesquisa = getService().pesquisa(query);
 		afterSearch(query);
 		 
-		return new SearchResult<T>(query, pesquisa.getCount(), translator().from((List<GumgaIdable>) pesquisa.getValues()));
+		return new SearchResult<T>(query, pesquisa.getCount(), getTranslator().from((List<GumgaIdable>) pesquisa.getValues()));
 	}
 	
 	public void beforeCreate(T entity) { }
@@ -59,7 +59,7 @@ public abstract class GumgaAPIWithDTO<T> {
 	@RequestMapping("/{id}")
 	public T carrega(@PathVariable Long id) {
 		beforeLoad();
-		T entity = (T) translator().from(service().view(id));
+		T entity = (T) getTranslator().from(service().view(id));
 		afterLoad(entity);
 		
 		return entity;
@@ -87,8 +87,8 @@ public abstract class GumgaAPIWithDTO<T> {
 	public void delete(@PathVariable Long id, HttpServletRequest request) {
 		GumgaIdable entity = service().view(id);
 		
-		beforeDelete(translator().from(entity));
-		service().delete(entity);
+		beforeDelete(getTranslator().from(entity));
+		getService().delete(entity);
 		afterDelete();
 	}
 
@@ -113,10 +113,20 @@ public abstract class GumgaAPIWithDTO<T> {
 		if (result.hasErrors())
 			throw new InvalidEntityException(result);
 
-		return translator().from(service().save((X) translator().to(model)));
+		return getTranslator().from(getService().save((X) translator().to(model)));
 	}
 	
-	public abstract <X extends GumgaIdable> GumgaService<X> service();
-	public abstract <X extends GumgaIdable> GumgaTranslator<X, T> translator();
+	public abstract GumgaService<?> service();
+	public abstract GumgaTranslator<?, T> translator();
+	
+	@SuppressWarnings("unchecked")
+	private <X extends GumgaIdable> GumgaService<X> getService() {
+		return (GumgaService<X>) service();
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <X extends GumgaIdable> GumgaTranslator<X, T> getTranslator() {
+		return (GumgaTranslator<X, T>) translator();
+	}
 	
 }
