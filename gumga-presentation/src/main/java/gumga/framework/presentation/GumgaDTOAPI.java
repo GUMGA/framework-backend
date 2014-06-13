@@ -50,19 +50,19 @@ public abstract class GumgaDTOAPI<T> {
 
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
-	public T save(@RequestBody @Valid T model, BindingResult result) {
+	public RestResponse<T> save(@RequestBody @Valid T model, BindingResult result) {
 		beforeCreate(model);
 		T entity = saveOrCry(model, result);
 		afterCreate(entity);
 		
-		return entity;
+		return new RestResponse<T>(entity, getEntitySavedMessage(entity));
 	}
 	
 	public void beforeLoad() { 	}
 	public void afterLoad(T entity) { }
 
 	@RequestMapping("/{id}")
-	public T carrega(@PathVariable Long id) {
+	public T load(@PathVariable Long id) {
 		beforeLoad();
 		T entity = (T) getTranslator().from(getService().view(id));
 		afterLoad(entity);
@@ -75,12 +75,12 @@ public abstract class GumgaDTOAPI<T> {
 
 	@Transactional
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public T update(@PathVariable("id") Long id, @RequestBody T model, BindingResult result) {
+	public RestResponse<T> update(@PathVariable("id") Long id, @RequestBody T model, BindingResult result) {
 		beforeUpdate(model);
 		T entity = saveOrCry(model, result);
 		afterUpdate(entity);
 		
-		return entity;
+		return new RestResponse<T>(entity, getEntityUpdateMessage(entity));
 	}
 	
 	public void beforeDelete(T entity) { }
@@ -89,12 +89,14 @@ public abstract class GumgaDTOAPI<T> {
 	@Transactional
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable Long id, HttpServletRequest request) {
+	public RestResponse<T> delete(@PathVariable Long id, HttpServletRequest request) {
 		GumgaIdable entity = getService().view(id);
 		
 		beforeDelete(getTranslator().from(entity));
 		getService().delete(entity);
 		afterDelete();
+		
+		return new RestResponse<T>("Resource deleted successfully");
 	}
 
 	@RequestMapping("/new")
@@ -131,4 +133,20 @@ public abstract class GumgaDTOAPI<T> {
 		return (GumgaTranslator<X, T>) gateway.translator();
 	}
 	
+	protected String getEntityName(T entity) {
+		return entity.getClass().getSimpleName();
+	}
+	
+	protected String getEntitySavedMessage(T entity) {
+		return getEntityName(entity) + " saved successfully";
+	}
+	
+	protected String getEntityUpdateMessage(T entity) {
+		return getEntitySavedMessage(entity);
+	}
+	
+	protected String getEntityDeletedMessage(T entity) {
+		return getEntityName(entity) + " deleted successfully";
+	}
+
 }
