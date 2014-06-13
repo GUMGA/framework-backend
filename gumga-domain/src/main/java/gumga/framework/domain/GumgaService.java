@@ -39,6 +39,11 @@ public abstract class GumgaService<T extends GumgaIdable> {
 		return repository.saveOrUpdate(resource);
 	}
 	
+	public void forceFlush() {
+		repository.flush();
+		repository.clear();
+	}
+	
 	@PostConstruct
 	protected void failOver() {
 		finder.setClazz(clazz());

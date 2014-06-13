@@ -6,9 +6,7 @@ import gumga.framework.validation.validator.string.NotNullOrEmptyValidator;
 
 public class GumgaStringValidation {
 
-	private GumgaStringValidation() {
-		// Esta classe não pode ser instanciada
-	}
+	private GumgaStringValidation() { }
 
 	public static final GumgaFieldValidator<String> containsIllegalWords(String... illegalWords) {
 		return new IllegalWordsValidator(illegalWords);

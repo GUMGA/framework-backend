@@ -68,9 +68,8 @@ public class GumgaValidator {
 	}
 
 	public void check() {
-		if (this.errors.hasErrors()) {
+		if (this.errors.hasErrors()) 
 			throw new InvalidEntityException(this.errors);
-		}
 	}
 
 }

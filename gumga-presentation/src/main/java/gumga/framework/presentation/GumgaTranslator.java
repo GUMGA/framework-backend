@@ -8,11 +8,11 @@ import java.util.List;
 
 public abstract class GumgaTranslator<BusinessObject extends GumgaIdable, ServiceObject> {
 	
-	protected abstract BusinessObject to(ServiceObject serviceObject);
+	public abstract BusinessObject to(ServiceObject serviceObject);
 	
-	protected abstract ServiceObject from(BusinessObject businessObject);
+	public abstract ServiceObject from(BusinessObject businessObject);
 	
-	protected List<BusinessObject> to(List<ServiceObject> serviceObjects) {
+	public List<BusinessObject> to(List<ServiceObject> serviceObjects) {
 		List<BusinessObject> result = new LinkedList<>();
 		
 		for (ServiceObject obj : serviceObjects)
@@ -21,7 +21,7 @@ public abstract class GumgaTranslator<BusinessObject extends GumgaIdable, Servic
 		return result;
 	}
 	
-	protected List<ServiceObject> from(List<BusinessObject> serviceObjects) {
+	public List<ServiceObject> from(List<BusinessObject> serviceObjects) {
 		List<ServiceObject> result = new LinkedList<>();
 		
 		for (BusinessObject obj : serviceObjects)

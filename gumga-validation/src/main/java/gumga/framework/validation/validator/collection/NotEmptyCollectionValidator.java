@@ -13,8 +13,7 @@ import com.google.common.base.Optional;
  * Validate is the {@link Collection} is not empty
  * 
  */
-public class NotEmptyCollectionValidator extends
-		GumgaAbstractValidator<Collection<?>> {
+public class NotEmptyCollectionValidator extends GumgaAbstractValidator<Collection<?>> {
 
 	public static final String ERROR_CODE = "validation.collection.notNullOrEmpty";
 
@@ -23,8 +22,7 @@ public class NotEmptyCollectionValidator extends
 	}
 
 	@Override
-	public Optional<GumgaValidationError> validate(Collection<?> value,
-			Errors errors) {
+	public Optional<GumgaValidationError> validate(Collection<?> value, Errors errors) {
 		return this.doValidation(value != null && !value.isEmpty());
 	}
 

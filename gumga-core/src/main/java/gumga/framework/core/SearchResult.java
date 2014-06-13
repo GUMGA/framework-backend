@@ -28,6 +28,7 @@ public class SearchResult<T> {
 		return start;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<T> getValues() {
 		return (List<T>) values;
 	}

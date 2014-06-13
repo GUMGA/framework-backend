@@ -8,9 +8,7 @@ import gumga.framework.validation.validator.common.NotNullValidator;
 
 public class GumgaCommonValidator {
 
-	private GumgaCommonValidator() {
-		// Esta classe não pode ser instanciada
-	}
+	private GumgaCommonValidator() { }
 
 	public static final GumgaFieldValidator<Boolean> isTrue(String message) {
 		return new IsTrueValidator(message);

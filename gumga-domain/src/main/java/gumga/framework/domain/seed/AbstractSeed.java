@@ -1,7 +1,7 @@
 package gumga.framework.domain.seed;
 
 import gumga.framework.core.GumgaIdable;
-import gumga.framework.domain.GumgaRepository;
+import gumga.framework.domain.GumgaService;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,12 +30,11 @@ public abstract class AbstractSeed<T extends GumgaIdable> implements AppSeed {
 		while ((line = source.readLine()) != null) {
 			String[] parts = line.split(";");
 			
-			repository().saveOrUpdate(createObject(parts));
+			service().save(createObject(parts));
 			count++;
 			
 			if (count == 50) {
-				repository().flush();
-				repository().clear();
+				service().forceFlush();
 				count = 0;
 			}
 		}
@@ -43,7 +42,7 @@ public abstract class AbstractSeed<T extends GumgaIdable> implements AppSeed {
 		source.close();
 	}
 	
-	public abstract GumgaRepository<T> repository();
+	public abstract GumgaService<T> service();
 	
 	public abstract T createObject(String[] args);
 
