@@ -3,13 +3,23 @@ package gumga.framework.presentation;
 
 public class RestResponse<T> {
 
-	private String code;
-	private String message;
-	private String details;
-	private T data;
+	protected String code;
+	protected String message;
+	protected String details;
+	protected T data;
 	
 	public RestResponse(String message) {
 		this.message = message;
+	}
+
+	public RestResponse(String code, String message) {
+		this(message);
+		this.code = code;
+	}
+	
+	public RestResponse(String code, String message, String details) {
+		this(code, message);
+		this.details = details;
 	}
 	
 	public RestResponse(T data) {
