@@ -4,20 +4,21 @@ import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.core.utils.ReflectionUtils;
+import gumga.framework.domain.GumgaService;
 import gumga.framework.domain.IGumgaService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public abstract class GumgaGateway<A extends GumgaIdable, DTO> implements IGumgaService<DTO> {
 	
-	private final IGumgaService<A> delegate;
-	private final GumgaTranslator<A, DTO> translator;
+	@Autowired
+	private GumgaService<A> delegate;
 	
-	public GumgaGateway(IGumgaService<A> delegate, GumgaTranslator<A, DTO> translator) {
-		this.delegate = delegate;
-		this.translator = translator;
-	}
-
+	@Autowired
+	private GumgaTranslator<A, DTO> translator;
+	
 	@Override
 	public SearchResult<DTO> pesquisa(QueryObject query) {
 		SearchResult<A> pesquisa = delegate.pesquisa(query);

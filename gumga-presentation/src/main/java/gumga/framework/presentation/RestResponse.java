@@ -3,10 +3,10 @@ package gumga.framework.presentation;
 
 public class RestResponse<T> {
 
-	protected String code;
-	protected String message;
-	protected String details;
-	protected T data;
+	private String code;
+	private String message;
+	private String details;
+	private T data;
 	
 	public RestResponse(String message) {
 		this.message = message;
