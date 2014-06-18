@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public abstract class GumgaService<T extends GumgaIdable> {
+public abstract class GumgaService<T extends GumgaIdable> implements IGumgaService<T> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
