@@ -7,7 +7,7 @@
 		<c:choose>
   			<c:when test="${item.grupo}">
   				<li class="submenu">
-  					<a tabindex="-1">${item.label}</a>
+  					<a tabindex="-1" gumga-menu-id="${item.id}">${item.label}</a>
   					<c:if test="${fn:length(item.itens) > 0}">
 						<g:menu items="${item.itens}" />
 					</c:if>	
@@ -23,7 +23,7 @@
     				class="${item.clazz}"
 				</c:if>
   				>
-  				<a href="<c:url value='${item.destino}' />">${item.label}</a>
+  				<a href="<c:url value='${item.destino}' />" gumga-menu-id="${item.id}">${item.label}</a>
   				</li>
   			</c:otherwise>
   		</c:choose>

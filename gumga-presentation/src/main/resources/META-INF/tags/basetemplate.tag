@@ -1,7 +1,8 @@
-<%@tag description="Template Base" pageEncoding="UTF-8"%>
+<%@ tag description="Template Base" pageEncoding="UTF-8" %>
 <%@ attribute name="scripts" required="false" fragment="true" %>
-<%@ attribute name="title" required="true"  %>
-<%@ attribute name="init" required="true"  %>
+<%@ attribute name="title" required="true" %>
+<%@ attribute name="init" required="true" %>
+<%@ attribute name="openMenu" required="false" %>
 
 <%@ taglib uri="http://gumga.com.br/jsp/tags" prefix="g" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -69,9 +70,9 @@
 	</div>
 	
 	<div class="gumga-offcanvas-sidebar">
-		<div class="gumga-menu">
+		<gumga:menu open="'${openMenu}'" class="gumga-menu">
 			<g:menu items="${menu.menu}" />
-		</div>
+		</gumga:menu>
 	</div>
 	
 	<div id="gumga-growl-container" class='notifications top-right'></div>
