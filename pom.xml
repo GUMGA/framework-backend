@@ -180,8 +180,8 @@
 			</dependency>
 			<dependency>
 				<groupId>com.mysema.querydsl</groupId>
-				<artifactId>querydsl-hql</artifactId>
-				<version>1.9.7</version>
+				<artifactId>querydsl-jpa</artifactId>
+				<version>3.4.0</version>
 			</dependency>
 
 			<dependency>

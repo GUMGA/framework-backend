@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mysema.query.hql.hibernate.HibernateQuery;
+import com.mysema.query.jpa.hibernate.HibernateQuery;
 
 @Component
 @Scope("prototype")

@@ -64,7 +64,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
-			<artifactId>querydsl-hql</artifactId>
+			<artifactId>querydsl-jpa</artifactId>
 		</dependency>
 	</dependencies>
 
