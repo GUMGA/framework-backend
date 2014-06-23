@@ -17,11 +17,18 @@ public abstract class GumgaService<T extends GumgaIdable> implements IGumgaServi
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired(required = false)
 	protected GumgaFinder<T> finder;
+	protected GumgaRepository<T> repository;
 	
 	@Autowired(required = false)
-	protected GumgaRepository<T> repository;
+	public void setFinder(GumgaFinder<T> finder) {
+		this.finder = finder;
+	}
+	
+	@Autowired(required = false)
+	public void setRepository(GumgaRepository<T> repository) {
+		this.repository = repository;
+	}
 	
 	public SearchResult<T> pesquisa(QueryObject queryObject) {
 		return finder.pesquisa(queryObject);

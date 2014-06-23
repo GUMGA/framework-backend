@@ -9,6 +9,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <fmt:bundle basename="messages_template"></fmt:bundle>
+<jsp:useBean id="gumgaProperties" class="gumga.framework.presentation.GumgaSystemProperties" scope="application" />
+<c:set var="path" scope="application" value="${empty gumgaProperties.path ? pageContext.request.contextPath : gumgaProperties.path}" />
+
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -22,13 +25,11 @@
 
 <title><fmt:message key="app.title" /> - ${title}</title>
 
-<link rel="stylesheet" href="<c:url value='/static/styles/main.css' />" />
-<link rel="stylesheet" href="<c:url value='/static/styles/gumga.css' />" />
+<link rel="stylesheet" href="<c:url value='${gumgaProperties.path}/static/styles/main.css' />" />
+<link rel="stylesheet" href="<c:url value='${gumgaProperties.path}/static/styles/gumga.css' />" />
 
 </head>
 <body class="gumga-offcanvas">
-
-	
 
 	<div class="navbar navbar-gumga navbar-fixed-top" role="navigation">
 		<div class="navbar-header">
@@ -82,18 +83,15 @@
 		</div>
 	</div>
 
-    <script src="<c:url value='/static/scripts/vendor/require.js' />"></script>
-    <script src="<c:url value='/static/scripts/config.js' />"></script>
-    <script src="<c:url value='/static/scripts/app-config.js' />"></script>
+    <script src="<c:url value='${gumgaProperties.path}/static/scripts/vendor/require.js' />"></script>
+    <script src="<c:url value='${gumgaProperties.path}/static/scripts/config.js' />"></script>
+    <script src="<c:url value='${gumgaProperties.path}/static/scripts/app-config.js' />"></script>
 	<script>
-    	requirejs.config({ baseUrl: '${pageContext.request.contextPath}/static/scripts/' });
+    	requirejs.config({ baseUrl: '${path}/static/scripts/' });
     	
     	requirejs(['angular', '${init}', 'gumga/components/menu', 'gumga/components/offcanvas', 'angular-locale_pt-br'], function(angular, initModule) {
-    		
     		var app = angular.module('app', [initModule.name, 'gumga.components.menu', 'gumga.components.offcanvas', 'ngLocale']);
-    		
     		angular.bootstrap(document, [app.name]);
-    		
     	});
     	
 	</script>
