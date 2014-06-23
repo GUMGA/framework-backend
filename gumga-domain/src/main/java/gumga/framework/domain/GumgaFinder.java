@@ -14,6 +14,8 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
@@ -23,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.mysema.query.hql.hibernate.HibernateQuery;
 
 @Component
 @Scope("prototype")
@@ -148,6 +152,21 @@ public class GumgaFinder<T extends GumgaIdable> {
 	@Transactional(readOnly = true)
 	public Pesquisa<T> pesquisa() {
 		return Pesquisa.createCriteria(session(), clazz());
+	}
+	
+	@Transactional(readOnly = true)
+	public Query createQuery(String query) {
+		return session().createQuery(query);
+	}
+	
+	@Transactional(readOnly = true)
+	public SQLQuery createSQLQuery(String query) {
+		return session().createSQLQuery(query);
+	}
+	
+	@Transactional(readOnly = true)
+	public HibernateQuery queryDSL() {
+		return new HibernateQuery(session());
 	}
 	
 	@Transactional(readOnly = true)
