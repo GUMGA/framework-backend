@@ -92,6 +92,7 @@
     	
     	requirejs(['angular', '${init}', 'gumga/components/menu', 'gumga/components/offcanvas', 'angular-locale_pt-br'], function(angular, initModule) {
     		var app = angular.module('app', [initModule.name, 'gumga.components.menu', 'gumga.components.offcanvas', 'ngLocale']);
+    		app.constant('contextPath', '${path}');
     		angular.bootstrap(document, [app.name]);
     	});
     	
