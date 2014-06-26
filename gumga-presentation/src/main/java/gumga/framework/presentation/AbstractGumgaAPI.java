@@ -6,12 +6,16 @@ import gumga.framework.domain.IGumgaService;
 import gumga.framework.validation.exception.InvalidEntityException;
 
 import java.lang.reflect.Constructor;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -24,6 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public abstract class AbstractGumgaAPI<T> {
+	
+	@Autowired
+	private Validator validator;
 	
 	protected IGumgaService<T> service;
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -102,7 +109,7 @@ public abstract class AbstractGumgaAPI<T> {
 	public T initialState() {
 		return initialValue();
 	}
-
+	
 	protected T initialValue() {
 		try {
 			Constructor<T> constructor = service.clazz().getDeclaredConstructor();
@@ -134,6 +141,11 @@ public abstract class AbstractGumgaAPI<T> {
 	
 	protected String getEntityDeletedMessage(T entity) {
 		return getEntityName(entity) + " deleted successfully";
+	}
+	
+	@RequestMapping(value = "/validate", method = RequestMethod.POST)
+	public Set<ConstraintViolation<T>> validate(T entity) {
+		return validator.validate(entity);
 	}
 
 }
