@@ -1,7 +1,9 @@
-package gumga.framework.domain;
+package gumga.framework.application;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import gumga.framework.core.QueryObject;
+import gumga.framework.domain.GumgaRepository;
 
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class GumgaFinderTest {
 		query.setQ("Gumga");
 		query.setSearchFields("name");
 		
-		List<Company> result = service.finder.getPesquisa(query).list();
+		List<Company> result = service.finder.pesquisa(query).getValues();
 		
 		assertFalse(result.isEmpty());
 	}

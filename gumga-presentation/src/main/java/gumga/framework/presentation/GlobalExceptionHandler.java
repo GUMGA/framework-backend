@@ -9,7 +9,6 @@ import gumga.framework.presentation.validation.ErrorResource;
 import gumga.framework.presentation.validation.FieldErrorResource;
 import gumga.framework.validation.exception.InvalidEntityException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -38,9 +37,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(InvalidEntityException.class)
 	public ResponseEntity<Object> handleCustomException(InvalidEntityException ex, WebRequest request) {
-
-		List<FieldErrorResource> fieldErrorResources = new ArrayList<>();
-
+		ErrorResource error = new ErrorResource("InvalidRequest", ex.getMessage());
 		List<FieldError> fieldErrors = ex.getErrors().getFieldErrors();
 
 		for (FieldError fieldError : fieldErrors) {
@@ -49,11 +46,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			fieldErrorResource.setField(fieldError.getField());
 			fieldErrorResource.setCode(fieldError.getCode());
 			fieldErrorResource.setMessage(fieldError.getDefaultMessage());
-			fieldErrorResources.add(fieldErrorResource);
+			
+			error.addFieldError(fieldErrorResource);
 		}
-
-		ErrorResource error = new ErrorResource("InvalidRequest", ex.getMessage());
-		error.setFieldErrors(fieldErrorResources);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);

@@ -1,4 +1,7 @@
-package gumga.framework.domain;
+package gumga.framework.application;
+
+
+import gumga.framework.domain.GumgaModel;
 
 import javax.persistence.Entity;
 

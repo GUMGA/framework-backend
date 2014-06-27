@@ -1,4 +1,5 @@
-package gumga.framework.domain;
+package gumga.framework.application;
+
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
 import java.util.Properties;
@@ -52,7 +53,7 @@ public class SpringConfig {
 		
 		final LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource);
-		sessionFactory.setPackagesToScan("gumga.framework.domain");
+		sessionFactory.setPackagesToScan("gumga.framework.application");
 		sessionFactory.setHibernateProperties(hibernateProperties);
 
 		return sessionFactory;

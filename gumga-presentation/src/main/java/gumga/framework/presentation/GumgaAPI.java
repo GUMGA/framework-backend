@@ -1,8 +1,8 @@
 package gumga.framework.presentation;
 
 
+import gumga.framework.application.GumgaService;
 import gumga.framework.core.GumgaIdable;
-import gumga.framework.domain.GumgaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;

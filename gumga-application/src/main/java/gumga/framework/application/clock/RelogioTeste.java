@@ -1,4 +1,4 @@
-package gumga.framework.domain.relogio;
+package gumga.framework.application.clock;
 
 import gumga.framework.domain.config.Dev;
 

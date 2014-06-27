@@ -9,6 +9,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 @MappedSuperclass
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class GumgaModel implements GumgaIdable {
@@ -23,6 +25,11 @@ public class GumgaModel implements GumgaIdable {
 	
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 	
 }

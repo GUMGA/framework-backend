@@ -1,14 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
 		<groupId>gumga.framework</groupId>
 		<artifactId>gumga-backend-all</artifactId>
 		<version>0.1</version>
 	</parent>
-
-	<artifactId>gumga-domain</artifactId>
+	<artifactId>gumga-application</artifactId>
 
 	<dependencies>
 		<dependency>
@@ -70,6 +68,9 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>gumga.framework</groupId>
+			<artifactId>gumga-domain</artifactId>
+		</dependency>
 	</dependencies>
-
 </project>

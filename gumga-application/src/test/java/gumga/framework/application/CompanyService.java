@@ -1,4 +1,7 @@
-package gumga.framework.domain;
+package gumga.framework.application;
+
+
+import gumga.framework.application.GumgaService;
 
 import org.springframework.stereotype.Service;
 

@@ -1,17 +1,17 @@
 package gumga.framework.presentation;
 
+import gumga.framework.application.GumgaService;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.core.utils.ReflectionUtils;
-import gumga.framework.domain.GumgaService;
-import gumga.framework.domain.IGumgaService;
+import gumga.framework.domain.GumgaServiceable;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class GumgaGateway<A extends GumgaIdable, DTO> implements IGumgaService<DTO> {
+public abstract class GumgaGateway<A extends GumgaIdable, DTO> implements GumgaServiceable<DTO> {
 	
 	@Autowired
 	private GumgaService<A> delegate;

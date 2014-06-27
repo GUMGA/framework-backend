@@ -3,7 +3,7 @@ package gumga.framework.domain;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 
-public interface IGumgaService<T> {
+public interface GumgaServiceable<T> {
 	
 	public SearchResult<T> pesquisa(QueryObject queryObject);
 	

@@ -1,31 +1,36 @@
-package gumga.framework.domain;
+package gumga.framework.application;
 
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.core.utils.ReflectionUtils;
+import gumga.framework.domain.GumgaFinder;
+import gumga.framework.domain.GumgaRepository;
+import gumga.framework.domain.GumgaServiceable;
 
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service
-public abstract class GumgaService<T extends GumgaIdable> implements IGumgaService<T> {
+@Scope("prototype")
+public abstract class GumgaService<T extends GumgaIdable> implements GumgaServiceable<T> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	protected GumgaFinder<T> finder;
 	protected GumgaRepository<T> repository;
 	
-	@Autowired(required = false)
+	@Autowired
 	public void setFinder(GumgaFinder<T> finder) {
 		this.finder = finder;
 	}
 	
-	@Autowired(required = false)
+	@Autowired
 	public void setRepository(GumgaRepository<T> repository) {
 		this.repository = repository;
 	}

@@ -1,4 +1,5 @@
-package gumga.framework.domain;
+package gumga.framework.application;
+
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

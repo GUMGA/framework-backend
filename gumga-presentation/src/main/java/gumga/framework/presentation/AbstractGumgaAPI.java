@@ -2,7 +2,10 @@ package gumga.framework.presentation;
 
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
-import gumga.framework.domain.IGumgaService;
+import gumga.framework.domain.GumgaServiceable;
+import gumga.framework.presentation.validation.Error;
+import gumga.framework.presentation.validation.ErrorResource;
+import gumga.framework.presentation.validation.FieldErrorResource;
 import gumga.framework.validation.exception.InvalidEntityException;
 
 import java.lang.reflect.Constructor;
@@ -30,12 +33,12 @@ import org.springframework.web.bind.annotation.RestController;
 public abstract class AbstractGumgaAPI<T> {
 	
 	@Autowired
-	private Validator validator;
+    private Validator validator;
 	
-	protected IGumgaService<T> service;
+	protected GumgaServiceable<T> service;
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	public AbstractGumgaAPI(IGumgaService<T> service) {
+	public AbstractGumgaAPI(GumgaServiceable<T> service) {
 		this.service = service;
 	}
 	
@@ -144,8 +147,29 @@ public abstract class AbstractGumgaAPI<T> {
 	}
 	
 	@RequestMapping(value = "/validate", method = RequestMethod.POST)
-	public Set<ConstraintViolation<T>> validate(T entity) {
-		return validator.validate(entity);
+	public ErrorResource validate(@RequestBody T entity) {
+		try {
+			Set<ConstraintViolation<T>> errors = validator.validate(entity);
+			if (errors.isEmpty()) return ErrorResource.NO_ERRORS;
+			
+			ErrorResource invalidEntity = new ErrorResource(Error.INVALID_ENTITY, "Invalid Entity");
+			invalidEntity.setData(entity);
+			invalidEntity.setDetails("Invalid Entity State");
+			
+			for (ConstraintViolation<T> violation : errors) {
+				FieldErrorResource fieldErrorResource = new FieldErrorResource();
+				fieldErrorResource.setResource(violation.getRootBeanClass().getCanonicalName());
+				fieldErrorResource.setField(violation.getPropertyPath().toString());
+				fieldErrorResource.setCode(violation.getMessageTemplate());
+				fieldErrorResource.setMessage(violation.getMessage());
+				
+				invalidEntity.addFieldError(fieldErrorResource);
+			}
+			
+			return invalidEntity;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

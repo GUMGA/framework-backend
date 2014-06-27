@@ -1,7 +1,8 @@
-package gumga.framework.domain.seed;
+package gumga.framework.application.seed;
 
+import gumga.framework.application.GumgaService;
 import gumga.framework.core.GumgaIdable;
-import gumga.framework.domain.GumgaService;
+import gumga.framework.domain.seed.AppSeed;
 
 import java.io.BufferedReader;
 import java.io.File;
