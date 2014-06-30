@@ -7,7 +7,6 @@ import gumga.framework.domain.GumgaRepository;
 import javax.persistence.EntityNotFoundException;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class GumgaGenericRepository<T extends GumgaIdable> implements GumgaRepository<T> {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	private GumgaSessionStrategy sessionStrategy;
+	
 	private Class<T> clazz;
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -56,7 +56,7 @@ public class GumgaGenericRepository<T extends GumgaIdable> implements GumgaRepos
 	}
 	
 	private Session session() {
-		return sessionFactory.getCurrentSession();
+		return sessionStrategy.getSession();
 	}
 		
 	public void setClazz(Class<T> clazz) {

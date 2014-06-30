@@ -21,7 +21,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -39,13 +38,14 @@ import com.mysema.query.jpa.hibernate.HibernateQuery;
 public class GumgaGenericFinder<T extends GumgaIdable> implements GumgaFinder<T> {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	private GumgaSessionStrategy sessionStrategy;
+	
 	private Class<T> clazz;
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private Session session() {
-		return sessionFactory.getCurrentSession();
+		return sessionStrategy.getSession();
 	}
 	
 	@SuppressWarnings("unchecked")
