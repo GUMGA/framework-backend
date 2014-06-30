@@ -14,7 +14,6 @@ import gumga.framework.domain.Pesquisa;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 
 import org.hibernate.Criteria;
@@ -184,13 +183,7 @@ public class GumgaGenericFinder<T extends GumgaIdable> implements GumgaFinder<T>
 	}
 	
 	public void setClazz(Class<T> clazz) {
-		logger.info(">>>>> setando a class doidona: " + clazz.getCanonicalName());
 		this.clazz = clazz;
 	}
 	
-	@PostConstruct
-	public void quantasVezes() {
-		logger.info("fui construido!@");
-	}
-
 }

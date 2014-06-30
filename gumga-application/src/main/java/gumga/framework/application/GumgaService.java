@@ -35,20 +35,46 @@ public abstract class GumgaService<T extends GumgaIdable> implements GumgaServic
 		this.repository = repository;
 	}
 	
-	public SearchResult<T> pesquisa(QueryObject queryObject) {
-		return finder.pesquisa(queryObject);
+	public void beforePesquisa(QueryObject query) { }
+	public void afterPesquisa(SearchResult<T> result) { }
+	
+	public SearchResult<T> pesquisa(QueryObject query) {
+		beforePesquisa(query);
+		SearchResult<T> result = finder.pesquisa(query);
+		afterPesquisa(result);
+		
+		return result;
 	}
+	
+	public void beforeView(Long id) {}
+	public void afterView(T entity) {}
 	
 	public T view(Long id) {
-		return finder.find(id);
+		beforeView(id);
+		T entity = finder.find(id);
+		afterView(entity);
+		
+		return entity;
 	}
+	
+	public void beforeDelete(T entity) {}
+	public void afterDelete() {}
 	
 	public void delete(T resource) {
+		beforeDelete(resource);
 		repository.delete(resource);
+		afterDelete();
 	}
 	
+	public void beforeSave(T entity) {}
+	public void afterSave(T entity) {}
+	
 	public T save(T resource) {
-		return repository.saveOrUpdate(resource);
+		beforeSave(resource);
+		T entity = repository.saveOrUpdate(resource);
+		afterSave(entity);
+		
+		return entity;
 	}
 	
 	public void forceFlush() {

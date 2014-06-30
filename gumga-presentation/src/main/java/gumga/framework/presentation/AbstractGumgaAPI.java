@@ -42,68 +42,37 @@ public abstract class AbstractGumgaAPI<T> {
 		this.service = service;
 	}
 	
-	public void beforeSearch(QueryObject query) { }
-	public void afterSearch(QueryObject query) { }
-
 	@RequestMapping
 	public SearchResult<T> pesquisa(QueryObject query) {
-		beforeSearch(query);
 		SearchResult<T> pesquisa = service.pesquisa(query);
-		afterSearch(query);
-		 
 		return new SearchResult<>(query, pesquisa.getCount(), pesquisa.getValues());
 	}
 	
-	public void beforeCreate(T entity) { }
-	public void afterCreate(T entity) { }
-
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
 	public RestResponse<T> save(@RequestBody @Valid T model, BindingResult result) {
-		beforeCreate(model);
 		T entity = saveOrCry(model, result);
-		afterCreate(entity);
-		
 		return new RestResponse<T>(entity, getEntitySavedMessage(entity));
 	}
 	
-	public void beforeLoad() { 	}
-	public void afterLoad(T entity) { }
-
 	@RequestMapping("/{id}")
-	public Object load(@PathVariable Long id) {
-		beforeLoad();
-		T entity = service.view(id);
-		afterLoad(entity);
-		
-		return entity;
+	public T load(@PathVariable Long id) {
+		return service.view(id);
 	}
 	
-	public void beforeUpdate(T entity) { }
-	public void afterUpdate(T entity) { }
-
 	@Transactional
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
 	public RestResponse<T> update(@PathVariable("id") Long id, @Valid @RequestBody T model, BindingResult result) {
-		beforeUpdate(model);
 		T entity = saveOrCry(model, result);
-		afterUpdate(entity);
-		
 		return new RestResponse<T>(entity, getEntityUpdateMessage(entity));
 	}
 	
-	public void beforeDelete(T entity) { }
-	public void afterDelete() { }
-
 	@Transactional
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public RestResponse<T> delete(@PathVariable Long id, HttpServletRequest request) {
 		T entity = service.view(id);
-		
-		beforeDelete(entity);
 		service.delete(entity);
-		afterDelete();
 		
 		return new RestResponse<T>(getEntityDeletedMessage(entity));
 	}
