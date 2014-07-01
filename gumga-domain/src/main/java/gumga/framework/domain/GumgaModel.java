@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @MappedSuperclass
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public class GumgaModel implements GumgaIdable {
+public class GumgaModel implements GumgaIdable<Long> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

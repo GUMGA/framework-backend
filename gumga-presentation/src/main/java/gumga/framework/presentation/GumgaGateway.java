@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class GumgaGateway<A extends GumgaIdable, DTO> implements GumgaServiceable<DTO> {
+public abstract class GumgaGateway<A extends GumgaIdable<?>, DTO> implements GumgaServiceable<DTO> {
 	
 	@Autowired
 	private GumgaService<A> delegate;

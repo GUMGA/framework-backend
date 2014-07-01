@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public abstract class GumgaAPI<T extends GumgaIdable> extends AbstractGumgaAPI<T> {
+public abstract class GumgaAPI<T extends GumgaIdable<?>> extends AbstractGumgaAPI<T> {
 	
 	public GumgaAPI() {
 		super(null);

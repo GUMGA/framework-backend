@@ -13,7 +13,7 @@ import java.net.URL;
 
 import org.springframework.transaction.annotation.Transactional;
 
-public abstract class AbstractSeed<T extends GumgaIdable> implements AppSeed {
+public abstract class AbstractSeed<T extends GumgaIdable<?>> implements AppSeed {
 	
 	@Transactional
 	public void loadSeed() throws IOException {

@@ -4,6 +4,7 @@ import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -11,17 +12,17 @@ import org.hibernate.SQLQuery;
 
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 
-public interface GumgaFinder<T extends GumgaIdable> extends Inferable<T> {
+public interface GumgaFinder<T extends GumgaIdable<?>> extends Inferable<T> {
 	
 	T first();
 
 	T last();
 
-	T find(Long id);
+	T find(Serializable id);
 
 	List<T> all();
 
-	List<T> find(Long... id);
+	List<T> find(Serializable... id);
 
 	List<T> limit(int limit);
 

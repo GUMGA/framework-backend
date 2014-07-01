@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Scope("prototype")
-public abstract class GumgaService<T extends GumgaIdable> implements GumgaServiceable<T> {
+public abstract class GumgaService<T extends GumgaIdable<?>> implements GumgaServiceable<T> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -66,13 +66,29 @@ public abstract class GumgaService<T extends GumgaIdable> implements GumgaServic
 		afterDelete();
 	}
 	
+	private void beforeSaveOrUpdate(T entity) {
+		if (entity.getId() == null)
+			beforeSave(entity);
+		else
+			beforeUpdate(entity);
+	}
+	
+	private void afterSaveOrUpdate(T entity) {
+		if (entity.getId() == null)
+			afterSave(entity);
+		else
+			afterUpdate(entity);
+	}
+	
 	public void beforeSave(T entity) {}
+	public void beforeUpdate(T entity) {}
 	public void afterSave(T entity) {}
+	public void afterUpdate(T entity) {}
 	
 	public T save(T resource) {
-		beforeSave(resource);
+		beforeSaveOrUpdate(resource);
 		T entity = repository.saveOrUpdate(resource);
-		afterSave(entity);
+		afterSaveOrUpdate(entity);
 		
 		return entity;
 	}

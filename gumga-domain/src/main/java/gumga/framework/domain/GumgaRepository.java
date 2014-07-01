@@ -2,7 +2,7 @@ package gumga.framework.domain;
 
 import gumga.framework.core.GumgaIdable;
 
-public interface GumgaRepository<T extends GumgaIdable> extends Inferable<T> {
+public interface GumgaRepository<T extends GumgaIdable<?>> extends Inferable<T> {
 	
 	public T saveOrUpdate(T model);
 	

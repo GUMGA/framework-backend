@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Scope("prototype")
-public class GumgaGenericRepository<T extends GumgaIdable> implements GumgaRepository<T> {
+public class GumgaGenericRepository<T extends GumgaIdable<?>> implements GumgaRepository<T> {
 	
 	@Autowired
 	private GumgaSessionStrategy sessionStrategy;

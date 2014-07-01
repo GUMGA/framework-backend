@@ -1,7 +1,9 @@
 package gumga.framework.core;
 
-public interface GumgaIdable {
+import java.io.Serializable;
+
+public interface GumgaIdable<T extends Serializable> {
 	
-	Long getId();
+	T getId();
 
 }

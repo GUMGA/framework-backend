@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ComponentScan({"gumga.framework"})
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
 public class SpringConfig {
 	
 	@Autowired

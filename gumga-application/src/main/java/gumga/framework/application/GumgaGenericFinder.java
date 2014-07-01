@@ -12,6 +12,7 @@ import gumga.framework.domain.GumgaFinder;
 import gumga.framework.domain.HibernateQueryObject;
 import gumga.framework.domain.Pesquisa;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -34,7 +35,7 @@ import com.mysema.query.jpa.hibernate.HibernateQuery;
 
 @Component
 @Scope("prototype")
-public class GumgaGenericFinder<T extends GumgaIdable> implements GumgaFinder<T> {
+public class GumgaGenericFinder<T extends GumgaIdable<?>> implements GumgaFinder<T> {
 	
 	@Autowired
 	private GumgaSessionStrategy sessionStrategy;
@@ -65,7 +66,7 @@ public class GumgaGenericFinder<T extends GumgaIdable> implements GumgaFinder<T>
 	}
 
 	@Transactional(readOnly = true)
-	public T find(Long id) {
+	public T find(Serializable id) {
 		T entity = clazz().cast(session().get(clazz(), id));
 		
 		if (entity == null) 
@@ -81,7 +82,7 @@ public class GumgaGenericFinder<T extends GumgaIdable> implements GumgaFinder<T>
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<T> find(Long... id) {
+	public List<T> find(Serializable... id) {
 		Criteria criteria = session().createCriteria(clazz()).add(Restrictions.in("id", id));
 		return criteria.list();
 	}
