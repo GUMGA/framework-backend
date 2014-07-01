@@ -6,7 +6,7 @@ import gumga.framework.core.utils.ReflectionUtils;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class GumgaTranslator<BusinessObject extends GumgaIdable, ServiceObject> {
+public abstract class GumgaTranslator<BusinessObject extends GumgaIdable<?>, ServiceObject> {
 	
 	public abstract BusinessObject to(ServiceObject serviceObject);
 	
