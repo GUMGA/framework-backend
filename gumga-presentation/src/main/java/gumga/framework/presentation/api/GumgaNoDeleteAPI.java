@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public abstract class GumgaNoDeleteAPI<T> extends AbstractNoDeleteGumgaAPI<T> {
 
-	public GumgaNoDeleteAPI(GumgaWritableServiceable<T> service) {
+	public GumgaNoDeleteAPI() {
 		super(null);
 	}
 	

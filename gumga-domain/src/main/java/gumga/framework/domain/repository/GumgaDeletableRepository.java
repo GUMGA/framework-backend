@@ -1,6 +1,8 @@
 package gumga.framework.domain.repository;
 
-public interface GumgaDeletableRepository<T> {
+import gumga.framework.domain.Inferable;
+
+public interface GumgaDeletableRepository<T> extends Inferable<T> {
 	
 	public void delete(T model);
 

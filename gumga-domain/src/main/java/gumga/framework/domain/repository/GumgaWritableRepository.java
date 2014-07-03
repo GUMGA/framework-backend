@@ -1,6 +1,8 @@
 package gumga.framework.domain.repository;
 
-public interface GumgaWritableRepository<T> {
+import gumga.framework.domain.Inferable;
+
+public interface GumgaWritableRepository<T> extends Inferable<T> {
 	
 	public T saveOrUpdate(T model);
 	

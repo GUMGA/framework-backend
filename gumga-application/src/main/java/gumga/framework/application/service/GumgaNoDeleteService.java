@@ -1,11 +1,11 @@
-package gumga.framework.application;
+package gumga.framework.application.service;
 
-import gumga.framework.application.service.AbstractGumgaService;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
-import gumga.framework.domain.GumgaRepository;
-import gumga.framework.domain.GumgaServiceable;
+import gumga.framework.domain.repository.GumgaWritableRepository;
+import gumga.framework.domain.service.GumgaReadableServiceable;
+import gumga.framework.domain.service.GumgaWritableServiceable;
 
 import javax.annotation.PostConstruct;
 
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Scope("prototype")
-public abstract class GumgaService<T extends GumgaIdable<?>> extends AbstractGumgaService<T> implements GumgaServiceable<T> {
-	
-	protected GumgaRepository<T> repository;
+public abstract class GumgaNoDeleteService<T extends GumgaIdable<?>> extends AbstractGumgaService<T> implements GumgaReadableServiceable<T>, GumgaWritableServiceable<T> {
+
+	protected GumgaWritableRepository<T> repository;
 	
 	@Autowired
-	public void setRepository(GumgaRepository<T> repository) {
+	public void setRepository(GumgaWritableRepository<T> repository) {
 		this.repository = repository;
 	}
 	
@@ -44,15 +44,6 @@ public abstract class GumgaService<T extends GumgaIdable<?>> extends AbstractGum
 		afterView(entity);
 		
 		return entity;
-	}
-	
-	public void beforeDelete(T entity) {}
-	public void afterDelete() {}
-	
-	public void delete(T resource) {
-		beforeDelete(resource);
-		repository.delete(resource);
-		afterDelete();
 	}
 	
 	private void beforeSaveOrUpdate(T entity) {

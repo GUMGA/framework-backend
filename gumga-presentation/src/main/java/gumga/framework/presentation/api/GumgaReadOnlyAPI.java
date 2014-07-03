@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public abstract class GumgaReadOnlyAPI<T> extends AbstractReadOnlyGumgaAPI<T> {
 
-	public GumgaReadOnlyAPI(GumgaReadableServiceable<T> service) {
+	public GumgaReadOnlyAPI() {
 		super(null);
 	}
 	
 	@Autowired
 	public void setService(GumgaReadableServiceable<T> service) {
-		setService(service);
+		this.service = service;
 	}
 
 }

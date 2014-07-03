@@ -43,7 +43,7 @@ public class GumgaFinderTest {
 		query.setQ("Gumga");
 		query.setSearchFields("name");
 		
-		List<Company> result = service.finder.pesquisa(query).getValues();
+		List<Company> result = service.pesquisa(query).getValues();
 		
 		assertFalse(result.isEmpty());
 	}
