@@ -16,7 +16,7 @@ public abstract class GumgaAPI<T extends GumgaIdable<?>> extends AbstractGumgaAP
 	
 	@Autowired
 	public void setService(GumgaService<T> service) {
-		this.service = service;
+		super.setService(service);
 	}
 	
 }

@@ -1,17 +1,10 @@
 package gumga.framework.domain;
 
 import gumga.framework.core.GumgaIdable;
+import gumga.framework.domain.repository.GumgaDeletableRepository;
+import gumga.framework.domain.repository.GumgaReadableRepository;
+import gumga.framework.domain.repository.GumgaWritableRepository;
 
-public interface GumgaRepository<T extends GumgaIdable<?>> extends Inferable<T> {
-	
-	public T saveOrUpdate(T model);
-	
-	public void delete(T model);
-	
-	public T load(Long id);
-	
-	public void flush();
-	
-	public void clear();
+public interface GumgaRepository<T extends GumgaIdable<?>> extends Inferable<T>, GumgaDeletableRepository<T>, GumgaReadableRepository<T>, GumgaWritableRepository<T> {
 	
 }
