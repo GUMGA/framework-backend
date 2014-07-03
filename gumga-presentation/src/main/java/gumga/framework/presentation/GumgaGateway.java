@@ -10,6 +10,7 @@ import gumga.framework.domain.GumgaServiceable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 public abstract class GumgaGateway<A extends GumgaIdable<?>, DTO> implements GumgaServiceable<DTO> {
 	
@@ -26,6 +27,7 @@ public abstract class GumgaGateway<A extends GumgaIdable<?>, DTO> implements Gum
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public DTO view(Long id) {
 		return translator.from(delegate.view(id));
 	}
