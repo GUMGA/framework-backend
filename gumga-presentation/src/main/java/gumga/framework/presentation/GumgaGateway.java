@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class GumgaGateway<A extends GumgaIdable<?>, DTO> implements GumgaServiceable<DTO> {
 	
 	@Autowired
-	private GumgaService<A> delegate;
+	protected GumgaService<A> delegate;
 	
 	@Autowired
-	private GumgaTranslator<A, DTO> translator;
+	protected GumgaTranslator<A, DTO> translator;
 	
 	@Override
 	public SearchResult<DTO> pesquisa(QueryObject query) {

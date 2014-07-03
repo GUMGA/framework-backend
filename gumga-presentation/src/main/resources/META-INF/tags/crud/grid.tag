@@ -1,8 +1,13 @@
 <%@ attribute name="values" required="true" %>
 <%@ attribute name="showSearch" required="false" %>
+<%@ attribute name="showRemove" required="false" %>
+<%@ attribute name="showInsert" required="false" %>
 <%@ attribute name="gridColumns" required="true" fragment="true" %>
 <%@ attribute name="searchFields" required="false" fragment="true" %>
 <%@ attribute name="buttons" required="false" fragment="true" %>
+
+
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -16,14 +21,18 @@
 				<jsp:invoke fragment="buttons" var="buttons"/>
 				<c:if test="${not empty buttons}">${buttons}</c:if>
 				<c:if test="${empty buttons}">
-					<a href="#/insert" class="btn btn-primary" id="btnNovo">
-						<span class="glyphicon glyphicon-plus"></span> 
-						<fmt:message key="app.button.novo" />
-					</a>
-					<button id="btnExcluir" class="btn btn-danger" ng-click="ctrl.removeSelection()" ng-disabled="selection.length == 0">
-						<span class="glyphicon glyphicon-trash"></span> 
-						<fmt:message key="app.button.remove" />
-					</button>
+					<c:if test="${showInsert != 'false'}">
+						<a href="#/insert" class="btn btn-primary" id="btnNovo">
+							<span class="glyphicon glyphicon-plus"></span> 
+							<fmt:message key="app.button.novo" />
+						</a>
+					</c:if>
+					<c:if test="${showRemove != 'false'}">
+						<button id="btnExcluir" class="btn btn-danger" ng-click="ctrl.removeSelection()" ng-disabled="selection.length == 0">
+							<span class="glyphicon glyphicon-trash"></span> 
+							<fmt:message key="app.button.remove" />
+						</button>
+					</c:if>
 				</c:if>
 			</div>
 		
