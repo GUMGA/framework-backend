@@ -27,6 +27,7 @@ public class GumgaGenericRepository<T extends GumgaIdable<?>> extends GumgaAbstr
 		return delegate.load(id);
 	}
 
+	@Transactional(propagation = Propagation.MANDATORY)
 	public T saveOrUpdate(T model) {
 		return delegate.saveOrUpdate(model);
 	}

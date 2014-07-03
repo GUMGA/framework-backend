@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Scope("prototype")
@@ -27,6 +28,7 @@ public abstract class GumgaNoDeleteService<T extends GumgaIdable<?>> extends Abs
 	public void beforePesquisa(QueryObject query) { }
 	public void afterPesquisa(SearchResult<T> result) { }
 	
+	@Transactional(readOnly = true)
 	public SearchResult<T> pesquisa(QueryObject query) {
 		beforePesquisa(query);
 		SearchResult<T> result = finder.pesquisa(query);
@@ -38,6 +40,7 @@ public abstract class GumgaNoDeleteService<T extends GumgaIdable<?>> extends Abs
 	public void beforeView(Long id) {}
 	public void afterView(T entity) {}
 	
+	@Transactional(readOnly = true)
 	public T view(Long id) {
 		beforeView(id);
 		T entity = finder.find(id);
@@ -65,6 +68,7 @@ public abstract class GumgaNoDeleteService<T extends GumgaIdable<?>> extends Abs
 	public void afterSave(T entity) {}
 	public void afterUpdate(T entity) {}
 	
+	@Transactional
 	public T save(T resource) {
 		beforeSaveOrUpdate(resource);
 		T entity = repository.saveOrUpdate(resource);
