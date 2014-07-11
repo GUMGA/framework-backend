@@ -19,6 +19,7 @@ public abstract class AbstractGumgaAPI<T> extends AbstractNoDeleteGumgaAPI<T> {
 	
 	public AbstractGumgaAPI(GumgaServiceable<T> service) {
 		super(service);
+		this.service = service;
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
