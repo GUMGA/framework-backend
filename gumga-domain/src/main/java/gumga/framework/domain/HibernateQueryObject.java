@@ -14,9 +14,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.activation.UnsupportedDataTypeException;
 
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -170,9 +172,17 @@ public class HibernateQueryObject {
 	protected static final CriterionParser DATE_CRITERION_PARSER = new CriterionParser() {
 		@Override public Criterion parse(String field, String value) {
 			try {
-				return eq(field, new SimpleDateFormat("dd/MM/yyyy").parse(value));
+				 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			     Date minDate = formatter.parse(value);
+				 Date maxDate = new Date(minDate.getTime() + TimeUnit.DAYS.toMillis(1));
+				 Conjunction and = Restrictions.conjunction();
+				 and.add( Restrictions.ge(field, minDate) );
+			     and.add( Restrictions.lt(field, maxDate) ); 
+				
+				return and;
 			} catch (ParseException e) {
-				throw new IllegalArgumentException(value, e);
+				e.printStackTrace();
+				return Restrictions.sqlRestriction("(1=1)");
 			}
 		}
 	};
