@@ -1,8 +1,10 @@
 package gumga.framework.presentation;
 
-public abstract class GumgaDTOAPI<T> extends AbstractGumgaAPI<T> {
+import java.io.Serializable;
 
-	public GumgaDTOAPI(GumgaGateway<?, T> gateway) {
+public abstract class GumgaDTOAPI<T, ID extends Serializable> extends AbstractGumgaAPI<T> {
+
+	public GumgaDTOAPI(GumgaGateway<?, ID, T> gateway) {
 		super(gateway);
 	}
 	

@@ -4,19 +4,15 @@ package gumga.framework.presentation;
 import gumga.framework.application.GumgaService;
 import gumga.framework.core.GumgaIdable;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.Serializable;
+
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public abstract class GumgaAPI<T extends GumgaIdable<?>> extends AbstractGumgaAPI<T> {
+public abstract class GumgaAPI<T extends GumgaIdable<ID>, ID extends Serializable> extends AbstractGumgaAPI<T> {
 	
-	public GumgaAPI() {
-		super(null);
-	}
-	
-	@Autowired
-	public void setService(GumgaService<T> service) {
-		super.setService(service);
+	public GumgaAPI(GumgaService<T, ID> service) {
+		super(service);
 	}
 	
 }

@@ -9,11 +9,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 
 import org.springframework.transaction.annotation.Transactional;
 
-public abstract class AbstractSeed<T extends GumgaIdable<?>> implements AppSeed {
+public abstract class AbstractSeed<T extends GumgaIdable<ID>, ID extends Serializable> implements AppSeed {
 	
 	@Transactional
 	public void loadSeed() throws IOException {
@@ -43,7 +44,7 @@ public abstract class AbstractSeed<T extends GumgaIdable<?>> implements AppSeed 
 		source.close();
 	}
 	
-	public abstract GumgaService<T> service();
+	public abstract GumgaService<T, ID> service();
 	
 	public abstract T createObject(String[] args);
 

@@ -7,15 +7,16 @@ import gumga.framework.core.SearchResult;
 import gumga.framework.core.utils.ReflectionUtils;
 import gumga.framework.domain.GumgaServiceable;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-public abstract class GumgaGateway<A extends GumgaIdable<?>, DTO> implements GumgaServiceable<DTO> {
+public abstract class GumgaGateway<A extends GumgaIdable<ID>, ID extends Serializable, DTO> implements GumgaServiceable<DTO> {
 	
 	@Autowired
-	protected GumgaService<A> delegate;
+	protected GumgaService<A, ID> delegate;
 	
 	@Autowired
 	protected GumgaTranslator<A, DTO> translator;

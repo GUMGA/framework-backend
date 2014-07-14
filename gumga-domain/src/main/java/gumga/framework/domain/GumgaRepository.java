@@ -1,10 +1,11 @@
 package gumga.framework.domain;
 
-import gumga.framework.core.GumgaIdable;
-import gumga.framework.domain.repository.GumgaDeletableRepository;
-import gumga.framework.domain.repository.GumgaReadableRepository;
-import gumga.framework.domain.repository.GumgaWritableRepository;
+import java.io.Serializable;
 
-public interface GumgaRepository<T extends GumgaIdable<?>> extends GumgaDeletableRepository<T>, GumgaReadableRepository<T>, GumgaWritableRepository<T> {
-	
+import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.Repository;
+
+@NoRepositoryBean
+public interface GumgaRepository<T, ID extends Serializable> extends Repository<T, ID> {
+
 }

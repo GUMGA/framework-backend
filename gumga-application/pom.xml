@@ -72,5 +72,9 @@
 			<groupId>gumga.framework</groupId>
 			<artifactId>gumga-domain</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
 	</dependencies>
 </project>

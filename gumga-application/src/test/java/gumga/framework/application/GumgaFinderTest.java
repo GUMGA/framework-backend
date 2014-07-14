@@ -3,7 +3,6 @@ package gumga.framework.application;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import gumga.framework.core.QueryObject;
-import gumga.framework.domain.GumgaRepository;
 
 import java.util.List;
 
@@ -20,14 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class GumgaFinderTest {
 	
 	@Autowired
-	private GumgaRepository<Car> carRepository;
-	
-	@Autowired
-	private GumgaService<Company> service;
+	private CompanyService service;
 	
 	@Test
 	public void injectionSanityCheck() {
-		assertNotNull(carRepository);
 		assertNotNull(service);
 	}
 	

@@ -1,24 +1,22 @@
 package gumga.framework.application.service;
 
-import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.utils.ReflectionUtils;
-import gumga.framework.domain.GumgaFinder;
+import gumga.framework.domain.repository.GumgaCrudRepository;
+
+import java.io.Serializable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractGumgaService<T extends GumgaIdable<?>> {
+public abstract class AbstractGumgaService<T, ID extends Serializable> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	protected final GumgaCrudRepository<T, ID> repository;
 	
-	protected GumgaFinder<T> finder;
-	
-	@Autowired
-	public void setFinder(GumgaFinder<T> finder) {
-		this.finder = finder;
+	public AbstractGumgaService(GumgaCrudRepository<T, ID> repository) {
+		this.repository = repository;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public Class<T> clazz() {
 		return (Class<T>) ReflectionUtils.inferGenericType(getClass());

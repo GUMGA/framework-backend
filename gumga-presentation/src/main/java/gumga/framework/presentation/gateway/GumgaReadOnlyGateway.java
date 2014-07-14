@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class GumgaReadOnlyGateway<A extends GumgaIdable<?>, DTO> implements GumgaReadableServiceable<DTO> {
 	
 	@Autowired
-	private GumgaService<A> delegate;
+	private GumgaService<A, ?> delegate;
 	
 	@Autowired
 	private GumgaTranslator<A, DTO> translator;
