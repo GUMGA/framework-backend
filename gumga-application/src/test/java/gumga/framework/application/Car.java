@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 
 
 @Entity
-public class Car extends GumgaModel {
+public class Car extends GumgaModel<Long> {
 	
 	public Car() {
 		

@@ -6,7 +6,7 @@ import gumga.framework.domain.GumgaModel;
 import javax.persistence.Entity;
 
 @Entity
-public class Company extends GumgaModel {
+public class Company extends GumgaModel<Long> {
 	
 	private String name;
 	

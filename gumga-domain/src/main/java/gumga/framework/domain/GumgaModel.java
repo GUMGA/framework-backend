@@ -1,5 +1,7 @@
 package gumga.framework.domain;
 
+import java.io.Serializable;
+
 import gumga.framework.core.GumgaIdable;
 
 import javax.persistence.GeneratedValue;
@@ -13,17 +15,17 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @MappedSuperclass
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public class GumgaModel implements GumgaIdable<Long> {
+public class GumgaModel<ID extends Serializable> implements GumgaIdable<ID> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected Long id;
+	protected ID id;
 	
-	public Long getId() {
+	public ID getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(ID id) {
 		this.id = id;
 	}
 	
