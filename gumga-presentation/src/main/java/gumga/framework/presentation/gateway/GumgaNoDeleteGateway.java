@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import gumga.framework.application.GumgaService;
+import gumga.framework.application.service.GumgaNoDeleteService;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
@@ -16,7 +16,7 @@ import gumga.framework.presentation.GumgaTranslator;
 public abstract class GumgaNoDeleteGateway<A extends GumgaIdable<?>, DTO> implements GumgaReadableServiceable<DTO>, GumgaWritableServiceable<DTO> {
 
 	@Autowired
-	private GumgaService<A, ?> delegate;
+	private GumgaNoDeleteService<A> delegate;
 	
 	@Autowired
 	private GumgaTranslator<A, DTO> translator;

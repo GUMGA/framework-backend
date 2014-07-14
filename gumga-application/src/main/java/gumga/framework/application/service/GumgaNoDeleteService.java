@@ -1,5 +1,6 @@
 package gumga.framework.application.service;
 
+import gumga.framework.application.repository.GumgaNoDeleteRepository;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;

@@ -1,5 +1,6 @@
 <%@ tag description="Template Base" pageEncoding="UTF-8" %>
 <%@ attribute name="scripts" required="false" fragment="true" %>
+<%@ attribute name="styles" required="false" fragment="true" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="init" required="true" %>
 <%@ attribute name="openMenu" required="false" %>
@@ -28,6 +29,8 @@
 
 <link rel="stylesheet" href="<c:url value='${gumgaProperties.path}/static/styles/main.css' />" />
 <link rel="stylesheet" href="<c:url value='${gumgaProperties.path}/static/styles/gumga.css' />" />
+
+<jsp:invoke fragment="styles" />
 
 </head>
 <body class="gumga-offcanvas">
