@@ -8,7 +8,7 @@ public abstract class GumgaCRUDController extends GumgaController {
 	public abstract String path();
 	
 	@RequestMapping
-	public String index() {
+	public String index(Model model) {
 		return path() + "/base";
 	}
 
