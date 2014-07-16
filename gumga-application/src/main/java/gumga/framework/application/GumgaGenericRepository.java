@@ -17,19 +17,20 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
+import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
 public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements GumgaCrudRepository<T, ID> {
 
-	private final Class<T> domainClass;
+	private final JpaEntityInformation<T, ID> entityInformation;
 	private final EntityManager entityManager;
 	
-	public GumgaGenericRepository(Class<T> domainClass, EntityManager entityManager) {
-		super(domainClass, entityManager);
-		this.domainClass = domainClass;
+	public GumgaGenericRepository(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
+		super(entityInformation, entityManager);
 		this.entityManager = entityManager;
+		this.entityInformation = entityInformation;
 	}
 
 	@Override	
@@ -62,7 +63,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 		if (query.getSearchFields() != null && query.getSearchFields().length == 0)
 			throw new IllegalArgumentException();
 		
-		Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(domainClass);
+		Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(entityInformation.getJavaType());
 		Pesquisa<T> pesquisa = pesquisa().add(or(fieldsCriterions));
 		
 		if (query.getSearchFields() != null) 
@@ -84,7 +85,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 	
 	@Override
 	public Pesquisa<T> pesquisa() {
-		return Pesquisa.createCriteria(session(), domainClass);
+		return Pesquisa.createCriteria(session(), entityInformation.getJavaType());
 	}
 
 	private Session session() {
