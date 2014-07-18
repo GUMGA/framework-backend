@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -86,6 +87,16 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 	@Override
 	public Pesquisa<T> pesquisa() {
 		return Pesquisa.createCriteria(session(), entityInformation.getJavaType());
+	}
+	
+	@Override
+	public T findOne(ID id) {
+		T resource = super.findOne(id);
+		
+		if (resource == null) 
+			throw new EntityNotFoundException("cannot find " + entityInformation.getJavaType() + " with id: " + id);
+		
+		return resource;
 	}
 
 	private Session session() {
