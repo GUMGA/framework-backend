@@ -1,5 +1,6 @@
 package gumga.framework.domain;
 
+import static java.util.concurrent.TimeUnit.DAYS;
 import static org.hibernate.criterion.Restrictions.eq;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.utils.ReflectionUtils;
@@ -14,7 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.activation.UnsupportedDataTypeException;
 
@@ -23,8 +23,12 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.StandardBasicTypes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HibernateQueryObject {
+	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	protected final QueryObject queryObject;
 	protected final Map<Class<?>, CriterionParser> parsers;
@@ -35,12 +39,19 @@ public class HibernateQueryObject {
 		
 		parsers.put(String.class, STRING_CRITERION_PARSER);
 		parsers.put(Character.class, CHARACTER_CRITERION_PARSER);
+		parsers.put(char.class, CHARACTER_CRITERION_PARSER);
 		parsers.put(Boolean.class, BOOLEAN_CRITERION_PARSER);
+		parsers.put(boolean.class, BOOLEAN_CRITERION_PARSER);
 		parsers.put(Short.class, SHORT_CRITERION_PARSER);
+		parsers.put(short.class, SHORT_CRITERION_PARSER);
 		parsers.put(Integer.class, INTEGER_CRITERION_PARSER);
+		parsers.put(int.class, INTEGER_CRITERION_PARSER);
 		parsers.put(Long.class, LONG_CRITERION_PARSER);
+		parsers.put(long.class, LONG_CRITERION_PARSER);
 		parsers.put(Float.class, FLOAT_CRITERION_PARSER);
+		parsers.put(float.class, FLOAT_CRITERION_PARSER);
 		parsers.put(Double.class, DOUBLE_CRITERION_PARSER);
+		parsers.put(double.class, DOUBLE_CRITERION_PARSER);
 		parsers.put(BigInteger.class, BIGINTEGER_CRITERION_PARSER);
 		parsers.put(BigDecimal.class, BIGDECIMAL_CRITERION_PARSER);
 		parsers.put(Date.class, DATE_CRITERION_PARSER);
@@ -58,7 +69,7 @@ public class HibernateQueryObject {
 			try {
 				criterions.add(createCriterion(field, queryObject.getQ(), clazz));
 			} catch(Exception ex) {
-				ex.printStackTrace();
+				logger.debug(ex.getMessage());
 			}
 		}
 		
@@ -99,9 +110,8 @@ public class HibernateQueryObject {
 		@Override public Criterion parse(String field, String value) {
 			String[] chain = field.split("\\.");
 			
-			if (chain.length > 1) {
+			if (chain.length > 1) 
 				return Restrictions.like(field, value, MatchMode.START).ignoreCase();
-			}
 			
 			String ignoraAcentos = "upper(translate({alias}."+field+",'âàãáÁÂÀÃéêÉÊíÍóôõÓÔÕüúÜÚÇç','AAAAAAAAEEEEIIOOOOOOUUUUCC')) like (?)";
 			return Restrictions.sqlRestriction(ignoraAcentos, value+"%", StandardBasicTypes.STRING);
@@ -120,6 +130,10 @@ public class HibernateQueryObject {
 	protected static final CriterionParser BOOLEAN_CRITERION_PARSER = new CriterionParser() {
 		@Override public Criterion parse(String field, String value) {
 			value = value.toLowerCase();
+			
+			if (value.equals("sim")) value = "true";
+			else if (value.equals("não") || value.equals("nao")) value = "false"; 
+			
 			if (value.equals("true") || value.equals("false"))
 				return eq(field, new Boolean(value));
 			
@@ -173,16 +187,17 @@ public class HibernateQueryObject {
 		@Override public Criterion parse(String field, String value) {
 			try {
 				 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			     Date minDate = formatter.parse(value);
-				 Date maxDate = new Date(minDate.getTime() + TimeUnit.DAYS.toMillis(1));
+			     
+				 Date minDate = formatter.parse(value);
+				 Date maxDate = new Date(minDate.getTime() + DAYS.toMillis(1));
+				
 				 Conjunction and = Restrictions.conjunction();
 				 and.add( Restrictions.ge(field, minDate) );
 			     and.add( Restrictions.lt(field, maxDate) ); 
 				
 				return and;
 			} catch (ParseException e) {
-				e.printStackTrace();
-				return Restrictions.sqlRestriction("(1=1)");
+				throw new IllegalArgumentException(value);
 			}
 		}
 	};
