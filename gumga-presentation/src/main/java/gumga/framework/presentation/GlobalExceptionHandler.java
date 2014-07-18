@@ -83,7 +83,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public @ResponseBody
 	ErrorResource notFound(HttpServletRequest req, Exception ex) {
 		logger.warn("ResourceNotFound", ex);
-		return new ErrorResource("ResourceNotFound", "Entity not found", ex.getMessage());
+		return new ErrorResource("ResourceNotFound", "Entity not found", ex.getCause().getMessage());
 	}
 
 	@ExceptionHandler(BadRequestException.class)
