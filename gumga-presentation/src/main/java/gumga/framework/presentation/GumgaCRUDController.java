@@ -12,9 +12,9 @@ public abstract class GumgaCRUDController extends GumgaController {
 		return path() + "/base";
 	}
 
-	@RequestMapping("/grid")
+	@RequestMapping("/list")
 	public String grid(Model model) {
-		return path() + "/grid";
+		return path() + "/list";
 	}
 
 	@RequestMapping("/form")
