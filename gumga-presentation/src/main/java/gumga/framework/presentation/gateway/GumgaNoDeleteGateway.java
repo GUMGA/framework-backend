@@ -16,7 +16,7 @@ import gumga.framework.presentation.GumgaTranslator;
 public abstract class GumgaNoDeleteGateway<A extends GumgaIdable<?>, DTO> implements GumgaReadableServiceable<DTO>, GumgaWritableServiceable<DTO> {
 
 	@Autowired
-	private GumgaNoDeleteService<A> delegate;
+	private GumgaNoDeleteService<A, ?> delegate;
 	
 	@Autowired
 	private GumgaTranslator<A, DTO> translator;

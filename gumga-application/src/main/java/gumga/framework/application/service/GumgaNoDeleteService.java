@@ -1,12 +1,12 @@
 package gumga.framework.application.service;
 
-import gumga.framework.application.repository.GumgaNoDeleteRepository;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 import gumga.framework.domain.service.GumgaReadableServiceable;
 import gumga.framework.domain.service.GumgaWritableServiceable;
+import gumga.framework.application.service.AbstractGumgaService;
 
 import java.io.Serializable;
 
