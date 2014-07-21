@@ -1,5 +1,7 @@
 package gumga.framework.application;
 
+import gumga.framework.domain.repository.GumgaQueryDSLRepository;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.Querydsl;
 import org.springframework.data.querydsl.QSort;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.querydsl.SimpleEntityPathResolver;
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -23,7 +24,7 @@ import com.mysema.query.types.Predicate;
 import com.mysema.query.types.path.PathBuilder;
 
 @NoRepositoryBean
-public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends GumgaGenericRepository<T, ID> implements QueryDslPredicateExecutor<T> {
+public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends GumgaGenericRepository<T, ID> implements GumgaQueryDSLRepository<T, ID> {
 	
 	private final EntityPath<T> path;
 	private final PathBuilder<T> builder;
