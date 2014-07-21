@@ -34,8 +34,7 @@ public class MenuReader {
 			return Collections.emptyList();
 		}
 
-		return CharStreams.readLines(new InputStreamReader(menuStream));
-
+		return CharStreams.readLines(new InputStreamReader(menuStream, "UTF-8"));
 	}
 
 	public static Menu digesterMenu(List<String> menuOptions) {
