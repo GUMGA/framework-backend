@@ -60,11 +60,11 @@ public class HibernateQueryObject {
 	}
 	
 	public Criterion[] getCriterions(Class<?> clazz) {
-		if (queryObject.getSearchFields() == null)
+		if (!queryObject.isValid())
 			return new Criterion[0];
 		
 		List<Criterion> criterions = new ArrayList<>();
-		
+			
 		for (String field : queryObject.getSearchFields()) {
 			try {
 				criterions.add(createCriterion(field, queryObject.getQ(), clazz));

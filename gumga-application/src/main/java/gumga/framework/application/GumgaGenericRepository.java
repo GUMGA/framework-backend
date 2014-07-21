@@ -62,7 +62,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 	
 	private Pesquisa<T> getPesquisa(QueryObject query) {
 		if (query.getSearchFields() != null && query.getSearchFields().length == 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Para realizar a pesquisa deve se informar pelo menos um campo a ser pesquisado.");
 		
 		Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(entityInformation.getJavaType());
 		Pesquisa<T> pesquisa = pesquisa().add(or(fieldsCriterions));

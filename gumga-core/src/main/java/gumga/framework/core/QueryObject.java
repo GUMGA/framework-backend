@@ -66,5 +66,10 @@ public class QueryObject {
 		if (start == 0) return 1;
 		return start / pageSize + 1;
 	}
+	
+	public boolean isValid() {
+		return searchFields != null && searchFields.length > 0
+				&& q != null && !q.isEmpty();
+	}
 
 }
