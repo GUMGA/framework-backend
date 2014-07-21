@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -78,10 +79,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 * Tratamento das exceções padrão
 	 */
 
-	@ExceptionHandler({ EntityNotFoundException.class, NotFoundException.class, JpaObjectRetrievalFailureException.class })
+	@ExceptionHandler({ EntityNotFoundException.class, NotFoundException.class })
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public @ResponseBody
 	ErrorResource notFound(HttpServletRequest req, Exception ex) {
+		logger.warn("ResourceNotFound", ex);
+		return new ErrorResource("ResourceNotFound", "Entity not found", ex.getMessage());
+	}
+	
+	@ExceptionHandler(JpaObjectRetrievalFailureException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public @ResponseBody
+	ErrorResource notFound(HttpServletRequest req, JpaObjectRetrievalFailureException ex) {
 		logger.warn("ResourceNotFound", ex);
 		return new ErrorResource("ResourceNotFound", "Entity not found", ex.getCause().getMessage());
 	}
@@ -118,6 +127,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ErrorResource("Unauthorized", "Error on operation", ex.getMessage());
 	}
 
+	@ExceptionHandler(DataAccessException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public @ResponseBody
+	ErrorResource dataAccessException(HttpServletRequest req, Exception ex) {
+		logger.error("Error on operation", ex);
+		return new ErrorResource(ex.getClass().getSimpleName(), "Error on operation", ex.getCause().getMessage());
+	}
+	
 	/**
 	 * Todo erro não tratado irá lançar um "INTERNAL SERVER ERROR", que corresponde ao status 500
 	 * 
