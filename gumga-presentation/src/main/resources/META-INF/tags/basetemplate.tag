@@ -60,7 +60,7 @@
 			<div class="collapse navbar-collapse pull-right" style="color: white;">
 				<ul class="nav navbar-nav">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Você está logado como: <strong>${username}</strong> <b class="caret"></b></a>
+						<a href="#" dropdown-toggle>Você está logado como: <strong>${username}</strong> <b class="caret"></b></a>
               			<ul class="dropdown-menu">
 							<li><a href="security/logout"><span class="glyphicon glyphicon-off"></span> Sair</a></li>
               			</ul>
