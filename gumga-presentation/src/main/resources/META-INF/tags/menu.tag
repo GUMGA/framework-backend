@@ -7,23 +7,15 @@
 		<c:choose>
   			<c:when test="${item.grupo}">
   				<li class="submenu">
-  					<a tabindex="-1" gumga-menu-id="${item.id}">${item.label}</a>
+  					<a tabindex="-1" <c:if test="${not empty item.id}">gumga-menu-id="${item.id}"</c:if> >${item.label}</a>
   					<c:if test="${fn:length(item.itens) > 0}">
 						<g:menu items="${item.itens}" />
 					</c:if>	
   				</li>
-  			</c:when>
-  			
+  			</c:when>			
   			<c:otherwise>
-  				<li
-  				<c:if test="${not empty item.id}">
-    				id="${item.id}"
-				</c:if>
-				  <c:if test="${not empty item.clazz}">
-    				class="${item.clazz}"
-				</c:if>
-  				>
-  				<a href="<c:url value='${item.destino}' />" gumga-menu-id="${item.id}">${item.label}</a>
+  				<li <c:if test="${not empty item.clazz}">class="${item.clazz}"</c:if> >
+  					<a href="<c:url value='${item.destino}' />" <c:if test="${not empty item.id}">gumga-menu-id="${item.id}"</c:if> >${item.label}</a>
   				</li>
   			</c:otherwise>
   		</c:choose>
