@@ -7,11 +7,11 @@ public class SearchResult<T> {
 	private final int pageSize;
 	private final Long count;
 	private final int start;
-	private final List<?> values;
+	private final List<T> values;
 	
-	public SearchResult(QueryObject query, Long count, List<?> data) {
+	public SearchResult(QueryObject query, Number count, List<T> data) {
 		this.pageSize = query.getPageSize();
-		this.count = count;
+		this.count = count.longValue();
 		this.start = query.getStart();
 		this.values = data;
 	}
@@ -28,9 +28,8 @@ public class SearchResult<T> {
 		return start;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<T> getValues() {
-		return (List<T>) values;
+		return values;
 	}
 
 }
