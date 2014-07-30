@@ -2,6 +2,7 @@
 <%@ attribute name="showSearch" required="false" %>
 <%@ attribute name="showRemove" required="false" %>
 <%@ attribute name="showInsert" required="false" %>
+<%@ attribute name="rowNgClass" required="false" %>
 <%@ attribute name="gridColumns" required="true" fragment="true" %>
 <%@ attribute name="searchFields" required="false" fragment="true" %>
 <%@ attribute name="buttons" required="false" fragment="true" %>
@@ -54,6 +55,7 @@
 						sort-by="sort.field"
 						sort-direction="sort.direction"
 						empty-values-message="Sem resultados"
+						<c:if test="${rowNgClass != null}">row-ng-class="${rowNgClass}"</c:if>
 						>
 					<jsp:invoke fragment="gridColumns" />
 				</gumga:table>
