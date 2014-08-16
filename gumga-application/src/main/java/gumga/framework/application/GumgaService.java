@@ -55,15 +55,15 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
 		afterDelete();
 	}
 	
-	private void beforeSaveOrUpdate(T entity) {
-		if (entity.getId() == null)
+	private void beforeSaveOrUpdate(T entity, boolean isNew) {
+		if (isNew)
 			beforeSave(entity);
 		else
 			beforeUpdate(entity);
 	}
 	
-	private void afterSaveOrUpdate(T entity) {
-		if (entity.getId() == null)
+	private void afterSaveOrUpdate(T entity, boolean isNew) {
+		if (isNew)
 			afterSave(entity);
 		else
 			afterUpdate(entity);
@@ -76,9 +76,11 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
 	
 	@Transactional
 	public T save(T resource) {
-		beforeSaveOrUpdate(resource);
+		boolean isNew = (resource.getId() == null);
+		
+		beforeSaveOrUpdate(resource, isNew);
 		T entity = repository.save(resource);
-		afterSaveOrUpdate(entity);
+		afterSaveOrUpdate(entity, isNew);
 		
 		return entity;
 	}
