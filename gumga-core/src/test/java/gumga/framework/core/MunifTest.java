@@ -6,10 +6,10 @@ import gumga.framework.core.utils.ExemploUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ExemploUtilsTeste {
+public class MunifTest {
 	
 	@Test 
-	public void testaEhPar(){
+	public void testeFeliz(){
 		Assert.assertTrue(ExemploUtils.ehPar(2));
 		Assert.assertFalse(ExemploUtils.ehPar(3));
 		Assert.assertTrue(ExemploUtils.ehPar(4));
