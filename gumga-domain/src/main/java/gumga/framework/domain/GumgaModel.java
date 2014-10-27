@@ -14,7 +14,7 @@ import javax.persistence.MappedSuperclass;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @MappedSuperclass
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class GumgaModel<ID extends Serializable> implements GumgaIdable<ID> {
 	
 	@Id
