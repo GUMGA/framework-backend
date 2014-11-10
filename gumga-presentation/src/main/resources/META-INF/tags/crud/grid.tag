@@ -5,6 +5,7 @@
 <%@ attribute name="rowNgClass" required="false" %>
 <%@ attribute name="gridColumns" required="true" fragment="true" %>
 <%@ attribute name="searchFields" required="false" fragment="true" %>
+<%@ attribute name="advancedFields" required="false" fragment="true" %>
 <%@ attribute name="buttons" required="false" fragment="true" %>
 
 
@@ -38,13 +39,37 @@
 			</div>
 		
 			<c:if test="${showSearch != 'false'}">
-				<div class="col-md-7">
-					<gumga:search on-search="ctrl.search($text, $fields)" search-text="search.text" select-fields="search.fields">
-						<jsp:invoke fragment="searchFields" />
-					</gumga:search>
-				</div>
+                <c:choose>
+                    <c:when test="${not empty advancedFields}">
+                        <div class="col-md-7 gumga-crud-search">
+                            <button ng-click="search.showAdvanced = !search.showAdvanced" class="btn btn-default btn-switch-filters">
+                                {{search.showAdvanced ? "Avan&ccedil;ada" : "Simples"}} :
+                            </button>
+                            <div ng-show="!search.showAdvanced" class="gumga-crud-search-type">
+                                <gumga:search on-search="ctrl.search($text, $fields)" search-text="search.text" select-fields="search.fields">
+                                    <jsp:invoke fragment="searchFields" />
+                                </gumga:search>
+                            </div>
+                            <div ng-show="search.showAdvanced" class="gumga-crud-search-type">
+                                <gumga:filter ng-model="search.advanced" size="sm">
+                                    <jsp:invoke fragment="advancedFields" />
+                                </gumga:filter>
+                                <button class="btn btn-primary btn-search" type="submit" ng-click="ctrl.advancedSearch(search.advanced)">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="col-md-7">
+                            <gumga:search on-search="ctrl.search($text, $fields)" search-text="search.text" select-fields="search.fields">
+                                <jsp:invoke fragment="searchFields" />
+                            </gumga:search>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
 			</c:if>
-			
+
 			<div class="col-xs-12">
 				<gumga:table 
 						values="${values}"
