@@ -41,22 +41,25 @@
 			<c:if test="${showSearch != 'false'}">
                 <c:choose>
                     <c:when test="${not empty advancedFields}">
-                        <div class="col-md-7 gumga-crud-search">
-                            <button ng-click="search.showAdvanced = !search.showAdvanced" class="btn btn-default btn-switch-filters">
-                                {{search.showAdvanced ? "Avan&ccedil;ada" : "Simples"}} :
+                        <div class="col-md-7 gumga-crud-search-simple">
+                            <gumga:search on-search="ctrl.search($text, $fields)" search-text="search.text" select-fields="search.fields" ng-disabled="search.showAdvanced" >
+                                <jsp:invoke fragment="searchFields" />
+                            </gumga:search>
+                            <button type="button" btn-checkbox ng-model="search.showAdvanced" class="btn btn-default btn-switch-filters" tooltip="Pesquisa avan&ccedil;ada">
+                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                             </button>
-                            <div ng-show="!search.showAdvanced" class="gumga-crud-search-type">
-                                <gumga:search on-search="ctrl.search($text, $fields)" search-text="search.text" select-fields="search.fields">
-                                    <jsp:invoke fragment="searchFields" />
-                                </gumga:search>
-                            </div>
-                            <div ng-show="search.showAdvanced" class="gumga-crud-search-type">
-                                <gumga:filter ng-model="search.advanced" size="sm">
-                                    <jsp:invoke fragment="advancedFields" />
-                                </gumga:filter>
-                                <button class="btn btn-primary btn-search" type="submit" ng-click="ctrl.advancedSearch(search.advanced)">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </button>
+                        </div>
+                        <div class="col-md-12" ng-show="search.showAdvanced">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Pesquisa avan&ccedil;ada</div>
+                                <div class="panel-body">
+                                    <gumga:filter ng-model="search.advanced" size="sm">
+                                        <jsp:invoke fragment="advancedFields" />
+                                    </gumga:filter>
+                                    <button class="btn btn-primary btn-search" type="submit" ng-click="ctrl.advancedSearch(search.advanced)">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </c:when>
