@@ -53,10 +53,10 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">Pesquisa avan&ccedil;ada</div>
                                 <div class="panel-body">
-                                    <gumga:filter ng-model="search.advanced" size="sm">
+                                    <gumga:filter ng-model="search.advanced" size="sm" is-open="search.isAdvancedOpen">
                                         <jsp:invoke fragment="advancedFields" />
                                     </gumga:filter>
-                                    <button class="btn btn-primary btn-search" type="submit" ng-click="ctrl.advancedSearch(search.advanced)">
+                                    <button class="btn btn-primary btn-search" type="submit" ng-click="ctrl.advancedSearch(search.advanced)" ng-disabled="search.isAdvancedOpen">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </div>
