@@ -6,7 +6,7 @@ import java.io.Serializable;
  *
  * @author munif
  */
-public class GumgaDomain implements Serializable{
+public class GumgaDomain implements Serializable, Cloneable{
     
     
     

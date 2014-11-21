@@ -5,45 +5,46 @@
  */
 package gumga.framework.domain.domains.usertypes;
 
-import gumga.framework.domain.domains.GumgaHorario;
+import gumga.framework.domain.domains.GumgaImage;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.type.BinaryType;
 import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.hibernate.type.Type;
 import org.hibernate.usertype.CompositeUserType;
 
 /**
- * Permite armazenar um horário com hora, minuto e segundo em atributos
- * separados
  *
  * @author munif
  */
-public class GumgaHorarioUserType implements CompositeUserType {
+public class GumgaImageUserType implements CompositeUserType {
 
     @Override
     public String[] getPropertyNames() {
-        return new String[]{"hora", "minuto", "segundo"};
+        return new String[]{"name", "size", "mimeType", "bytes"};
     }
 
     @Override
     public Type[] getPropertyTypes() {
-        return new Type[]{IntegerType.INSTANCE, IntegerType.INSTANCE, IntegerType.INSTANCE};
+        return new Type[]{StringType.INSTANCE, IntegerType.INSTANCE, StringType.INSTANCE, BinaryType.INSTANCE};
     }
 
     @Override
     public Object getPropertyValue(final Object component, final int property) throws HibernateException {
         switch (property) {
             case 0:
-                return ((GumgaHorario) component).getHora();
+                return ((GumgaImage) component).getName();
             case 1:
-                return ((GumgaHorario) component).getMinuto();
+                return ((GumgaImage) component).getSize();
             case 2:
-                return ((GumgaHorario) component).getSegundo();
+                return ((GumgaImage) component).getMimeType();
+            case 3:
+                return ((GumgaImage) component).getBytes();
         }
         return null;
     }
@@ -52,17 +53,19 @@ public class GumgaHorarioUserType implements CompositeUserType {
     public void setPropertyValue(final Object component, final int property, final Object setValue) throws HibernateException {
         switch (property) {
             case 0:
-                ((GumgaHorario) component).setHora((Integer) setValue);
+                ((GumgaImage) component).setName((String) setValue);
             case 1:
-                ((GumgaHorario) component).setMinuto((Integer) setValue);
+                ((GumgaImage) component).setSize((long) setValue);
             case 2:
-                ((GumgaHorario) component).setSegundo((Integer) setValue);
+                ((GumgaImage) component).setMimeType((String) setValue);
+            case 3:
+                ((GumgaImage) component).setBytes((byte[]) setValue);
         }
     }
 
     @Override
     public Class returnedClass() {
-        return GumgaHorario.class;
+        return GumgaImage.class;
     }
 
     @Override
@@ -90,13 +93,13 @@ public class GumgaHorarioUserType implements CompositeUserType {
             final SessionImplementor paramSessionImplementor, final Object paramObject)
             throws HibernateException, SQLException {
         //owner here is of type TestUser or the actual owning Object
-        GumgaHorario gumgaHorario = null;
-        final Integer hora = resultSet.getInt(names[0]);
+        GumgaImage object = null;
+        final String name = resultSet.getString(names[0]);
         //Deferred check after first read
         if (!resultSet.wasNull()) {
-            gumgaHorario = new GumgaHorario(hora, resultSet.getInt(names[1]), resultSet.getInt(names[2]));
+            object = new GumgaImage(name, resultSet.getLong(names[1]), resultSet.getString(names[2]), resultSet.getBytes(names[3]));
         }
-        return gumgaHorario;
+        return object;
     }
 
     /**
@@ -109,14 +112,16 @@ public class GumgaHorarioUserType implements CompositeUserType {
             final SessionImplementor sessionImplementor)
             throws HibernateException, SQLException {
         if (null == value) {
-            preparedStatement.setNull(property, java.sql.Types.INTEGER);
+            preparedStatement.setNull(property + 0, java.sql.Types.VARCHAR);
             preparedStatement.setNull(property + 1, java.sql.Types.INTEGER);
-            preparedStatement.setNull(property + 2, java.sql.Types.INTEGER);
+            preparedStatement.setNull(property + 2, java.sql.Types.VARCHAR);
+            preparedStatement.setNull(property + 3, java.sql.Types.VARBINARY);
         } else {
-            final GumgaHorario horario = (GumgaHorario) value;
-            preparedStatement.setInt(property, horario.getHora());
-            preparedStatement.setInt(property + 1, horario.getMinuto());
-            preparedStatement.setInt(property + 2, horario.getSegundo());
+            final GumgaImage object = (GumgaImage) value;
+            preparedStatement.setString(property + 0, object.getName());
+            preparedStatement.setLong(property + 1, object.getSize());
+            preparedStatement.setString(property + 2, object.getMimeType());
+            preparedStatement.setBytes(property + 3, object.getBytes());
         }
     }
 
@@ -126,9 +131,9 @@ public class GumgaHorarioUserType implements CompositeUserType {
     @Override
     public Object deepCopy(final Object value) throws HibernateException {
 //        return value; if object was immutable we could return the object as its is
-        final GumgaHorario recievedParam = (GumgaHorario) value;
-        final GumgaHorario auditData = new GumgaHorario(recievedParam);        
-        return auditData;
+        final GumgaImage recebido = (GumgaImage) value;
+        final GumgaImage aRetornar = new GumgaImage(recebido);
+        return aRetornar;
     }
 
     @Override
@@ -170,5 +175,4 @@ public class GumgaHorarioUserType implements CompositeUserType {
         //For mutable types at bare minimum return a deep copy of first argument
         return this.deepCopy(original);
     }
-
 }

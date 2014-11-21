@@ -3,8 +3,8 @@ package gumga.framework.domain;
 import java.io.Serializable;
 
 import gumga.framework.core.GumgaIdable;
-import gumga.framework.domain.domains.GumgaHorario;
-import gumga.framework.domain.domains.usertypes.GumgaHorarioUserType;
+import gumga.framework.domain.domains.*;
+import gumga.framework.domain.domains.usertypes.*;
 import java.util.Objects;
 
 import javax.persistence.GeneratedValue;
@@ -18,7 +18,22 @@ import org.hibernate.annotations.TypeDefs;
 
 @MappedSuperclass
 @TypeDefs({
-    @TypeDef(name = "horario", defaultForType = GumgaHorario.class, typeClass = GumgaHorarioUserType.class)
+    @TypeDef(name = "gumgaaddress", defaultForType = GumgaAddress.class, typeClass = GumgaAddressUserType.class),
+    @TypeDef(name = "gugmaboolean", defaultForType = GumgaBoolean.class, typeClass = GumgaBooleanUserType.class),
+    @TypeDef(name = "gumgacep", defaultForType = GumgaCEP.class, typeClass = GumgaCEPUserType.class),
+    @TypeDef(name = "gumgacnpj", defaultForType = GumgaCNPJ.class, typeClass = GumgaCNPJUserType.class),
+    @TypeDef(name = "gumgacpf", defaultForType = GumgaCPF.class, typeClass = GumgaCPFUserType.class),
+    @TypeDef(name = "gumgaemail", defaultForType = GumgaEMail.class, typeClass = GumgaEMailUserType.class),
+    @TypeDef(name = "gumgafile", defaultForType = GumgaFile.class, typeClass = GumgaFileUserType.class),
+    @TypeDef(name = "gumgageolocation", defaultForType = GumgaGeoLocation.class, typeClass = GumgaGeoLocationUserType.class),
+    @TypeDef(name = "gumgaip4", defaultForType = GumgaIP4.class, typeClass = GumgaIP4UserType.class),
+    @TypeDef(name = "gumgaip6", defaultForType = GumgaIP6.class, typeClass = GumgaIP6UserType.class),
+    @TypeDef(name = "gumgaimage", defaultForType = GumgaImage.class, typeClass = GumgaImageUserType.class),
+    @TypeDef(name = "gumgamoney", defaultForType = GumgaMoney.class, typeClass = GumgaMoneyUserType.class),
+    @TypeDef(name = "gumgamutilinestring", defaultForType = GumgaMultiLineString.class, typeClass = GumgaMultiLineStringUserType.class),
+    @TypeDef(name = "gumgaphonenumber", defaultForType = GumgaPhoneNumber.class, typeClass = GumgaPhoneNumberUserType.class),
+    @TypeDef(name = "gumgatime", defaultForType = GumgaTime.class, typeClass = GumgaTimeUserType.class),
+    @TypeDef(name = "gumgaurl", defaultForType = GumgaURL.class, typeClass = GumgaURLUserType.class)
 })
 public class GumgaModel<ID extends Serializable> implements GumgaIdable<ID> {
 
