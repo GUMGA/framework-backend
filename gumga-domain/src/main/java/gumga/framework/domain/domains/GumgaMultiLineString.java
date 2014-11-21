@@ -11,8 +11,9 @@ import java.util.Objects;
  *
  * @author munif
  */
-public class GumgaMultiLineString extends GumgaDomain{
-     private String value;
+public class GumgaMultiLineString extends GumgaDomain {
+
+    private String value;
 
     public GumgaMultiLineString() {
     }
@@ -22,7 +23,9 @@ public class GumgaMultiLineString extends GumgaDomain{
     }
 
     public GumgaMultiLineString(GumgaMultiLineString other) {
-        this.value = other.value;
+        if (other != null) {
+            this.value = other.value;
+        }
     }
 
     public String getValue() {

@@ -11,8 +11,8 @@ import java.util.Objects;
  *
  * @author munif
  */
-public class GumgaCNPJ extends GumgaDomain{
-    
+public class GumgaCNPJ extends GumgaDomain {
+
     private String value;
 
     public GumgaCNPJ() {
@@ -23,7 +23,9 @@ public class GumgaCNPJ extends GumgaDomain{
     }
 
     public GumgaCNPJ(GumgaCNPJ other) {
-        this.value = other.value;
+        if (other != null) {
+            this.value = other.value;
+        }
     }
 
     public String getValue() {

@@ -10,9 +10,9 @@ package gumga.framework.domain.domains;
  * @author munif
  */
 public class GumgaBoolean extends GumgaDomain {
-    
-    private static final String TRUE_LABEL="verdadeiro"; //Poderia ser GREEN_LABEL
-    private static final String FALSE_LABEL="falso"; //Poderia ser RED_LABEL
+
+    private static final String TRUE_LABEL = "verdadeiro"; //Poderia ser GREEN_LABEL
+    private static final String FALSE_LABEL = "falso"; //Poderia ser RED_LABEL
 
     private boolean value;
 
@@ -24,7 +24,9 @@ public class GumgaBoolean extends GumgaDomain {
     }
 
     public GumgaBoolean(GumgaBoolean other) {
-        this.value = other.value;
+        if (other != null) {
+            this.value = other.value;
+        }
     }
 
     public boolean is() {
@@ -67,7 +69,7 @@ public class GumgaBoolean extends GumgaDomain {
 
     @Override
     public String toString() {
-        return value?TRUE_LABEL:FALSE_LABEL;
+        return value ? TRUE_LABEL : FALSE_LABEL;
     }
 
 }

@@ -11,8 +11,9 @@ import java.util.Objects;
  *
  * @author munif
  */
-public class GumgaPhoneNumber extends GumgaDomain{
-     private String value;
+public class GumgaPhoneNumber extends GumgaDomain {
+
+    private String value;
 
     public GumgaPhoneNumber() {
     }
@@ -22,7 +23,9 @@ public class GumgaPhoneNumber extends GumgaDomain{
     }
 
     public GumgaPhoneNumber(GumgaPhoneNumber other) {
-        this.value = other.value;
+        if (other != null) {
+            this.value = other.value;
+        }
     }
 
     public String getValue() {

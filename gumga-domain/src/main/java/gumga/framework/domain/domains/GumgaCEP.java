@@ -23,7 +23,9 @@ public class GumgaCEP extends GumgaDomain {
     }
 
     public GumgaCEP(GumgaCEP other) {
-        this.value = other.value;
+        if (other != null) {
+            this.value = other.value;
+        }
     }
 
     public String getValue() {

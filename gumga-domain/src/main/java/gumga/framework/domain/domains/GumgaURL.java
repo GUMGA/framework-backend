@@ -14,7 +14,9 @@ public class GumgaURL extends GumgaDomain {
     }
 
     public GumgaURL(GumgaURL other) {
-        this.value = other.value;
+        if (other != null) {
+            this.value = other.value;
+        }
     }
 
     public String getValue() {

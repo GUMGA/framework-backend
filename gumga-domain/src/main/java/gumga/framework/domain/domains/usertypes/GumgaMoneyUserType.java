@@ -22,7 +22,7 @@ public class GumgaMoneyUserType extends MutableUserType {
 
     @Override
     public int[] sqlTypes() {
-        return new int[]{Types.DECIMAL};
+        return new int[]{Types.DOUBLE};
     }
 
     @Override

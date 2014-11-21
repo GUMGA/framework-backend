@@ -63,7 +63,6 @@ public class GumgaMoney extends GumgaDomain {
     @Override
     public String toString() {
         if (value != null) {
-            
             return value.setScale(2, RoundingMode.UP).toString();
         }
         return "NAN";

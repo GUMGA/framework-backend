@@ -7,7 +7,6 @@ package gumga.framework.domain.domains;
 
 import java.util.Objects;
 
-
 /**
  *
  * @author munif
@@ -24,7 +23,9 @@ public class GumgaCPF extends GumgaDomain {
     }
 
     public GumgaCPF(GumgaCPF other) {
-        this.value = other.value;
+        if (other != null) {
+            this.value = other.value;
+        }
     }
 
     public String getValue() {
@@ -61,6 +62,5 @@ public class GumgaCPF extends GumgaDomain {
     public String toString() {
         return value;
     }
-
 
 }

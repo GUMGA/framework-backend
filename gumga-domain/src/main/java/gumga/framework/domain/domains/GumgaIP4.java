@@ -11,8 +11,9 @@ import java.util.Objects;
  *
  * @author munif
  */
-public class GumgaIP4 extends GumgaDomain{
-     private String value;
+public class GumgaIP4 extends GumgaDomain {
+
+    private String value;
 
     public GumgaIP4() {
     }
@@ -22,7 +23,9 @@ public class GumgaIP4 extends GumgaDomain{
     }
 
     public GumgaIP4(GumgaIP4 other) {
-        this.value = other.value;
+        if (other != null) {
+            this.value = other.value;
+        }
     }
 
     public String getValue() {

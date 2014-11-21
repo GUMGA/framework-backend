@@ -23,7 +23,9 @@ public class GumgaEMail extends GumgaDomain {
     }
 
     public GumgaEMail(GumgaEMail other) {
-        this.value = other.value;
+        if (other != null) {
+            this.value = other.value;
+        }
     }
 
     public String getValue() {
