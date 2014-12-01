@@ -1,6 +1,8 @@
 package gumga.framework.core;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class SearchResult<T> {
 
@@ -9,11 +11,15 @@ public class SearchResult<T> {
 	private final int start;
 	private final List<T> values;
 	
+	public SearchResult(int start, int pageSize, Number count, List<T> data) {
+        this.start = start;
+        this.pageSize = pageSize;
+        this.count = count.longValue();
+        this.values = data;
+    }
+
 	public SearchResult(QueryObject query, Number count, List<T> data) {
-		this.pageSize = query.getPageSize();
-		this.count = count.longValue();
-		this.start = query.getStart();
-		this.values = data;
+        this(query.getStart(), query.getPageSize(), count, data);
 	}
 
 	public int getPageSize() {
@@ -27,6 +33,17 @@ public class SearchResult<T> {
 	public int getStart() {
 		return start;
 	}
+
+    /**
+     * Transforma o resultado da pesquisa em outro tipo de objeto
+     *
+     * @param fn
+     * @param <A>
+     * @return
+     */
+    public <A> SearchResult<A> map(Function<? super T, A> fn) {
+        return new SearchResult<>(start, pageSize, count, values.stream().map(fn).collect(Collectors.toList()));
+    }
 
 	public List<T> getValues() {
 		return values;
