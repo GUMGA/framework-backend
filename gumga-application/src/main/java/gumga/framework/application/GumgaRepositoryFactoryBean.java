@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.EntityManager;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean;
@@ -37,7 +38,7 @@ public class GumgaRepositoryFactoryBean<R extends JpaRepository<T, I>, T, I exte
 			Class<?> domainClass = metadata.getDomainType();
 			
 			if (isQueryDslExecutor(repositoryInterface)) 
-				return new GumgaQueryDSLRepositoryImpl<>(JpaEntityInformationSupport.getMetadata(domainClass, entityManager), entityManager);
+				return new GumgaQueryDSLRepositoryImpl<>((JpaEntityInformation<?, Serializable>) JpaEntityInformationSupport.getMetadata(domainClass, entityManager), entityManager);
 			
 			return new GumgaGenericRepository(JpaEntityInformationSupport.getMetadata(domainClass, entityManager), entityManager);
 		}

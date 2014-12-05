@@ -30,6 +30,9 @@
 <link rel="stylesheet" href="<c:url value='${gumgaProperties.path}/static/styles/main.css' />" />
 <link rel="stylesheet" href="<c:url value='${gumgaProperties.path}/static/styles/gumga.css' />" />
 
+<link rel="stylesheet" href="<c:url value='${gumgaProperties.path}/static/styles/tree-control.css' />" />
+<link rel="stylesheet" href="<c:url value='${gumgaProperties.path}/static/styles/tree-control-attribute.css' />" />
+
 <jsp:invoke fragment="styles" />
 
 </head>
@@ -90,6 +93,7 @@
     <script src="<c:url value='${gumgaProperties.path}/static/scripts/vendor/require.js' />"></script>
     <script src="<c:url value='${gumgaProperties.path}/static/scripts/config.js' />"></script>
     <script src="<c:url value='${gumgaProperties.path}/static/scripts/app-config.js' />"></script>
+    
 	<script>
     	requirejs.config({ baseUrl: '${path}/static/scripts/' });
     	
