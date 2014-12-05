@@ -20,21 +20,24 @@ import com.google.common.io.CharStreams;
 
 public class MenuReader {
 
-	private static Logger logger = Logger.getLogger(MenuReader.class.getCanonicalName());
+	private static Logger logger = Logger.getLogger(MenuReader.class
+			.getCanonicalName());
 
 	public static Menu loadMenu() throws IOException {
 		return digesterMenu(loadMenuFile());
 	}
 
 	private static List<String> loadMenuFile() throws IOException {
-		InputStream menuStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("menu.config");
+		InputStream menuStream = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("menu.config");
 
 		if (menuStream == null) {
 			logger.warning("menu.config não encontrado, o menu não será carregado.");
 			return Collections.emptyList();
 		}
 
-		return CharStreams.readLines(new InputStreamReader(menuStream, "UTF-8"));
+		return CharStreams
+				.readLines(new InputStreamReader(menuStream, "UTF-8"));
 	}
 
 	public static Menu digesterMenu(List<String> menuOptions) {
@@ -54,16 +57,20 @@ public class MenuReader {
 		String replaced = menuOption.replace("\t", "");
 		int level = menuOption.length() - replaced.length();
 
-		String label = replaced.contains("{") ? replaced.substring(0, replaced.indexOf("{") - 1) : replaced;
+		String label = replaced.contains("{") ? replaced.substring(0,
+				replaced.indexOf("{") - 1) : replaced;
 		String url = properties.get("url");
 		String id = properties.get("id");
 		String clazz = properties.get("class");
 
-		MenuComponent item = (url != null) ? new MenuItem(label, url) : new MenuGrupo(label);
+		MenuComponent item = (url != null) ? new MenuItem(label, url)
+				: new MenuGrupo(label);
 
 		item.setLevel(level);
-        if (id != null) item.setId(id);
-        if (clazz != null) item.setClazz(clazz);
+		if (id != null)
+			item.setId(id);
+		if (clazz != null)
+			item.setClazz(clazz);
 
 		return item;
 	}
