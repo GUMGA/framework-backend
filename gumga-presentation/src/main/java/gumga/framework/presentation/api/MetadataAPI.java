@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/metadata/")
+@RequestMapping("/public/metadata/")
 public class MetadataAPI {
 
     @RequestMapping("describe/{classe}")
     public GumgaEntityMetadata describe(@PathVariable String classe) {
         try {
-            Class clazz = Class.forName("br.com.empresa.piloto2.domain.model." + classe);
+            Class clazz = Class.forName("br.com.gumga.login.domain.model." + classe);
             GumgaEntityMetadata gem = new GumgaEntityMetadata(clazz);
             return gem;
         } catch (ClassNotFoundException ex) {
