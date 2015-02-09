@@ -43,9 +43,9 @@ public class GumgaFilterUserData implements Filter {
         long beginTime = System.currentTimeMillis();
         String token = "no token";
         String info = "no info";
+        HttpServletRequest hsq = (HttpServletRequest) sr;
+        HttpServletResponse response = (HttpServletResponse) sr1;
         try {
-            HttpServletRequest hsq = (HttpServletRequest) sr;
-            HttpServletResponse response = (HttpServletResponse) sr1;
             token = hsq.getHeader("gumgaToken");
             String endPoint = hsq.getRequestURL().toString();
             String method = hsq.getMethod();
@@ -55,7 +55,7 @@ public class GumgaFilterUserData implements Filter {
 
             info = "from:" + user.get() + "@" + ip.get() + " to " + method + "->" + endPoint;
 
-            String url = "http://localhost:8084/gumgasecurity-presentation/public/token/auth/" + token + "/" + (endPoint.replace("/", "|")) + "/" + method;
+            String url = "http://localhost/gumgasecurity/public/token/authorize/" + token + "/" + (endPoint.replace("/", "|")) + "/" + method;
 //            System.out.println(url);
 
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
@@ -67,8 +67,9 @@ public class GumgaFilterUserData implements Filter {
                 response.getOutputStream().write("Not authorized".getBytes());
 
             }
-        } catch (ClassCastException ex) {
-            //Ignore
+        } catch (Exception ex) {
+            response.setStatus(500);
+            response.getOutputStream().write("Error on server".getBytes());
         } finally {
 
         }
@@ -81,5 +82,4 @@ public class GumgaFilterUserData implements Filter {
 
     }
 
-    
 }
