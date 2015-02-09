@@ -55,8 +55,8 @@ public class GumgaFilterUserData implements Filter {
 
             info = "from:" + user.get() + "@" + ip.get() + " to " + method + "->" + endPoint;
 
-            String url = "http://localhost/gumgasecurity/public/token/authorize/" + token + "/" + (endPoint.replace("/", "|")) + "/" + method;
-//            System.out.println(url);
+            String url = "http://localhost:8084/gumgasecurity-presentation/public/token/authorize/" + token + "/" + (endPoint.replace("/", "|")) + "/" + method;
+            System.out.println(url);
 
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
 
