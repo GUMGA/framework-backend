@@ -19,6 +19,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
+    private final String softwareId;
+
     private final RestTemplate restTemplate;
 
     private final String GUMGASECURITY_AUTORIZE_ENDPOINT = "http://localhost:8084/gumgasecurity-presentation/public/token/authorize";
@@ -37,6 +39,12 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     }
 
     public GumgaRequestFilter() {
+        softwareId = "SomeSoftware";
+        restTemplate = new RestTemplate();
+    }
+
+    public GumgaRequestFilter(String si) {
+        softwareId = si;
         restTemplate = new RestTemplate();
     }
 
@@ -75,7 +83,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 operationKey = methodAnnotation.value();
             }
 
-            String url = GUMGASECURITY_AUTORIZE_ENDPOINT + "/" + token + "/" + operationKey + "/" + requset.getRemoteAddr().replace('.', '_');
+            String url = GUMGASECURITY_AUTORIZE_ENDPOINT + "/" + softwareId + "/" + token + "/" + operationKey + "/" + requset.getRemoteAddr().replace('.', '_');
 
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
