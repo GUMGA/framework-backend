@@ -23,7 +23,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
     private final String GUMGASECURITY_AUTORIZE_ENDPOINT = "http://localhost:8084/gumgasecurity-presentation/public/token/authorize";
 
-    @Autowired
+    @Autowired(required = false)
     private ApiOperationTranslator aot = new ApiOperationTranslator() {
 
         @Override
