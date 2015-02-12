@@ -5,6 +5,7 @@
  */
 package gumga.framework.security;
 
+import gumga.framework.core.GumgaThreadScope;
 import java.lang.annotation.Annotation;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

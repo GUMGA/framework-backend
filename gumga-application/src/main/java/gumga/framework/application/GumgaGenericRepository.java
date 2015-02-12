@@ -1,123 +1,139 @@
 package gumga.framework.application;
 
+import gumga.framework.core.GumgaThreadScope;
 import static org.hibernate.criterion.Order.asc;
 import static org.hibernate.criterion.Order.desc;
 import static org.hibernate.criterion.Projections.rowCount;
 import static org.hibernate.criterion.Restrictions.or;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
+import gumga.framework.domain.GumgaObjectAndRevision;
+import gumga.framework.domain.GumgaRevisionEntity;
 import gumga.framework.domain.HibernateQueryObject;
 import gumga.framework.domain.Pesquisa;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import org.aspectj.lang.reflect.DeclareAnnotation;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.support.CrudMethodMetadata;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
 public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements GumgaCrudRepository<T, ID> {
-    
+
     private final JpaEntityInformation<T, ID> entityInformation;
     private final EntityManager entityManager;
-    
+
     public GumgaGenericRepository(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityManager = entityManager;
         this.entityInformation = entityInformation;
     }
-    
+
     @Override
     public SearchResult<T> pesquisa(QueryObject query) {
-        
+
         if (query.isAdvanced()) {
             return advancedSearch(query);
         }
-        
+
         Long count = count(query);
         List<T> data = getOrdered(query);
-        
+
         return new SearchResult<T>(query, count, data);
     }
-    
+
     private List<T> getOrdered(QueryObject query) {
         Pesquisa<T> pesquisa = getPesquisa(query);
         String sortField = query.getSortField();
         String sortType = query.getSortDir();
-        
+
         if (!sortField.isEmpty()) {
             createAliasIfNecessary(pesquisa, sortField);
             pesquisa.addOrder(sortType.equals("asc") ? asc(sortField).ignoreCase() : desc(sortField).ignoreCase());
         }
-        
+
         return pesquisa.setFirstResult(query.getStart()).setMaxResults(query.getPageSize()).list();
     }
-    
+
     private Long count(QueryObject query) {
         Object uniqueResult = getPesquisa(query).setProjection(rowCount()).uniqueResult();
         return uniqueResult == null ? 0L : ((Number) uniqueResult).longValue();
     }
-    
+
     private Pesquisa<T> getPesquisa(QueryObject query) {
         if (query.getSearchFields() != null && query.getSearchFields().length == 0) {
             throw new IllegalArgumentException("Para realizar a pesquisa deve se informar pelo menos um campo a ser pesquisado.");
         }
-        
+
         Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(entityInformation.getJavaType());
         Pesquisa<T> pesquisa = pesquisa().add(or(fieldsCriterions));
-        
+
         if (query.getSearchFields() != null) {
             for (String field : query.getSearchFields()) {
                 createAliasIfNecessary(pesquisa, field);
             }
         }
-        
+
         return pesquisa;
     }
-    
+
     private void createAliasIfNecessary(Pesquisa<T> pesquisa, String field) {
         String[] chain = field.split("\\.");
-        
+
         if (chain.length <= 1) {
             return;
         }
         if (pesquisa.getAliases().contains(chain[0])) {
             return;
         }
-        
+
         pesquisa.createAlias(chain[0], chain[0]);
         pesquisa.addAlias(chain[0]);
     }
-    
+
     @Override
     public Pesquisa<T> pesquisa() {
         return Pesquisa.createCriteria(session(), entityInformation.getJavaType());
     }
-    
+
     @Override
     public T findOne(ID id) {
         T resource = super.findOne(id);
-        
+
         if (resource == null) {
             throw new EntityNotFoundException("cannot find " + entityInformation.getJavaType() + " with id: " + id);
         }
-        
+
         return resource;
     }
-    
+
     private Session session() {
         return entityManager.unwrap(Session.class);
     }
-    
+
     private SearchResult<T> advancedSearch(QueryObject query) {
         String modelo = "from %s obj WHERE %s";
         String hqlConsulta = "";
@@ -137,7 +153,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         List resultList = qConsulta.getResultList();
         return new SearchResult<T>(query, total, resultList);
     }
-    
+
     public SearchResult<T> hqlSearch(String hql, Map<String, Object> params) {
         Query query = entityManager.createQuery(hql);
         if (params != null) {
@@ -149,5 +165,171 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         int total = result.size();
         return new SearchResult<T>(0, total, total, result);
     }
-    
+
+    @Override
+    protected TypedQuery<Long> getCountQuery(Specification<T> spec) {
+        return super.getCountQuery(spec); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected TypedQuery<T> getQuery(Specification<T> spec, Sort sort) {
+        return super.getQuery(spec, sort); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected TypedQuery<T> getQuery(Specification<T> spec, Pageable pageable) {
+        return super.getQuery(spec, pageable); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected Page<T> readPage(TypedQuery<T> query, Pageable pageable, Specification<T> spec) {
+        return super.readPage(query, pageable, spec); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void flush() {
+        super.flush(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <S extends T> List<S> save(Iterable<S> entities) {
+        return super.save(entities); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <S extends T> S saveAndFlush(S entity) {
+        return super.saveAndFlush(entity); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <S extends T> S save(S entity) {
+        setOi(entity);
+        return super.save(entity); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public long count(Specification<T> spec) {
+        return super.count(spec); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public long count() {
+        return super.count(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<T> findAll(Specification<T> spec, Sort sort) {
+        return super.findAll(spec, sort); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Page<T> findAll(Specification<T> spec, Pageable pageable) {
+        return super.findAll(spec, pageable); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<T> findAll(Specification<T> spec) {
+        return super.findAll(spec); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public T findOne(Specification<T> spec) {
+        return super.findOne(spec); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Page<T> findAll(Pageable pageable) {
+        return super.findAll(pageable); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<T> findAll(Sort sort) {
+        return super.findAll(sort); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<T> findAll(Iterable<ID> ids) {
+        return super.findAll(ids); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<T> findAll() {
+        return super.findAll(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean exists(ID id) {
+        return super.exists(id); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public T getOne(ID id) {
+        return super.getOne(id); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteAllInBatch() {
+        super.deleteAllInBatch(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteAll() {
+        super.deleteAll(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteInBatch(Iterable<T> entities) {
+        super.deleteInBatch(entities); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void delete(Iterable<? extends T> entities) {
+        super.delete(entities); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void delete(T entity) {
+        super.delete(entity); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void delete(ID id) {
+        super.delete(id); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected Class<T> getDomainClass() {
+        return super.getDomainClass(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setRepositoryMethodMetadata(CrudMethodMetadata crudMethodMetadata) {
+        super.setRepositoryMethodMetadata(crudMethodMetadata); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private <S extends T> void setOi(S entity) {
+        try {
+            Method mGet = entity.getClass().getMethod("getOi");
+            Method mSet = entity.getClass().getMethod("setOi", String.class);
+            Object oi = mGet.invoke(entity);
+            System.out.println("--------------------------->" + oi);
+            mSet.invoke(entity, GumgaThreadScope.organizationCode.get());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @Override
+    public List<GumgaObjectAndRevision> listOldVersions(ID id) {
+        List<GumgaObjectAndRevision> aRetornar = new ArrayList<>();
+        AuditReader ar = AuditReaderFactory.get(entityManager);
+        List<Number> revisoes = ar.getRevisions(entityInformation.getJavaType(), id);
+        for (Number n : revisoes) {
+            GumgaRevisionEntity gumgaRevisionEntity = entityManager.find(GumgaRevisionEntity.class, n.longValue());
+            T object = ar.find(entityInformation.getJavaType(), id, n.longValue());
+            aRetornar.add(new GumgaObjectAndRevision(gumgaRevisionEntity, object));
+        }
+        return aRetornar;
+    }
+
 }

@@ -5,10 +5,8 @@
  */
 package gumga.framework.domain;
 
-import java.util.Date;
+import gumga.framework.core.GumgaThreadScope;
 import org.hibernate.envers.RevisionListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -16,28 +14,11 @@ import org.springframework.stereotype.Component;
  */
 public class GumgaRevisionListener implements RevisionListener {
 
-    private static GumgaUserDataQueryable gudq = new GumgaUserDataQueryable() {
-
-        @Override
-        public String getIp() {
-            return "unknow";
-        }
-
-        @Override
-        public String getLogin() {
-            return "unknow";
-        }
-    };
-
-    public static void setGudq(GumgaUserDataQueryable g) {
-        gudq = g;
-    }
-
     @Override
     public void newRevision(Object o) {
         GumgaRevisionEntity gre = (GumgaRevisionEntity) o;
-        gre.setUserLogin(gudq.getLogin());
-        gre.setIp(gudq.getIp());
+        gre.setUserLogin(GumgaThreadScope.login.get());
+        gre.setIp(GumgaThreadScope.ip.get());
     }
 
 }

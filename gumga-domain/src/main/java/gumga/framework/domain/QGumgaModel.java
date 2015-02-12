@@ -8,7 +8,7 @@ import com.mysema.query.types.Path;
 import com.mysema.query.types.PathMetadata;
 import com.mysema.query.types.path.EntityPathBase;
 import com.mysema.query.types.path.SimplePath;
-
+import com.mysema.query.types.path.StringPath;
 
 /**
  * QGumgaModel is a Querydsl query type for GumgaModel
@@ -22,19 +22,21 @@ public class QGumgaModel extends EntityPathBase<GumgaModel<? extends java.io.Ser
 
     public final SimplePath<java.io.Serializable> id = createSimple("id", java.io.Serializable.class);
 
+    public final StringPath oi = createString("oi");
+
     @SuppressWarnings("all")
     public QGumgaModel(String variable) {
-        super((Class)GumgaModel.class, forVariable(variable));
+        super((Class) GumgaModel.class, forVariable(variable));
     }
 
     @SuppressWarnings("all")
     public QGumgaModel(Path<? extends GumgaModel> path) {
-        super((Class)path.getType(), path.getMetadata());
+        super((Class) path.getType(), path.getMetadata());
     }
 
     @SuppressWarnings("all")
     public QGumgaModel(PathMetadata<?> metadata) {
-        super((Class)GumgaModel.class, metadata);
+        super((Class) GumgaModel.class, metadata);
     }
 
 }

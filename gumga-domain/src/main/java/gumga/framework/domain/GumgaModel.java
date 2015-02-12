@@ -41,12 +41,22 @@ public class GumgaModel<ID extends Serializable> implements GumgaIdable<ID> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected ID id;
 
+    private String oi;
+
     public ID getId() {
         return id;
     }
 
     public void setId(ID id) {
         this.id = id;
+    }
+
+    public String getOi() {
+        return oi;
+    }
+
+    public void setOi(String oi) {
+        this.oi = oi;
     }
 
     @Override
