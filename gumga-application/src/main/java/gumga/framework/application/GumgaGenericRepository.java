@@ -331,6 +331,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 

@@ -32,6 +32,7 @@ public class GumgaLog implements GumgaIdable<Long> {
     private String operarationKey;
     private String endPoint;
     private String method;
+    private String oi;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date quando;
 
@@ -129,6 +130,14 @@ public class GumgaLog implements GumgaIdable<Long> {
 
     public void setQuando(Date quando) {
         this.quando = quando;
+    }
+
+    public String getOi() {
+        return oi;
+    }
+
+    public void setOi(String oi) {
+        this.oi = oi;
     }
 
     @Override
