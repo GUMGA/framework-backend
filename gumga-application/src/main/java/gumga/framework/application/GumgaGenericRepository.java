@@ -5,8 +5,11 @@ import static org.hibernate.criterion.Order.asc;
 import static org.hibernate.criterion.Order.desc;
 import static org.hibernate.criterion.Projections.rowCount;
 import static org.hibernate.criterion.Restrictions.or;
+import static org.hibernate.criterion.Restrictions.and;
+import static org.hibernate.criterion.Restrictions.like;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
+import gumga.framework.domain.GumgaMultitenancy;
 import gumga.framework.domain.GumgaObjectAndRevision;
 import gumga.framework.domain.GumgaRevisionEntity;
 import gumga.framework.domain.HibernateQueryObject;
@@ -29,6 +32,8 @@ import org.aspectj.lang.reflect.DeclareAnnotation;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.springframework.data.domain.Page;
@@ -91,6 +96,11 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(entityInformation.getJavaType());
         Pesquisa<T> pesquisa = pesquisa().add(or(fieldsCriterions));
 
+        if (entityInformation.getJavaType().isAnnotationPresent(GumgaMultitenancy.class)) {
+            Criterion multitenancyCriterion = or(like("oi", GumgaThreadScope.organizationCode.get(), MatchMode.START), Restrictions.isNull("oi"));
+            pesquisa.add(multitenancyCriterion);
+        }
+
         if (query.getSearchFields() != null) {
             for (String field : query.getSearchFields()) {
                 createAliasIfNecessary(pesquisa, field);
@@ -136,6 +146,10 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     private SearchResult<T> advancedSearch(QueryObject query) {
         String modelo = "from %s obj WHERE %s";
+        if (entityInformation.getJavaType().isAnnotationPresent(GumgaMultitenancy.class)) {
+            modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + GumgaThreadScope.organizationCode.get() + "%%')  AND (%s) ";
+        }
+
         String hqlConsulta = "";
         if (query.getSortField().isEmpty()) {
             hqlConsulta = String.format(modelo, entityInformation.getEntityName(), query.getAq());
@@ -312,8 +326,9 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
             Method mGet = entity.getClass().getMethod("getOi");
             Method mSet = entity.getClass().getMethod("setOi", String.class);
             Object oi = mGet.invoke(entity);
-            System.out.println("--------------------------->" + oi);
-            mSet.invoke(entity, GumgaThreadScope.organizationCode.get());
+            if (oi == null) {
+                mSet.invoke(entity, GumgaThreadScope.organizationCode.get());
+            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

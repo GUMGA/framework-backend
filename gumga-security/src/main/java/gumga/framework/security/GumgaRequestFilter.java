@@ -5,8 +5,11 @@
  */
 package gumga.framework.security;
 
+import gumga.framework.application.GumgaLogService;
 import gumga.framework.core.GumgaThreadScope;
+import gumga.framework.domain.GumgaLog;
 import java.lang.annotation.Annotation;
+import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     private final RestTemplate restTemplate;
 
     private final String GUMGASECURITY_AUTORIZE_ENDPOINT = "http://localhost:8084/gumgasecurity-presentation/public/token/authorize";
+
+    @Autowired
+    private GumgaLogService gls;
 
     @Autowired(required = false)
     private ApiOperationTranslator aot = new ApiOperationTranslator() {
@@ -93,6 +99,11 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             GumgaThreadScope.organizationCode.set(ar.getOrganizationCode());
             GumgaThreadScope.operationKey.set(operationKey);
 
+            GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
+                    ar.getOrganization(), softwareId, operationKey, endPoint, method);
+
+            gls.save(gl);
+
             //System.out.println("##### GumgaRequestFilter preHandle-----> " + GumgaThreadScope.login.get() + " " + GumgaThreadScope.ip.get() + " " + GumgaThreadScope.organization.get() + " " + GumgaThreadScope.organizationCode.get() + " " + methodAnnotation.value());
             if (ar.isAllowed() || endPoint.contains("public")) {
                 return true;
@@ -116,5 +127,4 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         GumgaThreadScope.organizationCode.remove();
         GumgaThreadScope.operationKey.remove();
     }
-
 }
