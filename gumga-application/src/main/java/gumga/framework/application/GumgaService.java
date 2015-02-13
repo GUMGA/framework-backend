@@ -34,7 +34,6 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
         beforePesquisa(query);
         SearchResult<T> result = repository.pesquisa(query);
         afterPesquisa(result);
-
         return result;
     }
 
