@@ -70,4 +70,9 @@ public class AuthorizatonResponse {
         this.key = key;
     }
 
+    @Override
+    public String toString() {
+        return "AuthorizatonResponse{" + "response=" + response + ", organization=" + organization + ", organizationCode=" + organizationCode + ", login=" + login + ", reason=" + reason + ", key=" + key + '}';
+    }
+
 }

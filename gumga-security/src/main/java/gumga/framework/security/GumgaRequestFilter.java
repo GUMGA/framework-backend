@@ -91,7 +91,6 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             }
 
             String url = GUMGASECURITY_AUTORIZE_ENDPOINT + "/" + softwareId + "/" + token + "/" + operationKey + "/" + requset.getRemoteAddr().replace('.', '_');
-
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(requset.getRemoteAddr());
@@ -104,9 +103,13 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
             gls.save(gl);
 
-            //System.out.println("##### GumgaRequestFilter preHandle-----> " + GumgaThreadScope.login.get() + " " + GumgaThreadScope.ip.get() + " " + GumgaThreadScope.organization.get() + " " + GumgaThreadScope.organizationCode.get() + " " + methodAnnotation.value());
             if (ar.isAllowed() || endPoint.contains("public")) {
                 return true;
+            } else {
+                System.out.println("##### " + url);
+                System.out.println("##### " + ar);
+                System.out.println("##### GumgaRequestFilter preHandle-----> " + GumgaThreadScope.login.get() + " " + GumgaThreadScope.ip.get() + " " + GumgaThreadScope.organization.get() + " " + GumgaThreadScope.organizationCode.get() + " " + operationKey);
+
             }
         } catch (Exception ex) {
             System.out.println("!@#$%*&$#$%*( " + ex.toString());
