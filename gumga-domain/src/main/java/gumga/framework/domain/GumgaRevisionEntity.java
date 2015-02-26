@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
@@ -22,6 +23,7 @@ import org.hibernate.envers.RevisionTimestamp;
  * @author munif
  */
 @Entity
+@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_REVISION_ENTITY")
 @RevisionEntity(GumgaRevisionListener.class)
 public class GumgaRevisionEntity implements Serializable {
 

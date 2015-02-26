@@ -3,9 +3,11 @@ package gumga.framework.application;
 import gumga.framework.domain.GumgaModel;
 
 import javax.persistence.Entity;
+import javax.persistence.SequenceGenerator;
 
 
 @Entity
+@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_CAR")
 public class Car extends GumgaModel<Long> {
 	
 	public Car() {

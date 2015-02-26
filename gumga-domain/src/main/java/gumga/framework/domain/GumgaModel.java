@@ -38,8 +38,9 @@ import org.hibernate.annotations.TypeDefs;
 })
 public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable<ID> {
 
+    public static final String SEQ_NAME = "SEQ";
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = SEQ_NAME)
     protected ID id;
 
     private GumgaOi oi;

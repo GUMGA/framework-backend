@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 
 /**
@@ -21,6 +22,7 @@ import javax.persistence.Temporal;
  * @author munif
  */
 @Entity
+@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_LOG")
 public class GumgaLog implements GumgaIdable<Long> {
 
     @Id
