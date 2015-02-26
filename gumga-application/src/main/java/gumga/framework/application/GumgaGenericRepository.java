@@ -9,26 +9,22 @@ import static org.hibernate.criterion.Restrictions.and;
 import static org.hibernate.criterion.Restrictions.like;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
-import gumga.framework.domain.GumgaMultitenancy;
-import gumga.framework.domain.GumgaObjectAndRevision;
-import gumga.framework.domain.GumgaRevisionEntity;
-import gumga.framework.domain.HibernateQueryObject;
-import gumga.framework.domain.Pesquisa;
+import gumga.framework.domain.*;
+import gumga.framework.domain.domains.GumgaDomain;
+import gumga.framework.domain.domains.GumgaOi;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.aspectj.lang.reflect.DeclareAnnotation;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -58,7 +54,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     }
 
     @Override
-    public SearchResult<T> pesquisa(QueryObject query) {
+    public SearchResult<T> search(QueryObject query) {
 
         if (query.isAdvanced()) {
             return advancedSearch(query);
@@ -90,11 +86,11 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     private Pesquisa<T> getPesquisa(QueryObject query) {
         if (query.getSearchFields() != null && query.getSearchFields().length == 0) {
-            throw new IllegalArgumentException("Para realizar a pesquisa deve se informar pelo menos um campo a ser pesquisado.");
+            throw new IllegalArgumentException("Para realizar a search deve se informar pelo menos um campo a ser pesquisado.");
         }
 
         Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(entityInformation.getJavaType());
-        Pesquisa<T> pesquisa = pesquisa().add(or(fieldsCriterions));
+        Pesquisa<T> pesquisa = search().add(or(fieldsCriterions));
 
         if (entityInformation.getJavaType().isAnnotationPresent(GumgaMultitenancy.class)) {
             Criterion multitenancyCriterion = or(like("oi", GumgaThreadScope.organizationCode.get(), MatchMode.START), Restrictions.isNull("oi"));
@@ -125,7 +121,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     }
 
     @Override
-    public Pesquisa<T> pesquisa() {
+    public Pesquisa<T> search() {
         return Pesquisa.createCriteria(session(), entityInformation.getJavaType());
     }
 
@@ -168,7 +164,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return new SearchResult<T>(query, total, resultList);
     }
 
-    public SearchResult<T> hqlSearch(String hql, Map<String, Object> params) {
+    public SearchResult<T> search(String hql, Map<String, Object> params) {
         Query query = entityManager.createQuery(hql);
         if (params != null) {
             for (String key : params.keySet()) {
@@ -323,11 +319,12 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     private <S extends T> void setOi(S entity) {
         try {
-            Method mGet = entity.getClass().getMethod("getOi");
-            Method mSet = entity.getClass().getMethod("setOi", String.class);
-            Object oi = mGet.invoke(entity);
-            if (oi == null) {
-                mSet.invoke(entity, GumgaThreadScope.organizationCode.get());
+            GumgaModel model = GumgaModel.class.cast(entity);
+
+            if (model.getOi() == null && model.getId() == null) {
+                Field fieldOi = GumgaModel.class.getDeclaredField("oi");
+                fieldOi.setAccessible(true);
+                fieldOi.set(entity, new GumgaOi(GumgaThreadScope.organizationCode.get()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -346,6 +343,26 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
             aRetornar.add(new GumgaObjectAndRevision(gumgaRevisionEntity, object));
         }
         return aRetornar;
+    }
+
+    @Override
+    public <A> SearchResult<A> advancedSearch(String selectQueryWithoutWhere, String countQuery, QueryObject whereQuery) {
+        String modelo = selectQueryWithoutWhere + " WHERE %s";
+        String hqlConsulta;
+        if (whereQuery.getSortField().isEmpty()) {
+            hqlConsulta = String.format(modelo, whereQuery.getAq());
+        } else {
+            hqlConsulta = String.format(modelo + " ORDER BY %s %s", whereQuery.getAq(), whereQuery.getSortField(), whereQuery.getSortDir());
+        }
+        String hqlConta = countQuery + " WHERE " + whereQuery.getAq();
+        Query qConta = entityManager.createQuery(hqlConta);
+        Query qConsulta = entityManager.createQuery(hqlConsulta);
+        Long total = (Long) qConta.getSingleResult();
+        qConsulta.setMaxResults(whereQuery.getPageSize());
+        qConsulta.setFirstResult(whereQuery.getStart());
+        List resultList = qConsulta.getResultList();
+
+        return new SearchResult<A>(whereQuery, total, resultList);
     }
 
 }

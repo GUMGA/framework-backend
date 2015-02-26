@@ -32,7 +32,7 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
     @Transactional(readOnly = true)
     public SearchResult<T> pesquisa(QueryObject query) {
         beforePesquisa(query);
-        SearchResult<T> result = repository.pesquisa(query);
+        SearchResult<T> result = repository.search(query);
         afterPesquisa(result);
         return result;
     }

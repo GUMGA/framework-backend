@@ -6,7 +6,6 @@ import gumga.framework.core.SearchResult;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 import gumga.framework.domain.service.GumgaReadableServiceable;
 import gumga.framework.domain.service.GumgaWritableServiceable;
-import gumga.framework.application.service.AbstractGumgaService;
 
 import java.io.Serializable;
 
@@ -28,7 +27,7 @@ public abstract class GumgaNoDeleteService<T extends GumgaIdable<?>, ID extends 
 	@Transactional(readOnly = true)
 	public SearchResult<T> pesquisa(QueryObject query) {
 		beforePesquisa(query);
-		SearchResult<T> result = repository.pesquisa(query);
+		SearchResult<T> result = repository.search(query);
 		afterPesquisa(result);
 		
 		return result;

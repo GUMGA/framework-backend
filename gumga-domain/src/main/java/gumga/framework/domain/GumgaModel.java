@@ -33,30 +33,31 @@ import org.hibernate.annotations.TypeDefs;
     @TypeDef(name = "gumgamutilinestring", defaultForType = GumgaMultiLineString.class, typeClass = GumgaMultiLineStringUserType.class),
     @TypeDef(name = "gumgaphonenumber", defaultForType = GumgaPhoneNumber.class, typeClass = GumgaPhoneNumberUserType.class),
     @TypeDef(name = "gumgatime", defaultForType = GumgaTime.class, typeClass = GumgaTimeUserType.class),
+    @TypeDef(name = "gumgaoi", defaultForType = GumgaOi.class, typeClass = GumgaOiUserType.class),
     @TypeDef(name = "gumgaurl", defaultForType = GumgaURL.class, typeClass = GumgaURLUserType.class)
 })
-public class GumgaModel<ID extends Serializable> implements GumgaIdable<ID> {
+public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable<ID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected ID id;
 
-    private String oi;
+    private GumgaOi oi;
+
+    public GumgaModel() {
+        // Construtor vazio para serialização
+    }
+
+    public GumgaModel(GumgaOi oi) {
+        this.oi = oi;
+    }
 
     public ID getId() {
         return id;
     }
 
-    public void setId(ID id) {
-        this.id = id;
-    }
-
-    public String getOi() {
+    public GumgaOi getOi() {
         return oi;
-    }
-
-    public void setOi(String oi) {
-        this.oi = oi;
     }
 
     @Override

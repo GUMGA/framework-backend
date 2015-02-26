@@ -6,6 +6,8 @@
 package gumga.framework.domain;
 
 import gumga.framework.core.GumgaIdable;
+import gumga.framework.domain.domains.GumgaOi;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -32,7 +34,7 @@ public class GumgaLog implements GumgaIdable<Long> {
     private String operarationKey;
     private String endPoint;
     private String method;
-    private String oi;
+    private GumgaOi oi;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date quando;
 
@@ -132,11 +134,11 @@ public class GumgaLog implements GumgaIdable<Long> {
         this.quando = quando;
     }
 
-    public String getOi() {
+    public GumgaOi getOi() {
         return oi;
     }
 
-    public void setOi(String oi) {
+    public void setOi(GumgaOi oi) {
         this.oi = oi;
     }
 

@@ -16,12 +16,15 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface GumgaCrudRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, GumgaRepository<T, ID> {
 
-    SearchResult<T> pesquisa(QueryObject query);
+    SearchResult<T> search(QueryObject query);
 
-    Pesquisa<T> pesquisa();
+    Pesquisa<T> search();
 
-    SearchResult<T> hqlSearch(String hql, Map<String, Object> params);
+    SearchResult<T> search(String hql, Map<String, Object> params);
 
     List<GumgaObjectAndRevision> listOldVersions(ID id);
+
+    <A> SearchResult<A> advancedSearch(String selectQueryWithoutWhere, String countObjt, QueryObject whereQuery);
+
 
 }
