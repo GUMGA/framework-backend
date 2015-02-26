@@ -5,12 +5,9 @@
  */
 package gumga.framework.domain;
 
-import gumga.framework.core.GumgaIdable;
 import gumga.framework.domain.domains.GumgaOi;
 
-import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,11 +20,8 @@ import javax.persistence.Temporal;
  */
 @Entity
 @SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_LOG")
-public class GumgaLog implements GumgaIdable<Long> {
+public class GumgaLog extends GumgaModel<Long> {
 
-    @Id
-    @GeneratedValue
-    private Long id;
     private String login;
     private String ip;
     private String organizationCode;
@@ -36,7 +30,6 @@ public class GumgaLog implements GumgaIdable<Long> {
     private String operarationKey;
     private String endPoint;
     private String method;
-    private GumgaOi oi;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date quando;
 
@@ -54,14 +47,6 @@ public class GumgaLog implements GumgaIdable<Long> {
         this.endPoint = endPoint;
         this.method = method;
         this.quando = new Date();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getLogin() {
@@ -134,14 +119,6 @@ public class GumgaLog implements GumgaIdable<Long> {
 
     public void setQuando(Date quando) {
         this.quando = quando;
-    }
-
-    public GumgaOi getOi() {
-        return oi;
-    }
-
-    public void setOi(GumgaOi oi) {
-        this.oi = oi;
     }
 
     @Override

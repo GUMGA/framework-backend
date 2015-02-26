@@ -6,9 +6,10 @@ import javax.annotation.Generated;
 
 import com.mysema.query.types.Path;
 import com.mysema.query.types.PathMetadata;
+import com.mysema.query.types.path.ComparablePath;
 import com.mysema.query.types.path.EntityPathBase;
 import com.mysema.query.types.path.SimplePath;
-import com.mysema.query.types.path.StringPath;
+import gumga.framework.domain.domains.GumgaOi;
 
 /**
  * QGumgaModel is a Querydsl query type for GumgaModel
@@ -22,7 +23,7 @@ public class QGumgaModel extends EntityPathBase<GumgaModel<? extends java.io.Ser
 
     public final SimplePath<java.io.Serializable> id = createSimple("id", java.io.Serializable.class);
 
-    public final StringPath oi = createString("oi");
+    public final ComparablePath oi = createComparable("oi",GumgaOi.class);
 
     @SuppressWarnings("all")
     public QGumgaModel(String variable) {

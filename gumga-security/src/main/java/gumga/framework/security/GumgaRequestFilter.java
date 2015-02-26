@@ -68,6 +68,11 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             String method = requset.getMethod();
             String operationKey = aot.getOperation(endPoint, method);
 
+            if (endPoint.contains("public")) {
+                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public"), requset, "" , endPoint, method);
+                return true;
+            }
+
             if (operationKey.equals("NOOP")) {
                 HandlerMethod hm = (HandlerMethod) o;
                 OperationKey methodAnnotation = hm.getMethodAnnotation(OperationKey.class);
@@ -98,12 +103,9 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             GumgaThreadScope.organizationCode.set(ar.getOrganizationCode());
             GumgaThreadScope.operationKey.set(operationKey);
 
-            GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
-                    ar.getOrganization(), softwareId, operationKey, endPoint, method);
+            saveLog(ar, requset, operationKey, endPoint, method);
 
-            gls.save(gl);
-
-            if (ar.isAllowed() || endPoint.contains("public")) {
+            if (ar.isAllowed()) {
                 return true;
             } else {
                 System.out.println("##### " + url);
@@ -113,6 +115,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             }
         } catch (Exception ex) {
             System.out.println("!@#$%*&$#$%*( " + ex.toString());
+            ex.printStackTrace();
 
         } finally {
 
@@ -120,6 +123,13 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         response.setStatus(401);
         response.getOutputStream().write("Not allowed".getBytes());
         return false;
+    }
+
+    public void saveLog(AuthorizatonResponse ar, HttpServletRequest requset, String operationKey, String endPoint, String method) {
+        GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
+                ar.getOrganization(), softwareId, operationKey, endPoint, method);
+        
+        gls.save(gl);
     }
 
     @Override

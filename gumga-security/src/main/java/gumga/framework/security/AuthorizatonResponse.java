@@ -18,6 +18,20 @@ public class AuthorizatonResponse {
     private String reason;
     private String key;
 
+    public AuthorizatonResponse() {
+    }
+
+    public AuthorizatonResponse(String response, String organization, String organizationCode, String login, String reason, String key) {
+        this.response = response;
+        this.organization = organization;
+        this.organizationCode = organizationCode;
+        this.login = login;
+        this.reason = reason;
+        this.key = key;
+    }
+    
+    
+
     public String getOrganization() {
         return organization;
     }
