@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
  * @author munif
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface OperationKey {
+public @interface GumgaOperationKey {
 
     public String value();
 

@@ -56,28 +56,29 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest requset, HttpServletResponse response, Object o) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
 
         String token = "no token";
+        String errorMessage = "Error";
         try {
-            token = requset.getHeader("gumgaToken");
+            token = request.getHeader("gumgaToken");
             if (token == null) {//TIRAR DAQUI!!!!
-                token = requset.getParameter("gumgaToken");
+                token = request.getParameter("gumgaToken");
             }
-            String endPoint = requset.getRequestURL().toString();
-            String method = requset.getMethod();
+            String endPoint = request.getRequestURL().toString();
+            String method = request.getMethod();
             String operationKey = aot.getOperation(endPoint, method);
 
             if (endPoint.contains("public")) {
-                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public"), requset, "" , endPoint, method);
+                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public"), request, "", endPoint, method);
                 return true;
             }
 
             if (operationKey.equals("NOOP")) {
                 HandlerMethod hm = (HandlerMethod) o;
-                OperationKey methodAnnotation = hm.getMethodAnnotation(OperationKey.class);
+                GumgaOperationKey methodAnnotation = hm.getMethodAnnotation(GumgaOperationKey.class);
                 if (methodAnnotation == null) {
-                    methodAnnotation = new OperationKey() {
+                    methodAnnotation = new GumgaOperationKey() {
 
                         @Override
                         public String value() {
@@ -88,29 +89,30 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
                         @Override
                         public Class<? extends Annotation> annotationType() {
-                            return OperationKey.class;
+                            return GumgaOperationKey.class;
                         }
                     };
                 }
                 operationKey = methodAnnotation.value();
             }
 
-            String url = GUMGASECURITY_AUTORIZE_ENDPOINT + "/" + softwareId + "/" + token + "/" + operationKey + "/" + requset.getRemoteAddr().replace('.', '_');
+            String url = GUMGASECURITY_AUTORIZE_ENDPOINT + "/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
-            GumgaThreadScope.ip.set(requset.getRemoteAddr());
+            GumgaThreadScope.ip.set(request.getRemoteAddr());
             GumgaThreadScope.organization.set(ar.getOrganization());
             GumgaThreadScope.organizationCode.set(ar.getOrganizationCode());
             GumgaThreadScope.operationKey.set(operationKey);
 
-            saveLog(ar, requset, operationKey, endPoint, method);
+            saveLog(ar, request, operationKey, endPoint, method);
 
             if (ar.isAllowed()) {
                 return true;
             } else {
-                System.out.println("##### " + url);
-                System.out.println("##### " + ar);
-                System.out.println("##### GumgaRequestFilter preHandle-----> " + GumgaThreadScope.login.get() + " " + GumgaThreadScope.ip.get() + " " + GumgaThreadScope.organization.get() + " " + GumgaThreadScope.organizationCode.get() + " " + operationKey);
+                errorMessage = ar.getReason();
+//                System.out.println("##### " + url);
+//                System.out.println("##### " + ar);
+//                System.out.println("##### GumgaRequestFilter preHandle-----> " + GumgaThreadScope.login.get() + " " + GumgaThreadScope.ip.get() + " " + GumgaThreadScope.organization.get() + " " + GumgaThreadScope.organizationCode.get() + " " + operationKey);
 
             }
         } catch (Exception ex) {
@@ -121,14 +123,14 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
         }
         response.setStatus(401);
-        response.getOutputStream().write("Not allowed".getBytes());
+        response.getOutputStream().write(errorMessage.getBytes());
         return false;
     }
 
     public void saveLog(AuthorizatonResponse ar, HttpServletRequest requset, String operationKey, String endPoint, String method) {
         GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
                 ar.getOrganization(), softwareId, operationKey, endPoint, method);
-        
+
         gls.save(gl);
     }
 

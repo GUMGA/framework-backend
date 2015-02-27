@@ -26,10 +26,9 @@ public abstract class AbstractGumgaAPI<T> extends AbstractNoDeleteGumgaAPI<T> {
         @Transactional //MUNIF SOLICITACAO DA DB1
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public RestResponse<T> delete(@PathVariable Long id, HttpServletRequest request) {
+	public RestResponse<T> delete(@PathVariable Long id) {
 		T entity = service.view(id);
 		service.delete(entity);
-		
 		return new RestResponse<T>(getEntityDeletedMessage(entity));
 	}
 	
