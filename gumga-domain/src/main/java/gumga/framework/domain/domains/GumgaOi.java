@@ -1,14 +1,11 @@
 package gumga.framework.domain.domains;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-
-import java.io.Serializable;
 
 /**
  * Organization Instance
  */
-public class GumgaOi implements Serializable, Comparable<GumgaOi> {
+public class GumgaOi extends GumgaDomain implements Comparable<GumgaOi> {
 
     private String value;
 
@@ -18,6 +15,17 @@ public class GumgaOi implements Serializable, Comparable<GumgaOi> {
 
     public GumgaOi(String value) {
         this.value = value;
+    }
+
+    public GumgaOi(GumgaOi other) {
+        if (other != null) {
+            this.value = other.value;
+        }
+
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override
@@ -32,11 +40,13 @@ public class GumgaOi implements Serializable, Comparable<GumgaOi> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         GumgaOi that = (GumgaOi) o;
-
         return Objects.equal(this.value, that.value);
     }
 
@@ -51,7 +61,5 @@ public class GumgaOi implements Serializable, Comparable<GumgaOi> {
         }
 
         return this.value.compareTo(o.value);
-
-
     }
 }

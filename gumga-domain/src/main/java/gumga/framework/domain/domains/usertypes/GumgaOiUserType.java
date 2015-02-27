@@ -65,16 +65,17 @@ public class GumgaOiUserType extends MutableUserType {
             final SessionImplementor sessionImplementor)
             throws HibernateException, SQLException {
         if (null == value) {
-            preparedStatement.setNull(property, Types.VARCHAR);
+            preparedStatement.setNull(property, java.sql.Types.VARCHAR);
         } else {
-            final GumgaOi object = (GumgaOi) value;
-            preparedStatement.setString(property, object.toString());
+            final GumgaOi object = new GumgaOi(value.toString());
+            preparedStatement.setString(property, object.getValue());
         }
     }
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
-        return value;
+        final GumgaOi recebido = (GumgaOi) value;
+        final GumgaOi aRetornar = new GumgaOi(recebido);
+        return aRetornar;
     }
-
 }
