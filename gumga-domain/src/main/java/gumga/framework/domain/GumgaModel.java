@@ -36,7 +36,7 @@ import org.hibernate.annotations.TypeDefs;
     @TypeDef(name = "gumgaoi", defaultForType = GumgaOi.class, typeClass = GumgaOiUserType.class),
     @TypeDef(name = "gumgaurl", defaultForType = GumgaURL.class, typeClass = GumgaURLUserType.class)
 })
-public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable<ID> {
+public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable<ID>, Serializable {
 
     public static final String SEQ_NAME = "SEQ";
     @Id

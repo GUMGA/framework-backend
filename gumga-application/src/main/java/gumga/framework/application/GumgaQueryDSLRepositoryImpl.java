@@ -1,18 +1,13 @@
 package gumga.framework.application;
 
-import com.mysema.query.types.*;
-import gumga.framework.core.QueryObject;
+import com.mysema.query.jpa.JPQLQuery;
+import com.mysema.query.types.EntityPath;
+import com.mysema.query.types.Expression;
+import com.mysema.query.types.OrderSpecifier;
+import com.mysema.query.types.Predicate;
+import com.mysema.query.types.path.PathBuilder;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.repository.GumgaQueryDSLRepository;
-
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityManager;
-
 import gumga.framework.domain.repository.ISpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,21 +18,22 @@ import org.springframework.data.querydsl.QSort;
 import org.springframework.data.querydsl.SimpleEntityPathResolver;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import com.mysema.query.jpa.JPQLQuery;
-import com.mysema.query.types.path.PathBuilder;
+import javax.persistence.EntityManager;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 @NoRepositoryBean
 public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends GumgaGenericRepository<T, ID> implements GumgaQueryDSLRepository<T, ID> {
 	
 	private final EntityPath<T> path;
-	private final PathBuilder<T> builder;
 	private final Querydsl querydsl;
-	
+
 	public GumgaQueryDSLRepositoryImpl(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
 		super(entityInformation, entityManager);
 		
 		this.path = SimpleEntityPathResolver.INSTANCE.createPath(entityInformation.getJavaType());
-		this.builder = new PathBuilder<T>(path.getType(), path.getMetadata());
+        PathBuilder<T> builder = new PathBuilder<>(path.getType(), path.getMetadata());
 		this.querydsl = new Querydsl(entityManager, builder);
 	}
 
@@ -62,11 +58,21 @@ public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends Gum
         return query.list(projection);
     }
 
+    @Override
+    public <A> Page<A> findAll(ISpecification specification, Pageable page, Expression<A> projection) {
+        return null;
+    }
+
 
     @Override
     public List<T> findAll(ISpecification specification) {
         JPQLQuery query = specification.createQuery(querydsl.createQuery(path));
         return query.list(this.path);
+    }
+
+    @Override
+    public Page<T> findAll(ISpecification specification, Pageable page) {
+        return null;
     }
 
     @Override
@@ -77,6 +83,16 @@ public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends Gum
     @Override
     public <A> SearchResult<A> search(Predicate predicate, Pageable page, Expression<A> projection) {
         return createResultFromPageResult(page, this.findAll(predicate, page, projection));
+    }
+
+    @Override
+    public SearchResult<T> search(ISpecification specification, Pageable page) {
+        return createResultFromPageResult(page, this.findAll(specification, page));
+    }
+
+    @Override
+    public <A> SearchResult<A> search(ISpecification specification, Pageable page, Expression<A> projection) {
+        return createResultFromPageResult(page, this.findAll(specification, page, projection));
     }
 
     public <A> A findOne(ISpecification specification, Expression<A> projection) {
