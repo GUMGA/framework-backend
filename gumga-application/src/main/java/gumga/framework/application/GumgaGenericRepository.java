@@ -44,7 +44,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements GumgaCrudRepository<T, ID> {
 
-    private final JpaEntityInformation<T, ID> entityInformation;
+    protected final JpaEntityInformation<T, ID> entityInformation;
     private final EntityManager entityManager;
 
     public GumgaGenericRepository(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
@@ -92,7 +92,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(entityInformation.getJavaType());
         Pesquisa<T> pesquisa = search().add(or(fieldsCriterions));
 
-        if (entityInformation.getJavaType().isAnnotationPresent(GumgaMultitenancy.class)) {
+        if (hasMultitenancy()) {
             Criterion multitenancyCriterion = or(like("oi", GumgaThreadScope.organizationCode.get(), MatchMode.START), Restrictions.isNull("oi"));
             pesquisa.add(multitenancyCriterion);
         }
@@ -104,6 +104,10 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         }
 
         return pesquisa;
+    }
+
+    public boolean hasMultitenancy() {
+        return entityInformation.getJavaType().isAnnotationPresent(GumgaMultitenancy.class);
     }
 
     private void createAliasIfNecessary(Pesquisa<T> pesquisa, String field) {
@@ -142,7 +146,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     private SearchResult<T> advancedSearch(QueryObject query) {
         String modelo = "from %s obj WHERE %s";
-        if (entityInformation.getJavaType().isAnnotationPresent(GumgaMultitenancy.class)) {
+        if (hasMultitenancy()) {
             modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + GumgaThreadScope.organizationCode.get() + "%%')  AND (%s) ";
         }
 
