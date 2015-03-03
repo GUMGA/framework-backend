@@ -13,6 +13,7 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -31,6 +32,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
     @Autowired
     private GumgaLogService gls;
+    private Environment environment;
 
     @Autowired(required = false)
     private ApiOperationTranslator aot = new ApiOperationTranslator() {
@@ -40,6 +42,11 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             return "NOOP";
         }
     };
+
+    @Autowired(required = false)
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 
     public void setAot(ApiOperationTranslator aot) {
         this.aot = aot;
@@ -96,7 +103,8 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 operationKey = methodAnnotation.value();
             }
 
-            String url = GUMGASECURITY_AUTORIZE_ENDPOINT + "/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
+            String securityURL = environment.getProperty("gumga.security.url", GUMGASECURITY_AUTORIZE_ENDPOINT);
+            String url = securityURL + "/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(request.getRemoteAddr());
