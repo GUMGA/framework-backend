@@ -28,7 +28,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
     private final RestTemplate restTemplate;
 
-    private final String GUMGASECURITY_AUTORIZE_ENDPOINT = "http://localhost:8084/gumgasecurity-presentation/public/token/authorize";
+    private final String GUMGASECURITY_AUTORIZE_ENDPOINT = "http://localhost:8084/gumgasecurity-presentation";
 
     @Autowired
     private GumgaLogService gls;
@@ -90,7 +90,9 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                         @Override
                         public String value() {
                             String apiName = hm.getBean().getClass().getSimpleName();
-                            apiName = apiName.substring(0, apiName.indexOf("$$"));
+                            if (apiName.contains("$$")) {
+                                apiName = apiName.substring(0, apiName.indexOf("$$"));
+                            }
                             return apiName + "_" + hm.getMethod().getName();
                         }
 
@@ -104,7 +106,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             }
 
             String securityURL = environment.getProperty("gumga.security.url", GUMGASECURITY_AUTORIZE_ENDPOINT);
-            String url = securityURL + "/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
+            String url = securityURL + "/public/token/authorize/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(request.getRemoteAddr());
