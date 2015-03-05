@@ -33,6 +33,8 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     @Autowired
     private GumgaLogService gls;
     private Environment environment;
+    private Boolean isLogActive;
+    private String securityURL;
 
     @Autowired(required = false)
     private ApiOperationTranslator aot = new ApiOperationTranslator() {
@@ -46,6 +48,8 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     @Autowired(required = false)
     public void setEnvironment(Environment environment) {
         this.environment = environment;
+        this.isLogActive = this.environment.getProperty("gumga.log.active", Boolean.class, Boolean.FALSE);
+        this.securityURL = environment.getProperty("gumga.security.url", GUMGASECURITY_AUTORIZE_ENDPOINT);
     }
 
     public void setAot(ApiOperationTranslator aot) {
@@ -105,7 +109,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 operationKey = methodAnnotation.value();
             }
 
-            String securityURL = environment.getProperty("gumga.security.url", GUMGASECURITY_AUTORIZE_ENDPOINT);
+
             String url = securityURL + "/public/token/authorize/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
@@ -138,10 +142,12 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     }
 
     public void saveLog(AuthorizatonResponse ar, HttpServletRequest requset, String operationKey, String endPoint, String method) {
-        GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
-                ar.getOrganization(), softwareId, operationKey, endPoint, method);
+        if (isLogActive) {
+            GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
+                    ar.getOrganization(), softwareId, operationKey, endPoint, method);
 
-        gls.save(gl);
+            gls.save(gl);
+        }
     }
 
     @Override
