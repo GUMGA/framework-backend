@@ -40,7 +40,7 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
 
     public static final String SEQ_NAME = "SEQ";
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = SEQ_NAME)
+    @GeneratedValue(strategy = GenerationType.AUTO)//, generator = SEQ_NAME)
     protected ID id;
 
     private GumgaOi oi;

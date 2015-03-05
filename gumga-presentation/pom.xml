@@ -79,7 +79,7 @@
         <dependency>
             <groupId>gumga.framework</groupId>
             <artifactId>gumga-application</artifactId>
-            <version>1.2</version>
+            <version>1.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
