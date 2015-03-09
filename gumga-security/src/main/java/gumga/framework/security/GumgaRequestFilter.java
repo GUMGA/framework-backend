@@ -8,8 +8,6 @@ package gumga.framework.security;
 import gumga.framework.application.GumgaLogService;
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.domain.GumgaLog;
-import java.lang.annotation.Annotation;
-import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +25,6 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     private final String softwareId;
 
     private final RestTemplate restTemplate;
-
-    private final String GUMGASECURITY_AUTORIZE_ENDPOINT = "http://localhost:8084/gumgasecurity-presentation";
 
     @Autowired
     private GumgaLogService gls;
@@ -48,8 +44,8 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     @Autowired(required = false)
     public void setEnvironment(Environment environment) {
         this.environment = environment;
-        this.isLogActive = this.environment.getProperty("gumga.log.active", Boolean.class, Boolean.FALSE);
-        this.securityURL = environment.getProperty("gumga.security.url", GUMGASECURITY_AUTORIZE_ENDPOINT);
+        this.isLogActive = this.environment.getProperty("gumga.log.active", Boolean.class, Boolean.TRUE);
+        this.securityURL = environment.getProperty("gumga.security.url", "http://localhost:8084/gumgasecurity-presentation");
     }
 
     public void setAot(ApiOperationTranslator aot) {
@@ -73,66 +69,49 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         String errorMessage = "Error";
         try {
             token = request.getHeader("gumgaToken");
-            if (token == null) {//TIRAR DAQUI!!!!
+            if (token == null) {
                 token = request.getParameter("gumgaToken");
             }
             String endPoint = request.getRequestURL().toString();
             String method = request.getMethod();
-            String operationKey = aot.getOperation(endPoint, method);
-
             if (endPoint.contains("public")) {
                 saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public"), request, "", endPoint, method);
                 return true;
             }
-
-            if (operationKey.equals("NOOP")) {
-                HandlerMethod hm = (HandlerMethod) o;
-                GumgaOperationKey methodAnnotation = hm.getMethodAnnotation(GumgaOperationKey.class);
-                if (methodAnnotation == null) {
-                    methodAnnotation = new GumgaOperationKey() {
-
-                        @Override
-                        public String value() {
-                            String apiName = hm.getBean().getClass().getSimpleName();
-                            if (apiName.contains("$$")) {
-                                apiName = apiName.substring(0, apiName.indexOf("$$"));
-                            }
-                            return apiName + "_" + hm.getMethod().getName();
-                        }
-
-                        @Override
-                        public Class<? extends Annotation> annotationType() {
-                            return GumgaOperationKey.class;
-                        }
-                    };
-                }
-                operationKey = methodAnnotation.value();
+            String operationKey = "NOOP";
+            HandlerMethod hm = (HandlerMethod) o;
+            GumgaOperationKey gumgaOperationKeyMethodAnnotation = hm.getMethodAnnotation(GumgaOperationKey.class);
+            if (gumgaOperationKeyMethodAnnotation != null) {
+                operationKey = gumgaOperationKeyMethodAnnotation.value();
+            } else {
+                operationKey = aot.getOperation(endPoint, method);
             }
-
-
+            if (operationKey.equals("NOOP")) {
+                String apiName = hm.getBean().getClass().getSimpleName();
+                if (apiName.contains("$$")) {
+                    apiName = apiName.substring(0, apiName.indexOf("$$"));
+                }
+                operationKey = apiName + "_" + hm.getMethod().getName();
+            }
             String url = securityURL + "/public/token/authorize/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
+            System.out.println("---------->"+url);
+            
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(request.getRemoteAddr());
             GumgaThreadScope.organization.set(ar.getOrganization());
             GumgaThreadScope.organizationCode.set(ar.getOrganizationCode());
             GumgaThreadScope.operationKey.set(operationKey);
-
+            
             saveLog(ar, request, operationKey, endPoint, method);
-
             if (ar.isAllowed()) {
                 return true;
             } else {
                 errorMessage = ar.getReason();
-//                System.out.println("##### " + url);
-//                System.out.println("##### " + ar);
-//                System.out.println("##### GumgaRequestFilter preHandle-----> " + GumgaThreadScope.login.get() + " " + GumgaThreadScope.ip.get() + " " + GumgaThreadScope.organization.get() + " " + GumgaThreadScope.organizationCode.get() + " " + operationKey);
-
             }
         } catch (Exception ex) {
             System.out.println("!@#$%*&$#$%*( " + ex.toString());
             ex.printStackTrace();
-
         } finally {
 
         }
@@ -145,7 +124,6 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         if (isLogActive) {
             GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
                     ar.getOrganization(), softwareId, operationKey, endPoint, method);
-
             gls.save(gl);
         }
     }

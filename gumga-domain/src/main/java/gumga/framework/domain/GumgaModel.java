@@ -6,10 +6,12 @@ import gumga.framework.core.GumgaIdable;
 import gumga.framework.domain.domains.*;
 import gumga.framework.domain.domains.usertypes.*;
 import java.util.Objects;
+import javax.persistence.Column;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -36,6 +38,7 @@ import org.hibernate.annotations.TypeDefs;
     @TypeDef(name = "gumgaoi", defaultForType = GumgaOi.class, typeClass = GumgaOiUserType.class),
     @TypeDef(name = "gumgaurl", defaultForType = GumgaURL.class, typeClass = GumgaURLUserType.class)
 })
+
 public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable<ID>, Serializable {
 
     public static final String SEQ_NAME = "SEQ";

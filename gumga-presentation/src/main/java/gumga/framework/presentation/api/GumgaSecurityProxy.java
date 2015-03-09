@@ -23,13 +23,8 @@ import java.util.Map;
 public class GumgaSecurityProxy {
 
     private final RestTemplate restTemplate;
-    private Environment environment;
-
-    //TODO pensar em uma classe gumga constants para expor public .. com todos os end points
-    public final static String GUMGASECURITY_URL = "gumga.security.url";
-    public final static String GUMGASECURITY_CREATE_ENDPOINT = "/public/token/create";
-
     @Autowired
+    private Environment environment;
     public void setEnvironment(Environment environment) {
         this.environment = environment;
     }
@@ -41,8 +36,8 @@ public class GumgaSecurityProxy {
     @RequestMapping("/create/{user}/{password}")
     public Map create(@PathVariable String user, @PathVariable String password) {
 
-        String secUrl = environment.getProperty(GUMGASECURITY_URL);
-        String url = GUMGASECURITY_CREATE_ENDPOINT + "/" + user + "/" + password;
+        String secUrl = environment.getProperty("gumga.security.url", "http://localhost:8084/gumgasecurity-presentation");
+        String url = secUrl + "/public/token/create/" + user + "/" + password;
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
     }
