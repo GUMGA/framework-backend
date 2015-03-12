@@ -32,21 +32,19 @@ public class MultiSearchApi {
     }
 
     @Transactional
-    @RequestMapping("search/{clazz}/{text}")
-    public List<GumgaGenericResult> search(@PathVariable String clazz, @PathVariable String text) {
-        System.out.println("--------search ------>");
+    @RequestMapping("search/{text}")
+    public List<GumgaGenericResult> search(@PathVariable String text) {
         List<GumgaGenericResult> aRetornar = new ArrayList<>();
-        try {
-            List<Object> resultado = gur.fullTextSearch(text, Class.forName(clazz), "descricao", "valor", "ativo");
-            for (Object obj : resultado) {
-                aRetornar.add(new GumgaGenericResult(obj));
-            }
-            return aRetornar;
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MultiSearchApi.class.getName()).log(Level.SEVERE, null, ex);
+        List<Object> resultado = gur.fullTextSearch(text);
+        for (Object obj : resultado) {
+            aRetornar.add(new GumgaGenericResult(obj));
         }
         return aRetornar;
+    }
 
+    @RequestMapping("teste")
+    public String teste() {
+        return "OLA";
     }
 
 }
