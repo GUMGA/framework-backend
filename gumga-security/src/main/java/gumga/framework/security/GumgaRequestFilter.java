@@ -8,12 +8,14 @@ package gumga.framework.security;
 import gumga.framework.application.GumgaLogService;
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.domain.GumgaLog;
+import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
@@ -31,6 +33,8 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     private Environment environment;
     private Boolean isLogActive;
     private String securityURL;
+
+    private ThreadLocal<Long> tempo = new ThreadLocal<>();
 
     @Autowired(required = false)
     private ApiOperationTranslator aot = new ApiOperationTranslator() {
@@ -64,7 +68,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-
+        tempo.set(System.currentTimeMillis());
         String token = "no token";
         String errorMessage = "Error";
         try {
@@ -94,15 +98,14 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 operationKey = apiName + "_" + hm.getMethod().getName();
             }
             String url = securityURL + "/public/token/authorize/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
-            System.out.println("---------->"+url);
-            
+
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(request.getRemoteAddr());
             GumgaThreadScope.organization.set(ar.getOrganization());
             GumgaThreadScope.organizationCode.set(ar.getOrganizationCode());
             GumgaThreadScope.operationKey.set(operationKey);
-            
+
             saveLog(ar, request, operationKey, endPoint, method);
             if (ar.isAllowed()) {
                 return true;
@@ -130,10 +133,13 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+//        System.out.println((System.currentTimeMillis() - tempo.get()) + "ms " + request.getRemoteHost() + " " + request.getRequestURI() + " " + request.getMethod());
+        tempo.remove();
         GumgaThreadScope.ip.remove();
         GumgaThreadScope.login.remove();
         GumgaThreadScope.organization.remove();
         GumgaThreadScope.organizationCode.remove();
         GumgaThreadScope.operationKey.remove();
     }
+
 }
