@@ -7,15 +7,13 @@ package gumga.framework.security;
 
 import gumga.framework.application.GumgaLogService;
 import gumga.framework.core.GumgaThreadScope;
+import gumga.framework.core.GumgaValues;
 import gumga.framework.domain.GumgaLog;
-import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
@@ -30,9 +28,9 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
     @Autowired
     private GumgaLogService gls;
-    private Environment environment;
-    private Boolean isLogActive;
-    private String securityURL;
+
+    @Autowired
+    private GumgaValues gumgaValues;
 
     private ThreadLocal<Long> tempo = new ThreadLocal<>();
 
@@ -44,13 +42,6 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             return "NOOP";
         }
     };
-
-    @Autowired(required = false)
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-        this.isLogActive = this.environment.getProperty("gumga.log.active", Boolean.class, Boolean.TRUE);
-        this.securityURL = environment.getProperty("gumga.security.url", "http://localhost:8084/gumgasecurity-presentation");
-    }
 
     public void setAot(ApiOperationTranslator aot) {
         this.aot = aot;
@@ -97,7 +88,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 }
                 operationKey = apiName + "_" + hm.getMethod().getName();
             }
-            String url = securityURL + "/public/token/authorize/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
+            String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/authorize/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
 
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
@@ -124,7 +115,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     }
 
     public void saveLog(AuthorizatonResponse ar, HttpServletRequest requset, String operationKey, String endPoint, String method) {
-        if (isLogActive) {
+        if (gumgaValues.isLogActive()) {
             GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
                     ar.getOrganization(), softwareId, operationKey, endPoint, method);
             gls.save(gl);

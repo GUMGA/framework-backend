@@ -5,8 +5,8 @@
  */
 package gumga.framework.presentation.api;
 
+import gumga.framework.core.GumgaValues;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,10 +24,7 @@ public class GumgaSecurityProxy {
 
     private final RestTemplate restTemplate;
     @Autowired
-    private Environment environment;
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-    }
+    private GumgaValues gumgaValues;
 
     public GumgaSecurityProxy() {
         restTemplate = new RestTemplate();
@@ -35,9 +32,7 @@ public class GumgaSecurityProxy {
 
     @RequestMapping("/create/{user}/{password}")
     public Map create(@PathVariable String user, @PathVariable String password) {
-
-        String secUrl = environment.getProperty("gumga.security.url", "http://localhost:8084/gumgasecurity-presentation");
-        String url = secUrl + "/public/token/create/" + user + "/" + password;
+        String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/create/" + user + "/" + password;
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
     }
