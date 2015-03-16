@@ -6,9 +6,6 @@
 package gumga.framework.presentation;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -38,14 +35,7 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        //     System.out.println("Cors Filter " + request.getRemoteHost() + " " + request.getRequestURI() + " " + request.getMethod());
-//        if ("OPTIONS".equals(request.getMethod())) {
-//            response.setStatus(200);
-//            response.setContentType("application/json;charset=UTF-8");
-//            response.getOutputStream().write("{status:\"OK\"}".getBytes());
-//        } else {
-            fc.doFilter(request, response);
-//        }
+        fc.doFilter(request, response);
     }
 
     @Override

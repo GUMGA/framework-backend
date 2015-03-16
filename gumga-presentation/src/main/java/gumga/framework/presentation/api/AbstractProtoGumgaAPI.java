@@ -21,72 +21,74 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public abstract class AbstractProtoGumgaAPI<T> {
-	
-	@Autowired
+
+    @Autowired
     private Validator validator;
-	
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
-	
-	@RequestMapping("/new")
-	public T initialState() {
-		return initialValue();
-	}
-	
-	protected T initialValue() {
-		try {
-			Constructor<T> constructor = clazz().getDeclaredConstructor();
-			constructor.setAccessible(true);
-			return constructor.newInstance();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	protected String getEntityName(T entity) {
-		return entity.getClass().getSimpleName();
-	}
-	
-	protected String getEntitySavedMessage(T entity) {
-		return getEntityName(entity) + " saved successfully";
-	}
-	
-	protected String getEntityUpdateMessage(T entity) {
-		return getEntitySavedMessage(entity);
-	}
-	
-	protected String getEntityDeletedMessage(T entity) {
-		return getEntityName(entity) + " deleted successfully";
-	}
-	
-	@RequestMapping(value = "/validate", method = RequestMethod.POST)
-	public ErrorResource validate(@RequestBody T entity) {
-		try {
-			Set<ConstraintViolation<T>> errors = validator.validate(entity);
-			if (errors.isEmpty()) return ErrorResource.NO_ERRORS;
-			
-			ErrorResource invalidEntity = new ErrorResource(Error.INVALID_ENTITY, "Invalid Entity");
-			invalidEntity.setData(entity);
-			invalidEntity.setDetails("Invalid Entity State");
-			
-			for (ConstraintViolation<T> violation : errors) {
-				FieldErrorResource fieldErrorResource = new FieldErrorResource();
-				fieldErrorResource.setResource(violation.getRootBeanClass().getCanonicalName());
-				fieldErrorResource.setField(violation.getPropertyPath().toString());
-				fieldErrorResource.setCode(violation.getMessageTemplate());
-				fieldErrorResource.setMessage(violation.getMessage());
-				
-				invalidEntity.addFieldError(fieldErrorResource);
-			}
-			
-			return invalidEntity;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Class<T> clazz() {
-		return (Class<T>) ReflectionUtils.inferGenericType(getClass());
-	}
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequestMapping("/new")
+    public T initialState() {
+        return initialValue();
+    }
+
+    protected T initialValue() {
+        try {
+            Constructor<T> constructor = clazz().getDeclaredConstructor();
+            constructor.setAccessible(true);
+            return constructor.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected String getEntityName(T entity) {
+        return entity.getClass().getSimpleName();
+    }
+
+    protected String getEntitySavedMessage(T entity) {
+        return getEntityName(entity) + " saved successfully";
+    }
+
+    protected String getEntityUpdateMessage(T entity) {
+        return getEntitySavedMessage(entity);
+    }
+
+    protected String getEntityDeletedMessage(T entity) {
+        return getEntityName(entity) + " deleted successfully";
+    }
+
+    @RequestMapping(value = "/validate", method = RequestMethod.POST)
+    public ErrorResource validate(@RequestBody T entity) {
+        try {
+            Set<ConstraintViolation<T>> errors = validator.validate(entity);
+            if (errors.isEmpty()) {
+                return ErrorResource.NO_ERRORS;
+            }
+
+            ErrorResource invalidEntity = new ErrorResource(Error.INVALID_ENTITY, "Invalid Entity");
+            invalidEntity.setData(entity);
+            invalidEntity.setDetails("Invalid Entity State");
+
+            for (ConstraintViolation<T> violation : errors) {
+                FieldErrorResource fieldErrorResource = new FieldErrorResource();
+                fieldErrorResource.setResource(violation.getRootBeanClass().getCanonicalName());
+                fieldErrorResource.setField(violation.getPropertyPath().toString());
+                fieldErrorResource.setCode(violation.getMessageTemplate());
+                fieldErrorResource.setMessage(violation.getMessage());
+
+                invalidEntity.addFieldError(fieldErrorResource);
+            }
+
+            return invalidEntity;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public Class<T> clazz() {
+        return (Class<T>) ReflectionUtils.inferGenericType(getClass());
+    }
 
 }
