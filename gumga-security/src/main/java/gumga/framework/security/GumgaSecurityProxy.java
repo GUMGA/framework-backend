@@ -81,9 +81,10 @@ class GumgaSecurityProxy {
     }
 
     @Transactional
-    @RequestMapping("/operations/{token}/{software}")
-    public Set operations(@PathVariable String token, @PathVariable String software) {
-        String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/operations/" + token + "/" + software;
+
+    @RequestMapping("/operations/{software}/{token}")
+    public Set operations(@PathVariable String software, @PathVariable String token) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/operations/" + software + "/" + token;
         Set resposta = restTemplate.getForObject(url, Set.class);
         return resposta;
     }
