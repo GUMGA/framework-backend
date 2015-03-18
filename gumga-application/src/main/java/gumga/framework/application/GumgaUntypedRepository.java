@@ -69,6 +69,7 @@ public class GumgaUntypedRepository {
                 }
             }
             if (!atributos.isEmpty()) {
+                System.out.println("Entidade "+entidade+" atributos "+atributos);
                 atributos = atributos.substring(0, atributos.length() - 1);
                 Query query = qb.keyword().onFields(atributos.split(",")).matching(text).createQuery();
                 aRetornar.addAll(fullTextEntityManager.createFullTextQuery(query, entidade).getResultList());
