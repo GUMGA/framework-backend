@@ -10,21 +10,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.Parameter;
 import javax.persistence.PersistenceContext;
 import org.apache.lucene.search.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,7 +67,7 @@ public class GumgaUntypedRepository {
                 }
             }
             if (!atributos.isEmpty()) {
-                System.out.println("Entidade "+entidade+" atributos "+atributos);
+                System.out.println("Entidade " + entidade + " atributos " + atributos);
                 atributos = atributos.substring(0, atributos.length() - 1);
                 Query query = qb.keyword().onFields(atributos.split(",")).matching(text).createQuery();
                 aRetornar.addAll(fullTextEntityManager.createFullTextQuery(query, entidade).getResultList());

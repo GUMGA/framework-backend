@@ -1,5 +1,6 @@
 package gumga.framework.application;
 
+import gumga.framework.domain.repository.GumgaCrudAndQueryNotOnlyTypedRepository;
 import static org.springframework.data.querydsl.QueryDslUtils.QUERY_DSL_PRESENT;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 import gumga.framework.domain.repository.GumgaQueryDSLRepository;
@@ -36,17 +37,22 @@ public class GumgaRepositoryFactoryBean<R extends JpaRepository<T, I>, T, I exte
 		protected Object getTargetRepository(RepositoryMetadata metadata) {
 			Class<?> repositoryInterface = metadata.getRepositoryInterface();
 			Class<?> domainClass = metadata.getDomainType();
-			
-			if (isQueryDslExecutor(repositoryInterface)) 
+			                 
+			if (isQueryDslExecutor(repositoryInterface)) {
 				return new GumgaQueryDSLRepositoryImpl<>((JpaEntityInformation<?, Serializable>) JpaEntityInformationSupport.getMetadata(domainClass, entityManager), entityManager);
-			
-			return new GumgaGenericRepository(JpaEntityInformationSupport.getMetadata(domainClass, entityManager), entityManager);
+                        }else if(isQueryNoTyped(repositoryInterface)){                     
+                                return new GumgaCrudAndQueryNotOnlyTypedRepositoryImpl<>((JpaEntityInformation<?, Serializable>) JpaEntityInformationSupport.getMetadata(domainClass, entityManager), entityManager);
+                        }
+                       
+                        return new GumgaGenericRepository(JpaEntityInformationSupport.getMetadata(domainClass, entityManager), entityManager);
 		}
 
 		protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
-			if (isQueryDslExecutor(metadata.getRepositoryInterface())) 
+			if (isQueryDslExecutor(metadata.getRepositoryInterface())) {
 				return GumgaQueryDSLRepository.class;
-			
+                        }else if(isQueryNoTyped(metadata.getRepositoryInterface())){
+                                return GumgaCrudAndQueryNotOnlyTypedRepository.class;
+                        }
 			return GumgaCrudRepository.class;
 		}
 	}
@@ -54,5 +60,13 @@ public class GumgaRepositoryFactoryBean<R extends JpaRepository<T, I>, T, I exte
 	private static boolean isQueryDslExecutor(Class<?> repositoryInterface) {
 		return QUERY_DSL_PRESENT && QueryDslPredicateExecutor.class.isAssignableFrom(repositoryInterface);
 	}
+        
+        private static boolean isQueryNoTyped(Class<?> repositoryInterface){
+
+            
+            return GumgaCrudAndQueryNotOnlyTypedRepository.class.isAssignableFrom(repositoryInterface);
+
+       
+        }
 	
 }
