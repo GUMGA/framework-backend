@@ -9,7 +9,6 @@ import com.mysema.query.jpa.impl.JPAQuery;
 import gumga.framework.domain.repository.GumgaCrudAndQueryNotOnlyTypedRepository;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -30,7 +29,6 @@ public class GumgaCrudAndQueryNotOnlyTypedRepositoryImpl<T, ID extends Serializa
         query.setMaxResults(1);
         addParam(query, param);
         return type.cast(query.getSingleResult());
-
     }
 
     
