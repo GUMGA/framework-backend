@@ -30,6 +30,10 @@ public class GumgaCrudAndQueryNotOnlyTypedRepositoryImplTest {
 
     @Autowired
     TaskRepository repository;
+
+    @Autowired
+    private CarRepository carRepository;
+
     private static boolean notPersisted = true;
 
     @Before
@@ -67,6 +71,11 @@ public class GumgaCrudAndQueryNotOnlyTypedRepositoryImplTest {
             repository.save(new Task("Alterar Recesso"));
             repository.save(new Task("Alterar Facultativo"));
             repository.save(new Task("Alterar Observação"));
+
+            GumgaThreadScope.organizationCode.set("1");
+            carRepository.save(new Car("Azul calcinha"));
+            carRepository.save(new Car("Amarelo manga"));
+            carRepository.save(new Car("Cinza fumaça"));
 
             notPersisted = false;
         }
@@ -149,7 +158,7 @@ public class GumgaCrudAndQueryNotOnlyTypedRepositoryImplTest {
      */
     @Test
     public void testGetJPAQuerydsl() {
-        System.out.println("getJPAQuerydsl");
+        System.out.println("getJPAQuerydsl"+repository.getJPAQuerydsl().from(QCar.car).count());
         assertTrue(repository.getJPAQuerydsl().from(QCar.car).count() > 0);
     }
     
