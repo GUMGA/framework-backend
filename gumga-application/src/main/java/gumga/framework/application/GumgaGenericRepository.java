@@ -5,18 +5,15 @@ import static org.hibernate.criterion.Order.asc;
 import static org.hibernate.criterion.Order.desc;
 import static org.hibernate.criterion.Projections.rowCount;
 import static org.hibernate.criterion.Restrictions.or;
-import static org.hibernate.criterion.Restrictions.and;
 import static org.hibernate.criterion.Restrictions.like;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.*;
-import gumga.framework.domain.domains.GumgaDomain;
 import gumga.framework.domain.domains.GumgaOi;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +42,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements GumgaCrudRepository<T, ID> {
 
     protected final JpaEntityInformation<T, ID> entityInformation;
-    private final EntityManager entityManager;
+    protected final EntityManager entityManager;
 
     public GumgaGenericRepository(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
