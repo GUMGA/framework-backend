@@ -60,19 +60,18 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         tempo.set(System.currentTimeMillis());
-        String token = "no token";
+        String token = "not initialized";
         String errorMessage = "Error";
         try {
             token = request.getHeader("gumgaToken");
             if (token == null) {
                 token = request.getParameter("gumgaToken");
             }
+            if (token == null) {
+                token = "no token";
+            }
             String endPoint = request.getRequestURL().toString();
             String method = request.getMethod();
-            if (endPoint.contains("public")) {
-                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public"), request, "", endPoint, method);
-                return true;
-            }
             String operationKey = "NOOP";
             HandlerMethod hm = (HandlerMethod) o;
             GumgaOperationKey gumgaOperationKeyMethodAnnotation = hm.getMethodAnnotation(GumgaOperationKey.class);
@@ -88,7 +87,13 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 }
                 operationKey = apiName + "_" + hm.getMethod().getName();
             }
+            if (endPoint.contains("public")) {
+                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public"), request, operationKey, endPoint, method);
+                return true;
+            }
+
             String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/authorize/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
+            //System.out.println(url);
 
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
@@ -101,7 +106,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             if (ar.isAllowed()) {
                 return true;
             } else {
-                errorMessage = ar.getReason();
+                errorMessage = ar.toString();
             }
         } catch (Exception ex) {
             System.out.println("!@#$%*&$#$%*( " + ex.toString());
@@ -110,7 +115,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
         }
         response.setStatus(401);
-        response.getOutputStream().write(errorMessage.getBytes());
+        response.getOutputStream().write(("Error:" + errorMessage).getBytes());
         return false;
     }
 

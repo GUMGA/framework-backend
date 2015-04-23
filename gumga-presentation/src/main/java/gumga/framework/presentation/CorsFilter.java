@@ -33,8 +33,8 @@ public class CorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS,HEAD");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, gumgaToken, Connection");
         fc.doFilter(request, response);
     }
 
@@ -44,3 +44,8 @@ public class CorsFilter implements Filter {
     }
 
 }
+
+
+
+
+// 'Access-Control-Request-Method: GET' -H 'Access-Control-Request-Headers: gumgatoken' -H 'Connection: keep-alive'

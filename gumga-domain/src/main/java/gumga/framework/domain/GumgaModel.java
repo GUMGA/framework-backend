@@ -7,6 +7,7 @@ import gumga.framework.domain.domains.*;
 import gumga.framework.domain.domains.usertypes.*;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,7 +39,7 @@ import org.hibernate.annotations.TypeDefs;
     @TypeDef(name = "gumgaoi", defaultForType = GumgaOi.class, typeClass = GumgaOiUserType.class),
     @TypeDef(name = "gumgaurl", defaultForType = GumgaURL.class, typeClass = GumgaURLUserType.class)
 })
-
+@EntityListeners(GumgaMultiTenancyListener.class)
 public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable<ID>, Serializable {
 
     public static final String SEQ_NAME = "SEQ";
@@ -46,7 +47,7 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     @GeneratedValue(strategy = GenerationType.AUTO)//, generator = SEQ_NAME)
     protected ID id;
 
-    private GumgaOi oi;
+    protected GumgaOi oi;
 
     public GumgaModel() {
         // Construtor vazio para serialização

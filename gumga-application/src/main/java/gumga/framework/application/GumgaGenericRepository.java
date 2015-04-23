@@ -217,7 +217,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     @Override
     public <S extends T> S save(S entity) {
-        setOi(entity);
+        //setOi(entity);
         return super.save(entity); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -321,7 +321,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         super.setRepositoryMethodMetadata(crudMethodMetadata); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private <S extends T> void setOi(S entity) {
+    private <S extends T> void setOiOld(S entity) {
         try {
             GumgaModel model = GumgaModel.class.cast(entity);
 
