@@ -24,7 +24,7 @@ public class GumgaAddressUserType implements CompositeUserType {
 
     @Override
     public String[] getPropertyNames() {
-        return new String[]{"cep", "tipoLogradouro", "logradouro", "numero", "complemento", "bairro", "localidade", "uf", "pais"};
+        return new String[]{"zipCode", "premisseType", "premisse", "number", "information", "neighbourhood", "localization", "state", "country"};
     }
 
     @Override
@@ -37,23 +37,23 @@ public class GumgaAddressUserType implements CompositeUserType {
     public Object getPropertyValue(final Object component, final int property) throws HibernateException {
         switch (property) {
             case 0:
-                return ((GumgaAddress) component).getCep();
+                return ((GumgaAddress) component).getZipCode();
             case 1:
-                return ((GumgaAddress) component).getTipoLogradouro();
+                return ((GumgaAddress) component).getPremisseType();
             case 2:
-                return ((GumgaAddress) component).getLogradouro();
+                return ((GumgaAddress) component).getPremisse();
             case 3:
-                return ((GumgaAddress) component).getNumero();
+                return ((GumgaAddress) component).getNumber();
             case 4:
-                return ((GumgaAddress) component).getComplemento();
+                return ((GumgaAddress) component).getInformation();
             case 5:
-                return ((GumgaAddress) component).getBairro();
+                return ((GumgaAddress) component).getNeighbourhood();
             case 6:
-                return ((GumgaAddress) component).getLocalidade();
+                return ((GumgaAddress) component).getLocalization();
             case 7:
-                return ((GumgaAddress) component).getUf();
+                return ((GumgaAddress) component).getState();
             case 8:
-                return ((GumgaAddress) component).getPais();
+                return ((GumgaAddress) component).getCountry();
 
         }
         return null;
@@ -63,23 +63,23 @@ public class GumgaAddressUserType implements CompositeUserType {
     public void setPropertyValue(final Object component, final int property, final Object setValue) throws HibernateException {
         switch (property) {
             case 0:
-                ((GumgaAddress) component).setCep((String) setValue);
+                ((GumgaAddress) component).setZipCode((String) setValue);
             case 1:
-                ((GumgaAddress) component).setTipoLogradouro((String) setValue);
+                ((GumgaAddress) component).setPremisseType((String) setValue);
             case 2:
-                ((GumgaAddress) component).setLogradouro((String) setValue);
+                ((GumgaAddress) component).setPremisse((String) setValue);
             case 3:
-                ((GumgaAddress) component).setNumero((String) setValue);
+                ((GumgaAddress) component).setNumber((String) setValue);
             case 4:
-                ((GumgaAddress) component).setComplemento((String) setValue);
+                ((GumgaAddress) component).setInformation((String) setValue);
             case 5:
-                ((GumgaAddress) component).setBairro((String) setValue);
+                ((GumgaAddress) component).setNeighbourhood((String) setValue);
             case 6:
-                ((GumgaAddress) component).setLocalidade((String) setValue);
+                ((GumgaAddress) component).setLocalization((String) setValue);
             case 7:
-                ((GumgaAddress) component).setUf((String) setValue);
+                ((GumgaAddress) component).setState((String) setValue);
             case 8:
-                ((GumgaAddress) component).setPais((String) setValue);
+                ((GumgaAddress) component).setCountry((String) setValue);
 
         }
     }
@@ -115,10 +115,10 @@ public class GumgaAddressUserType implements CompositeUserType {
             throws HibernateException, SQLException {
         //owner here is of type TestUser or the actual owning Object
         GumgaAddress object = null;
-        final String cep = resultSet.getString(names[0]);
+        final String zipCode = resultSet.getString(names[0]);
         //Deferred check after first read
         if (!resultSet.wasNull()) {
-            object = new GumgaAddress(cep, resultSet.getString(names[1]), resultSet.getString(names[2]), resultSet.getString(names[3]), resultSet.getString(names[4]), resultSet.getString(names[5]), resultSet.getString(names[6]), resultSet.getString(names[7]), resultSet.getString(names[8]));
+            object = new GumgaAddress(zipCode, resultSet.getString(names[1]), resultSet.getString(names[2]), resultSet.getString(names[3]), resultSet.getString(names[4]), resultSet.getString(names[5]), resultSet.getString(names[6]), resultSet.getString(names[7]), resultSet.getString(names[8]));
         }
         return object;
     }
@@ -144,15 +144,15 @@ public class GumgaAddressUserType implements CompositeUserType {
             preparedStatement.setNull(property + 8, java.sql.Types.VARCHAR);
         } else {
             final GumgaAddress object = (GumgaAddress) value;
-            preparedStatement.setString(property + 0, object.getCep());
-            preparedStatement.setString(property + 1, object.getTipoLogradouro());
-            preparedStatement.setString(property + 2, object.getLogradouro());
-            preparedStatement.setString(property + 3, object.getNumero());
-            preparedStatement.setString(property + 4, object.getComplemento());
-            preparedStatement.setString(property + 5, object.getBairro());
-            preparedStatement.setString(property + 6, object.getLocalidade());
-            preparedStatement.setString(property + 7, object.getUf());
-            preparedStatement.setString(property + 8, object.getPais());
+            preparedStatement.setString(property + 0, object.getZipCode());
+            preparedStatement.setString(property + 1, object.getPremisseType());
+            preparedStatement.setString(property + 2, object.getPremisse());
+            preparedStatement.setString(property + 3, object.getNumber());
+            preparedStatement.setString(property + 4, object.getInformation());
+            preparedStatement.setString(property + 5, object.getNeighbourhood());
+            preparedStatement.setString(property + 6, object.getLocalization());
+            preparedStatement.setString(property + 7, object.getState());
+            preparedStatement.setString(property + 8, object.getCountry());
         }
     }
 

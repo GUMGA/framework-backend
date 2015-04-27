@@ -11,8 +11,8 @@ package gumga.framework.domain.domains;
  */
 public class GumgaBoolean extends GumgaDomain {
 
-    private static final String TRUE_LABEL = "verdadeiro"; //Poderia ser GREEN_LABEL
-    private static final String FALSE_LABEL = "falso"; //Poderia ser RED_LABEL
+    private static final String TRUE_LABEL = "TRUE"; //Poderia ser GREEN_LABEL
+    private static final String FALSE_LABEL = "FALSE"; //Poderia ser RED_LABEL
 
     private boolean value;
 

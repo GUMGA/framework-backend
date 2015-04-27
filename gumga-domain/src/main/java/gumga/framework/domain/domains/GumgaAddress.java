@@ -13,130 +13,130 @@ import java.util.Objects;
  */
 public class GumgaAddress extends GumgaDomain {
 
-    private String cep;
-    private String tipoLogradouro;
-    private String logradouro;
-    private String numero;
-    private String complemento;
-    private String bairro;
-    private String localidade;
-    private String uf;
-    private String pais;
+    private String zipCode;
+    private String premisseType;
+    private String premisse;
+    private String number;
+    private String information;
+    private String neighbourhood;
+    private String localization;
+    private String state;
+    private String country;
 
     public GumgaAddress() {
 
     }
 
-    public GumgaAddress(String cep, String tipoLogradouro, String logradouro, String numero, String complemento, String bairro, String localidade, String uf, String pais) {
-        this.cep = cep;
-        this.tipoLogradouro = tipoLogradouro;
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.localidade = localidade;
-        this.uf = uf;
-        this.pais = pais;
-    }
-
     public GumgaAddress(GumgaAddress other) {
         if (other != null) {
-            this.cep = other.cep;
-            this.tipoLogradouro = other.tipoLogradouro;
-            this.logradouro = other.logradouro;
-            this.numero = other.numero;
-            this.complemento = other.complemento;
-            this.bairro = other.bairro;
-            this.localidade = other.localidade;
-            this.uf = other.uf;
-            this.pais = other.pais;
+            this.zipCode = other.zipCode;
+            this.premisseType = other.premisseType;
+            this.premisse = other.premisse;
+            this.number = other.number;
+            this.information = other.information;
+            this.neighbourhood = other.neighbourhood;
+            this.localization = other.localization;
+            this.state = other.state;
+            this.country = other.country;
         }
     }
 
-    public String getCep() {
-        return cep;
+    public GumgaAddress(String zipCode, String premisseType, String premisse, String number, String information, String neighbourhood, String localization, String state, String country) {
+        this.zipCode = zipCode;
+        this.premisseType = premisseType;
+        this.premisse = premisse;
+        this.number = number;
+        this.information = information;
+        this.neighbourhood = neighbourhood;
+        this.localization = localization;
+        this.state = state;
+        this.country = country;
     }
 
-    public void setCep(String cep) {
-        this.cep = cep;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public String getTipoLogradouro() {
-        return tipoLogradouro;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
-    public void setTipoLogradouro(String tipoLogradouro) {
-        this.tipoLogradouro = tipoLogradouro;
+    public String getPremisseType() {
+        return premisseType;
     }
 
-    public String getLogradouro() {
-        return logradouro;
+    public void setPremisseType(String premisseType) {
+        this.premisseType = premisseType;
     }
 
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
+    public String getPremisse() {
+        return premisse;
     }
 
-    public String getNumero() {
-        return numero;
+    public void setPremisse(String premisse) {
+        this.premisse = premisse;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public String getNumber() {
+        return number;
     }
 
-    public String getBairro() {
-        return bairro;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
+    public String getInformation() {
+        return information;
     }
 
-    public String getLocalidade() {
-        return localidade;
+    public void setInformation(String information) {
+        this.information = information;
     }
 
-    public void setLocalidade(String localidade) {
-        this.localidade = localidade;
+    public String getNeighbourhood() {
+        return neighbourhood;
     }
 
-    public String getUf() {
-        return uf;
+    public void setNeighbourhood(String neighbourhood) {
+        this.neighbourhood = neighbourhood;
     }
 
-    public void setUf(String uf) {
-        this.uf = uf;
+    public String getLocalization() {
+        return localization;
     }
 
-    public String getPais() {
-        return pais;
+    public void setLocalization(String localization) {
+        this.localization = localization;
     }
 
-    public void setPais(String pais) {
-        this.pais = pais;
+    public String getState() {
+        return state;
     }
 
-    public String getComplemento() {
-        return complemento;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + Objects.hashCode(this.cep);
-        hash = 83 * hash + Objects.hashCode(this.tipoLogradouro);
-        hash = 83 * hash + Objects.hashCode(this.logradouro);
-        hash = 83 * hash + Objects.hashCode(this.numero);
-        hash = 83 * hash + Objects.hashCode(this.complemento);
-        hash = 83 * hash + Objects.hashCode(this.bairro);
-        hash = 83 * hash + Objects.hashCode(this.localidade);
-        hash = 83 * hash + Objects.hashCode(this.uf);
-        hash = 83 * hash + Objects.hashCode(this.pais);
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.zipCode);
+        hash = 23 * hash + Objects.hashCode(this.premisseType);
+        hash = 23 * hash + Objects.hashCode(this.premisse);
+        hash = 23 * hash + Objects.hashCode(this.number);
+        hash = 23 * hash + Objects.hashCode(this.information);
+        hash = 23 * hash + Objects.hashCode(this.neighbourhood);
+        hash = 23 * hash + Objects.hashCode(this.localization);
+        hash = 23 * hash + Objects.hashCode(this.state);
+        hash = 23 * hash + Objects.hashCode(this.country);
         return hash;
     }
 
@@ -149,31 +149,31 @@ public class GumgaAddress extends GumgaDomain {
             return false;
         }
         final GumgaAddress other = (GumgaAddress) obj;
-        if (!Objects.equals(this.cep, other.cep)) {
+        if (!Objects.equals(this.zipCode, other.zipCode)) {
             return false;
         }
-        if (!Objects.equals(this.tipoLogradouro, other.tipoLogradouro)) {
+        if (!Objects.equals(this.premisseType, other.premisseType)) {
             return false;
         }
-        if (!Objects.equals(this.logradouro, other.logradouro)) {
+        if (!Objects.equals(this.premisse, other.premisse)) {
             return false;
         }
-        if (!Objects.equals(this.numero, other.numero)) {
+        if (!Objects.equals(this.number, other.number)) {
             return false;
         }
-        if (!Objects.equals(this.complemento, other.complemento)) {
+        if (!Objects.equals(this.information, other.information)) {
             return false;
         }
-        if (!Objects.equals(this.bairro, other.bairro)) {
+        if (!Objects.equals(this.neighbourhood, other.neighbourhood)) {
             return false;
         }
-        if (!Objects.equals(this.localidade, other.localidade)) {
+        if (!Objects.equals(this.localization, other.localization)) {
             return false;
         }
-        if (!Objects.equals(this.uf, other.uf)) {
+        if (!Objects.equals(this.state, other.state)) {
             return false;
         }
-        if (!Objects.equals(this.pais, other.pais)) {
+        if (!Objects.equals(this.country, other.country)) {
             return false;
         }
         return true;
@@ -181,7 +181,7 @@ public class GumgaAddress extends GumgaDomain {
 
     @Override
     public String toString() {
-        return "GumgaAddress{" + "cep=" + cep + ", tipoLogradouro=" + tipoLogradouro + ", logradouro=" + logradouro + ", numero=" + numero + ", complemento=" + complemento + ", bairro=" + bairro + ", localidade=" + localidade + ", uf=" + uf + ", pais=" + pais + '}';
+        return "GumgaAddress{" + "zipCode=" + zipCode + ", premisseType=" + premisseType + ", premisse=" + premisse + ", number=" + number + ", information=" + information + ", neighbourhood=" + neighbourhood + ", localization=" + localization + ", state=" + state + ", country=" + country + '}';
     }
 
 }
