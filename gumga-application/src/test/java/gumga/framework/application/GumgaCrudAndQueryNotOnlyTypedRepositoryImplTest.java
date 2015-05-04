@@ -7,7 +7,6 @@ package gumga.framework.application;
 
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.QueryObject;
-import gumga.framework.domain.domains.GumgaOi;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

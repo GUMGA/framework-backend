@@ -9,7 +9,6 @@ import static org.hibernate.criterion.Restrictions.like;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.*;
-import gumga.framework.domain.domains.GumgaOi;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 
 import java.io.Serializable;
@@ -316,21 +315,6 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void setRepositoryMethodMetadata(CrudMethodMetadata crudMethodMetadata) {
         super.setRepositoryMethodMetadata(crudMethodMetadata); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private <S extends T> void setOiOld(S entity) {
-        try {
-            GumgaModel model = GumgaModel.class.cast(entity);
-
-            if (model.getOi() == null && model.getId() == null) {
-                Field fieldOi = GumgaModel.class.getDeclaredField("oi");
-                fieldOi.setAccessible(true);
-                fieldOi.set(entity, new GumgaOi(GumgaThreadScope.organizationCode.get()));
-            }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
-        }
     }
 
     @Override

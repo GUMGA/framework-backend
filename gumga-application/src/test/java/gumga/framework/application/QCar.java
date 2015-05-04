@@ -26,7 +26,7 @@ public class QCar extends EntityPathBase<Car> {
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
-    public final StringPath oi = _super.oi;
+    public final StringPath oi = createString("oi");
 
     public final NumberPath<java.math.BigDecimal> valor = createNumber("valor", java.math.BigDecimal.class);
 

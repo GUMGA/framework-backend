@@ -5,10 +5,10 @@ import com.mysema.query.types.*;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.ComparablePath;
 import com.mysema.query.types.path.PathBuilder;
+import com.mysema.query.types.path.StringPath;
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaMultitenancy;
-import gumga.framework.domain.domains.GumgaOi;
 import gumga.framework.domain.repository.GumgaQueryDSLRepository;
 import gumga.framework.domain.repository.ISpecification;
 import org.hibernate.criterion.Criterion;
@@ -148,9 +148,8 @@ public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends Gum
 
     private BooleanExpression getOiExpression() {
         String result = GumgaThreadScope.organizationCode.get();
-        ComparablePath<GumgaOi> oi = new ComparablePath<>(GumgaOi.class, PathMetadataFactory.forProperty(this.path, "oi"));
+        StringPath oi = new StringPath("oi");
         return oi.stringValue().startsWith(result).or(oi.isNull());
     }
-
 
 }
