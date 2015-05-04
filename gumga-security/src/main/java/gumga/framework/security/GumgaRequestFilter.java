@@ -62,6 +62,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         tempo.set(System.currentTimeMillis());
         String token = "not initialized";
         String errorMessage = "Error";
+        int statusCode = 200;
         try {
             token = request.getHeader("gumgaToken");
             if (token == null) {
@@ -88,7 +89,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 operationKey = apiName + "_" + hm.getMethod().getName();
             }
             if (endPoint.contains("public")) {
-                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public"), request, operationKey, endPoint, method);
+                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public"), request, operationKey, endPoint, method,true);
                 return true;
             }
 
@@ -101,8 +102,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             GumgaThreadScope.organization.set(ar.getOrganization());
             GumgaThreadScope.organizationCode.set(ar.getOrganizationCode());
             GumgaThreadScope.operationKey.set(operationKey);
-
-            saveLog(ar, request, operationKey, endPoint, method);
+            saveLog(ar, request, operationKey, endPoint, method,ar.isAllowed());
             if (ar.isAllowed()) {
                 return true;
             } else {
@@ -114,15 +114,15 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         } finally {
 
         }
-        response.setStatus(401);
+        response.setStatus(statusCode);
         response.getOutputStream().write(("Error:" + errorMessage).getBytes());
         return false;
     }
 
-    public void saveLog(AuthorizatonResponse ar, HttpServletRequest requset, String operationKey, String endPoint, String method) {
+    public void saveLog(AuthorizatonResponse ar, HttpServletRequest requset, String operationKey, String endPoint, String method,boolean a) {
         if (gumgaValues.isLogActive()) {
             GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
-                    ar.getOrganization(), softwareId, operationKey, endPoint, method);
+                    ar.getOrganization(), softwareId, operationKey, endPoint, method, a);
             gls.save(gl);
         }
     }

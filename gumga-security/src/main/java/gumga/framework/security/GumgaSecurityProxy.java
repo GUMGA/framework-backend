@@ -41,7 +41,7 @@ class GumgaSecurityProxy {
     public Map create(@PathVariable String user, @PathVariable String password) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/create/" + user + "/" + password;
         Map resposta = restTemplate.getForObject(url, Map.class);
-        return resposta;
+       return resposta;
     }
 
     @RequestMapping(value = "/{token}", method = RequestMethod.DELETE)

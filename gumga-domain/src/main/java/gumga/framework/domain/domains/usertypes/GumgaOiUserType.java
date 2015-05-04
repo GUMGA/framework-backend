@@ -67,7 +67,7 @@ public class GumgaOiUserType extends MutableUserType {
         if (null == value) {
             preparedStatement.setNull(property, java.sql.Types.VARCHAR);
         } else {
-            final GumgaOi object = new GumgaOi(value.toString());
+            final GumgaOi object = (GumgaOi) value;
             preparedStatement.setString(property, object.getValue());
         }
     }

@@ -127,7 +127,7 @@ public class GumgaCrudAndQueryNotOnlyTypedRepositoryImplTest {
         System.out.println("getResultList 3 args");
         Map<String, Object> param = new HashMap<>();
         param.put("param", "Cadastrar%");
-        param.put("oi", new GumgaOi("1"));
+        param.put("oi", "1");
         
         List<Task> result = repository.getResultList("select obj from Task obj where obj.name like(:param) and obj.oi=:oi",  param,7);
         assertTrue(result.size()==7);
@@ -160,7 +160,7 @@ public class GumgaCrudAndQueryNotOnlyTypedRepositoryImplTest {
     @Test
     public void testQueryImplementationInterfa(){
         System.out.println("testQueryImplementationInterfa");
-        List<Task>result =repository.getTaskDescriptionAndOi("%Pessoa%", Arrays.asList(new GumgaOi("1"), new GumgaOi("2")));
+        List<Task>result =repository.getTaskDescriptionAndOi("%Pessoa%", Arrays.asList("1", "2"));
         assertTrue(result.size()==2);
     }
 

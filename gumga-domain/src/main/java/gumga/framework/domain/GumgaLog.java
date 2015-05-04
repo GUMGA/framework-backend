@@ -30,14 +30,16 @@ public class GumgaLog extends GumgaModel<Long> {
     private String operarationKey;
     private String endPoint;
     private String method;
+    private boolean allowed;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date quando;
 
     public GumgaLog() {
         this.quando = new Date();
+        allowed = false;
     }
 
-    public GumgaLog(String login, String ip, String organizationCode, String organization, String software, String operarationKey, String endPoint, String method) {
+    public GumgaLog(String login, String ip, String organizationCode, String organization, String software, String operarationKey, String endPoint, String method, boolean a) {
         this.login = login;
         this.ip = ip;
         this.organizationCode = organizationCode;
@@ -47,6 +49,7 @@ public class GumgaLog extends GumgaModel<Long> {
         this.endPoint = endPoint;
         this.method = method;
         this.quando = new Date();
+        this.allowed = a;
     }
 
     public String getLogin() {
@@ -119,6 +122,14 @@ public class GumgaLog extends GumgaModel<Long> {
 
     public void setQuando(Date quando) {
         this.quando = quando;
+    }
+
+    public boolean isAllowed() {
+        return allowed;
+    }
+
+    public void setAllowed(boolean allowed) {
+        this.allowed = allowed;
     }
 
     @Override

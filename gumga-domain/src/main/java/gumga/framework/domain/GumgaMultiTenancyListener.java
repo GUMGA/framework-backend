@@ -23,8 +23,10 @@ public class GumgaMultiTenancyListener {
         Class classe = gumgaModel.getClass();
         if (classe.isAnnotationPresent(GumgaMultitenancy.class)) {
             String oc = GumgaThreadScope.organizationCode.get();
-            GumgaOi gumgaOi = new GumgaOi(oc);
-            gumgaModel.oi = gumgaOi;
+//            GumgaOi gumgaOi = new GumgaOi(oc);
+//            gumgaModel.oi = gumgaOi;
+            
+            gumgaModel.oi = oc;
         }
     }
 }

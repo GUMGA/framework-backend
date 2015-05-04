@@ -36,7 +36,7 @@ import org.hibernate.annotations.TypeDefs;
     @TypeDef(name = "gumgamutilinestring", defaultForType = GumgaMultiLineString.class, typeClass = GumgaMultiLineStringUserType.class),
     @TypeDef(name = "gumgaphonenumber", defaultForType = GumgaPhoneNumber.class, typeClass = GumgaPhoneNumberUserType.class),
     @TypeDef(name = "gumgatime", defaultForType = GumgaTime.class, typeClass = GumgaTimeUserType.class),
-    @TypeDef(name = "gumgaoi", defaultForType = GumgaOi.class, typeClass = GumgaOiUserType.class),
+    //@TypeDef(name = "gumgaoi", defaultForType = GumgaOi.class, typeClass = GumgaOiUserType.class),
     @TypeDef(name = "gumgaurl", defaultForType = GumgaURL.class, typeClass = GumgaURLUserType.class)
 })
 @EntityListeners(GumgaMultiTenancyListener.class)
@@ -47,13 +47,14 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     @GeneratedValue(strategy = GenerationType.AUTO)//, generator = SEQ_NAME)
     protected ID id;
 
-    protected GumgaOi oi;
+    
+    protected String oi; // protected GumgaOi oi;
 
     public GumgaModel() {
         // Construtor vazio para serialização
     }
 
-    public GumgaModel(GumgaOi oi) {
+    public GumgaModel(String oi) {
         this.oi = oi;
     }
 
@@ -61,7 +62,7 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
         return id;
     }
 
-    public GumgaOi getOi() {
+    public String getOi() {
         return oi;
     }
 
