@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.Map;
 import java.util.Set;
 import javax.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -38,10 +40,14 @@ class GumgaSecurityProxy {
     }
 
     @RequestMapping("/create/{user}/{password}")
-    public Map create(@PathVariable String user, @PathVariable String password) {
+    public ResponseEntity create(@PathVariable String user, @PathVariable String password) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/create/" + user + "/" + password;
         Map resposta = restTemplate.getForObject(url, Map.class);
-       return resposta;
+        GumgaSecurityCode response = GumgaSecurityCode.OK; //TODO ESTÁ PARA MANTER COMPATÍVEL COM A VERSÃO ANTERIOR DO SEGURANÇA, 
+        if (resposta.containsKey("response")) {
+            response = GumgaSecurityCode.valueOf("" + resposta.get("response"));
+        }
+        return new ResponseEntity(resposta, response.httpStatus);
     }
 
     @RequestMapping(value = "/{token}", method = RequestMethod.DELETE)
@@ -52,10 +58,14 @@ class GumgaSecurityProxy {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Map login(@RequestBody UserAndPassword login) {
+    public ResponseEntity login(@RequestBody UserAndPassword login) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/public/token";
         Map resposta = restTemplate.postForObject(url, login, Map.class);
-        return resposta;
+        GumgaSecurityCode response = GumgaSecurityCode.OK; //TODO ESTÁ PARA MANTER COMPATÍVEL COM A VERSÃO ANTERIOR DO SEGURANÇA, 
+        if (resposta.containsKey("response")) {
+            response = GumgaSecurityCode.valueOf("" + resposta.get("response"));
+        }
+        return new ResponseEntity(resposta, response.httpStatus);
     }
 
     @RequestMapping(value = "/{token}", method = RequestMethod.GET)
@@ -81,7 +91,6 @@ class GumgaSecurityProxy {
     }
 
     @Transactional
-
     @RequestMapping("/operations/{software}/{token}")
     public Set operations(@PathVariable String software, @PathVariable String token) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/operations/" + software + "/" + token;

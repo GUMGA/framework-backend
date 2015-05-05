@@ -7,6 +7,7 @@ package gumga.framework.security;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 
 /**
  *
@@ -14,19 +15,26 @@ import java.util.Map;
  */
 public enum GumgaSecurityCode {
 
-    OK,
-    UNDEFINED,
-    NO_USER,
-    BAD_PASSWORD,
-    NO_INSTANCE,
-    NO_TOKEN,
-    TOKEN_EXPIRED,
-    NO_ORGANIZATION,
-    OPERATION_NOT_ALLOWED;
+    OK(HttpStatus.OK),
+    ALLOW(HttpStatus.OK),
+    UNDEFINED(HttpStatus.I_AM_A_TEAPOT),
+    NO_USER(HttpStatus.UNAUTHORIZED),
+    BAD_PASSWORD(HttpStatus.UNAUTHORIZED),
+    NO_INSTANCE(HttpStatus.FORBIDDEN),
+    NO_TOKEN(HttpStatus.FORBIDDEN),
+    TOKEN_EXPIRED(HttpStatus.FORBIDDEN),
+    NO_ORGANIZATION(HttpStatus.FORBIDDEN),
+    OPERATION_NOT_ALLOWED(HttpStatus.UNAUTHORIZED);
+
+    public HttpStatus httpStatus;
+
+    GumgaSecurityCode(HttpStatus s) {
+        httpStatus = s;
+    }
 
     public Map response() {
         Map toReturn = new HashMap();
-        toReturn.put("response", toString());
+        toReturn.put("response", this);
         return toReturn;
     }
 
