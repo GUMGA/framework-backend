@@ -22,7 +22,8 @@ import org.hibernate.annotations.TypeDefs;
 @MappedSuperclass
 @TypeDefs({
     @TypeDef(name = "gumgaaddress", defaultForType = GumgaAddress.class, typeClass = GumgaAddressUserType.class),
-    @TypeDef(name = "gugmaboolean", defaultForType = GumgaBoolean.class, typeClass = GumgaBooleanUserType.class),
+    @TypeDef(name = "gumgaboolean", defaultForType = GumgaBoolean.class, typeClass = GumgaBooleanUserType.class),
+    @TypeDef(name = "gumgabarcode", defaultForType = GumgaBarCode.class, typeClass = GumgaBarCodeUserType.class),
     @TypeDef(name = "gumgacep", defaultForType = GumgaCEP.class, typeClass = GumgaCEPUserType.class),
     @TypeDef(name = "gumgacnpj", defaultForType = GumgaCNPJ.class, typeClass = GumgaCNPJUserType.class),
     @TypeDef(name = "gumgacpf", defaultForType = GumgaCPF.class, typeClass = GumgaCPFUserType.class),
@@ -47,7 +48,6 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     @GeneratedValue(strategy = GenerationType.AUTO)//, generator = SEQ_NAME)
     protected ID id;
 
-    
     protected String oi; // protected GumgaOi oi;
 
     public GumgaModel() {
@@ -91,6 +91,10 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
             return false;
         }
         return true;
+    }
+
+    public void setId(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
