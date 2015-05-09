@@ -74,6 +74,9 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     @Override
     public int hashCode() {
         int hash = 7;
+        if (id == null) {
+            return super.hashCode();
+        }
         hash = 29 * hash + Objects.hashCode(this.id);
         return hash;
     }
@@ -87,14 +90,14 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
             return false;
         }
         final GumgaModel<?> other = (GumgaModel<?>) obj;
+        if (id == null) {
+            return super.equals(obj);
+        }
+
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
-    }
-
-    public void setId(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
