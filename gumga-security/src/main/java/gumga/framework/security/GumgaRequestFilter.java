@@ -93,7 +93,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 return true;
             }
 
-            String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/authorize/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
+            String url = gumgaValues.getGumgaSecurityUrl() + "/token/authorize/" + softwareId + "/" + token + "/" + operationKey + "/" + request.getRemoteAddr().replace('.', '_');
             //System.out.println(url);
 
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);

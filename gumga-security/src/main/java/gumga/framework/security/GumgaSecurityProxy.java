@@ -7,7 +7,6 @@ package gumga.framework.security;
 
 import gumga.framework.core.GumgaValues;
 import gumga.framework.core.UserAndPassword;
-import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.Map;
 import java.util.Set;
 import javax.transaction.Transactional;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -41,7 +39,8 @@ class GumgaSecurityProxy {
 
     @RequestMapping("/create/{user}/{password}")
     public ResponseEntity create(@PathVariable String user, @PathVariable String password) {
-        String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/create/" + user + "/" + password;
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/create/" + user + "/" + password;
+        System.out.println(url);
         Map resposta = restTemplate.getForObject(url, Map.class);
         GumgaSecurityCode response = GumgaSecurityCode.OK; //TODO ESTÁ PARA MANTER COMPATÍVEL COM A VERSÃO ANTERIOR DO SEGURANÇA, 
         if (resposta.containsKey("response")) {
@@ -52,14 +51,14 @@ class GumgaSecurityProxy {
 
     @RequestMapping(value = "/{token}", method = RequestMethod.DELETE)
     public Map delete(@PathVariable String token) {
-        String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/" + token;
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/" + token;
         restTemplate.delete(url);
         return GumgaSecurityCode.OK.response();
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody UserAndPassword login) {
-        String url = gumgaValues.getGumgaSecurityUrl() + "/public/token";
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token";
         Map resposta = restTemplate.postForObject(url, login, Map.class);
         GumgaSecurityCode response = GumgaSecurityCode.OK; //TODO ESTÁ PARA MANTER COMPATÍVEL COM A VERSÃO ANTERIOR DO SEGURANÇA, 
         if (resposta.containsKey("response")) {
@@ -77,7 +76,7 @@ class GumgaSecurityProxy {
 
     @RequestMapping(method = RequestMethod.PUT)
     public Map changePassword(@RequestBody UserAndPassword login) {
-        String url = gumgaValues.getGumgaSecurityUrl() + "/public/token";
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token";
         restTemplate.put(url, login);
         return GumgaSecurityCode.OK.response();
     }
@@ -85,7 +84,7 @@ class GumgaSecurityProxy {
     @Transactional
     @RequestMapping("/organizations/{token}")
     public List organizations(@PathVariable String token) {
-        String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/organizations/" + token;
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/organizations/" + token;
         List resposta = restTemplate.getForObject(url, List.class);
         return resposta;
     }
@@ -93,7 +92,7 @@ class GumgaSecurityProxy {
     @Transactional
     @RequestMapping("/operations/{software}/{token}")
     public Set operations(@PathVariable String software, @PathVariable String token) {
-        String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/operations/" + software + "/" + token;
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/operations/" + software + "/" + token;
         Set resposta = restTemplate.getForObject(url, Set.class);
         return resposta;
     }
