@@ -13,6 +13,10 @@ public interface GumgaValues {
 
     String getGumgaSecurityUrl();
 
+    default long getDefaultTokenDuration() { //TODO em JAVA 8 os métodos das interfaces podem ter corpo
+        return 30 * 60 * 1000;
+    }
+
     boolean isLogActive();
 
 }
