@@ -24,7 +24,10 @@ public enum GumgaSecurityCode {
     NO_TOKEN(HttpStatus.FORBIDDEN),
     TOKEN_EXPIRED(HttpStatus.FORBIDDEN),
     NO_ORGANIZATION(HttpStatus.FORBIDDEN),
-    OPERATION_NOT_ALLOWED(HttpStatus.UNAUTHORIZED);
+    OPERATION_NOT_ALLOWED(HttpStatus.UNAUTHORIZED),
+    INSTANCE_EXPIRED(HttpStatus.FORBIDDEN),
+    IP_NOT_ALLOWED(HttpStatus.FORBIDDEN),
+    TIME_NOT_ALLOWED(HttpStatus.FORBIDDEN);
 
     public HttpStatus httpStatus;
 

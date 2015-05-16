@@ -69,6 +69,10 @@ public final class GumgaTime extends GumgaDomain {
         }
     }
 
+    public int getOnlyTimeInSeconds() {
+        return hour * 3600 + minute * 60 + second;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
