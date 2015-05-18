@@ -133,6 +133,17 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
             throw new EntityNotFoundException("cannot find " + entityInformation.getJavaType() + " with id: " + id);
         }
 
+        if (hasMultitenancy()) {
+            GumgaModel object = (GumgaModel) resource;
+            if (object.getOi() != null) {
+                System.out.println("------------->" + object.getOi());
+                System.out.println("------------->" + GumgaThreadScope.organizationCode.get());
+                if (GumgaThreadScope.organizationCode.get() == null || !object.getOi().startsWith(GumgaThreadScope.organizationCode.get())) {
+                    throw new EntityNotFoundException("cannot find " + entityInformation.getJavaType() + " with id: " + id + " in your organization");
+                }
+            }
+        }
+
         return resource;
     }
 
