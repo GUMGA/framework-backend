@@ -121,6 +121,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     }
 
     public void saveLog(AuthorizatonResponse ar, HttpServletRequest requset, String operationKey, String endPoint, String method, boolean a) {
+        System.out.println("------------------------- GUMGAVALUES -->"+gumgaValues);
         if (gumgaValues.isLogActive()) {
             GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
                     ar.getOrganization(), softwareId, operationKey, endPoint, method, a);

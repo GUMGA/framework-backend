@@ -11,12 +11,25 @@ package gumga.framework.core;
  */
 public interface GumgaValues {
 
-    String getGumgaSecurityUrl();
+    default String getGumgaSecurityUrl(){
+        return "http://www.gumga.com.br/security/publicoperations";
+    }
 
-    default long getDefaultTokenDuration() { //TODO em JAVA 8 os métodos das interfaces podem ter corpo
+    default long getDefaultTokenDuration() { 
         return 30 * 60 * 1000;
     }
 
-    boolean isLogActive();
+    default boolean isLogActive(){
+        return true;
+    }
+
+    default String getUploadTempDir() {
+        return System.getProperty("user.home").concat("/gumgafiles/tempupload");
+
+    }
+
+    default String getLogDir() {
+        return System.getProperty("user.home").concat("/gumgafiles/logs");
+    }
 
 }

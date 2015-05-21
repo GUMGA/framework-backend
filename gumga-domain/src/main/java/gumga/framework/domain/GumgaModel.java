@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.TypeDef;
@@ -49,6 +50,9 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     protected ID id;
 
     protected String oi; // protected GumgaOi oi;
+    
+    @Version
+    protected int version;
 
     public GumgaModel() {
         // Construtor vazio para serialização
