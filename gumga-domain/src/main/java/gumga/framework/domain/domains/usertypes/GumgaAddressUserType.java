@@ -162,6 +162,10 @@ public class GumgaAddressUserType implements CompositeUserType {
     @Override
     public Object deepCopy(final Object value) throws HibernateException {
 //        return value; if object was immutable we could return the object as its is
+        if (value == null) {
+            return null;
+        }
+
         final GumgaAddress recebido = (GumgaAddress) value;
         final GumgaAddress aRetornar = new GumgaAddress(recebido);
         return aRetornar;

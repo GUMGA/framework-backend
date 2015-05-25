@@ -73,6 +73,10 @@ public class GumgaIP6UserType extends MutableUserType {
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
+        if (value == null) {
+            return null;
+        }
+
         final GumgaIP6 recebido = (GumgaIP6) value;
         final GumgaIP6 aRetornar = new GumgaIP6(recebido);
         return aRetornar;

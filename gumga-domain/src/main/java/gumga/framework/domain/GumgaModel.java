@@ -51,7 +51,7 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
 
     protected String oi; // protected GumgaOi oi;
     
-  //  @Version
+    @Version
     protected int version;
 
     public GumgaModel() {
@@ -87,6 +87,7 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
 
     @Override
     public boolean equals(Object obj) {
+        System.out.println("Comparando "+this.getClass().getSimpleName());
         if (obj == null) {
             return false;
         }
@@ -101,6 +102,7 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        System.out.println("Iguais");
         return true;
     }
 

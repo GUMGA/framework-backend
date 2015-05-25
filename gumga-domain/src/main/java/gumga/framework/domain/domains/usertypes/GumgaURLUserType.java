@@ -73,6 +73,10 @@ public class GumgaURLUserType extends MutableUserType {
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
+        if (value == null) {
+            return null;
+        }
+
         final GumgaURL recebido = (GumgaURL) value;
         final GumgaURL aRetornar = new GumgaURL(recebido);
         return aRetornar;

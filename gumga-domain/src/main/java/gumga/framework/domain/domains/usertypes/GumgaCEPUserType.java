@@ -73,6 +73,10 @@ public class GumgaCEPUserType extends MutableUserType {
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
+        if (value == null) {
+            return null;
+        }
+
         final GumgaCEP recebido = (GumgaCEP) value;
         final GumgaCEP aRetornar = new GumgaCEP(recebido);
         return aRetornar;

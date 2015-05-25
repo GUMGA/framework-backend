@@ -73,6 +73,10 @@ public class GumgaEMailUserType extends MutableUserType {
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
+        if (value == null) {
+            return null;
+        }
+
         final GumgaEMail recebido = (GumgaEMail) value;
         final GumgaEMail aRetornar = new GumgaEMail(recebido);
         return aRetornar;

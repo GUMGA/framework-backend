@@ -72,9 +72,9 @@ public class GumgaImageUserType implements CompositeUserType {
     public boolean equals(final Object o1, final Object o2) throws HibernateException {
         boolean isEqual = false;
         if (o1 == o2) {
-            isEqual = false;
+            isEqual = true;
         }
-        if (null == o1 || null == o2) {
+        else if (null == o1 || null == o2) {
             isEqual = false;
         } else {
             isEqual = o1.equals(o2);
@@ -130,7 +130,12 @@ public class GumgaImageUserType implements CompositeUserType {
      */
     @Override
     public Object deepCopy(final Object value) throws HibernateException {
-//        return value; if object was immutable we could return the object as its is
+        
+        
+        if (value==null){
+            return null;
+        }
+        
         final GumgaImage recebido = (GumgaImage) value;
         final GumgaImage aRetornar = new GumgaImage(recebido);
         return aRetornar;
@@ -173,6 +178,9 @@ public class GumgaImageUserType implements CompositeUserType {
             throws HibernateException {
         //        return original; // if immutable use this
         //For mutable types at bare minimum return a deep copy of first argument
+        
+        System.out.println("MERGING...................");
+        
         return this.deepCopy(original);
     }
 }

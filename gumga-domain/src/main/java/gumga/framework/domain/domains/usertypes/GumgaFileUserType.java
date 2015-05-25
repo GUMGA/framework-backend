@@ -130,7 +130,10 @@ public class GumgaFileUserType implements CompositeUserType {
      */
     @Override
     public Object deepCopy(final Object value) throws HibernateException {
-//        return value; if object was immutable we could return the object as its is
+        if (value == null) {
+            return null;
+        }
+
         final GumgaFile recebido = (GumgaFile) value;
         final GumgaFile aRetornar = new GumgaFile(recebido);
         return aRetornar;

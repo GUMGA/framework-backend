@@ -125,9 +125,13 @@ public class GumgaTimeUserType implements CompositeUserType {
      */
     @Override
     public Object deepCopy(final Object value) throws HibernateException {
+        if (value == null) {
+            return null;
+        }
+
 //        return value; if object was immutable we could return the object as its is
         final GumgaTime recebido = (GumgaTime) value;
-        final GumgaTime aRetornar = new GumgaTime(recebido);        
+        final GumgaTime aRetornar = new GumgaTime(recebido);
         return aRetornar;
     }
 

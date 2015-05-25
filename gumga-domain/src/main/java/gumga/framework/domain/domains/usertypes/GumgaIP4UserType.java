@@ -64,6 +64,10 @@ public class GumgaIP4UserType extends MutableUserType {
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
+        if (value == null) {
+            return null;
+        }
+
         final GumgaIP4 recebido = (GumgaIP4) value;
         final GumgaIP4 aRetornar = new GumgaIP4(recebido);
         return aRetornar;

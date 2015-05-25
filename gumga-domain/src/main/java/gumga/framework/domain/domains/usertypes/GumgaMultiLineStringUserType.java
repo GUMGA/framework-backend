@@ -73,6 +73,10 @@ public class GumgaMultiLineStringUserType extends MutableUserType {
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
+        if (value == null) {
+            return null;
+        }
+
         final GumgaMultiLineString recebido = (GumgaMultiLineString) value;
         final GumgaMultiLineString aRetornar = new GumgaMultiLineString(recebido);
         return aRetornar;

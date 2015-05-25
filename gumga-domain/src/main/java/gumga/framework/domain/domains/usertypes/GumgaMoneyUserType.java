@@ -74,6 +74,10 @@ public class GumgaMoneyUserType extends MutableUserType {
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
+        if (value == null) {
+            return null;
+        }
+
         final GumgaMoney recebido = (GumgaMoney) value;
         final GumgaMoney aRetornar = new GumgaMoney(recebido);
         return aRetornar;

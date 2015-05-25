@@ -119,6 +119,10 @@ public class GumgaGeoLocationUserType implements CompositeUserType {
      */
     @Override
     public Object deepCopy(final Object value) throws HibernateException {
+        if (value == null) {
+            return null;
+        }
+
 //        return value; if object was immutable we could return the object as its is
         final GumgaGeoLocation recebido = (GumgaGeoLocation) value;
         final GumgaGeoLocation aRetornar = new GumgaGeoLocation(recebido);

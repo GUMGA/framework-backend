@@ -73,6 +73,10 @@ public class GumgaCPFUserType extends MutableUserType {
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
+        if (value == null) {
+            return null;
+        }
+
         final GumgaCPF recebido = (GumgaCPF) value;
         final GumgaCPF aRetornar = new GumgaCPF(recebido);
         return aRetornar;

@@ -73,6 +73,11 @@ public class GumgaCNPJUserType extends MutableUserType {
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
+
+        if (value == null) {
+            return null;
+        }
+
         final GumgaCNPJ recebido = (GumgaCNPJ) value;
         final GumgaCNPJ aRetornar = new GumgaCNPJ(recebido);
         return aRetornar;
