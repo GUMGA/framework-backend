@@ -39,7 +39,6 @@ public class GumgaLoggerService {
     public String createLogLine(String msg, int level) {
         StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[level];
         String line = sdf.format(new Date()) + " " + stackTraceElement.getClassName() + " " + stackTraceElement.getMethodName() + " " + stackTraceElement.getLineNumber() + " " + msg + "\n";
-        System.out.print(line);
         return line;
 
     }

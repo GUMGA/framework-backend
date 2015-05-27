@@ -94,7 +94,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             }
 
             String url = gumgaValues.getGumgaSecurityUrl() + "/token/authorize/" + softwareId + "/" + token + "/" + request.getRemoteAddr() + "/" + operationKey + "/";
-            System.out.println(url);
+            System.out.println("------------>" + url);
 
             AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
@@ -102,6 +102,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             GumgaThreadScope.organization.set(ar.getOrganization());
             GumgaThreadScope.organizationCode.set(ar.getOrganizationCode());
             GumgaThreadScope.operationKey.set(operationKey);
+            System.out.println("------------>" + ar);
             saveLog(ar, request, operationKey, endPoint, method, ar.isAllowed());
             if (ar.isAllowed()) {
                 return true;
@@ -121,7 +122,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     }
 
     public void saveLog(AuthorizatonResponse ar, HttpServletRequest requset, String operationKey, String endPoint, String method, boolean a) {
-        System.out.println("------------------------- GUMGAVALUES -->"+gumgaValues);
+        System.out.println("------------------------- GUMGAVALUES -->" + gumgaValues);
         if (gumgaValues.isLogActive()) {
             GumgaLog gl = new GumgaLog(ar.getLogin(), requset.getRemoteAddr(), ar.getOrganizationCode(),
                     ar.getOrganization(), softwareId, operationKey, endPoint, method, a);
@@ -131,7 +132,6 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-//        System.out.println((System.currentTimeMillis() - tempo.get()) + "ms " + request.getRemoteHost() + " " + request.getRequestURI() + " " + request.getMethod());
         tempo.remove();
         GumgaThreadScope.ip.remove();
         GumgaThreadScope.login.remove();

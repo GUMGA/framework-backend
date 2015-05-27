@@ -1,18 +1,17 @@
 package gumga.framework.domain;
 
+import gumga.framework.domain.domains.GumgaOi;
 import java.io.Serializable;
 
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.domain.domains.*;
 import gumga.framework.domain.domains.usertypes.*;
 import java.util.Objects;
-import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
@@ -38,7 +37,7 @@ import org.hibernate.annotations.TypeDefs;
     @TypeDef(name = "gumgamutilinestring", defaultForType = GumgaMultiLineString.class, typeClass = GumgaMultiLineStringUserType.class),
     @TypeDef(name = "gumgaphonenumber", defaultForType = GumgaPhoneNumber.class, typeClass = GumgaPhoneNumberUserType.class),
     @TypeDef(name = "gumgatime", defaultForType = GumgaTime.class, typeClass = GumgaTimeUserType.class),
-    //@TypeDef(name = "gumgaoi", defaultForType = GumgaOi.class, typeClass = GumgaOiUserType.class),
+    @TypeDef(name = "gumgaoi", defaultForType = GumgaOi.class, typeClass = GumgaOiUserType.class),
     @TypeDef(name = "gumgaurl", defaultForType = GumgaURL.class, typeClass = GumgaURLUserType.class)
 })
 @EntityListeners(GumgaMultiTenancyListener.class)
@@ -49,16 +48,15 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     @GeneratedValue(strategy = GenerationType.AUTO)//, generator = SEQ_NAME)
     protected ID id;
 
-    protected String oi; // protected GumgaOi oi;
+    protected GumgaOi oi;
     
     @Version
     protected int version;
 
     public GumgaModel() {
-        // Construtor vazio para serialização
     }
 
-    public GumgaModel(String oi) {
+    public GumgaModel(GumgaOi oi) {
         this.oi = oi;
     }
 
@@ -66,7 +64,7 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
         return id;
     }
 
-    public String getOi() {
+    public GumgaOi getOi() {
         return oi;
     }
 
@@ -87,7 +85,6 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
 
     @Override
     public boolean equals(Object obj) {
-        System.out.println("Comparando "+this.getClass().getSimpleName());
         if (obj == null) {
             return false;
         }
@@ -102,7 +99,6 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        System.out.println("Iguais");
         return true;
     }
 

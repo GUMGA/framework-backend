@@ -136,9 +136,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (hasMultitenancy()) {
             GumgaModel object = (GumgaModel) resource;
             if (object.getOi() != null) {
-                System.out.println("------------->" + object.getOi());
-                System.out.println("------------->" + GumgaThreadScope.organizationCode.get());
-                if (GumgaThreadScope.organizationCode.get() == null || !object.getOi().startsWith(GumgaThreadScope.organizationCode.get())) {
+                if (GumgaThreadScope.organizationCode.get() == null || !object.getOi().getValue().startsWith(GumgaThreadScope.organizationCode.get())) {
                     throw new EntityNotFoundException("cannot find " + entityInformation.getJavaType() + " with id: " + id + " in your organization");
                 }
             }
@@ -164,8 +162,6 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
             hqlConsulta = String.format(modelo + " ORDER BY %s %s", entityInformation.getEntityName(), query.getAq(), query.getSortField(), query.getSortDir());
         }
         String hqlConta = String.format("SELECT count(obj) " + modelo, entityInformation.getEntityName(), query.getAq());
-        System.out.println("HQL Consulta:" + hqlConsulta);
-        System.out.println("HQL Conta:" + hqlConta);
         Query qConta = entityManager.createQuery(hqlConta);
         Query qConsulta = entityManager.createQuery(hqlConsulta);
         Long total = (Long) qConta.getSingleResult();

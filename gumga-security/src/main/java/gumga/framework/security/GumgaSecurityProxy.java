@@ -40,7 +40,6 @@ class GumgaSecurityProxy {
     @RequestMapping("/create/{user}/{password}")
     public ResponseEntity create(@PathVariable String user, @PathVariable String password) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/create/" + user + "/" + password;
-        System.out.println(url);
         Map resposta = restTemplate.getForObject(url, Map.class);
         GumgaSecurityCode response = GumgaSecurityCode.OK; //TODO ESTÁ PARA MANTER COMPATÍVEL COM A VERSÃO ANTERIOR DO SEGURANÇA, 
         if (resposta.containsKey("response")) {

@@ -8,6 +8,9 @@ import com.mysema.query.types.path.NumberPath;
 import com.mysema.query.types.path.StringPath;
 
 import static com.mysema.query.types.PathMetadataFactory.forVariable;
+import com.mysema.query.types.path.SimplePath;
+import gumga.framework.domain.domains.GumgaOi;
+import java.io.Serializable;
 
 /**
  * Created by rafael on 08/04/15.
@@ -25,7 +28,7 @@ public class QTask extends EntityPathBase<Task> {
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
-    public final StringPath oi = _super.oi;
+    public final ComparablePath<GumgaOi> oi = _super.oi;
 
     public final NumberPath<java.math.BigDecimal> valor = createNumber("valor", java.math.BigDecimal.class);
 

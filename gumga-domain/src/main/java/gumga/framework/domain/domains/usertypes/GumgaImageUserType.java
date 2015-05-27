@@ -176,10 +176,6 @@ public class GumgaImageUserType implements CompositeUserType {
     public Object replace(final Object original, final Object target,
             final SessionImplementor paramSessionImplementor, final Object owner)
             throws HibernateException {
-        //        return original; // if immutable use this
-        //For mutable types at bare minimum return a deep copy of first argument
-        
-        System.out.println("MERGING...................");
         
         return this.deepCopy(original);
     }

@@ -114,8 +114,6 @@ public class HibernateQueryObject {
         @Override
         public Criterion parse(String field, String value) {
 
-            System.out.println("-----------------------------------------------Field:" + field + "  " + value);
-
             String[] chain = field.split("\\.");
 
             if (chain.length > 1) {

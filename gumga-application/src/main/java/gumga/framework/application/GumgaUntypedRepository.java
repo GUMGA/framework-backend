@@ -53,7 +53,6 @@ public class GumgaUntypedRepository {
     }
 
     public List<Object> fullTextSearch(String text) {
-        System.out.println("--------search ------>" + text + " " + getAllIndexedEntities());
         List aRetornar = new ArrayList();
 
         for (Class entidade : getAllIndexedEntities()) {
@@ -67,7 +66,6 @@ public class GumgaUntypedRepository {
                 }
             }
             if (!atributos.isEmpty()) {
-                System.out.println("Entidade " + entidade + " atributos " + atributos);
                 atributos = atributos.substring(0, atributos.length() - 1);
                 Query query = qb.keyword().onFields(atributos.split(",")).matching(text).createQuery();
                 aRetornar.addAll(fullTextEntityManager.createFullTextQuery(query, entidade).getResultList());

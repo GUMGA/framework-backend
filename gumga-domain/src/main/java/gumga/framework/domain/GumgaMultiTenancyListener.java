@@ -5,6 +5,7 @@
  */
 package gumga.framework.domain;
 
+import gumga.framework.domain.domains.GumgaOi;
 import gumga.framework.core.GumgaThreadScope;
 import javax.persistence.PrePersist;
 
@@ -19,7 +20,7 @@ public class GumgaMultiTenancyListener {
         Class classe = gumgaModel.getClass();
         if (classe.isAnnotationPresent(GumgaMultitenancy.class)) {
             String oc = GumgaThreadScope.organizationCode.get();
-            gumgaModel.oi = oc;
+            gumgaModel.oi = new GumgaOi(oc);
         }
     }
 }
