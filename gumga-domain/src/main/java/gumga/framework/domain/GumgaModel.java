@@ -51,7 +51,7 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     protected GumgaOi oi;
     
     @Version
-    protected int version;
+    protected Integer version;
 
     public GumgaModel() {
     }
