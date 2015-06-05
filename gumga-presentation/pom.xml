@@ -5,7 +5,7 @@
     <parent>
         <groupId>gumga.framework</groupId>
         <artifactId>gumga-backend-all</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>gumga-presentation</artifactId>
@@ -15,6 +15,12 @@
             <groupId>gumga.framework</groupId>
             <artifactId>gumga-domain</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>gumga.framework</groupId>
+            <artifactId>gumga-application</artifactId>
+        </dependency>
+
         
         <dependency>
             <groupId>org.springframework</groupId>
@@ -76,14 +82,6 @@
             <artifactId>el-api</artifactId>
             <version>2.2</version>
         </dependency>
-        <dependency>
-            <groupId>gumga.framework</groupId>
-            <artifactId>gumga-application</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        
-        
-
 
         <dependency>
             <groupId>io.springfox</groupId>
