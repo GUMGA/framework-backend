@@ -89,7 +89,9 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         Pesquisa<T> pesquisa = search().add(or(fieldsCriterions));
 
         if (hasMultitenancy()) {
-            Criterion multitenancyCriterion = or(like("oi", GumgaThreadScope.organizationCode.get(), MatchMode.START), Restrictions.isNull("oi"));
+            String oiValue = (GumgaThreadScope.organizationCode.get() == null) ? "" : GumgaThreadScope.organizationCode.get();
+            Criterion multitenancyCriterion = or(like("oi", oiValue, MatchMode.START), Restrictions.isNull("oi"));
+            //Criterion multitenancyCriterion = or(like("oi", GumgaThreadScope.organizationCode.get(), MatchMode.START), Restrictions.isNull("oi"));  //BUG DESCOBERTO NA DB1
             pesquisa.add(multitenancyCriterion);
         }
 
