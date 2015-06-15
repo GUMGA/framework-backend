@@ -62,7 +62,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         tempo.set(System.currentTimeMillis());
         String token = "not initialized";
         String errorMessage = "Error";
-        String errorResponse = "";
+        String errorResponse = GumgaSecurityCode.SECURITY_INTERNAL_ERROR.toString();
         try {
             token = request.getHeader("gumgaToken");
             if (token == null) {
@@ -88,7 +88,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 }
                 operationKey = apiName + "_" + hm.getMethod().getName();
             }
-            if (endPoint.contains("public")||endPoint.contains("api-docs")) {
+            if (endPoint.contains("public") || endPoint.contains("api-docs")) {
                 saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public"), request, operationKey, endPoint, method, true);
                 return true;
             }
@@ -111,9 +111,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         GumgaSecurityCode gsc = GumgaSecurityCode.valueOf(errorResponse);
-
         response.setStatus(gsc.httpStatus.value());
         response.getOutputStream().write(("Error:" + errorMessage).getBytes());
         return false;

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GumgaTempFileService {
-    
+
     @Autowired
     private GumgaValues gumgaValues;
 
@@ -41,9 +41,9 @@ public class GumgaTempFileService {
         return "error";
     }
 
-        public String delete(String fileName) {
+    public String delete(String fileName) {
         try { //TODO Arrumar o tratamento da Exception
-            File file= new File(gumgaValues.getUploadTempDir() + "/" + fileName);
+            File file = new File(gumgaValues.getUploadTempDir() + "/" + fileName);
             file.delete();
             return "OK";
         } catch (Exception ex) {
@@ -52,9 +52,12 @@ public class GumgaTempFileService {
         return "error";
     }
 
-    
     public GumgaFile find(String tempFileName) {
-        try { //TODO Arrumar o tratamento da Exception
+        if (tempFileName == null){
+            System.out.println("Chegando nulo");
+            return null;
+        }
+        try { //TODO Melhorar o tratamento da Exception para FileNotFound
             FileInputStream fis = new FileInputStream(gumgaValues.getUploadTempDir() + "/" + tempFileName);
             ObjectInputStream ois = new ObjectInputStream(fis);
             GumgaFile gf = (GumgaFile) ois.readObject();
