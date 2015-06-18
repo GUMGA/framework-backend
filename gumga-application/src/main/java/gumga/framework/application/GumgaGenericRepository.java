@@ -1,5 +1,6 @@
 package gumga.framework.application;
 
+import com.google.common.base.Strings;
 import gumga.framework.core.GumgaThreadScope;
 import static org.hibernate.criterion.Order.asc;
 import static org.hibernate.criterion.Order.desc;
@@ -12,7 +13,6 @@ import gumga.framework.domain.*;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +91,6 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (hasMultitenancy()) {
             String oiValue = (GumgaThreadScope.organizationCode.get() == null) ? "" : GumgaThreadScope.organizationCode.get();
             Criterion multitenancyCriterion = or(like("oi", oiValue, MatchMode.START), Restrictions.isNull("oi"));
-            //Criterion multitenancyCriterion = or(like("oi", GumgaThreadScope.organizationCode.get(), MatchMode.START), Restrictions.isNull("oi"));  //BUG DESCOBERTO NA DB1
             pesquisa.add(multitenancyCriterion);
         }
 
@@ -134,16 +133,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (resource == null) {
             throw new EntityNotFoundException("cannot find " + entityInformation.getJavaType() + " with id: " + id);
         }
-
-        if (hasMultitenancy()) {
-            GumgaModel object = (GumgaModel) resource;
-            if (object.getOi() != null) {
-                if (GumgaThreadScope.organizationCode.get() == null || !object.getOi().getValue().startsWith(GumgaThreadScope.organizationCode.get())) {
-                    throw new EntityNotFoundException("cannot find " + entityInformation.getJavaType() + " with id: " + id + " in your organization");
-                }
-            }
-        }
-
+        checkOwnership(resource);
         return resource;
     }
 
@@ -159,9 +149,9 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
         String hqlConsulta = "";
         if (query.getSortField().isEmpty()) {
-            hqlConsulta = String.format(modelo, entityInformation.getEntityName(), query.getAq());
+            hqlConsulta = String.format(modelo + " ORDER BY obj.id ", entityInformation.getEntityName(), query.getAq());
         } else {
-            hqlConsulta = String.format(modelo + " ORDER BY %s %s", entityInformation.getEntityName(), query.getAq(), query.getSortField(), query.getSortDir());
+            hqlConsulta = String.format(modelo + " ORDER BY %s %s, obj.id", entityInformation.getEntityName(), query.getAq(), query.getSortField(), query.getSortDir());
         }
         String hqlConta = String.format("SELECT count(obj) " + modelo, entityInformation.getEntityName(), query.getAq());
         Query qConta = entityManager.createQuery(hqlConta);
@@ -171,6 +161,30 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         qConsulta.setFirstResult(query.getStart());
         List resultList = qConsulta.getResultList();
         return new SearchResult<T>(query, total, resultList);
+    }
+
+    @Override
+    public <A> SearchResult<A> advancedSearch(String selectQueryWithoutWhere, String countQuery, String ordenationId, QueryObject whereQuery) {
+        if (Strings.isNullOrEmpty(ordenationId)) {
+            throw new IllegalArgumentException("Para realizar a search deve se informar um OrdenationId para complementar a ordenação");
+        }
+
+        String modelo = selectQueryWithoutWhere + " WHERE %s";
+        String hqlConsulta;
+        if (whereQuery.getSortField().isEmpty()) {
+            hqlConsulta = String.format(modelo, whereQuery.getAq());
+        } else {
+            hqlConsulta = String.format(modelo + " ORDER BY %s %s, %s", whereQuery.getAq(), whereQuery.getSortField(), whereQuery.getSortDir(), ordenationId);
+        }
+        String hqlConta = countQuery + " WHERE " + whereQuery.getAq();
+        Query qConta = entityManager.createQuery(hqlConta);
+        Query qConsulta = entityManager.createQuery(hqlConsulta);
+        Long total = (Long) qConta.getSingleResult();
+        qConsulta.setMaxResults(whereQuery.getPageSize());
+        qConsulta.setFirstResult(whereQuery.getStart());
+        List resultList = qConsulta.getResultList();
+
+        return new SearchResult<A>(whereQuery, total, resultList);
     }
 
     public SearchResult<T> search(String hql, Map<String, Object> params) {
@@ -339,24 +353,18 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return aRetornar;
     }
 
-    @Override
-    public <A> SearchResult<A> advancedSearch(String selectQueryWithoutWhere, String countQuery, QueryObject whereQuery) {
-        String modelo = selectQueryWithoutWhere + " WHERE %s";
-        String hqlConsulta;
-        if (whereQuery.getSortField().isEmpty()) {
-            hqlConsulta = String.format(modelo, whereQuery.getAq());
-        } else {
-            hqlConsulta = String.format(modelo + " ORDER BY %s %s", whereQuery.getAq(), whereQuery.getSortField(), whereQuery.getSortDir());
+    private void checkOwnership(T o) throws EntityNotFoundException {
+        if (!o.getClass().isAnnotationPresent(GumgaMultitenancy.class)) {
+            return;
         }
-        String hqlConta = countQuery + " WHERE " + whereQuery.getAq();
-        Query qConta = entityManager.createQuery(hqlConta);
-        Query qConsulta = entityManager.createQuery(hqlConsulta);
-        Long total = (Long) qConta.getSingleResult();
-        qConsulta.setMaxResults(whereQuery.getPageSize());
-        qConsulta.setFirstResult(whereQuery.getStart());
-        List resultList = qConsulta.getResultList();
-
-        return new SearchResult<A>(whereQuery, total, resultList);
+        GumgaModel object = (GumgaModel) o;
+        if (hasMultitenancy()) {
+            if (object.getOi() != null) {
+                if (GumgaThreadScope.organizationCode.get() == null || !object.getOi().getValue().startsWith(GumgaThreadScope.organizationCode.get())) {
+                    throw new EntityNotFoundException("cannot find " + entityInformation.getJavaType() + " with id: " + object.getId() + " in your organization");
+                }
+            }
+        }
     }
 
 }

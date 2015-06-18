@@ -1,5 +1,6 @@
 package gumga.framework.domain;
 
+import gumga.framework.core.GumgaValues;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static org.hibernate.criterion.Restrictions.eq;
 import gumga.framework.core.QueryObject;
@@ -32,6 +33,8 @@ public class HibernateQueryObject {
 
     protected final QueryObject queryObject;
     protected final Map<Class<?>, CriterionParser> parsers;
+
+    protected static GumgaValues gumgaValues;
 
     public HibernateQueryObject(QueryObject queryObject) {
         this.queryObject = queryObject;
@@ -114,15 +117,19 @@ public class HibernateQueryObject {
         @Override
         public Criterion parse(String field, String value) {
 
+            value = Normalizer.normalize(value, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+
             String[] chain = field.split("\\.");
 
             if (chain.length > 1) {
-                return Restrictions.like(field, value, MatchMode.START).ignoreCase();
+                return Restrictions.like(field, value, MatchMode.ANYWHERE).ignoreCase();
             }
-
-            //String ignoraAcentos = "upper(translate({alias}."+field+",'âàãáÁÂÀÃéêÉÊíÍóôõÓÔÕüúÜÚÇç','AAAAAAAAEEEEIIOOOOOOUUUUCC')) like (?)"; //NAO FUNCIONA NO MYSQL
             String ignoraAcentos = "upper({alias}." + field + ") like (?)";
-            return Restrictions.sqlRestriction(ignoraAcentos, value + "%", StandardBasicTypes.STRING);
+
+            if (gumgaValues.hasTranslate()) {
+                ignoraAcentos = "upper(translate({alias}." + field + ",'âàãáÁÂÀÃéêÉÊíÍóôõÓÔÕüúÜÚÇç','AAAAAAAAEEEEIIOOOOOOUUUUCC')) like (?)"; //NAO FUNCIONA NO MYSQL
+            }
+            return Restrictions.sqlRestriction(ignoraAcentos, "%" + value + "%", StandardBasicTypes.STRING);
         }
     };
 

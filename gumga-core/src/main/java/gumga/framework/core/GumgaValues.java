@@ -11,15 +11,15 @@ package gumga.framework.core;
  */
 public interface GumgaValues {
 
-    default String getGumgaSecurityUrl(){
+    default String getGumgaSecurityUrl() {
         return "http://www.gumga.com.br/security/publicoperations";
     }
 
-    default long getDefaultTokenDuration() { 
+    default long getDefaultTokenDuration() {
         return 30 * 60 * 1000;
     }
 
-    default boolean isLogActive(){
+    default boolean isLogActive() {
         return true;
     }
 
@@ -30,6 +30,10 @@ public interface GumgaValues {
 
     default String getLogDir() {
         return System.getProperty("user.home").concat("/gumgafiles/logs");
+    }
+
+    default boolean hasTranslate() {
+        return false;
     }
 
 }
