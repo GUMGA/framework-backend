@@ -94,7 +94,7 @@ public class QueryObject {
 
     @Override
     public String toString() {
-        return "QueryObject{" + "aq=" + aq + ", q=" + q + ", start=" + start + ", pageSize=" + pageSize + ", sortField=" + sortField + ", sortDir=" + sortDir + ", searchFields=" + searchFields + '}';
+        return "QueryObject{" + "aq=" + aq + ", q=" + q + ", start=" + start + ", pageSize=" + pageSize + ", sortField=" + sortField + ", sortDir=" + sortDir + ", searchFields=" + Arrays.asList(searchFields) + '}';
     }
 
 }

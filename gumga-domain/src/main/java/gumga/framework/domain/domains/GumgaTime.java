@@ -1,6 +1,7 @@
 package gumga.framework.domain.domains;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -11,9 +12,11 @@ public final class GumgaTime extends GumgaDomain {
     private int hour;
     private int minute;
     private int second;
+    private Date value;
 
     public GumgaTime() {
         Calendar now = Calendar.getInstance();
+        value = now.getTime();
         hour = now.get(Calendar.HOUR_OF_DAY);
         minute = now.get(Calendar.MINUTE);
         second = now.get(Calendar.SECOND);
@@ -71,6 +74,20 @@ public final class GumgaTime extends GumgaDomain {
 
     public int getOnlyTimeInSeconds() {
         return hour * 3600 + minute * 60 + second;
+    }
+
+    public Date getValue() {
+        value = new Date((hour * 3600 + minute * 60 + second) * 1000l);
+        return value;
+    }
+
+    public void setValue(Date value) {
+        this.value = value;
+        Calendar cal=Calendar.getInstance();
+        cal.setTime(value);
+        hour = cal.get(Calendar.HOUR_OF_DAY);
+        minute = cal.get(Calendar.MINUTE);
+        second = cal.get(Calendar.SECOND);
     }
 
     @Override

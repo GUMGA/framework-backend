@@ -9,6 +9,7 @@ package gumga.framework.domain;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
@@ -17,6 +18,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_LOG")
+@Table(name = "gumgalog")
 public class GumgaLog extends GumgaModel<Long> {
 
     private String login;

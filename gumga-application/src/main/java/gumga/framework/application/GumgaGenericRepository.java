@@ -99,6 +99,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
                 createAliasIfNecessary(pesquisa, field);
             }
         }
+        
 
         return pesquisa;
     }
