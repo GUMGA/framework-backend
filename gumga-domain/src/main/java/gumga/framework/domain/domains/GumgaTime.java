@@ -2,6 +2,7 @@ package gumga.framework.domain.domains;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -9,93 +10,49 @@ import java.util.Date;
  */
 public final class GumgaTime extends GumgaDomain {
 
-    private int hour;
-    private int minute;
-    private int second;
     private Date value;
 
     public GumgaTime() {
-        Calendar now = Calendar.getInstance();
-        value = now.getTime();
-        hour = now.get(Calendar.HOUR_OF_DAY);
-        minute = now.get(Calendar.MINUTE);
-        second = now.get(Calendar.SECOND);
+        value = new Date();
+    }
+
+    public GumgaTime(Date value) {
+        this.value = value;
     }
 
     public GumgaTime(int hour, int minute) {
-        setHour(hour);
-        setMinute(minute);
-        GumgaTime.this.setSecond(0);
-    }
-
-    public GumgaTime(int hour, int minute, int second) {
-        setHour(hour);
-        setMinute(minute);
-        GumgaTime.this.setSecond(second);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        value = cal.getTime();
     }
 
     public GumgaTime(GumgaTime other) {
         if (other != null) {
-            this.hour = other.hour;
-            this.minute = other.minute;
-            this.second = other.second;
-        }
-    }
-
-    public int getHour() {
-        return hour;
-    }
-
-    public void setHour(int hora) {
-        if (hora >= 0 && hora <= 23) {
-            this.hour = hora;
-        }
-    }
-
-    public int getMinute() {
-        return minute;
-    }
-
-    public void setMinute(int minuto) {
-        if (minuto > 0 && minuto <= 59) {
-            this.minute = minuto;
-        }
-    }
-
-    public int getSecond() {
-        return second;
-    }
-
-    public void setSecond(int segundo) {
-        if (segundo >= 0 && segundo <= 59) {
-            this.second = segundo;
+            value = other.value;
         }
     }
 
     public int getOnlyTimeInSeconds() {
-        return hour * 3600 + minute * 60 + second;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(value);
+        return cal.get(Calendar.HOUR_OF_DAY) * 3600 + cal.get(Calendar.MINUTE) * 60 + cal.get(Calendar.SECOND);
     }
 
     public Date getValue() {
-        value = new Date((hour * 3600 + minute * 60 + second) * 1000l);
         return value;
     }
 
     public void setValue(Date value) {
         this.value = value;
-        Calendar cal=Calendar.getInstance();
-        cal.setTime(value);
-        hour = cal.get(Calendar.HOUR_OF_DAY);
-        minute = cal.get(Calendar.MINUTE);
-        second = cal.get(Calendar.SECOND);
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 11 * hash + this.hour;
-        hash = 11 * hash + this.minute;
-        hash = 11 * hash + this.second;
+        hash = 17 * hash + Objects.hashCode(this.value);
         return hash;
     }
 
@@ -108,13 +65,7 @@ public final class GumgaTime extends GumgaDomain {
             return false;
         }
         final GumgaTime other = (GumgaTime) obj;
-        if (this.hour != other.hour) {
-            return false;
-        }
-        if (this.minute != other.minute) {
-            return false;
-        }
-        if (this.second != other.second) {
+        if (!Objects.equals(this.value, other.value)) {
             return false;
         }
         return true;
@@ -122,7 +73,7 @@ public final class GumgaTime extends GumgaDomain {
 
     @Override
     public String toString() {
-        return (hour > 10 ? hour : "0" + hour) + ":" + (minute > 10 ? minute : "0" + minute) + ":" + (second > 10 ? second : "0" + second);
+        return value.toString();
     }
 
 }
