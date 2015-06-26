@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Types;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.hibernate.HibernateException;
@@ -56,7 +57,7 @@ public class GumgaTimeUserType extends MutableUserType {
             final SessionImplementor paramSessionImplementor, final Object paramObject)
             throws HibernateException, SQLException {
         GumgaTime object = null;
-        final Date valor = resultSet.getDate(names[0]);
+        final Date valor = resultSet.getTime(names[0]);
         if (!resultSet.wasNull()) {
             object = new GumgaTime(valor);
         }
