@@ -23,7 +23,7 @@ public abstract class AbstractGumgaAPI<T> extends AbstractNoDeleteGumgaAPI<T> {
 		this.service = service;
 	}
 	
-        @Transactional //MUNIF SOLICITACAO DA DB1
+        @Transactional 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public RestResponse<T> delete(@PathVariable Long id) {

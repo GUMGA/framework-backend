@@ -21,14 +21,14 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
         this.service = service;
     }
 
-    @Transactional //MUNIF SOLICITACAO DA DB1
+    @Transactional 
     @RequestMapping
     public SearchResult<T> pesquisa(QueryObject query) {
         SearchResult<T> pesquisa = service.pesquisa(query);
         return new SearchResult<>(query, pesquisa.getCount(), pesquisa.getValues());
     }
 
-    @Transactional //MUNIF SOLICITACAO DA DB1
+    @Transactional 
     @RequestMapping("/{id}")
     public T load(@PathVariable Long id) {
         return service.view(id);

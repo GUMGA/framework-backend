@@ -4,7 +4,7 @@
 
     <groupId>gumga.framework</groupId>
     <artifactId>gumga-backend-all</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
 
     <name>Gumga Framework Backend</name>
@@ -263,20 +263,5 @@
         </plugins>
     </build>
 	
-    <distributionManagement>
-
-        <repository>
-            <id>nexus</id>
-            <name>RepositoryProxy</name>
-            <url>http://nexus.db1.com.br:8080/content/repositories/releases/</url>
-        </repository>
-
-        <snapshotRepository>
-            <id>nexus</id>
-            <name>RepositoryProxy</name>
-            <url>http://nexus.db1.com.br:8080/content/repositories/snapshots/</url>
-        </snapshotRepository>
-
-    </distributionManagement>
 
 </project>

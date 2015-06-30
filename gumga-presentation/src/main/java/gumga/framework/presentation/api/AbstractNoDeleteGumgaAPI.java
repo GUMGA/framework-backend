@@ -17,44 +17,43 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public abstract class AbstractNoDeleteGumgaAPI<T> extends
-		AbstractReadOnlyGumgaAPI<T> {
+        AbstractReadOnlyGumgaAPI<T> {
 
-	protected GumgaWritableServiceable<T> service;
+    protected GumgaWritableServiceable<T> service;
 
-	public AbstractNoDeleteGumgaAPI(GumgaWritableServiceable<T> service) {
-		super(service);
-		this.service = service;
-	}
+    public AbstractNoDeleteGumgaAPI(GumgaWritableServiceable<T> service) {
+        super(service);
+        this.service = service;
+    }
 
-	// MUNIF SOLICITACAO DA DB1
-	@Transactional
-	@RequestMapping(method = RequestMethod.POST)
-	public RestResponse<T> save(@RequestBody @Valid T model,
-			BindingResult result) {
-		T entity = saveOrCry(model, result);
-		return new RestResponse<T>(entity, getEntitySavedMessage(entity));
-	}
+    @Transactional
+    @RequestMapping(method = RequestMethod.POST)
+    public RestResponse<T> save(@RequestBody @Valid T model,
+            BindingResult result) {
+        T entity = saveOrCry(model, result);
+        return new RestResponse<T>(entity, getEntitySavedMessage(entity));
+    }
 
-	// MUNIF SOLICITACAO DA DB1
-	@Transactional
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public RestResponse<T> update(@PathVariable("id") Long id,
-			@Valid @RequestBody T model, BindingResult result) {
-		T entity = saveOrCry(model, result);
-		return new RestResponse<T>(entity, getEntityUpdateMessage(entity));
-	}
+    @Transactional
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
+    public RestResponse<T> update(@PathVariable("id") Long id,
+            @Valid @RequestBody T model, BindingResult result) {
+        T entity = saveOrCry(model, result);
+        return new RestResponse<T>(entity, getEntityUpdateMessage(entity));
+    }
 
-	private T saveOrCry(T model, BindingResult result) {
-		if (result.hasErrors())
-			throw new InvalidEntityException(result);
+    private T saveOrCry(T model, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new InvalidEntityException(result);
+        }
 
-		return service.save(model);
-	}
+        return service.save(model);
+    }
 
-	@Override
-	public void setService(GumgaServiceable<T> service) {
-		this.service = service;
-		super.setService(service);
-	}
+    @Override
+    public void setService(GumgaServiceable<T> service) {
+        this.service = service;
+        super.setService(service);
+    }
 
 }
