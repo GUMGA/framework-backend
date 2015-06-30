@@ -1,6 +1,7 @@
 package gumga.framework.core;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class QueryObject {
 
@@ -94,7 +95,7 @@ public class QueryObject {
 
     @Override
     public String toString() {
-        return "QueryObject{" + "aq=" + aq + ", q=" + q + ", start=" + start + ", pageSize=" + pageSize + ", sortField=" + sortField + ", sortDir=" + sortDir + ", searchFields=" + Arrays.asList(searchFields) + '}';
+        return "QueryObject{" + "aq=" + aq + ", q=" + q + ", start=" + start + ", pageSize=" + pageSize + ", sortField=" + sortField + ", sortDir=" + sortDir + ", searchFields=" + Arrays.asList(searchFields==null?Collections.EMPTY_LIST:searchFields) + '}';
     }
 
 }
