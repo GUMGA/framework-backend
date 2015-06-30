@@ -35,9 +35,9 @@ public class GumgaFinderTest {
         QueryObject query = new QueryObject();
         query.setQ("Gumga");
         query.setSearchFields("name");
+        query.setSortField("name");
         List<Company> result = service.pesquisa(query).getValues();
-        System.out.println("------------->" + result.isEmpty());
-        assert (!result.isEmpty()||result.isEmpty() ); //TODO RESULTADO DANDO ERRADO, NÂO ESTA CONSEGUINDO RECUPERAR DEPOIS DA ALTERAçÂO QUE FOI FEITA NA DB1
+        assert (!result.isEmpty() ); 
     }
 
     @Test

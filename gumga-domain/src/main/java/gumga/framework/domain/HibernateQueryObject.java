@@ -34,7 +34,9 @@ public class HibernateQueryObject {
     protected final QueryObject queryObject;
     protected final Map<Class<?>, CriterionParser> parsers;
 
-    protected static GumgaValues gumgaValues;
+    protected static GumgaValues gumgaValues = new GumgaValues() {
+        
+    };
 
     public HibernateQueryObject(QueryObject queryObject) {
         this.queryObject = queryObject;
@@ -125,7 +127,6 @@ public class HibernateQueryObject {
                 return Restrictions.like(field, value, MatchMode.ANYWHERE).ignoreCase();
             }
             String ignoraAcentos = "upper({alias}." + field + ") like (?)";
-
             if (gumgaValues.hasTranslate()) {
                 ignoraAcentos = "upper(translate({alias}." + field + ",'âàãáÁÂÀÃéêÉÊíÍóôõÓÔÕüúÜÚÇç','AAAAAAAAEEEEIIOOOOOOUUUUCC')) like (?)"; //NAO FUNCIONA NO MYSQL
             }

@@ -54,7 +54,6 @@ public class GumgaTempFileService {
 
     public GumgaFile find(String tempFileName) {
         if (tempFileName == null){
-            System.out.println("Chegando nulo");
             return null;
         }
         try { //TODO Melhorar o tratamento da Exception para FileNotFound
