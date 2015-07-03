@@ -44,6 +44,7 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
 
     private T saveOrCry(T model, BindingResult result) {
         if (result.hasErrors()) {
+            System.out.println("------------------>"+result);
             throw new InvalidEntityException(result);
         }
 
