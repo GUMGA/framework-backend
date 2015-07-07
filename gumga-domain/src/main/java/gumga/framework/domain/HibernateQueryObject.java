@@ -37,9 +37,7 @@ public class HibernateQueryObject {
 
 
     public HibernateQueryObject(QueryObject queryObject) {
-        System.out.println("------------------> NOVO "+this.getClass().getSimpleName());
-        
-        
+       
         this.queryObject = queryObject;
 
         this.parsers = GumgaQueryParserProvider.defaultMap;
