@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.core;
 
-/**
- *
- * @author munif
- */
 public interface GumgaValues {
 
     default String getGumgaSecurityUrl() {
@@ -32,8 +23,5 @@ public interface GumgaValues {
         return System.getProperty("user.home").concat("/gumgafiles/logs");
     }
 
-    default boolean hasTranslate() {
-        return false;
-    }
 
 }

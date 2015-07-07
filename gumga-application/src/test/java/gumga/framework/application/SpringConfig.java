@@ -1,5 +1,6 @@
 package gumga.framework.application;
 
+import gumga.framework.domain.GumgaQueryParserProvider;
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
 import java.util.Properties;
@@ -21,40 +22,42 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ComponentScan({"gumga.framework"})
-@EnableJpaRepositories(repositoryFactoryBeanClass = GumgaRepositoryFactoryBean.class, basePackages = { "gumga.framework" })
+@EnableJpaRepositories(repositoryFactoryBeanClass = GumgaRepositoryFactoryBean.class, basePackages = {"gumga.framework"})
 @EnableTransactionManagement(proxyTargetClass = true)
 public class SpringConfig {
-	
-	@Bean
-	public static DataSource dataSource() {
-		return new EmbeddedDatabaseBuilder().setType(H2).build();
-	}
-	
-	@Bean
-	@Autowired
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		vendorAdapter.setGenerateDdl(true);
-		vendorAdapter.setShowSql(true);
 
-		Properties properties = new Properties();
-		properties.put("eclipselink.weaving", "false");
+    @Bean
+    public static DataSource dataSource() {
+        return new EmbeddedDatabaseBuilder().setType(H2).build();
+    }
 
-		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-		factory.setJpaVendorAdapter(vendorAdapter);
-		factory.setPackagesToScan("gumga");
-		factory.setDataSource(dataSource);
+    @Bean
+    @Autowired
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+        GumgaQueryParserProvider.defaultMap = GumgaQueryParserProvider.getOracleLikeMap();
 
-		factory.setJpaProperties(properties);
-		factory.afterPropertiesSet();
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
+        vendorAdapter.setShowSql(true);
 
-		return factory;
-	}
+        Properties properties = new Properties();
+        properties.put("eclipselink.weaving", "false");
 
-	@Bean
-	@Autowired
-	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-		return new JpaTransactionManager(emf);
-	}
-	
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPackagesToScan("gumga");
+        factory.setDataSource(dataSource);
+
+        factory.setJpaProperties(properties);
+        factory.afterPropertiesSet();
+
+        return factory;
+    }
+
+    @Bean
+    @Autowired
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
+    }
+
 }
