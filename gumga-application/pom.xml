@@ -7,7 +7,11 @@
         <version>1.1.1-SNAPHOT</version>
     </parent>
     <artifactId>gumga-application</artifactId>
-
+    
+    <properties>
+        <jasypt.version>1.9.2</jasypt.version>    
+    </properties>
+    
     <dependencies>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -81,7 +85,13 @@
             <artifactId>hibernate-search-orm</artifactId>
             <version>5.1.0.Final</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>${jasypt.version}</version>
+            <classifier>lite</classifier>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 
