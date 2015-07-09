@@ -4,9 +4,7 @@ import gumga.framework.domain.GumgaServiceable;
 import gumga.framework.domain.service.GumgaWritableServiceable;
 import gumga.framework.presentation.RestResponse;
 import gumga.framework.validation.exception.InvalidEntityException;
-
 import javax.validation.Valid;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +28,7 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
     @RequestMapping(method = RequestMethod.POST)
     public RestResponse<T> save(@RequestBody @Valid T model,
             BindingResult result) {
+        beforeSave(model);
         T entity = saveOrCry(model, result);
         return new RestResponse<T>(entity, getEntitySavedMessage(entity));
     }
@@ -38,6 +37,7 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public RestResponse<T> update(@PathVariable("id") Long id,
             @Valid @RequestBody T model, BindingResult result) {
+        beforeUpdate(id, model);
         T entity = saveOrCry(model, result);
         return new RestResponse<T>(entity, getEntityUpdateMessage(entity));
     }
@@ -57,4 +57,11 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
         super.setService(service);
     }
 
+    protected void beforeSave(T model) {
+
+    }
+
+    protected void beforeUpdate(Long id, T model) {
+
+    }
 }
