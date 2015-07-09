@@ -4,7 +4,7 @@
 
     <groupId>gumga.framework</groupId>
     <artifactId>gumga-backend-all</artifactId>
-    <version>1.1.1-SNAPHOT</version>
+    <version>1.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Gumga Framework Backend</name>
