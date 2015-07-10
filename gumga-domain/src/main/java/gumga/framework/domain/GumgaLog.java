@@ -7,6 +7,7 @@ package gumga.framework.domain;
 
 
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -18,9 +19,10 @@ import javax.persistence.Temporal;
  */
 @Entity
 @SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_LOG")
-@Table(name = "gumgalog")
+@Table(name = "gumga_log")
 public class GumgaLog extends GumgaModel<Long> {
 
+    @Column(name = "gumga_login")
     private String login;
     private String ip;
     private String organizationCode;
@@ -29,6 +31,7 @@ public class GumgaLog extends GumgaModel<Long> {
     private String operarationKey;
     private String endPoint;
     private String method;
+    @Column(name = "was_allowed")
     private boolean allowed;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date quando;
