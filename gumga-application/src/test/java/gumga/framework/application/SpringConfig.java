@@ -1,6 +1,9 @@
 package gumga.framework.application;
 
+import gumga.framework.application.service.GumgaFreemarkerTemplateEngineService;
 import gumga.framework.application.service.JasyptGumgaPasswordService;
+import gumga.framework.core.GumgaValues;
+import gumga.framework.core.exception.TemplateEngineException;
 import gumga.framework.core.service.GumgaPasswordService;
 import gumga.framework.domain.GumgaQueryParserProvider;
 import java.util.Properties;
@@ -62,5 +65,13 @@ public class SpringConfig {
     @Bean
     public GumgaPasswordService gumgaPasswordService() {
         return new JasyptGumgaPasswordService();
+    }
+
+    @Bean
+    @Autowired
+    public GumgaFreemarkerTemplateEngineService gumgaFreemarkerTemplateEngineService(GumgaValues gumgaValues) throws TemplateEngineException {
+        GumgaFreemarkerTemplateEngineService service = new GumgaFreemarkerTemplateEngineService(gumgaValues.getTemplatesFolder(), "UTF-8");
+        service.init();
+        return service;
     }
 }

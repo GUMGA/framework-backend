@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gumga.framework.core.service.template;
+package gumga.framework.core.service;
 
 import gumga.framework.core.exception.TemplateEngineException;
 

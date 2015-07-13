@@ -5,7 +5,6 @@
  */
 package gumga.framework.domain;
 
-import java.util.Map;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.Normalizer;
@@ -13,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import static java.util.concurrent.TimeUnit.DAYS;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
@@ -28,6 +28,10 @@ import org.hibernate.type.StandardBasicTypes;
 public class GumgaQueryParserProvider {
 
     public static Map<Class<?>, CriterionParser> defaultMap;
+
+    public static final Map<Class<?>, CriterionParser> getH2LikeMap() {
+        return getBaseMap();
+    }
 
     public static final Map<Class<?>, CriterionParser> getOracleLikeMap() {
         return getBaseMap();

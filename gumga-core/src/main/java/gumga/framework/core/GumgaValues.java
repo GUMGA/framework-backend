@@ -23,5 +23,7 @@ public interface GumgaValues {
         return System.getProperty("user.home").concat("/gumgafiles/logs");
     }
 
-
+    default String getTemplatesFolder() {
+        return System.getProperty("user.home").concat("/gumgafiles/templates");
+    }
 }

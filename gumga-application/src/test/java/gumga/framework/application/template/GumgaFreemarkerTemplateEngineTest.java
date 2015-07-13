@@ -3,40 +3,46 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gumga.framework.core.template;
+package gumga.framework.application.template;
 
-import gumga.framework.core.service.template.GumgaFreemarkerTemplateEngineService;
+import gumga.framework.application.AbstractTest;
+import gumga.framework.application.service.GumgaFreemarkerTemplateEngineService;
+import gumga.framework.core.GumgaValues;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.After;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author gyowannyqueiroz
  */
-public class GumgaFreemarkerTemplateEngineTest {
+public class GumgaFreemarkerTemplateEngineTest extends AbstractTest {
 
-    private GumgaFreemarkerTemplateEngineService templateEngine;
+    private GumgaFreemarkerTemplateEngineService gumgaFreemarkerTemplateEngineService;
+
+    @Autowired
+    private GumgaValues gumgaValues;
 
     private static final String OUTPUT_FOLDER = System.getProperty("user.dir") + "/templateEngineTestFolder";
 
     @Before
     public void startup() throws Exception {
-        URL resourceUrl = getClass().getResource("/templates");
-        Path resourcePath = Paths.get(resourceUrl.toURI());
-        templateEngine = new GumgaFreemarkerTemplateEngineService(resourcePath.toString(), "UTF-8");
-        templateEngine.init();
+        //URL resourceUrl = getClass().getResource("/templates");
+        //Path resourcePath = Paths.get(resourceUrl.toURI());
+        gumgaFreemarkerTemplateEngineService = new GumgaFreemarkerTemplateEngineService(gumgaValues.getTemplatesFolder(), "UTF-8");
+        gumgaFreemarkerTemplateEngineService.init();
+        assertNotNull(gumgaFreemarkerTemplateEngineService);
+        gumgaFreemarkerTemplateEngineService.init();
         createOutputFolder(OUTPUT_FOLDER);
     }
 
@@ -51,7 +57,7 @@ public class GumgaFreemarkerTemplateEngineTest {
         String name = "Lara Croft";
         values.put("name", name);
         values.put("age", new Integer(35));
-        String result = templateEngine.parse(values, "testTemplate.ftl");
+        String result = gumgaFreemarkerTemplateEngineService.parse(values, "testTemplate.ftl");
         assertFalse(result == null || result.isEmpty());
         assertTrue(result.indexOf(name) > -1);
     }
@@ -66,7 +72,7 @@ public class GumgaFreemarkerTemplateEngineTest {
         FileOutputStream fos = new FileOutputStream(file);
         Writer writer = new OutputStreamWriter(fos);
         try {
-            templateEngine.parse(values, "testTemplate.ftl", writer);
+            gumgaFreemarkerTemplateEngineService.parse(values, "testTemplate.ftl", writer);
         } finally {
             fos.close();
             writer.flush();

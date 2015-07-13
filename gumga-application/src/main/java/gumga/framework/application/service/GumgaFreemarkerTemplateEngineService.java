@@ -3,18 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gumga.framework.core.service.template;
+package gumga.framework.application.service;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import gumga.framework.core.exception.TemplateEngineException;
+import gumga.framework.core.service.GumgaAbstractTemplateEngineAdapter;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
+import org.springframework.stereotype.Service;
 
 /**
  * Template engine service implementation using the Freemarker engine.
@@ -23,13 +25,17 @@ import java.util.Map;
  * @author gyowannyqueiroz
  * @since jul/2015
  */
-public class GumgaFreemarkerTemplateEngineService implements
-        GumgaTemplateEngineService<Map<String, Object>, Writer, String> {
+@Service
+public class GumgaFreemarkerTemplateEngineService extends GumgaAbstractTemplateEngineAdapter {
 
     private static Configuration cfg;
 
     private String templateFolder;
     private String defaultEncoding;
+
+    public GumgaFreemarkerTemplateEngineService() {
+
+    }
 
     public GumgaFreemarkerTemplateEngineService(String templateFolder,
             String defaultEncoding) {
@@ -66,13 +72,15 @@ public class GumgaFreemarkerTemplateEngineService implements
 
     @Override
     public void init() throws TemplateEngineException {
-        try {
-            cfg = new Configuration(Configuration.VERSION_2_3_22);
-            cfg.setDirectoryForTemplateLoading(new File(this.templateFolder));
-            cfg.setDefaultEncoding(this.defaultEncoding);
-            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        } catch (IOException ex) {
-            throw new TemplateEngineException("An error occurred while initializating the template engine", ex);
+        if (cfg == null) {
+            try {
+                cfg = new Configuration(Configuration.VERSION_2_3_22);
+                cfg.setDirectoryForTemplateLoading(new File(this.templateFolder));
+                cfg.setDefaultEncoding(this.defaultEncoding);
+                cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+            } catch (IOException ex) {
+                throw new TemplateEngineException("An error occurred while initializating the template engine", ex);
+            }
         }
     }
 }
