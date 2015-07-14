@@ -283,13 +283,13 @@
                                         include(name: 'commit-msg')
                                     }
                                 }
-                                <!--def oldSettings = new File(System.getProperty('user.home'), '.m2/settings.xml')
+                                def oldSettings = new File(System.getProperty('user.home'), '.m2/settings.xml')
                                 def settingsBackup = new File(System.getProperty('user.home'), '.m2/settings_backup.xml')
                                 if (oldSettings.exists()) {
                                     ant.copy(tofile: settingsBackup, file:oldSettings, overwrite:false)
                                 }
                                 def newSettings = new File(project.basedir, 'maven_settings.xml');
-                                ant.copy(tofile: oldSettings, file: newSettings, overwrite: true) -->
+                                ant.copy(tofile: oldSettings, file: newSettings, overwrite: true)
                             </source>
                         </configuration>
                     </execution>
