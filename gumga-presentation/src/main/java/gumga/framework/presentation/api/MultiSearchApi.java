@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author munif
  */
 @RestController
-@RequestMapping("/public/multisearch/")
+@RequestMapping("/api/multisearch/")
 public class MultiSearchApi {
 
     @Autowired
@@ -32,7 +33,7 @@ public class MultiSearchApi {
     }
 
     @Transactional
-    @RequestMapping("search/{text}")
+    @RequestMapping(value="search/{text}",method = RequestMethod.GET)
     public List<GumgaGenericResult> search(@PathVariable String text) {
         List<GumgaGenericResult> aRetornar = new ArrayList<>();
         List<Object> resultado = gur.fullTextSearch(text);
@@ -40,11 +41,6 @@ public class MultiSearchApi {
             aRetornar.add(new GumgaGenericResult(obj));
         }
         return aRetornar;
-    }
-
-    @RequestMapping("teste")
-    public String teste() {
-        return "OLA";
     }
 
 }

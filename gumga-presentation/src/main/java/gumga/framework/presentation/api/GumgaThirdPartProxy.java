@@ -22,7 +22,7 @@ public class GumgaThirdPartProxy {
         restTemplate = new RestTemplate();
     }
 
-    @RequestMapping(value = "cep/{cep}")
+    @RequestMapping(value = "cep/{cep}",method = RequestMethod.GET)
     public Map delete(@PathVariable String cep) {
         String url = "http://cep.republicavirtual.com.br/web_cep.php?cep="+cep+"&formato=json";
         Map resposta = restTemplate.getForObject(url, Map.class);

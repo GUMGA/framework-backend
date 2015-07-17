@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,13 +30,13 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
     }
 
     @Transactional 
-    @RequestMapping("/{id}")
+    @RequestMapping(value="/{id}",method = RequestMethod.GET)
     public T load(@PathVariable Long id) {
         return service.view(id);
     }
 
     @Transactional 
-    @RequestMapping("listoldversions/{id}")
+    @RequestMapping(value="listoldversions/{id}",method = RequestMethod.GET)
     public List<GumgaObjectAndRevision> listOldVersions(@PathVariable Long id) {
         return service.listOldVersions(id);
     }

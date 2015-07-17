@@ -37,7 +37,7 @@ class GumgaSecurityProxy {
         restTemplate = new RestTemplate();
     }
 
-    @RequestMapping("/create/{user}/{password}")
+    @RequestMapping(value="/create/{user}/{password}",method = RequestMethod.GET)
     public ResponseEntity create(@PathVariable String user, @PathVariable String password) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/create/" + user + "/" + password;
         Map resposta = restTemplate.getForObject(url, Map.class);
@@ -81,7 +81,7 @@ class GumgaSecurityProxy {
     }
 
     @Transactional
-    @RequestMapping("/organizations/{token}")
+    @RequestMapping(value="/organizations/{token}",method = RequestMethod.GET)
     public List organizations(@PathVariable String token) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/organizations/" + token;
         List resposta = restTemplate.getForObject(url, List.class);
@@ -89,7 +89,7 @@ class GumgaSecurityProxy {
     }
 
     @Transactional
-    @RequestMapping("/operations/{software}/{token}")
+    @RequestMapping(value="/operations/{software}/{token}",method = RequestMethod.GET)
     public Set operations(@PathVariable String software, @PathVariable String token) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/operations/" + software + "/" + token;
         Set resposta = restTemplate.getForObject(url, Set.class);

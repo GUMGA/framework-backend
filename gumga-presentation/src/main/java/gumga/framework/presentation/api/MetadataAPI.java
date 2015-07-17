@@ -4,13 +4,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/public/metadata/")
 public class MetadataAPI {
 
-    @RequestMapping("describe/{classe}")
+    @RequestMapping(value="describe/{classe}",method = RequestMethod.GET)
     public GumgaEntityMetadata describe(@PathVariable String classe) {
         try {
             Class clazz = Class.forName(classe);
