@@ -5,7 +5,9 @@
  */
 package gumga.framework.core.service;
 
+import java.io.File;
 import java.io.Writer;
+import java.nio.file.FileSystemException;
 import java.util.Map;
 
 /**
@@ -19,4 +21,21 @@ import java.util.Map;
 public abstract class GumgaAbstractTemplateEngineAdapter implements
         GumgaTemplateEngineService<Map<String, Object>, Writer, String> {
 
+    /**
+     * Checks if the given folder exists. If not it tries to created it.
+     *
+     * @param _folder The folder to be checked
+     * @throws FileSystemException
+     */
+    public void checkFolder(String _folder) throws FileSystemException {
+        if (_folder == null || _folder.isEmpty()) {
+            throw new FileSystemException("Folder can't be empty");
+        }
+        File folder = new File(_folder);
+        if (!folder.exists()) {
+            if (!folder.mkdirs()) {
+                throw new FileSystemException("Could not create " + _folder);
+            }
+        }
+    }
 }
