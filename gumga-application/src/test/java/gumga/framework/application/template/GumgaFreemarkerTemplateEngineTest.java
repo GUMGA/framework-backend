@@ -12,6 +12,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.After;
@@ -19,13 +22,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author gyowannyqueiroz
  */
-public class GumgaFreemarkerTemplateEngineTest {//extends AbstractTest {
+public class GumgaFreemarkerTemplateEngineTest extends AbstractTest {
 
     private GumgaFreemarkerTemplateEngineService gumgaFreemarkerTemplateEngineService;
 
@@ -36,9 +40,9 @@ public class GumgaFreemarkerTemplateEngineTest {//extends AbstractTest {
 
     @Before
     public void startup() throws Exception {
-        //URL resourceUrl = getClass().getResource("/templates");
-        //Path resourcePath = Paths.get(resourceUrl.toURI());
-        gumgaFreemarkerTemplateEngineService = new GumgaFreemarkerTemplateEngineService(gumgaValues.getTemplatesFolder(), "UTF-8");
+        URL resourceUrl = getClass().getResource("/templates");
+        Path resourcePath = Paths.get(resourceUrl.toURI());
+        gumgaFreemarkerTemplateEngineService = new GumgaFreemarkerTemplateEngineService(resourcePath.toString(), "UTF-8");
         gumgaFreemarkerTemplateEngineService.init();
         assertNotNull(gumgaFreemarkerTemplateEngineService);
         gumgaFreemarkerTemplateEngineService.init();
@@ -50,7 +54,7 @@ public class GumgaFreemarkerTemplateEngineTest {//extends AbstractTest {
 
     }
 
-    //@Test
+    @Test
     public void testParse() throws Exception {
         Map<String, Object> values = new HashMap<>();
         String name = "Lara Croft";
@@ -61,7 +65,7 @@ public class GumgaFreemarkerTemplateEngineTest {//extends AbstractTest {
         assertTrue(result.indexOf(name) > -1);
     }
 
-    //@Test
+    @Test
     public void testParseToFile() throws Exception {
         Map<String, Object> values = new HashMap<>();
         String name = "Lara Croft";

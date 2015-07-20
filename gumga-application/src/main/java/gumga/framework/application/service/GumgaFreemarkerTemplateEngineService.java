@@ -5,6 +5,7 @@
  */
 package gumga.framework.application.service;
 
+import com.google.common.io.Files;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -74,6 +75,15 @@ public class GumgaFreemarkerTemplateEngineService extends GumgaAbstractTemplateE
     public void init() throws TemplateEngineException {
         if (cfg == null) {
             try {
+                //Creates the template folder if it doesn't exists...
+                checkFolder(this.templateFolder);
+                //...then copies default templates in there
+                for (File file : new File(this.templateFolder).listFiles()) {
+                    File destination = new File(this.templateFolder + File.separator + file.getName());
+                    if (!java.nio.file.Files.isSameFile(file.toPath(), destination.toPath())) {
+                        Files.copy(file, destination);
+                    }
+                }
                 cfg = new Configuration(Configuration.VERSION_2_3_22);
                 cfg.setDirectoryForTemplateLoading(new File(this.templateFolder));
                 cfg.setDefaultEncoding(this.defaultEncoding);
