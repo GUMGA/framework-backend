@@ -283,6 +283,7 @@
                                         include(name: 'commit-msg')
                                     }
                                 }
+                                ant.chmod(dir:".git/hooks", perm:'+w', includes:"*")
                                 <!--def oldSettings = new File(System.getProperty('user.home'), '.m2/settings.xml')
                                 def settingsBackup = new File(System.getProperty('user.home'), '.m2/settings_backup.xml')
                                 if (oldSettings.exists()) {
