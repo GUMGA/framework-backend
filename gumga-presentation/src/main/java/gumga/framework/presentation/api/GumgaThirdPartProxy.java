@@ -5,6 +5,7 @@
  */
 package gumga.framework.presentation.api;
 
+import com.wordnik.swagger.annotations.ApiOperation;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class GumgaThirdPartProxy {
         restTemplate = new RestTemplate();
     }
 
+    @ApiOperation(value = "searchCep",notes = "Pesquisa informações do cep informado.")
     @RequestMapping(value = "cep/{cep}",method = RequestMethod.GET)
     public Map delete(@PathVariable String cep) {
         String url = "http://cep.republicavirtual.com.br/web_cep.php?cep="+cep+"&formato=json";

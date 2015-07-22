@@ -5,6 +5,7 @@
  */
 package gumga.framework.presentation.api;
 
+import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.application.GumgaUntypedRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class MultiSearchApi {
     }
 
     @Transactional
+    @ApiOperation(value = "search", notes = "Faz uma pesquisa múltipla com o texto informado.")
     @RequestMapping(value="search/{text}",method = RequestMethod.GET)
     public List<GumgaGenericResult> search(@PathVariable String text) {
         List<GumgaGenericResult> aRetornar = new ArrayList<>();

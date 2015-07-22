@@ -27,6 +27,7 @@ public abstract class AbstractProtoGumgaAPI<T> {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
+    
     @RequestMapping(value="/new",method = RequestMethod.GET)
     public T initialState() {
         return initialValue();

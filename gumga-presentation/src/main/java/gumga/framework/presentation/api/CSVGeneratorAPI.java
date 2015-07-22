@@ -5,6 +5,7 @@
  */
 package gumga.framework.presentation.api;
 
+import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.application.GumgaService;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
@@ -31,10 +32,10 @@ public interface CSVGeneratorAPI {
     GumgaService getGumgaService();
 
     @org.springframework.transaction.annotation.Transactional
-    @RequestMapping(value = "/csv", method = RequestMethod.GET)
+    @ApiOperation(value = "csv", notes = "Gera resultado da pesquisa em um arquivo CSV.")
+    @RequestMapping(value = "/csv", method = RequestMethod.GET) 
     @ResponseBody
     default void geraCSV(HttpServletResponse response) throws IOException {
-        System.out.println("Teste");
         StringBuilder sb = new StringBuilder();
         QueryObject qo = new QueryObject();
         SearchResult pesquisa = getGumgaService().pesquisa(qo);

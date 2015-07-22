@@ -1,5 +1,6 @@
 package gumga.framework.presentation.api;
 
+import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaObjectAndRevision;
@@ -23,19 +24,22 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
     }
 
     @Transactional 
-    @RequestMapping
+    @ApiOperation(value = "search", notes = "Faz uma pesquisa pela query informada através do objeto QueryObjet, os atributos são aq, q, start, pageSize, sortField, sortDir e searchFields.")
+    @RequestMapping(method = RequestMethod.GET)
     public SearchResult<T> pesquisa(QueryObject query) {
         SearchResult<T> pesquisa = service.pesquisa(query);
         return new SearchResult<>(query, pesquisa.getCount(), pesquisa.getValues());
     }
 
     @Transactional 
+    @ApiOperation(value = "load", notes = "Carrega entidade pelo id informado.")
     @RequestMapping(value="/{id}",method = RequestMethod.GET)
     public T load(@PathVariable Long id) {
         return service.view(id);
     }
 
     @Transactional 
+    @ApiOperation(value = "listOldVersions", notes = "Mostra versões anteriores do objeto.")
     @RequestMapping(value="listoldversions/{id}",method = RequestMethod.GET)
     public List<GumgaObjectAndRevision> listOldVersions(@PathVariable Long id) {
         return service.listOldVersions(id);

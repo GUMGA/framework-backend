@@ -1,5 +1,6 @@
 package gumga.framework.presentation.api;
 
+import com.wordnik.swagger.annotations.ApiOperation;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/public/metadata/")
 public class MetadataAPI {
 
-    @RequestMapping(value="describe/{classe}",method = RequestMethod.GET)
+    @ApiOperation(value = "describe", notes = "Retorna o metadata da classe informada.")
+    @RequestMapping(value = "describe/{classe}", method = RequestMethod.GET)
     public GumgaEntityMetadata describe(@PathVariable String classe) {
         try {
             Class clazz = Class.forName(classe);

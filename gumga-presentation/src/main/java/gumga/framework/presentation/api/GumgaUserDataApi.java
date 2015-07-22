@@ -1,5 +1,6 @@
 package gumga.framework.presentation.api;
 
+import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.application.GumgaService;
 import gumga.framework.application.GumgaUserDataService;
 import gumga.framework.core.SearchResult;
@@ -22,7 +23,8 @@ public class GumgaUserDataApi extends GumgaAPI<GumgaUserData, Long> {
         super(service);
     }
 
-    @RequestMapping(value="keyprefix/{prefix}",method = RequestMethod.GET)
+    @ApiOperation(value = "queryByKeyPrefix", notes = "Retorna os associados do usuário a uma chave.")
+    @RequestMapping(value = "keyprefix/{prefix}", method = RequestMethod.GET)
     public SearchResult<GumgaUserData> queryByKeyPrefix(@PathVariable String prefix) {
         return ((GumgaUserDataService) service).searchByKeyPrefix(prefix);
 

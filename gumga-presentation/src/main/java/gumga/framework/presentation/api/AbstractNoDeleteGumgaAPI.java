@@ -1,5 +1,6 @@
 package gumga.framework.presentation.api;
 
+import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.domain.GumgaServiceable;
 import gumga.framework.domain.service.GumgaWritableServiceable;
 import gumga.framework.presentation.RestResponse;
@@ -25,6 +26,7 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
     }
 
     @Transactional
+    @ApiOperation(value = "save", notes = "Salva o objeto correspodente.")
     @RequestMapping(method = RequestMethod.POST)
     public RestResponse<T> save(@RequestBody @Valid T model,
             BindingResult result) {
@@ -34,6 +36,7 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
     }
 
     @Transactional
+    @ApiOperation(value = "update", notes = "Atualiza o objeto pelo id correspondente.")
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public RestResponse<T> update(@PathVariable("id") Long id,
             @Valid @RequestBody T model, BindingResult result) {
