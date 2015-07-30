@@ -17,7 +17,7 @@ public class DatabaseConfigSupport {
 	 *
 	 */
 	public static enum Database {
-		H2, MYSQL, POSTGRES, ORACLE, DB2
+		H2, MYSQL, POSTGRES, ORACLE
 	}
 	
 	private static final Map<Database, DataSourceProvider> dsProviderMap = new HashMap<>();
@@ -25,6 +25,7 @@ public class DatabaseConfigSupport {
 		dsProviderMap.put(Database.H2, new H2DataSourceProvider());
 		dsProviderMap.put(Database.MYSQL, new MySqlDataSourceProvider());
 		dsProviderMap.put(Database.POSTGRES, new PostgreSqlDataSourceProvider());
+		dsProviderMap.put(Database.ORACLE, new OracleDataSourceProvider());
 	}
 
 	public DatabaseConfigSupport(){
