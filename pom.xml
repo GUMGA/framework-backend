@@ -1,12 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.security.version>3.2.3.RELEASE</spring.security.version>
+        <spring.version>4.0.2.RELEASE</spring.version>
+        <hibernate.version>4.3.1.Final</hibernate.version>
+    </properties>
+
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>gumga.framework</groupId>
     <artifactId>gumga-backend-all</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.2.0</version>
     <packaging>pom</packaging>
-
     <name>Gumga Framework Backend</name>
 
     <modules>
@@ -18,12 +26,6 @@
         <module>gumga-application</module>
     </modules>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.security.version>3.2.3.RELEASE</spring.security.version>
-        <spring.version>4.0.2.RELEASE</spring.version>
-        <hibernate.version>4.3.1.Final</hibernate.version>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
