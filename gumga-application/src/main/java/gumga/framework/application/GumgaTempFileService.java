@@ -14,11 +14,15 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GumgaTempFileService {
+    
+    private static final Logger log=LoggerFactory.getLogger(GumgaTempFileService.class);
 
     @Autowired
     private GumgaValues gumgaValues;
@@ -36,7 +40,7 @@ public class GumgaTempFileService {
             fos.close();
             return tempFileName;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("erro ao criar arquivo temporario "+tempFileName, ex);
         }
         return "error";
     }
@@ -47,7 +51,7 @@ public class GumgaTempFileService {
             file.delete();
             return "OK";
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("erro ao excluir arquivo temporario "+fileName, ex);
         }
         return "error";
     }
@@ -64,7 +68,7 @@ public class GumgaTempFileService {
             fis.close();
             return gf;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("erro ao recuperar arquivo temporario "+tempFileName, ex);
         }
         return null;
     }

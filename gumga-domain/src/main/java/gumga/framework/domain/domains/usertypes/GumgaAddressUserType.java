@@ -54,9 +54,10 @@ public class GumgaAddressUserType implements CompositeUserType {
                 return ((GumgaAddress) component).getState();
             case 8:
                 return ((GumgaAddress) component).getCountry();
+            default:
+                return null;
 
         }
-        return null;
     }
 
     @Override
@@ -64,23 +65,31 @@ public class GumgaAddressUserType implements CompositeUserType {
         switch (property) {
             case 0:
                 ((GumgaAddress) component).setZipCode((String) setValue);
+                break;
             case 1:
                 ((GumgaAddress) component).setPremisseType((String) setValue);
+                break;
             case 2:
                 ((GumgaAddress) component).setPremisse((String) setValue);
+                break;
             case 3:
                 ((GumgaAddress) component).setNumber((String) setValue);
+                break;
             case 4:
                 ((GumgaAddress) component).setInformation((String) setValue);
+                break;
             case 5:
                 ((GumgaAddress) component).setNeighbourhood((String) setValue);
+                break;
             case 6:
                 ((GumgaAddress) component).setLocalization((String) setValue);
+                break;
             case 7:
                 ((GumgaAddress) component).setState((String) setValue);
+                break;
             case 8:
                 ((GumgaAddress) component).setCountry((String) setValue);
-
+                break;
         }
     }
 

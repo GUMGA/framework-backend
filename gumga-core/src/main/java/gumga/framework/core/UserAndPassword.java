@@ -16,10 +16,10 @@ public class UserAndPassword {
     private String password;
 
     private String newPassword;
-
+    
     public UserAndPassword() {
         this.user = "empty";
-        this.password = "empty";
+        this.password = null;
         this.newPassword = null;
     }
 

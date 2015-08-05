@@ -30,6 +30,11 @@ public class GumgaCEPUserType extends MutableUserType {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public boolean equals(Object o, Object o1) throws HibernateException {
         if (o == null) {
             return false;

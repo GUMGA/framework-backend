@@ -1,29 +1,18 @@
 package gumga.framework.domain;
 
-import gumga.framework.core.GumgaValues;
-import static java.util.concurrent.TimeUnit.DAYS;
-import static org.hibernate.criterion.Restrictions.eq;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.utils.ReflectionUtils;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.Normalizer;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.activation.UnsupportedDataTypeException;
 
-import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.type.StandardBasicTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +49,7 @@ public class HibernateQueryObject {
             try {
                 criterions.add(createCriterion(field, queryObject.getQ(), clazz));
             } catch (Exception ex) {
-                logger.debug(ex.getMessage());
+                logger.debug("Problemas ao gerar critério para "+field, ex);
             }
         }
 
