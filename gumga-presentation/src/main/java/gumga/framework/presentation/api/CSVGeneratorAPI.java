@@ -7,6 +7,7 @@ package gumga.framework.presentation.api;
 
 import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.application.GumgaService;
+import gumga.framework.application.GumgaTempFileService;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Id;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +31,7 @@ public interface CSVGeneratorAPI {
 
     static final String CSV_SEPARATOR = ";";
     static final String CSV_LINE_DELIMITER = "\r\n";
+    static final Logger log=LoggerFactory.getLogger(CSVGeneratorAPI.class);
 
     GumgaService getGumgaService();
 
@@ -78,7 +82,7 @@ public interface CSVGeneratorAPI {
                     }
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                log.error("erro ao criar linha csv", ex);
             }
             sb.append(CSV_SEPARATOR);
         }

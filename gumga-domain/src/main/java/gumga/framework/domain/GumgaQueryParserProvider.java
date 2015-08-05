@@ -27,7 +27,7 @@ import org.hibernate.type.StandardBasicTypes;
  */
 public class GumgaQueryParserProvider {
 
-    public static Map<Class<?>, CriterionParser> defaultMap;
+    public static Map<Class<?>, CriterionParser> defaultMap=null;
 
     public static final Map<Class<?>, CriterionParser> getH2LikeMap() {
         return getBaseMap();

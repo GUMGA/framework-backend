@@ -7,6 +7,12 @@ import java.io.Serializable;
  * @author munif
  */
 public class GumgaDomain implements Serializable, Cloneable{
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     
     
     

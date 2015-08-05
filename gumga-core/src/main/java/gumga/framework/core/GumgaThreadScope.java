@@ -11,10 +11,10 @@ package gumga.framework.core;
  */
 public class GumgaThreadScope {
 
-    public static ThreadLocal<String> ip = new ThreadLocal<>();
-    public static ThreadLocal<String> login = new ThreadLocal<>();
-    public static ThreadLocal<String> organization = new ThreadLocal<>();
-    public static ThreadLocal<String> organizationCode = new ThreadLocal<>();
-    public static ThreadLocal<String> operationKey = new ThreadLocal<>();
+    public final static ThreadLocal<String> ip = new ThreadLocal<>();
+    public final static ThreadLocal<String> login = new ThreadLocal<>();
+    public final static ThreadLocal<String> organization = new ThreadLocal<>();
+    public final static ThreadLocal<String> organizationCode = new ThreadLocal<>();
+    public final static ThreadLocal<String> operationKey = new ThreadLocal<>();
 
 }
