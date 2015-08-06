@@ -7,6 +7,7 @@ public class QueryObject {
 
     public static final String SIMPLE = "SIMPLE";
 
+    private String aqo = SIMPLE;
     private String aq = SIMPLE;
     private String q = "";
     private int start = 0;
@@ -14,6 +15,14 @@ public class QueryObject {
     private String sortField = "";
     private String sortDir = "asc";
     private String[] searchFields;
+
+    public String getAqo() {
+        return aqo;
+    }
+
+    public void setAqo(String aqo) {
+        this.aqo = aqo;
+    }
 
     public String getQ() {
         return q;
@@ -95,7 +104,7 @@ public class QueryObject {
 
     @Override
     public String toString() {
-        return "QueryObject{" + "aq=" + aq + ", q=" + q + ", start=" + start + ", pageSize=" + pageSize + ", sortField=" + sortField + ", sortDir=" + sortDir + ", searchFields=" + Arrays.asList(searchFields==null?Collections.EMPTY_LIST:searchFields) + '}';
+        return "QueryObject{" + "aq=" + aq + ", q=" + q + ", start=" + start + ", pageSize=" + pageSize + ", sortField=" + sortField + ", sortDir=" + sortDir + ", searchFields=" + Arrays.asList(searchFields == null ? Collections.EMPTY_LIST : searchFields) + '}';
     }
 
 }
