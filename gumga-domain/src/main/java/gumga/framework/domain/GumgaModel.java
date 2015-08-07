@@ -89,9 +89,6 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
             return false;
         }
         final GumgaModel<?> other = (GumgaModel<?>) obj;
-        if (id == null) {
-            return super.equals(obj);
-        }
 
         if (!Objects.equals(this.id, other.id)) {
             return false;
