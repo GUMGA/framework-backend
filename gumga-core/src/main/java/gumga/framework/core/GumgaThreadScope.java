@@ -16,5 +16,6 @@ public class GumgaThreadScope {
     public final static ThreadLocal<String> organization = new ThreadLocal<>();
     public final static ThreadLocal<String> organizationCode = new ThreadLocal<>();
     public final static ThreadLocal<String> operationKey = new ThreadLocal<>();
+    public final static ThreadLocal<Boolean> ignoreCheckOwnership = new ThreadLocal<>();
 
 }

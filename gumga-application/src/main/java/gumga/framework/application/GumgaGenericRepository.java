@@ -2,6 +2,7 @@ package gumga.framework.application;
 
 import com.google.common.base.Strings;
 import gumga.framework.core.GumgaThreadScope;
+import gumga.framework.core.GumgaValues;
 import static org.hibernate.criterion.Order.asc;
 import static org.hibernate.criterion.Order.desc;
 import static org.hibernate.criterion.Projections.rowCount;
@@ -28,6 +29,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -51,11 +53,11 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     @Override
     public SearchResult<T> search(QueryObject query) {
-        
+
         if (query.isAdvanced()) {
             return advancedSearch(query);
         }
-        
+
         Long count = count(query);
         List<T> data = getOrdered(query);
 
@@ -99,7 +101,6 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
                 createAliasIfNecessary(pesquisa, field);
             }
         }
-        
 
         return pesquisa;
     }
@@ -355,6 +356,12 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     }
 
     private void checkOwnership(T o) throws EntityNotFoundException {
+        if (GumgaThreadScope.ignoreCheckOwnership.get()!=null && GumgaThreadScope.ignoreCheckOwnership.get() ) {
+            System.out.println("---------------------------------> Ignorando checkOwnership");
+            return;
+        } else {
+            System.out.println("---------------------------------> Realizando checkOwnership");
+        }
         if (!o.getClass().isAnnotationPresent(GumgaMultitenancy.class)) {
             return;
         }
@@ -362,7 +369,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (hasMultitenancy()) {
             if (object.getOi() != null) {
                 if (GumgaThreadScope.organizationCode.get() == null || !object.getOi().getValue().startsWith(GumgaThreadScope.organizationCode.get())) {
-                    throw new EntityNotFoundException("cannot find " + entityInformation.getJavaType() + " with id: " + object.getId() + " in your organization");
+                    throw new EntityNotFoundException("cannot find object of " + entityInformation.getJavaType() + " with id: " + object.getId() + " in your organization");
                 }
             }
         }

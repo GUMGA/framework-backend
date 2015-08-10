@@ -37,7 +37,6 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
     @ApiOperation(value = "search", notes = "Faz uma pesquisa pela query informada através do objeto QueryObjet, os atributos são aq, q, start, pageSize, sortField, sortDir e searchFields.")
     @RequestMapping(method = RequestMethod.GET)
     public SearchResult<T> pesquisa(QueryObject query) {
-        System.out.println("-----------------------_>" + query.getAqo());
         SearchResult<T> pesquisa = service.pesquisa(query);
         return new SearchResult<>(query, pesquisa.getCount(), pesquisa.getValues());
     }
