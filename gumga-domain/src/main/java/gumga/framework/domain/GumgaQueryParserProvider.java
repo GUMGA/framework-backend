@@ -34,12 +34,14 @@ public class GumgaQueryParserProvider {
     }
 
     public static final Map<Class<?>, CriterionParser> getOracleLikeMap() {
-        return getBaseMap();
+        Map<Class<?>, CriterionParser> oracleMap = getBaseMap();
+        oracleMap.put(String.class, AbstractStringCriterionParser.ORACLE_STRING_CRITERION_PARSER);
+        return oracleMap;
     }
 
     public static final Map<Class<?>, CriterionParser> getMySqlLikeMap() {
         Map<Class<?>, CriterionParser> mySqlMap = getBaseMap();
-        mySqlMap.put(String.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        mySqlMap.put(String.class, AbstractStringCriterionParser.MYSQL_STRING_CRITERION_PARSER);
         return mySqlMap;
     }
 
@@ -60,6 +62,11 @@ public class GumgaQueryParserProvider {
         }
     };
 
+    /**
+     * Use <code>gumga.framework.domain.AbstractStringCriterionParser</code> instead
+     * @deprecated
+     */
+    @Deprecated
     private static final CriterionParser STRING_CRITERION_PARSER = new CriterionParser() {
         @Override
         public Criterion parse(String field, String value) {
@@ -73,7 +80,7 @@ public class GumgaQueryParserProvider {
             }
             String ignoraAcentos = "upper({alias}." + field + ") like (?)";
 
-            ignoraAcentos = "upper(translate({alias}." + field + ",'âàãáÁÂÀÃéêÉÊíÍóôõÓÔÕüúÜÚÇç','AAAAAAAAEEEEIIOOOOOOUUUUCC')) like (?)"; //NAO FUNCIONA NO MYSQL
+            ignoraAcentos = "upper(translate({alias}." + field + ",'"+AbstractStringCriterionParser.SOURCE_CHARS+"','"+AbstractStringCriterionParser.TARGET_CHARS+"')) like (?)"; //NAO FUNCIONA NO MYSQL
 
             return Restrictions.sqlRestriction(ignoraAcentos, "%" + value + "%", StandardBasicTypes.STRING);
         }
@@ -180,7 +187,7 @@ public class GumgaQueryParserProvider {
 
     private static final Map<Class<?>, CriterionParser> getBaseMap() {
         Map<Class<?>, CriterionParser> parsers = new HashMap<>();
-        parsers.put(String.class, STRING_CRITERION_PARSER);
+        parsers.put(String.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
         parsers.put(Character.class, CHARACTER_CRITERION_PARSER);
         parsers.put(char.class, CHARACTER_CRITERION_PARSER);
         parsers.put(Boolean.class, BOOLEAN_CRITERION_PARSER);
