@@ -45,6 +45,12 @@ public class GumgaQueryParserProvider {
         return mySqlMap;
     }
 
+    public static final Map<Class<?>, CriterionParser> getPostgreSqlLikeMap() {
+        Map<Class<?>, CriterionParser> mySqlMap = getBaseMap();
+        mySqlMap.put(String.class, AbstractStringCriterionParser.POSTGRESQL_STRING_CRITERION_PARSER);
+        return mySqlMap;
+    }
+    
     private static final CriterionParser STRING_CRITERION_PARSER_WITHOUT_TRANSLATE = new CriterionParser() {
         @Override
         public Criterion parse(String field, String value) {

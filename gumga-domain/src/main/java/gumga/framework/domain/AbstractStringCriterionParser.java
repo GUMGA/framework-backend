@@ -71,4 +71,12 @@ public abstract class AbstractStringCriterionParser implements CriterionParser{
             return "SOUNDEX("+field+") LIKE SOUNDEX( (?) )";
         }
     };
+    
+    public static final AbstractStringCriterionParser POSTGRESQL_STRING_CRITERION_PARSER = new AbstractStringCriterionParser() {
+
+        @Override
+        public String createSoundexExpression(String field, String value) {
+            return "dmetaphone("+field+") = dmetaphone( (?) )";
+        }
+    };
 }
