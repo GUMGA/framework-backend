@@ -1,20 +1,23 @@
 package gumga.framework.application;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import gumga.framework.core.GumgaThreadScope;
-import gumga.framework.core.GumgaValues;
 import static org.hibernate.criterion.Order.asc;
 import static org.hibernate.criterion.Order.desc;
 import static org.hibernate.criterion.Projections.rowCount;
 import static org.hibernate.criterion.Restrictions.or;
 import static org.hibernate.criterion.Restrictions.like;
 import gumga.framework.core.QueryObject;
+import gumga.framework.core.QueryObjectElement;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.*;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +32,6 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -144,6 +146,12 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     }
 
     private SearchResult<T> advancedSearch(QueryObject query) {
+
+        System.out.println("----------------ADVANCED SEARCH-AQ------------>" + query.getAq());
+        System.out.println("----------------ADVANCED SEARCH-AQO----------->" + query.getAqo());
+        System.out.println("----------------ADVANCED SEARCH-QES----------->" + qoeFromString(query.getAqo()));
+        System.out.println("----------------ADVANCED SEARCH-QES----------->" + hqlFromQoes(null));
+
         String modelo = "from %s obj WHERE %s";
         if (hasMultitenancy()) {
             modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + GumgaThreadScope.organizationCode.get() + "%%')  AND (%s) ";
@@ -356,7 +364,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     }
 
     private void checkOwnership(T o) throws EntityNotFoundException {
-        if (GumgaThreadScope.ignoreCheckOwnership.get()!=null && GumgaThreadScope.ignoreCheckOwnership.get() ) {
+        if (GumgaThreadScope.ignoreCheckOwnership.get() != null && GumgaThreadScope.ignoreCheckOwnership.get()) {
             System.out.println("---------------------------------> Ignorando checkOwnership");
             return;
         } else {
@@ -373,6 +381,37 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
                 }
             }
         }
+    }
+
+    public List<QueryObjectElement> qoeFromString(String s) {
+        List<QueryObjectElement> aRetornar = new ArrayList<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode mainNode = mapper.readTree(s);
+            Iterator<JsonNode> elements = mainNode.elements();
+            while (elements.hasNext()) {
+                QueryObjectElement qoe = new QueryObjectElement();
+                aRetornar.add(qoe);
+                JsonNode node = elements.next();
+                if (node.has("attribute")) {
+                    qoe.setAttribute(node.get("attribute").get("name").asText());
+                }
+                if (node.has("hql")) {
+                    qoe.setHql(node.get("hql").get("hql").asText());
+                }
+                qoe.setValue(node.get("value").asText());
+            }
+        } catch (Exception ex) {
+            System.out.println("--------Jackson -->" + ex.toString());
+        }
+        return aRetornar;
+
+    }
+    
+    public String hqlFromQoes(List<QueryObjectElement> qoes){
+        
+        String aRetornar="from "+entityInformation.getJavaType().getSimpleName()+" obj where ";
+        return aRetornar;
     }
 
 }

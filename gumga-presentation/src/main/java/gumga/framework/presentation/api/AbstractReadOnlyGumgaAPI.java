@@ -24,15 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<T> {
-    
+
     protected GumgaReadableServiceable<T> service;
     @Autowired
     protected GumgaUserDataService guds;
-    
+
     public AbstractReadOnlyGumgaAPI(GumgaReadableServiceable<T> service) {
         this.service = service;
     }
-    
+
     @Transactional
     @ApiOperation(value = "search", notes = "Faz uma pesquisa pela query informada através do objeto QueryObjet, os atributos são aq, q, start, pageSize, sortField, sortDir e searchFields.")
     @RequestMapping(method = RequestMethod.GET)
@@ -40,7 +40,7 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
         SearchResult<T> pesquisa = service.pesquisa(query);
         return new SearchResult<>(query, pesquisa.getCount(), pesquisa.getValues());
     }
-    
+
     @Transactional
     @ApiOperation(value = "saveQuery", notes = "Salva a consulta avançada.")
     @RequestMapping(value = "saq", method = RequestMethod.POST)
@@ -54,23 +54,23 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
         guds.save(gud);
         return "OK";
     }
-    
+
     @Transactional
     @ApiOperation(value = "load", notes = "Carrega entidade pelo id informado.")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public T load(@PathVariable Long id) {
         return service.view(id);
     }
-    
+
     @Transactional
     @ApiOperation(value = "listOldVersions", notes = "Mostra versões anteriores do objeto.")
     @RequestMapping(value = "listoldversions/{id}", method = RequestMethod.GET)
     public List<GumgaObjectAndRevision> listOldVersions(@PathVariable Long id) {
         return service.listOldVersions(id);
     }
-    
+
     public void setService(GumgaServiceable<T> service) {
         this.service = service;
     }
-    
+
 }

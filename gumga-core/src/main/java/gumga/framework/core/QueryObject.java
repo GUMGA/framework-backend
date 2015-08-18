@@ -6,8 +6,9 @@ import java.util.Collections;
 public class QueryObject {
 
     public static final String SIMPLE = "SIMPLE";
+    public static final String EMPTY = "[]";
 
-    private String aqo = SIMPLE;
+    private String aqo = EMPTY;
     private String aq = SIMPLE;
     private String q = "";
     private int start = 0;
