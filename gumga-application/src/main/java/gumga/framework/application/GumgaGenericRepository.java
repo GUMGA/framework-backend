@@ -1,7 +1,5 @@
 package gumga.framework.application;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import gumga.framework.core.GumgaThreadScope;
 import static org.hibernate.criterion.Order.asc;
@@ -12,19 +10,13 @@ import static org.hibernate.criterion.Restrictions.like;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.QueryObjectElement;
 import gumga.framework.core.SearchResult;
-import gumga.framework.core.utils.ReflectionUtils;
 import gumga.framework.domain.*;
-import gumga.framework.domain.domains.GumgaMoney;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -152,10 +144,8 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     private SearchResult<T> advancedSearch(QueryObject query) {
 
-        System.out.println("----------------ADVANCED SEARCH-AQ------------>" + query.getAq());
-        List<QueryObjectElement> qoeFromString = qoeFromString(query.getAqo());
-        String hqlFromQes = hqlFromQoes(qoeFromString);
-        System.out.println("----------------ADVANCED SEARCH-hqL from QES-->" + hqlFromQes);
+        List<QueryObjectElement> qoeFromString = GumgaGenericRepositoryHelper.qoeFromString(query.getAqo());
+        String hqlFromQes = GumgaGenericRepositoryHelper.hqlFromQoes(entityInformation,qoeFromString);
 
         if (!QueryObject.EMPTY.equals(query.getAqo())) {
             query.setAq(hqlFromQes);
@@ -387,258 +377,6 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
                 }
             }
         }
-    }
-
-    public List<QueryObjectElement> qoeFromString(String s) {
-        List<QueryObjectElement> aRetornar = new ArrayList<>();
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode mainNode = mapper.readTree(s);
-            Iterator<JsonNode> elements = mainNode.elements();
-            while (elements.hasNext()) {
-                QueryObjectElement qoe = new QueryObjectElement();
-                aRetornar.add(qoe);
-                JsonNode node = elements.next();
-                if (node.has("attribute")) {
-                    qoe.setAttribute(node.get("attribute").get("name").asText());
-                }
-                if (node.has("hql")) {
-                    qoe.setHql(node.get("hql").get("hql").asText());
-                }
-                qoe.setValue(node.get("value").asText());
-            }
-        } catch (Exception ex) {
-            System.out.println("--------Jackson -->" + ex.toString());
-        }
-        return aRetornar;
-
-    }
-
-    public String hqlFromQoes(List<QueryObjectElement> qoes) {
-        // ----------------ADVANCED SEARCH-AQ------------>obj.nome like '%a%' AND obj.quantidade=3
-        //----------------ADVANCED SEARCH-AQO----------->[{"attribute":{"name":"nome","type":"string","$$hashKey":"object:69"},"hql":{"hql":"contains","label":"contém","before":" like '%","after":"%'","$$hashKey":"object:134"},"value":"a","$$hashKey":"object:149"},{"value":"AND","$$hashKey":"object:165"},{"attribute":{"name":"quantidade","type":"number","$$hashKey":"object:71"},"hql":{"hql":"eq","label":"igual","before":"=","after":"","$$hashKey":"object:153"},"value":"3","$$hashKey":"object:166"}]
-        String aRetornar = "";
-        try {
-            for (QueryObjectElement qoe : qoes) {
-                if ("NO_ATTRIBUTE".equals(qoe.getAttribute())) {
-                    aRetornar += " " + qoe.getValue() + " ";
-                } else {
-                    aRetornar += "obj." + qoe.getAttribute();
-                    Class type = String.class;
-                    Field field = ReflectionUtils.findField(entityInformation.getJavaType(), qoe.getAttribute());
-                    if (field != null) {
-                        type = field.getType();
-
-                    }
-
-                    FieldStereotype fieldStereotype = getFieldStereotype(type);
-
-                    HqlEntry het = new HqlEntry(fieldStereotype, qoe.getHql());
-                    HqlElement hel = getHqlConverter().get(het);
-                    aRetornar += hel.before + qoe.getValue() + hel.after;
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return aRetornar;
-    }
-
-    class HqlEntry {
-
-        public final FieldStereotype type;
-        public final String operator;
-
-        public HqlEntry(FieldStereotype type, String operator) {
-            this.type = type;
-            this.operator = operator;
-        }
-
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            hash = 59 * hash + Objects.hashCode(this.type);
-            hash = 59 * hash + Objects.hashCode(this.operator);
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final HqlEntry other = (HqlEntry) obj;
-            if (!Objects.equals(this.type, other.type)) {
-                return false;
-            }
-            if (!Objects.equals(this.operator, other.operator)) {
-                return false;
-            }
-            return true;
-        }
-
-        @Override
-        public String toString() {
-            return "HqlEntry{" + "type=" + type + ", operator=" + operator + '}';
-        }
-
-    }
-
-    class HqlElement {
-
-        public final String before;
-        public final String after;
-
-        public HqlElement(String before, String after) {
-            this.before = before;
-            this.after = after;
-        }
-
-        @Override
-        public String toString() {
-            return "HqlElement{" + "before=" + before + ", after=" + after + '}';
-        }
-
-    }
-
-    enum FieldStereotype {
-
-        TEXT,
-        NUMBER,
-        LOGIC,
-        DATE,
-        DEFAULT
-
-    }
-
-    private Map<HqlEntry, HqlElement> hqlConverter;
-
-    public Map<HqlEntry, HqlElement> getHqlConverter() {
-        if (hqlConverter == null) {
-            hqlConverter = new HashMap<>();
-
-            hqlConverter.put(new HqlEntry(FieldStereotype.DEFAULT, "eq"), new HqlElement("='", "'"));
-            hqlConverter.put(new HqlEntry(FieldStereotype.DEFAULT, "ne"), new HqlElement("!='", "'"));
-            hqlConverter.put(new HqlEntry(FieldStereotype.DEFAULT, "ge"), new HqlElement(">='", "'"));
-            hqlConverter.put(new HqlEntry(FieldStereotype.DEFAULT, "le"), new HqlElement("<='", "'"));
-            hqlConverter.put(new HqlEntry(FieldStereotype.DEFAULT, "gt"), new HqlElement(">'", "'"));
-            hqlConverter.put(new HqlEntry(FieldStereotype.DEFAULT, "lt"), new HqlElement("<'", "'"));
-            hqlConverter.put(new HqlEntry(FieldStereotype.DEFAULT, "contains"), new HqlElement(" like '%", "%'"));
-            hqlConverter.put(new HqlEntry(FieldStereotype.DEFAULT, "not_contains"), new HqlElement("not like '%", "%'"));
-            hqlConverter.put(new HqlEntry(FieldStereotype.DEFAULT, "starts_with"), new HqlElement("like '", "%'"));
-            hqlConverter.put(new HqlEntry(FieldStereotype.DEFAULT, "ends_with"), new HqlElement("like '%", "'"));
-
-            hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "eq"), new HqlElement("=", ""));
-            hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "ne"), new HqlElement("!=", ""));
-            hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "ge"), new HqlElement(">=", ""));
-            hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "le"), new HqlElement("<=", ""));
-            hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "gt"), new HqlElement(">", ""));
-            hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "lt"), new HqlElement("<", ""));
-
-        }
-        return hqlConverter;
-    }
-
-    public FieldStereotype getFieldStereotype(Class type) {
-        if (java.lang.Byte.class.equals(type)) {
-            return FieldStereotype.NUMBER;
-        }
-        if (java.lang.Double.class.equals(type)) {
-            return FieldStereotype.NUMBER;
-        }
-        if (java.lang.Float.class.equals(type)) {
-            return FieldStereotype.NUMBER;
-        }
-        if (java.lang.Integer.class.equals(type)) {
-            return FieldStereotype.NUMBER;
-        }
-        if (java.lang.Long.class.equals(type)) {
-            return FieldStereotype.NUMBER;
-        }
-        if (java.lang.Number.class.equals(type)) {
-            return FieldStereotype.NUMBER;
-        }
-        if (java.lang.Short.class.equals(type)) {
-            return FieldStereotype.NUMBER;
-        }
-        if (GumgaMoney.class.equals(type)) {
-            return FieldStereotype.NUMBER;
-        }
-
-        return FieldStereotype.DEFAULT;
-    }
-
+    } 
+ 
 }
-
-/*
- hqlConverter.put(new HqlEntry(FieldStereotype.TEXT, "eq"), new HqlElement("='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.TEXT, "ne"), new HqlElement("!='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.TEXT, "contains"), new HqlElement(" like '%", "%'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.TEXT, "not_contains"), new HqlElement("not like '%", "%'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.TEXT, "starts_with"), new HqlElement("like '", "%'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.TEXT, "ends_with"), new HqlElement("like '%", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.TEXT, "ge"), new HqlElement(">='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.TEXT, "le"), new HqlElement("<='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.TEXT, "gt"), new HqlElement(">'", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.TEXT, "lt"), new HqlElement("<'", "'"));
-
- hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "eq"), new HqlElement("='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "ne"), new HqlElement("!='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "ge"), new HqlElement(">='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "le"), new HqlElement("<='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "gt"), new HqlElement(">'", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.NUMBER, "lt"), new HqlElement("<'", "'"));
-
- hqlConverter.put(new HqlEntry(FieldStereotype.LOGIC, "eq"), new HqlElement("='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.LOGIC, "ne"), new HqlElement("!='", "'"));
-
- hqlConverter.put(new HqlEntry(FieldStereotype.DATE, "eq"), new HqlElement("='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.DATE, "ne"), new HqlElement("!='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.DATE, "ge"), new HqlElement(">='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.DATE, "le"), new HqlElement("<='", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.DATE, "gt"), new HqlElement(">'", "'"));
- hqlConverter.put(new HqlEntry(FieldStereotype.DATE, "lt"), new HqlElement("<'", "'"));
-
- if (java.lang.Boolean.class.equals(type)) {
- fieldStereotype = FieldStereotype.LOGIC;
- }
-
- if (java.lang.String.class.equals(type)) {
- fieldStereotype = FieldStereotype.TEXT;
- }
- if (java.lang.Character.class.equals(type)) {
- fieldStereotype = FieldStereotype.TEXT;
- }
- if (java.lang.Enum.class.equals(type)) {
- fieldStereotype = FieldStereotype.TEXT;
- }
-
- if (java.lang.Byte.class.equals(type)) {
- fieldStereotype = FieldStereotype.NUMBER;
- }
- if (java.lang.Double.class.equals(type)) {
- fieldStereotype = FieldStereotype.NUMBER;
- }
- if (java.lang.Float.class.equals(type)) {
- fieldStereotype = FieldStereotype.NUMBER;
- }
- if (java.lang.Integer.class.equals(type)) {
- fieldStereotype = FieldStereotype.NUMBER;
- }
- if (java.lang.Long.class.equals(type)) {
- fieldStereotype = FieldStereotype.NUMBER;
- }
- if (java.lang.Number.class.equals(type)) {
- fieldStereotype = FieldStereotype.NUMBER;
- }
- if (java.lang.Short.class.equals(type)) {
- fieldStereotype = FieldStereotype.NUMBER;
- }
-
-
-
- */
