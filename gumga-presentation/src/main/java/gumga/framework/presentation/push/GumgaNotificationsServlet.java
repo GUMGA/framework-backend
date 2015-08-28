@@ -6,6 +6,7 @@
 package gumga.framework.presentation.push;
 
 import gumga.framework.application.GumgaMessageService;
+import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaMessage;
@@ -31,12 +32,24 @@ public class GumgaNotificationsServlet extends HttpServlet {
     @Autowired
     private GumgaMessageService messageService;
 
+    @RequestMapping("/notifications/viewed")
+    protected void viewd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long l=new Long(request.getParameter("id"));
+        GumgaMessage gm=new GumgaMessage(l);
+        messageService.delete(gm);
+    
+    }
+
+    
     @RequestMapping("/notifications/source")
     protected void notifications(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/event-stream");
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
         QueryObject qo = new QueryObject();
+        qo.setAq("destinationLogin='"+GumgaThreadScope.login.get()+"' and viewedIn is null ");
+        qo.setAq("viewedIn is null ");
+        qo.setPageSize(1000);
 
         for (int i = 0; i < cycles; i++) {
             SearchResult<GumgaMessage> pesquisa = messageService.pesquisa(qo);

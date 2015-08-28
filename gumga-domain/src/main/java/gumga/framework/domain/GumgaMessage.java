@@ -29,6 +29,10 @@ public class GumgaMessage extends GumgaModel<Long> {
         message = null;
     }
 
+    public GumgaMessage(Long id) {
+        this.id = id;
+    }
+
     public String getSenderLogin() {
         return senderLogin;
     }
