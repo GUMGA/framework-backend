@@ -145,10 +145,10 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     private SearchResult<T> advancedSearch(QueryObject query) {
 
         List<QueryObjectElement> qoeFromString = GumgaGenericRepositoryHelper.qoeFromString(query.getAqo());
-        String hqlFromQes = GumgaGenericRepositoryHelper.hqlFromQoes(entityInformation,qoeFromString);
+        String hqlFromQes ="";// GumgaGenericRepositoryHelper.hqlFromQoes(entityInformation,qoeFromString);
 
         if (!QueryObject.EMPTY.equals(query.getAqo())) {
-            query.setAq(hqlFromQes);
+            //query.setAq(hqlFromQes);
         }
 
         String modelo = "from %s obj WHERE %s";

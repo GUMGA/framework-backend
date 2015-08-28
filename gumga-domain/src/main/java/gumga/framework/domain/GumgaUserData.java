@@ -15,7 +15,7 @@ public class GumgaUserData extends GumgaModel<Long> {
     @Column(name = "data_key")
     private String key;
     private String description;
-    @Column(name = "data_value")
+    @Column(name = "data_value",length = 4096)
     private String value;
 
     public GumgaUserData() {

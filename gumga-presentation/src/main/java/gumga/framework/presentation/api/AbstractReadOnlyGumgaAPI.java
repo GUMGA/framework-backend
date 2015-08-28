@@ -1,5 +1,6 @@
 package gumga.framework.presentation.api;
 
+
 import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.application.GumgaUserDataService;
 import gumga.framework.core.GumgaThreadScope;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 @RestController
 public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<T> {
@@ -71,6 +74,13 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
 
     public void setService(GumgaServiceable<T> service) {
         this.service = service;
+    }
+
+    @ApiOperation(value = "queryByKeyPrefix", notes = "Retorna os associados do usuário a uma chave.")
+    @RequestMapping(value = "gumgauserdata/{prefix}", method = RequestMethod.GET)
+    public SearchResult<GumgaUserData> queryByKeyPrefix(@PathVariable String prefix) {
+        return ((GumgaUserDataService) guds).searchByKeyPrefix(prefix);
+
     }
 
 }
