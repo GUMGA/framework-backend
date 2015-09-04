@@ -210,143 +210,191 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     @Override
     protected TypedQuery<Long> getCountQuery(Specification<T> spec) {
-        return super.getCountQuery(spec); //To change body of generated methods, choose Tools | Templates.
+        return super.getCountQuery(spec); 
     }
 
     @Override
     protected TypedQuery<T> getQuery(Specification<T> spec, Sort sort) {
-        return super.getQuery(spec, sort); //To change body of generated methods, choose Tools | Templates.
+        return super.getQuery(spec, sort); 
     }
 
     @Override
     protected TypedQuery<T> getQuery(Specification<T> spec, Pageable pageable) {
-        return super.getQuery(spec, pageable); //To change body of generated methods, choose Tools | Templates.
+        return super.getQuery(spec, pageable); 
     }
 
     @Override
     protected Page<T> readPage(TypedQuery<T> query, Pageable pageable, Specification<T> spec) {
-        return super.readPage(query, pageable, spec); //To change body of generated methods, choose Tools | Templates.
+        return super.readPage(query, pageable, spec); 
     }
 
     @Override
     public void flush() {
-        super.flush(); //To change body of generated methods, choose Tools | Templates.
+        super.flush(); 
     }
 
     @Override
     public <S extends T> List<S> save(Iterable<S> entities) {
-        return super.save(entities); //To change body of generated methods, choose Tools | Templates.
+        return super.save(entities); 
     }
 
     @Override
     public <S extends T> S saveAndFlush(S entity) {
-        return super.saveAndFlush(entity); //To change body of generated methods, choose Tools | Templates.
+        return super.saveAndFlush(entity); 
     }
 
     @Override
     public <S extends T> S save(S entity) {
         //setOi(entity);
-        return super.save(entity); //To change body of generated methods, choose Tools | Templates.
+        return super.save(entity); 
     }
 
     @Override
     public long count(Specification<T> spec) {
-        return super.count(spec); //To change body of generated methods, choose Tools | Templates.
+        return super.count(spec); 
     }
 
     @Override
     public long count() {
-        return super.count(); //To change body of generated methods, choose Tools | Templates.
+        return super.count(); 
     }
 
     @Override
     public List<T> findAll(Specification<T> spec, Sort sort) {
-        return super.findAll(spec, sort); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        return super.findAll(spec, sort); 
     }
 
     @Override
     public Page<T> findAll(Specification<T> spec, Pageable pageable) {
-        return super.findAll(spec, pageable); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        return super.findAll(spec, pageable); 
     }
 
     @Override
     public List<T> findAll(Specification<T> spec) {
-        return super.findAll(spec); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        return super.findAll(spec); 
     }
 
     @Override
     public T findOne(Specification<T> spec) {
-        return super.findOne(spec); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        return super.findOne(spec); 
     }
 
     @Override
     public Page<T> findAll(Pageable pageable) {
-        return super.findAll(pageable); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        return super.findAll(pageable); 
     }
 
     @Override
     public List<T> findAll(Sort sort) {
-        return super.findAll(sort); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        return super.findAll(sort); 
     }
 
     @Override
     public List<T> findAll(Iterable<ID> ids) {
-        return super.findAll(ids); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        return super.findAll(ids); 
     }
 
     @Override
     public List<T> findAll() {
-        return super.findAll(); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        return super.findAll(); 
     }
 
     @Override
     public boolean exists(ID id) {
-        return super.exists(id); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        return super.exists(id); 
     }
 
     @Override
     public T getOne(ID id) {
-        return super.getOne(id); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        return super.getOne(id); 
     }
 
     @Override
     public void deleteAllInBatch() {
-        super.deleteAllInBatch(); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        super.deleteAllInBatch(); 
     }
 
     @Override
     public void deleteAll() {
-        super.deleteAll(); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        super.deleteAll(); 
     }
 
     @Override
     public void deleteInBatch(Iterable<T> entities) {
-        super.deleteInBatch(entities); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        super.deleteInBatch(entities); 
     }
 
     @Override
     public void delete(Iterable<? extends T> entities) {
-        super.delete(entities); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        super.delete(entities); 
     }
 
     @Override
     public void delete(T entity) {
-        super.delete(entity); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        super.delete(entity); 
     }
 
     @Override
     public void delete(ID id) {
-        super.delete(id); //To change body of generated methods, choose Tools | Templates.
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
+        super.delete(id); 
     }
 
     @Override
     protected Class<T> getDomainClass() {
-        return super.getDomainClass(); //To change body of generated methods, choose Tools | Templates.
+        return super.getDomainClass(); 
     }
 
     @Override
     public void setRepositoryMethodMetadata(CrudMethodMetadata crudMethodMetadata) {
-        super.setRepositoryMethodMetadata(crudMethodMetadata); //To change body of generated methods, choose Tools | Templates.
+        super.setRepositoryMethodMetadata(crudMethodMetadata); 
     }
 
     @Override

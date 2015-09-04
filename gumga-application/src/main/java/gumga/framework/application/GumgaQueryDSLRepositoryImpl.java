@@ -6,16 +6,11 @@ import com.mysema.query.types.*;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.ComparablePath;
 import com.mysema.query.types.path.PathBuilder;
-import com.mysema.query.types.path.StringPath;
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.SearchResult;
-import gumga.framework.domain.GumgaMultitenancy;
 import gumga.framework.domain.domains.GumgaOi;
 import gumga.framework.domain.repository.GumgaQueryDSLRepository;
 import gumga.framework.domain.repository.ISpecification;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -30,8 +25,6 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-import static org.hibernate.criterion.Restrictions.like;
-import static org.hibernate.criterion.Restrictions.or;
 
 @NoRepositoryBean
 public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends GumgaGenericRepository<T, ID> implements GumgaQueryDSLRepository<T, ID> {
