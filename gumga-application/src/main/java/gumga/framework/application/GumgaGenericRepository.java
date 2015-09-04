@@ -261,81 +261,129 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     @Override
     public List<T> findAll(Specification<T> spec, Sort sort) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         return super.findAll(spec, sort); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Page<T> findAll(Specification<T> spec, Pageable pageable) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         return super.findAll(spec, pageable); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<T> findAll(Specification<T> spec) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         return super.findAll(spec); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public T findOne(Specification<T> spec) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         return super.findOne(spec); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Page<T> findAll(Pageable pageable) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         return super.findAll(pageable); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<T> findAll(Sort sort) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         return super.findAll(sort); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<T> findAll(Iterable<ID> ids) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         return super.findAll(ids); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<T> findAll() {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         return super.findAll(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean exists(ID id) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         return super.exists(id); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public T getOne(ID id) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         return super.getOne(id); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void deleteAllInBatch() {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         super.deleteAllInBatch(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void deleteAll() {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         super.deleteAll(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void deleteInBatch(Iterable<T> entities) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         super.deleteInBatch(entities); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void delete(Iterable<? extends T> entities) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         super.delete(entities); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void delete(T entity) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         super.delete(entity); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void delete(ID id) {
+        if (hasMultitenancy()){
+            throw new RuntimeException("Multitenancy nao foi implementada");
+        }
         super.delete(id); //To change body of generated methods, choose Tools | Templates.
     }
 
