@@ -71,6 +71,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (!sortField.isEmpty()) {
             createAliasIfNecessary(pesquisa, sortField);
             pesquisa.addOrder(sortType.equals("asc") ? asc(sortField).ignoreCase() : desc(sortField).ignoreCase());
+            pesquisa.addOrder(asc("id")); //GUMGA-478
         }
 
         return pesquisa.setFirstResult(query.getStart()).setMaxResults(query.getPageSize()).list();
