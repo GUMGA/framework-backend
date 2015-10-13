@@ -23,9 +23,9 @@ import java.util.Map;
 public interface GumgaCrudAndQueryNotOnlyTypedRepository <T, ID extends Serializable> extends GumgaCrudRepository<T, ID>{
     
     /**
-     * Query hql não tipada para consultas complexas. <br/>
-     * Retorna apenas um registro. <br/>
-     * Não passa pelo multi tenancy, caso seja necessario deve ser feito <br/>
+     * Query hql não tipada para consultas complexas.
+     * Retorna apenas um registro.
+     * Não passa pelo multi tenancy, caso seja necessario deve ser feito 
      * manualmente no hql implementado.
      * @param <E> O tipo a ser retornado
      * @param hql A busca
@@ -37,8 +37,8 @@ public interface GumgaCrudAndQueryNotOnlyTypedRepository <T, ID extends Serializ
     public <E> E getUniqueResult(String hql, Class<E> type, Map<String,Object> param);
     
     /**
-     * Query hql não tipada para consultas complexas. <br/>
-     * Não passa pelo multi tenancy, caso seja necessario deve ser feito <br/>
+     * Query hql não tipada para consultas complexas. 
+     * Não passa pelo multi tenancy, caso seja necessario deve ser feito 
      * manualmente no hql implementado.
      * @param <E> O tipo a ser retornado
      * @param hql A busca
@@ -49,8 +49,8 @@ public interface GumgaCrudAndQueryNotOnlyTypedRepository <T, ID extends Serializ
     public List getResultList(String hql, Map<String,Object> param);
     
     /**
-     * Query hql não tipada para consultas complexas. <br/>
-     * Não passa pelo multi tenancy, caso seja necessario deve ser feito <br/>
+     * Query hql não tipada para consultas complexas. 
+     * Não passa pelo multi tenancy, caso seja necessario deve ser feito 
      * manualmente no hql implementado.
      * @param <E> O tipo a ser retornado
      * @param hql A busca
@@ -63,8 +63,8 @@ public interface GumgaCrudAndQueryNotOnlyTypedRepository <T, ID extends Serializ
     
     /**
      *
-     * Query hql não tipada para consultas complexas. <br/>
-     * Não passa pelo multi tenancy, caso seja necessario deve ser feito <br/>
+     * Query hql não tipada para consultas complexas. 
+     * Não passa pelo multi tenancy, caso seja necessario deve ser feito 
      * manualmente no hql implementado.
      * @param <E> O tipo a ser retornado
      * @param hql A busca
