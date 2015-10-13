@@ -40,9 +40,7 @@ public interface GumgaCrudAndQueryNotOnlyTypedRepository <T, ID extends Serializ
      * Query hql não tipada para consultas complexas. 
      * Não passa pelo multi tenancy, caso seja necessario deve ser feito 
      * manualmente no hql implementado.
-     * @param <E> O tipo a ser retornado
      * @param hql A busca
-     * @param type O tipo de retorno
      * @param param Os parametros
      * @return Uma lista contendo os registros enecontrados
      */
@@ -52,10 +50,9 @@ public interface GumgaCrudAndQueryNotOnlyTypedRepository <T, ID extends Serializ
      * Query hql não tipada para consultas complexas. 
      * Não passa pelo multi tenancy, caso seja necessario deve ser feito 
      * manualmente no hql implementado.
-     * @param <E> O tipo a ser retornado
      * @param hql A busca
-     * @param type O tipo de retorno
      * @param param Os parametros
+     * @param maxResult Quantidade maxima de registros retornados
      * @return Uma lista contendo os registros enecontrados
      * 
      */
@@ -66,21 +63,18 @@ public interface GumgaCrudAndQueryNotOnlyTypedRepository <T, ID extends Serializ
      * Query hql não tipada para consultas complexas. 
      * Não passa pelo multi tenancy, caso seja necessario deve ser feito 
      * manualmente no hql implementado.
-     * @param <E> O tipo a ser retornado
      * @param hql A busca
-     * @param type O tipo de retorno
      * @param param Os parametros
      * @param firstresult Paginacao - indice inicial
      * @param maxResult Paginacal - total de registros da pagina
      * @return Uma lista contendo os registros enecontrados 
      */
-    public List getResultList(String hql, Map<String,Object> param,int firstresult, int maxResult);
+    public List getResultList(String hql, Map<String,Object> param, int firstresult, int maxResult);
     
     /**
      * JPAQuery instanciado para consultas complexas.
      * @return O objeto JPAQuery
      */
-
     public JPAQuery getJPAQuerydsl();
     
 }
