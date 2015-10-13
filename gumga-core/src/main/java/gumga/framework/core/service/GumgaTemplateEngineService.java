@@ -45,8 +45,9 @@ public interface GumgaTemplateEngineService<INPUT, OUTPUT_WRITER, OUTPUT> {
      *
      * @param values The values to be merged with the template
      * @param template The template to be parsed
-     * @param writer The object responsible to save the output file. It may be
+     * @param out The object responsible to save the output file. It may be
      * an OutputStream for example.
+     * @throws TemplateEngineException When something goes wrong while parsing the template
      */
     public void parse(INPUT values, String template, OUTPUT_WRITER out) throws TemplateEngineException;
 
@@ -57,6 +58,7 @@ public interface GumgaTemplateEngineService<INPUT, OUTPUT_WRITER, OUTPUT> {
      * @param values The values to be merged with the template
      * @param template The template to be parsed
      * @return The result specified by the OUTPUT generic type
+     * @throws TemplateEngineException When something goes wrong while parsing the template
      */
     public OUTPUT parse(INPUT values, String template) throws TemplateEngineException;
 }
