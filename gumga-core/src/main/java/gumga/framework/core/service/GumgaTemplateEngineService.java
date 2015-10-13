@@ -21,21 +21,21 @@ public interface GumgaTemplateEngineService<INPUT, OUTPUT_WRITER, OUTPUT> {
      * concrete implementations. Useful to place the template engine
      * configuration.
      *
-     * @throws TemplateEngineException
+     * @throws TemplateEngineException Exception thrown when something goes wrong while initializing the implementation
      */
     public void init() throws TemplateEngineException;
 
     /**
      * Sets the folder where the templates are stored
      *
-     * @param folder
+     * @param folder The folder where the templates are located
      */
     public void setTemplateFolder(String folder);
 
     /**
      * Sets the parser engine's default encoding
      *
-     * @param encoding
+     * @param encoding The encoding of the templates like UTF-8 and etc.
      */
     public void setDefaultEncoding(String encoding);
 

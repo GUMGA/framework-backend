@@ -263,7 +263,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public List<T> findAll(Specification<T> spec, Sort sort) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         return super.findAll(spec, sort); 
     }
@@ -271,7 +271,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public Page<T> findAll(Specification<T> spec, Pageable pageable) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         return super.findAll(spec, pageable); 
     }
@@ -279,7 +279,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public List<T> findAll(Specification<T> spec) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         return super.findAll(spec); 
     }
@@ -287,7 +287,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public T findOne(Specification<T> spec) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         return super.findOne(spec); 
     }
@@ -295,7 +295,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public Page<T> findAll(Pageable pageable) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         return super.findAll(pageable); 
     }
@@ -303,7 +303,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public List<T> findAll(Sort sort) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         return super.findAll(sort); 
     }
@@ -311,7 +311,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public List<T> findAll(Iterable<ID> ids) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         return super.findAll(ids); 
     }
@@ -319,7 +319,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public List<T> findAll() {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         return super.findAll(); 
     }
@@ -327,7 +327,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public boolean exists(ID id) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         return super.exists(id); 
     }
@@ -335,7 +335,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public T getOne(ID id) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         return super.getOne(id); 
     }
@@ -343,7 +343,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void deleteAllInBatch() {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         super.deleteAllInBatch(); 
     }
@@ -351,7 +351,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void deleteAll() {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         super.deleteAll(); 
     }
@@ -359,7 +359,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void deleteInBatch(Iterable<T> entities) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         super.deleteInBatch(entities); 
     }
@@ -367,7 +367,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void delete(Iterable<? extends T> entities) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         super.delete(entities); 
     }
@@ -375,7 +375,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void delete(T entity) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         super.delete(entity); 
     }
@@ -383,7 +383,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void delete(ID id) {
         if (hasMultitenancy()){
-            throw new RuntimeException("Multitenancy nao foi implementada");
+            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
         }
         super.delete(id); 
     }

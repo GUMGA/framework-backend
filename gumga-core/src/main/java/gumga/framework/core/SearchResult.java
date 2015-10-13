@@ -37,9 +37,9 @@ public class SearchResult<T> {
     /**
      * Transforma o resultado da pesquisa em outro tipo de objeto
      *
-     * @param fn
-     * @param <A>
-     * @return
+     * @param fn A funcao a ser transformada
+     * @param <A> O tipo da funcao
+     * @return A funcao como SearchResult
      */
     public <A> SearchResult<A> map(Function<? super T, A> fn) {
         return new SearchResult<>(start, pageSize, count, values.stream().map(fn).collect(Collectors.toList()));
