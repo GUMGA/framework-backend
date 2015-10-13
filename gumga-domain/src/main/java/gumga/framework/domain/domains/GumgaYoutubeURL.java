@@ -15,7 +15,7 @@ public interface GumgaYoutubeURL {
     /**
      * Recupera o id do video presente na URL
      *
-     * @return
+     * @return O identificador do video
      */
     String getVideoId();
 
@@ -23,8 +23,8 @@ public interface GumgaYoutubeURL {
     /**
      * Cria um YoutubeURL de uma String
      *
-     * @param urlString
-     * @return
+     * @param urlString A url do video
+     * @return A url do video no formato GumgaYoutubeURL
      */
     public static GumgaYoutubeURL fromString(String urlString) {
         Preconditions.checkNotNull(urlString, "É necessário informar uma URL.");

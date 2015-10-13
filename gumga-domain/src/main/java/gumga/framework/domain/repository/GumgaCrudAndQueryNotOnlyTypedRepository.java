@@ -16,80 +16,71 @@ import java.util.Map;
 /**
  *
  * @author wlademir
- * @param <T>
- * @param <ID>
+ * @param <T> O tipo do objeto
+ * @param <ID> O tipo do ID do objeto
  */
 @NoRepositoryBean
 public interface GumgaCrudAndQueryNotOnlyTypedRepository <T, ID extends Serializable> extends GumgaCrudRepository<T, ID>{
     
     /**
-     * 
      * Query hql não tipada para consultas complexas. <br/>
      * Retorna apenas um registro. <br/>
      * Não passa pelo multi tenancy, caso seja necessario deve ser feito <br/>
      * manualmente no hql implementado.
-     * @param <E>
-     * @param hql
-     * @param type
-     * @param param
-     * @return
+     * @param <E> O tipo a ser retornado
+     * @param hql A busca
+     * @param type o Tipo de retorno
+     * @param param Os parametros
+     * @return Retorna um unico registro encontrado
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public <E> E getUniqueResult(String hql, Class<E> type, Map<String,Object> param);
     
     /**
-     *
      * Query hql não tipada para consultas complexas. <br/>
      * Não passa pelo multi tenancy, caso seja necessario deve ser feito <br/>
      * manualmente no hql implementado.
-     * @param <E>
-     * @param hql
-     * @param type
-     * @param param
-     * @return
+     * @param <E> O tipo a ser retornado
+     * @param hql A busca
+     * @param type O tipo de retorno
+     * @param param Os parametros
+     * @return Uma lista contendo os registros enecontrados
      */
     public List getResultList(String hql, Map<String,Object> param);
     
     /**
-     *
      * Query hql não tipada para consultas complexas. <br/>
      * Não passa pelo multi tenancy, caso seja necessario deve ser feito <br/>
      * manualmente no hql implementado.
-     * @param <E>
-     * @param hql
-     * @param type
-     * @param param
-     * @param maxResult
-     * @return
+     * @param <E> O tipo a ser retornado
+     * @param hql A busca
+     * @param type O tipo de retorno
+     * @param param Os parametros
+     * @return Uma lista contendo os registros enecontrados
      * 
      */
     public List getResultList(String hql, Map<String,Object> param, int maxResult);
     
     /**
      *
-      * Query hql não tipada para consultas complexas. <br/>
+     * Query hql não tipada para consultas complexas. <br/>
      * Não passa pelo multi tenancy, caso seja necessario deve ser feito <br/>
      * manualmente no hql implementado.
-     * @param <E>
-     * @param hql
-     * @param type
-     * @param param
-     * @param firstresult
-     * @param maxResult
-     * @return 
+     * @param <E> O tipo a ser retornado
+     * @param hql A busca
+     * @param type O tipo de retorno
+     * @param param Os parametros
+     * @param firstresult Paginacao - indice inicial
+     * @param maxResult Paginacal - total de registros da pagina
+     * @return Uma lista contendo os registros enecontrados 
      */
     public List getResultList(String hql, Map<String,Object> param,int firstresult, int maxResult);
     
-   
-    
-    
     /**
-     *
      * JPAQuery instanciado para consultas complexas.
-     * @return
+     * @return O objeto JPAQuery
      */
 
     public JPAQuery getJPAQuerydsl();
-    
     
 }
