@@ -42,6 +42,23 @@ public class GumgaCustomField extends GumgaModel<Long> {
         this.fieldGroup = "$DEFAULT";
     }
 
+    public GumgaCustomField(String clazz, String name, String description, Boolean active, CustomFieldType type, String validationDescription, String validationScript, String defaultValueScript, String options, Double visualizationOrder, String fieldGroup) {
+        this.clazz = clazz;
+        this.name = name;
+        this.description = description;
+        this.active = active;
+        this.type = type;
+        this.validationDescription = validationDescription;
+        this.validationScript = validationScript;
+        this.defaultValueScript = defaultValueScript;
+        this.options = options;
+        this.visualizationOrder = visualizationOrder;
+        this.fieldGroup = fieldGroup;
+    }
+    
+    
+    
+
     public String getClazz() {
         return clazz;
     }

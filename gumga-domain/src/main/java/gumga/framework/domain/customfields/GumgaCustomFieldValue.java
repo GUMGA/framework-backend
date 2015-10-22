@@ -37,6 +37,12 @@ public class GumgaCustomFieldValue extends GumgaModel<Long> {
     public GumgaCustomFieldValue() {
     }
 
+    public GumgaCustomFieldValue(GumgaCustomField field, Long gumgaModelId, Object value) {
+        this.field = field;
+        this.gumgaModelId = gumgaModelId;
+        setValue(value);
+    }
+
     public GumgaCustomField getField() {
         return field;
     }
@@ -96,6 +102,7 @@ public class GumgaCustomFieldValue extends GumgaModel<Long> {
             case NUMBER:
                 dateValue = (Date) value;
                 break;
+            case SELECTION:
             case TEXT:
                 textValue = (String) value;
                 break;
@@ -110,6 +117,7 @@ public class GumgaCustomFieldValue extends GumgaModel<Long> {
                 return logicValue;
             case NUMBER:
                 return dateValue;
+            case SELECTION:
             case TEXT:
                 return textValue;
         }
