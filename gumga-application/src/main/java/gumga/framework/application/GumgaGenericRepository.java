@@ -146,7 +146,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     private SearchResult<T> advancedSearch(QueryObject query) {
 
         List<QueryObjectElement> qoeFromString = GumgaGenericRepositoryHelper.qoeFromString(query.getAqo());
-        String hqlFromQes ="";// GumgaGenericRepositoryHelper.hqlFromQoes(entityInformation,qoeFromString);
+        String hqlFromQes = "";// GumgaGenericRepositoryHelper.hqlFromQoes(entityInformation,qoeFromString);
 
         if (!QueryObject.EMPTY.equals(query.getAqo())) {
             //query.setAq(hqlFromQes);
@@ -211,191 +211,182 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     @Override
     protected TypedQuery<Long> getCountQuery(Specification<T> spec) {
-        return super.getCountQuery(spec); 
+        return super.getCountQuery(spec);
     }
 
     @Override
     protected TypedQuery<T> getQuery(Specification<T> spec, Sort sort) {
-        return super.getQuery(spec, sort); 
+        return super.getQuery(spec, sort);
     }
 
     @Override
     protected TypedQuery<T> getQuery(Specification<T> spec, Pageable pageable) {
-        return super.getQuery(spec, pageable); 
+        return super.getQuery(spec, pageable);
     }
 
     @Override
     protected Page<T> readPage(TypedQuery<T> query, Pageable pageable, Specification<T> spec) {
-        return super.readPage(query, pageable, spec); 
+        return super.readPage(query, pageable, spec);
     }
 
     @Override
     public void flush() {
-        super.flush(); 
+        super.flush();
     }
 
     @Override
     public <S extends T> List<S> save(Iterable<S> entities) {
-        return super.save(entities); 
+        return super.save(entities);
     }
 
     @Override
     public <S extends T> S saveAndFlush(S entity) {
-        return super.saveAndFlush(entity); 
+        return super.saveAndFlush(entity);
     }
 
     @Override
     public <S extends T> S save(S entity) {
         //setOi(entity);
-        return super.save(entity); 
+        return super.save(entity);
     }
 
     @Override
     public long count(Specification<T> spec) {
-        return super.count(spec); 
+        return super.count(spec);
     }
 
     @Override
     public long count() {
-        return super.count(); 
+        return super.count();
     }
 
     @Override
     public List<T> findAll(Specification<T> spec, Sort sort) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        return super.findAll(spec, sort); 
+        return super.findAll(spec, sort);
     }
 
     @Override
     public Page<T> findAll(Specification<T> spec, Pageable pageable) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        return super.findAll(spec, pageable); 
+        return super.findAll(spec, pageable);
     }
 
     @Override
     public List<T> findAll(Specification<T> spec) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        return super.findAll(spec); 
+        return super.findAll(spec);
     }
 
     @Override
     public T findOne(Specification<T> spec) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        return super.findOne(spec); 
+        return super.findOne(spec);
     }
 
     @Override
     public Page<T> findAll(Pageable pageable) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        return super.findAll(pageable); 
+        return super.findAll(pageable);
     }
 
     @Override
     public List<T> findAll(Sort sort) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        return super.findAll(sort); 
+        return super.findAll(sort);
     }
 
     @Override
     public List<T> findAll(Iterable<ID> ids) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        return super.findAll(ids); 
+        return super.findAll(ids);
     }
 
     @Override
     public List<T> findAll() {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        return super.findAll(); 
+        return super.findAll();
     }
 
     @Override
     public boolean exists(ID id) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        return super.exists(id); 
+        return super.exists(id);
     }
 
     @Override
     public T getOne(ID id) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        return super.getOne(id); 
+        return super.getOne(id);
     }
 
     @Override
     public void deleteAllInBatch() {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        super.deleteAllInBatch(); 
+        super.deleteAllInBatch();
     }
 
     @Override
     public void deleteAll() {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        super.deleteAll(); 
+        super.deleteAll();
     }
 
     @Override
     public void deleteInBatch(Iterable<T> entities) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
+        if (hasMultitenancy()) {
+            throw new RuntimeException(noMultiTenancyMessage());
         }
-        super.deleteInBatch(entities); 
+        super.deleteInBatch(entities);
     }
 
     @Override
     public void delete(Iterable<? extends T> entities) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
-        }
-        super.delete(entities); 
+        super.delete(entities);
     }
 
     @Override
     public void delete(T entity) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
-        }
-        super.delete(entity); 
+        super.delete(entity);
     }
 
     @Override
     public void delete(ID id) {
-        if (hasMultitenancy()){
-            throw new RuntimeException("A entidade possui a anotacao @GumgaMultitenancy porem a busca Multitenancy ainda nao foi implementada");
-        }
-        super.delete(id); 
+        super.delete(id);
     }
 
     @Override
     protected Class<T> getDomainClass() {
-        return super.getDomainClass(); 
+        return super.getDomainClass();
     }
 
     @Override
     public void setRepositoryMethodMetadata(CrudMethodMetadata crudMethodMetadata) {
-        super.setRepositoryMethodMetadata(crudMethodMetadata); 
+        super.setRepositoryMethodMetadata(crudMethodMetadata);
     }
 
     @Override
@@ -426,6 +417,19 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
                 }
             }
         }
-    } 
- 
+    }
+
+    private String noMultiTenancyMessage() {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        String msg;
+        if (stackTrace.length >= 4) {
+            msg = "The method '" + stackTrace[2].getMethodName() +"' in line "+ stackTrace[2].getLineNumber() +" of class '" + stackTrace[2].getClassName()
+                    + "' called from method '" + stackTrace[3].getMethodName() + "' of class '" + stackTrace[3].getClassName()
+                    + "' has no implementation for MultiTenancy yet. Ask Gumga.";
+        } else {
+            msg = "No implementation for MultiTenancy yet. Ask Gumga.";
+        }
+        return msg;
+    }
+
 }
