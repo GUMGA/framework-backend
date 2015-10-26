@@ -2,6 +2,7 @@ package gumga.framework.domain.customfields;
 
 import gumga.framework.domain.GumgaModel;
 import gumga.framework.domain.GumgaMultitenancy;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -55,9 +56,6 @@ public class GumgaCustomField extends GumgaModel<Long> {
         this.visualizationOrder = visualizationOrder;
         this.fieldGroup = fieldGroup;
     }
-    
-    
-    
 
     public String getClazz() {
         return clazz;
@@ -148,8 +146,34 @@ public class GumgaCustomField extends GumgaModel<Long> {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.clazz);
+        hash = 89 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final GumgaCustomField other = (GumgaCustomField) obj;
+        if (!Objects.equals(this.clazz, other.clazz)) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
-        return name + '(' + clazz + ')';
+        return name;
     }
 
 }

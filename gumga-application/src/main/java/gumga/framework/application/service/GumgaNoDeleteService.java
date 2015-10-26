@@ -40,6 +40,7 @@ public abstract class GumgaNoDeleteService<T extends GumgaIdable<?>, ID extends 
 	public T view(ID id) {
 		beforeView(id);
 		T entity = repository.findOne(id);
+                loadGumgaCustomFields(entity);
 		afterView(entity);
 		
 		return entity;

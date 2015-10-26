@@ -47,6 +47,7 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
     public T view(ID id) {
         beforeView(id);
         T entity = repository.findOne(id);
+        loadGumgaCustomFields(entity);
         afterView(entity);
 
         return entity;

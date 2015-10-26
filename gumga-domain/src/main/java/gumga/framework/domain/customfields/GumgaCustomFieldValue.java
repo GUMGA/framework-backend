@@ -5,6 +5,7 @@
  */
 package gumga.framework.domain.customfields;
 
+import gumga.framework.core.JavaScriptEngine;
 import gumga.framework.domain.GumgaModel;
 import gumga.framework.domain.GumgaMultitenancy;
 import java.math.BigDecimal;
@@ -35,6 +36,11 @@ public class GumgaCustomFieldValue extends GumgaModel<Long> {
     private Boolean logicValue;
 
     public GumgaCustomFieldValue() {
+    }
+
+    public GumgaCustomFieldValue(GumgaCustomField cf) {
+        this.field = cf;
+        setValue(JavaScriptEngine.eval(cf.getDefaultValueScript(), null));
     }
 
     public GumgaCustomFieldValue(GumgaCustomField field, Long gumgaModelId, Object value) {
@@ -100,7 +106,11 @@ public class GumgaCustomFieldValue extends GumgaModel<Long> {
                 logicValue = (Boolean) value;
                 break;
             case NUMBER:
-                dateValue = (Date) value;
+                if (value instanceof BigDecimal) {
+                    numberValue = (BigDecimal) value;
+                } else {
+                    numberValue = new BigDecimal(value.toString());
+                }
                 break;
             case SELECTION:
             case TEXT:

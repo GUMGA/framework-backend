@@ -26,11 +26,9 @@ public class GumgaCustomFieldValueService extends GumgaService<GumgaCustomFieldV
     public GumgaCustomFieldValue save(GumgaCustomFieldValue newValue) {
         GumgaCustomFieldValue oldValue = repository.findByFieldAndGumgaModelId(newValue.getField(), newValue.getGumgaModelId());
         if (oldValue==null){
-            System.out.println("GRAVANDO NOVO "+newValue);
             return super.save(newValue); 
         }
         oldValue.setValue(newValue.getValue());
-        System.out.println("ALTERANDO VELHO "+oldValue);
         return super.save(oldValue); 
     }
     
