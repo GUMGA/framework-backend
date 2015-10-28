@@ -4,6 +4,8 @@ import gumga.framework.domain.GumgaModel;
 import gumga.framework.domain.GumgaMultitenancy;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -22,6 +24,7 @@ public class GumgaCustomField extends GumgaModel<Long> {
     private String name;
     private String description;
     private Boolean active;
+    @Enumerated(EnumType.STRING)
     private CustomFieldType type;
     private String validationDescription;
     private String validationScript;
