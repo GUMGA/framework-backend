@@ -40,7 +40,7 @@ public class SpringConfig {
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
-        vendorAdapter.setShowSql(true);
+        vendorAdapter.setShowSql(false);
 
         Properties properties = new Properties();
         properties.put("eclipselink.weaving", "false");

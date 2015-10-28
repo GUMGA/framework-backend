@@ -1,5 +1,6 @@
 package gumga.framework.presentation.api;
 
+import gumga.framework.application.customfields.GumgaCustomEnhancerService;
 import gumga.framework.core.utils.ReflectionUtils;
 import gumga.framework.presentation.validation.Error;
 import gumga.framework.presentation.validation.ErrorResource;
@@ -24,13 +25,18 @@ public abstract class AbstractProtoGumgaAPI<T> {
 
     @Autowired
     private Validator validator;
+    
+    @Autowired
+    protected GumgaCustomEnhancerService gces;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     
     @RequestMapping(value="/new",method = RequestMethod.GET)
     public T initialState() {
-        return initialValue();
+        T entity=initialValue();
+        gces.setDefaultValues(entity);
+        return entity;
     }
 
     protected T initialValue() {

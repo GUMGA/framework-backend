@@ -3,6 +3,7 @@ package gumga.framework.application.service;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
+import gumga.framework.domain.GumgaModel;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 import gumga.framework.domain.service.GumgaReadableServiceable;
 import gumga.framework.domain.service.GumgaWritableServiceable;
@@ -40,6 +41,7 @@ public abstract class GumgaNoDeleteService<T extends GumgaIdable<?>, ID extends 
 	public T view(ID id) {
 		beforeView(id);
 		T entity = repository.findOne(id);
+                loadGumgaCustomFields(entity);
 		afterView(entity);
 		
 		return entity;
@@ -68,6 +70,7 @@ public abstract class GumgaNoDeleteService<T extends GumgaIdable<?>, ID extends 
 	public T save(T resource) {
 		beforeSaveOrUpdate(resource);
 		T entity = repository.save(resource);
+                gces.saveCustomFields(resource);
 		afterSaveOrUpdate(entity);
 		
 		return entity;
