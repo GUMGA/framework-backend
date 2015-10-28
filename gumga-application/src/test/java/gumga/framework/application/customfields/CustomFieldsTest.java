@@ -55,11 +55,11 @@ public class CustomFieldsTest {
         if (carRepository.findAll().size() > 0) {
             return;
         }
-        GumgaCustomField textCustomField = new GumgaCustomField(Company.class.getName(), "textField", "Custom Text Field for test", true, CustomFieldType.TEXT, "Not empty", "return true;", "'new value'", "", 1.0, "MAIN_FIELDS");
-        GumgaCustomField numberCustomField = new GumgaCustomField(Company.class.getName(), "numerField", "Custom Number Field for test", true, CustomFieldType.NUMBER, "Not empty", "true", "13", "", 2.0, "MAIN_FIELDS");
-        GumgaCustomField dateCustomField = new GumgaCustomField(Company.class.getName(), "dateField", "Custom date Field for test", true, CustomFieldType.DATE, "Not empty", "true", "Date()", "", 3.0, "MAIN_FIELDS");
-        GumgaCustomField logicCustomField = new GumgaCustomField(Car.class.getName(), "logicField", "Custom logic Field for test", true, CustomFieldType.LOGIC, "Not empty", "true", "true", "", 4.0, "MAIN_FIELDS");
-        GumgaCustomField selectionCustomField = new GumgaCustomField(Car.class.getName(), "selectionField", "Custom selection Field for test", true, CustomFieldType.SELECTION, "Not empty", "true", "'Nothing'", "", 5.0, "MAIN_FIELDS");
+        GumgaCustomField textCustomField = new GumgaCustomField(Company.class.getName(), "textField", "Custom Text Field for test", true, CustomFieldType.TEXT, "Not empty", "return true;", "'new value'", "", 1.0, "MAIN_FIELDS","a.b.c");
+        GumgaCustomField numberCustomField = new GumgaCustomField(Company.class.getName(), "numerField", "Custom Number Field for test", true, CustomFieldType.NUMBER, "Not empty", "true", "13", "", 2.0, "MAIN_FIELDS","a.b.c");
+        GumgaCustomField dateCustomField = new GumgaCustomField(Company.class.getName(), "dateField", "Custom date Field for test", true, CustomFieldType.DATE, "Not empty", "true", "Date()", "", 3.0, "MAIN_FIELDS","a.b.c");
+        GumgaCustomField logicCustomField = new GumgaCustomField(Car.class.getName(), "logicField", "Custom logic Field for test", true, CustomFieldType.LOGIC, "Not empty", "true", "true", "", 4.0, "MAIN_FIELDS","a.b.c");
+        GumgaCustomField selectionCustomField = new GumgaCustomField(Car.class.getName(), "selectionField", "Custom selection Field for test", true, CustomFieldType.SELECTION, "Not empty", "true", "'Nothing'", "", 5.0, "MAIN_FIELDS","a.b.c");
         
         customFieldService.save(dateCustomField);
         customFieldService.save(textCustomField);

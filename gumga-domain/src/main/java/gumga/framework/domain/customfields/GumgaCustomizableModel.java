@@ -11,14 +11,14 @@ import javax.persistence.Transient;
 public class GumgaCustomizableModel<ID extends Serializable>  extends GumgaModel<ID> {
 
     @Transient
-    private final Map<GumgaCustomField, GumgaCustomFieldValue> gumgaCustomFields;
+    private final Map<String, GumgaCustomFieldValue> gumgaCustomFields;
 
     public GumgaCustomizableModel() {
         super();
         gumgaCustomFields = new HashMap<>();
     }
 
-    public Map<GumgaCustomField, GumgaCustomFieldValue> getGumgaCustomFields() {
+    public Map<String, GumgaCustomFieldValue> getGumgaCustomFields() {
         return gumgaCustomFields;
     }
 

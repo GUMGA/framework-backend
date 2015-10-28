@@ -126,7 +126,7 @@ public class GumgaCustomFieldValue extends GumgaModel<Long> {
             case LOGIC:
                 return logicValue;
             case NUMBER:
-                return dateValue;
+                return numberValue;
             case SELECTION:
             case TEXT:
                 return textValue;

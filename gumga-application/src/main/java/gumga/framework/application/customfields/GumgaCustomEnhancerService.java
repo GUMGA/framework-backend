@@ -1,5 +1,6 @@
 package gumga.framework.application.customfields;
 
+import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.JavaScriptEngine;
 import gumga.framework.domain.GumgaModel;
 import gumga.framework.domain.customfields.GumgaCustomField;
@@ -8,6 +9,7 @@ import gumga.framework.domain.customfields.GumgaCustomizableModel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import net.sf.cglib.beans.BeanGenerator;
 import net.sf.cglib.beans.BeanMap;
 import net.sf.cglib.proxy.Enhancer;
@@ -35,7 +37,7 @@ public class GumgaCustomEnhancerService {
         List<GumgaCustomField> customFields = customFieldService.findByClass(gumgaCustomizable.getClass());
         for (GumgaCustomField cf : customFields) {
             GumgaCustomFieldValue newValue = newValue(cf);
-            gumgaCustomizable.getGumgaCustomFields().put(cf, newValue);
+            gumgaCustomizable.getGumgaCustomFields().put(cf.getName(), newValue);
         }
     }
 
@@ -43,16 +45,51 @@ public class GumgaCustomEnhancerService {
         return new GumgaCustomFieldValue(cf);
     }
 
-    public void loadCustomFields(GumgaModel gumgaModel) {
+    public void loadCustomFields(Object gumgaModel) {
         if (!(gumgaModel instanceof GumgaCustomizableModel)) {
             return;
         }
         GumgaCustomizableModel gumgaCustomizable = (GumgaCustomizableModel) gumgaModel;
         List<GumgaCustomField> customFields = customFieldService.findByClass(gumgaModel.getClass());
         for (GumgaCustomField cf : customFields) {
-            Object value = customFieldValueService.getValue(cf, gumgaModel);
+            Object value = customFieldValueService.getValue(cf, (GumgaModel) gumgaModel);
+            if (value == null) {
+                value = newValue(cf);
+            }
             gumgaCustomizable.getGumgaCustomFields().put(cf.getName(), value);
         }
+    }
+
+    public void saveCustomFields(GumgaIdable gumgaModel) {
+        if (!(gumgaModel instanceof GumgaCustomizableModel)) {
+            return;
+        }
+        GumgaCustomizableModel gumgaCustomizable = (GumgaCustomizableModel) gumgaModel;
+        System.out.println("---------------->Save custom fields");
+        Set<String> keySet = gumgaCustomizable.getGumgaCustomFields().keySet();
+        for (String s : keySet) {
+            GumgaCustomFieldValue value = (GumgaCustomFieldValue) gumgaCustomizable.getGumgaCustomFields().get(s);
+            if (value != null) {
+                value.setGumgaModelId((Long) gumgaModel.getId());
+                customFieldValueService.save(value);
+            }
+        }
+
+    }
+
+    public void deleteCustomFields(GumgaIdable gumgaModel) {
+        if (!(gumgaModel instanceof GumgaCustomizableModel)) {
+            return;
+        }
+        GumgaCustomizableModel gumgaCustomizable = (GumgaCustomizableModel) gumgaModel;
+        Set<String> keySet = gumgaCustomizable.getGumgaCustomFields().keySet();
+        for (String s : keySet) {
+            GumgaCustomFieldValue value = (GumgaCustomFieldValue) gumgaCustomizable.getGumgaCustomFields().get(s);
+            if (value != null) {
+                customFieldValueService.delete(value);
+            }
+        }
+
     }
 
 }
