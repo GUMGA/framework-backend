@@ -2,6 +2,14 @@ package gumga.framework.core;
 
 public interface GumgaValues {
 
+    default long getDefaultExpirationForChangePassword() {
+        return 3600l * 1000 * 6;
+    }
+
+    default String getGumgaSecurityPage() {
+        return "http://www.gumga.com.br/security";
+    }
+
     default String getGumgaSecurityUrl() {
         return "http://www.gumga.com.br/security/publicoperations";
     }
