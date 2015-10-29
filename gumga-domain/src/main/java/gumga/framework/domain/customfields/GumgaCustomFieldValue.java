@@ -40,7 +40,11 @@ public class GumgaCustomFieldValue extends GumgaModel<Long> {
 
     public GumgaCustomFieldValue(GumgaCustomField cf) {
         this.field = cf;
-        setValue(JavaScriptEngine.eval(cf.getDefaultValueScript(), null));
+        if (CustomFieldType.DATE.equals(cf.getType())) {
+            setValue(JavaScriptEngine.evalForDate(cf.getDefaultValueScript(), null));
+        } else {
+            setValue(JavaScriptEngine.eval(cf.getDefaultValueScript(), null));
+        }
     }
 
     public GumgaCustomFieldValue(GumgaCustomField field, Long gumgaModelId, Object value) {
