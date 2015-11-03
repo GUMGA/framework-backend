@@ -15,6 +15,7 @@ import gumga.framework.domain.repository.GumgaCrudRepository;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -310,10 +311,17 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     @Override
     public List<T> findAll(Iterable<ID> ids) {
-        if (hasMultitenancy()) {
-            throw new RuntimeException(noMultiTenancyMessage());
+        if (ids == null || !ids.iterator().hasNext()) {
+            return Collections.emptyList();
         }
-        return super.findAll(ids);
+        List<T> toReturn = new ArrayList<>();
+        for (ID id : ids) {
+            Object found = findOne(id);
+            if (found != null) {
+                toReturn.add((T) found);
+            }
+        }
+        return toReturn;
     }
 
     @Override
@@ -423,7 +431,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         String msg;
         if (stackTrace.length >= 4) {
-            msg = "The method '" + stackTrace[2].getMethodName() +"' in line "+ stackTrace[2].getLineNumber() +" of class '" + stackTrace[2].getClassName()
+            msg = "The method '" + stackTrace[2].getMethodName() + "' in line " + stackTrace[2].getLineNumber() + " of class '" + stackTrace[2].getClassName()
                     + "' called from method '" + stackTrace[3].getMethodName() + "' of class '" + stackTrace[3].getClassName()
                     + "' has no implementation for MultiTenancy yet. Ask Gumga.";
         } else {
