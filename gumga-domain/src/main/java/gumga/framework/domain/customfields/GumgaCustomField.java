@@ -41,7 +41,7 @@ public class GumgaCustomField extends GumgaModel<Long> {
         this.type = CustomFieldType.TEXT;
         this.validationDescription = "";
         this.validationScript = "true";
-        this.defaultValueScript = "'Retorna sempre true'";
+        this.defaultValueScript = "''";
         this.options = null;
         this.visualizationOrder = 10.0;
         this.fieldGroup = "$DEFAULT";
