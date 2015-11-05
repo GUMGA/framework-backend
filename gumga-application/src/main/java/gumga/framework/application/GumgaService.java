@@ -63,7 +63,9 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
     public void delete(T resource) {
         beforeDelete(resource);
         repository.delete(resource);
-        gces.deleteCustomFields(resource);
+        if (gces != null) {
+            gces.deleteCustomFields(resource);
+        }
         afterDelete();
     }
 
@@ -101,7 +103,9 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
 
         beforeSaveOrUpdate(resource, isNew);
         T entity = repository.save(resource);
-        gces.saveCustomFields(resource);
+        if (gces != null) {
+            gces.saveCustomFields(resource);
+        }
         afterSaveOrUpdate(entity, isNew);
 
         return entity;
