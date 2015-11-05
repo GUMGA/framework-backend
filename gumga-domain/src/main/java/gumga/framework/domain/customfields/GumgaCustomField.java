@@ -40,8 +40,8 @@ public class GumgaCustomField extends GumgaModel<Long> {
         this.active = true;
         this.type = CustomFieldType.TEXT;
         this.validationDescription = "";
-        this.validationScript = "return true";
-        this.defaultValueScript = "return ''";
+        this.validationScript = "true";
+        this.defaultValueScript = "'Retorna sempre true'";
         this.options = null;
         this.visualizationOrder = 10.0;
         this.fieldGroup = "$DEFAULT";
