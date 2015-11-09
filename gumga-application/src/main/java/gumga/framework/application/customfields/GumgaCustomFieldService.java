@@ -1,6 +1,8 @@
 package gumga.framework.application.customfields;
 
 import gumga.framework.application.GumgaService;
+import gumga.framework.core.GumgaThreadScope;
+import gumga.framework.core.QueryObject;
 import gumga.framework.domain.customfields.GumgaCustomField;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +19,25 @@ public class GumgaCustomFieldService extends GumgaService<GumgaCustomField, Long
         this.repository = repository;
     }
 
-    List<GumgaCustomField> findByClass(String c) {
-        return repository.findByClazz(c);
+    List<GumgaCustomField> findByClass(String clazzName) {
+        return repository.search(getQueryObject(clazzName)).getValues();
+
     }
 
     List<GumgaCustomField> findByClass(Class c) {
-        return repository.findByClazz(c.getName());
+        return findByClass(c.getName());
     }
 
     List<GumgaCustomField> findByClass(Object obj) {
-        return repository.findByClazz(obj.getClass().getName());
+        return findByClass(obj.getClass());
+    }
+
+    private QueryObject getQueryObject(String clazzName) {
+        QueryObject qo = new QueryObject();
+        qo.setAq("obj.clazz='" + clazzName + "'");
+        qo.setSortField("visualizationOrder");
+        return qo;
+
     }
 
 }

@@ -3,6 +3,7 @@ package gumga.framework.domain.customfields;
 import gumga.framework.domain.GumgaModel;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -15,7 +16,7 @@ public class GumgaCustomizableModel<ID extends Serializable>  extends GumgaModel
 
     public GumgaCustomizableModel() {
         super();
-        gumgaCustomFields = new HashMap<>();
+        gumgaCustomFields = new LinkedHashMap<>();
     }
 
     public Map<String, GumgaCustomFieldValue> getGumgaCustomFields() {
