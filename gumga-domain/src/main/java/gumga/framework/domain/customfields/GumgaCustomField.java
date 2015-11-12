@@ -30,6 +30,9 @@ public class GumgaCustomField extends GumgaModel<Long> {
     private String validationScript;
     private String defaultValueScript;
     private String options;
+    private String optionValueField;
+    private String optionLabelField;
+    private String optionsCollection;
     private Double visualizationOrder;
     private String fieldGroup;
     private String translateKey;
@@ -157,6 +160,30 @@ public class GumgaCustomField extends GumgaModel<Long> {
 
     public void setTranslateKey(String translateKey) {
         this.translateKey = translateKey;
+    }
+
+    public String getOptionValueField() {
+        return optionValueField;
+    }
+
+    public void setOptionValueField(String optionValueField) {
+        this.optionValueField = optionValueField;
+    }
+
+    public String getOptionLabelField() {
+        return optionLabelField;
+    }
+
+    public void setOptionLabelField(String optionLabelField) {
+        this.optionLabelField = optionLabelField;
+    }
+
+    public String getOptionsCollection() {
+        return optionsCollection;
+    }
+
+    public void setOptionsCollection(String optionsCollection) {
+        this.optionsCollection = optionsCollection;
     }
 
     @Override
