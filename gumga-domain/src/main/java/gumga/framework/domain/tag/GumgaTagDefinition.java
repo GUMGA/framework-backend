@@ -22,7 +22,7 @@ public class GumgaTagDefinition extends GumgaModel<Long> {
     @NotNull
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<GumgaTagValueDefinition> attributes = new ArrayList<>();
 
     public GumgaTagDefinition() {
