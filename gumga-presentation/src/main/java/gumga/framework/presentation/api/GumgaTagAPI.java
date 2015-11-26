@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import gumga.framework.presentation.GumgaAPI;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
@@ -31,6 +33,13 @@ public class GumgaTagAPI extends GumgaAPI<GumgaTag, Long> {
     public List<GumgaTag> find(@PathVariable("objectType") String objectType,
             @PathVariable("objectId") Long objectId){
         return getService().findByObjectTypeAndObjectId(objectType, objectId);
+    }
+    
+    @Transactional
+    @ApiOperation(value = "saveall", notes = "salva varias tags ao mesmo tempo")
+    @RequestMapping(value = "saveall")
+    public void saveAll(@RequestBody List<GumgaTag> tags){
+        tags.stream().forEach(t -> getService().save(t));
     }
     
     private GumgaTagService getService(){
