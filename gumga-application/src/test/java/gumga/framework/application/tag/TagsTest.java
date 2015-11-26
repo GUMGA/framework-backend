@@ -1,5 +1,6 @@
 package gumga.framework.application.tag;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gumga.framework.application.Car;
 import gumga.framework.application.CarRepository;
 import gumga.framework.application.CompanyService;
@@ -147,13 +148,16 @@ public class TagsTest {
 
     @Test
     @Transactional
-    public void findTagsForCar() {
+    public void findTagsForCar() throws Exception{
         createTagsForCar();
 
         List<GumgaTag> tags = tagService.findByObject(jetta);
         assertTrue(!tags.isEmpty());
         assertTrue(tags.contains(versaoJetta));
         assertTrue(tags.contains(motorizacaoJetta));
+        
+        ObjectMapper om = new ObjectMapper();
+        System.out.println(om.writerWithDefaultPrettyPrinter().writeValueAsString(tags));
 
         tags = tagService.findByObject(march);
         assertTrue(!tags.isEmpty());
