@@ -1,6 +1,9 @@
 package gumga.framework.application.tag;
 
 import gumga.framework.application.GumgaService;
+import gumga.framework.application.QueryObjectLikeDecorator;
+import gumga.framework.core.QueryObject;
+import gumga.framework.core.SearchResult;
 import gumga.framework.domain.tag.GumgaTagDefinition;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,12 @@ public class GumgaTagDefinitionService extends GumgaService<GumgaTagDefinition, 
         GumgaTagDefinition def = new GumgaTagDefinition(name);
         def.addAttributes(attributes);
         return def;
+    }
+    
+    
+    @Override
+    public SearchResult<GumgaTagDefinition> pesquisa(QueryObject query) {
+        return repository.search(new QueryObjectLikeDecorator(query).build());
     }
     
 }
