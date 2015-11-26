@@ -3,8 +3,10 @@ package gumga.framework.presentation.api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.domain.GumgaServiceable;
 import gumga.framework.domain.service.GumgaWritableServiceable;
+import gumga.framework.domain.tag.GumgaTag;
 import gumga.framework.presentation.RestResponse;
 import gumga.framework.validation.exception.InvalidEntityException;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -66,4 +68,14 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
     protected void beforeUpdate(Long id, T model) {
 
     }
+
+    @Transactional
+    @RequestMapping(value = "tags", method = RequestMethod.POST)
+    public void saveAll(@RequestBody List<GumgaTag> tags) {
+        for (GumgaTag tag:tags){
+            tag.setObjectType(clazz().getCanonicalName());
+        }
+        tags.stream().forEach(t -> gts.save(t));
+    }
+
 }

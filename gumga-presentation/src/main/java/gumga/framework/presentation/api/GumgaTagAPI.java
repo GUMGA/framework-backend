@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @RestController
 @RequestMapping("/api/gumgatag")
@@ -37,7 +38,7 @@ public class GumgaTagAPI extends GumgaAPI<GumgaTag, Long> {
     
     @Transactional
     @ApiOperation(value = "saveall", notes = "salva varias tags ao mesmo tempo")
-    @RequestMapping(value = "saveall")
+    @RequestMapping(value = "saveall",method = RequestMethod.POST)
     public void saveAll(@RequestBody List<GumgaTag> tags){
         tags.stream().forEach(t -> getService().save(t));
     }
