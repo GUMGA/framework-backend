@@ -9,7 +9,7 @@ import gumga.framework.core.QueryObject;
 
 /**
  *
- * @author munif
+ * @author Gyowanny
  */
 public class QueryObjectLikeDecorator {
 
@@ -20,13 +20,20 @@ public class QueryObjectLikeDecorator {
     }
 
     public QueryObject build() {
+        if (query.isAdvanced()){
+            return query;
+        }
         StringBuilder where = new StringBuilder();
         if (query.getSearchFields() != null) {
             for (String param : query.getSearchFields()) {
                 where.append("obj." + param + " like '%" + query.getQ() + "%'");
             }
-            query.setAq(where.toString());
+            
         }
+        else{
+            where.append("obj.id is not null ");
+        }
+        query.setAq(where.toString());
         return query;
     }
 }

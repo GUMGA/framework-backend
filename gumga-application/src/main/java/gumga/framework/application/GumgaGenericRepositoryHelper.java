@@ -31,14 +31,14 @@ public class GumgaGenericRepositoryHelper {
             hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.DEFAULT, "gt"), new GumgaHqlElement(">'", "'"));
             hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.DEFAULT, "lt"), new GumgaHqlElement("<'", "'"));
             hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.DEFAULT, "contains"), new GumgaHqlElement(" like '%", "%'"));
-            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.DEFAULT, "not_contains"), new GumgaHqlElement("not like '%", "%'"));
-            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.DEFAULT, "starts_with"), new GumgaHqlElement("like '", "%'"));
-            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.DEFAULT, "ends_with"), new GumgaHqlElement("like '%", "'"));
+            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.DEFAULT, "not_contains"), new GumgaHqlElement(" not like '%", "%'"));
+            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.DEFAULT, "starts_with"), new GumgaHqlElement(" like '", "%'"));
+            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.DEFAULT, "ends_with"), new GumgaHqlElement(" like '%", "'"));
 
             hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.TEXT, "contains"), new GumgaHqlElement(" like '%", "%'"));
-            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.TEXT, "not_contains"), new GumgaHqlElement("not like '%", "%'"));
-            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.TEXT, "starts_with"), new GumgaHqlElement("like '", "%'"));
-            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.TEXT, "ends_with"), new GumgaHqlElement("like '%", "'"));
+            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.TEXT, "not_contains"), new GumgaHqlElement(" not like '%", "%'"));
+            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.TEXT, "starts_with"), new GumgaHqlElement(" like '", "%'"));
+            hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.TEXT, "ends_with"), new GumgaHqlElement(" like '%", "'"));
 
             hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.NUMBER, "eq"), new GumgaHqlElement("=", ""));
             hqlConverter.put(new GumgaHqlEntry(GumgaFieldStereotype.NUMBER, "ne"), new GumgaHqlElement("!=", ""));
