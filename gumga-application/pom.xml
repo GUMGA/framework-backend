@@ -120,9 +120,10 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
-
-        
-        
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+        </dependency>
     </dependencies>
 
     <repositories>	
@@ -130,6 +131,18 @@
             <id>jcenter-snapshots</id>
             <name>jcenter</name>
             <url>https://jcenter.bintray.com/</url>
+        </repository>
+        <repository>
+            <id>jasper repo</id>
+            <url>https://jaspersoft.artifactoryonline.com/jaspersoft/jaspersoft-repo</url>
+        </repository>
+        <repository>
+            <id>jasper 3rd party</id>
+            <url>https://jaspersoft.artifactoryonline.com/jaspersoft/jaspersoft-3rd-party</url>
+        </repository>
+        <repository>
+            <id>jasper sourceforge</id>
+            <url>http://jasperreports.sourceforge.net/maven2</url>
         </repository>
     </repositories>
 </project>
