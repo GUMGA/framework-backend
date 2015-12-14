@@ -79,7 +79,7 @@ public class GumgaMoneyUserType extends MutableUserType {
         }
 
         final GumgaMoney recebido = (GumgaMoney) value;
-        final GumgaMoney aRetornar = new GumgaMoney(recebido);
+        final GumgaMoney aRetornar = new GumgaMoney(recebido.getValue());
         return aRetornar;
     }
 
