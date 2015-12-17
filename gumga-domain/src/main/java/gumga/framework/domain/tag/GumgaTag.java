@@ -80,4 +80,11 @@ public class GumgaTag extends GumgaModel<Long> {
     public void addValue(GumgaTagValueDefinition valDef, String value){
         this.values.add(new GumgaTagValue(valDef, value));
     }
+
+    @Override
+    public String toString() {
+        return "GumgaTag{" + "version=" + version + ", objectType=" + objectType + ", objectId=" + objectId + ", values=" + values + ", definition=" + definition + '}';
+    }
+    
+    
 }

@@ -48,4 +48,11 @@ public class GumgaTagValue extends GumgaModel<Long> {
         this.definition = definition;
     }
 
+    @Override
+    public String toString() {
+        return "GumgaTagValue{" + "version=" + version + ", value=" + value + ", definition=" + definition + '}';
+    }
+    
+    
+
 }
