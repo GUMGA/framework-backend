@@ -17,6 +17,7 @@ public class GumgaThreadScope {
     public final static ThreadLocal<String> organizationCode = new ThreadLocal<>();
     public final static ThreadLocal<String> operationKey = new ThreadLocal<>();
     public final static ThreadLocal<Boolean> ignoreCheckOwnership = new ThreadLocal<>();
+    public final static ThreadLocal<String> gumgaToken= new ThreadLocal<>();
     
     public final static String getOiWildCard(){
         if (organizationCode.get()==null){

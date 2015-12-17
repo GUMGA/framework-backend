@@ -1,5 +1,6 @@
 package gumga.framework.application;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import gumga.framework.core.GumgaThreadScope;
 import static org.hibernate.criterion.Order.asc;
@@ -145,6 +146,17 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     }
 
     private SearchResult<T> advancedSearch(QueryObject query) {
+
+        if (query.getAq().startsWith("{")) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                Map readValue = mapper.readValue(query.getAq(), Map.class);
+                System.out.println("------------------------>"+readValue);
+                query.setAq(readValue.get("aq").toString());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
 
         List<QueryObjectElement> qoeFromString = GumgaGenericRepositoryHelper.qoeFromString(query.getAqo());
         String hqlFromQes = "";// GumgaGenericRepositoryHelper.hqlFromQoes(entityInformation,qoeFromString);
