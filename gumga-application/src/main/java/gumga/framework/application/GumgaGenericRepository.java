@@ -146,6 +146,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     }
 
     private SearchResult<T> advancedSearch(QueryObject query) {
+        System.out.println("--------------------------> Verificando Query ----->"+query.getAq());
 
         if (query.getAq().startsWith("{")) {
             try {
@@ -153,6 +154,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
                 Map readValue = mapper.readValue(query.getAq(), Map.class);
                 System.out.println("------------------------>"+readValue);
                 query.setAq(readValue.get("aq").toString());
+                System.out.println("--------------------------> Query Alterado ----->"+query.getAq());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
