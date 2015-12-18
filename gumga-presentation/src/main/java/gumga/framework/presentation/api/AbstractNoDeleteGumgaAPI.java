@@ -72,15 +72,17 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
     @Transactional
     @RequestMapping(value = "tags", method = RequestMethod.POST)
     public void saveAll(@RequestBody TagsTo tags) {
+//        System.out.println("-------------------------------> Fez uma chamada com "+tags.tags.size()+" tags ");
 
         for (GumgaTag tag : tags.tags) {
             tag.setObjectType(clazz().getCanonicalName());
-            System.out.println("---------------ID  ---->" + tag.getId());
-            System.out.println("---------------TYPE---->" + tag.getObjectType());
-            System.out.println("-----------DEFINITION-->" + tag.getDefinition());
-            System.out.println("-----------OBJECT ID--->" + tag.getObjectId());
-            System.out.println("-----------VALUES  ---->" + tag.getValues());
-            System.out.println("--------------------------");
+//            System.out.println("---------------ID  ---->" + tag.getId());
+//            System.out.println("---------------TYPE---->" + tag.getObjectType());
+//            System.out.println("-----------TAG------  -->" + tag.getDefinition().getName());
+//            System.out.println("-----------DEFINITION-->" + tag.getDefinition());
+//            System.out.println("-----------OBJECT ID--->" + tag.getObjectId());
+//            System.out.println("-----------VALUES  ---->" + tag.getValues());
+//            System.out.println("--------------------------");
         }
         tags.tags.stream().forEach(t -> gts.save(t));
     }
