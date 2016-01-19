@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import javax.activation.UnsupportedDataTypeException;
 
@@ -48,8 +49,12 @@ public class HibernateQueryObject {
         for (String field : queryObject.getSearchFields()) {
             try {
                 criterions.add(createCriterion(field, queryObject.getQ(), clazz));
-            } catch (Exception ex) {
-                logger.debug("Problemas ao gerar critério para "+field, ex);
+            } catch (ParseException ex) {
+                throw new RuntimeException("Problem creating creterion.Cannot parse field "+field);
+            } catch (NumberFormatException ex) {
+                throw new RuntimeException("Problem creating creterion.Number format problem in field  "+field);
+            } catch (UnsupportedDataTypeException ex) {
+                throw new RuntimeException("Problem creating creterion.Unsupported data type in field "+field);
             }
         }
 

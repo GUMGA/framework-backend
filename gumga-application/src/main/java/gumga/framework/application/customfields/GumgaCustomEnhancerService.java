@@ -65,7 +65,6 @@ public class GumgaCustomEnhancerService {
             return;
         }
         GumgaCustomizableModel gumgaCustomizable = (GumgaCustomizableModel) gumgaModel;
-        System.out.println("---------------->Save custom fields");
         Set<String> keySet = gumgaCustomizable.getGumgaCustomFields().keySet();
         for (String s : keySet) {
             GumgaCustomFieldValue value = (GumgaCustomFieldValue) gumgaCustomizable.getGumgaCustomFields().get(s);

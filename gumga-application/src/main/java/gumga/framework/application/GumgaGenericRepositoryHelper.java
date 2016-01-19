@@ -102,7 +102,7 @@ public class GumgaGenericRepositoryHelper {
                 qoe.setValue(node.get("value").asText());
             }
         } catch (Exception ex) {
-            System.out.println("--------Jackson -->" + ex.toString());
+            throw new RuntimeException("Problem with Jackson "+ex.toString());
         }
         return aRetornar;
 
