@@ -25,17 +25,16 @@ public class HibernateQueryObject {
 
     protected final Map<Class<?>, CriterionParser> parsers;
 
-
     public HibernateQueryObject(QueryObject queryObject) {
-       
+
         this.queryObject = queryObject;
 
         this.parsers = GumgaQueryParserProvider.defaultMap;
-        
-        if (null==GumgaQueryParserProvider.defaultMap){
+
+        if (null == GumgaQueryParserProvider.defaultMap) {
             throw new RuntimeException("GumgaQueryParserProvider.defaultMap must be set in Application configuration");
         }
-        
+
         this.queryObject.setQ(Normalizer.normalize(queryObject.getQ(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toUpperCase());
     }
 
@@ -50,11 +49,11 @@ public class HibernateQueryObject {
             try {
                 criterions.add(createCriterion(field, queryObject.getQ(), clazz));
             } catch (ParseException ex) {
-                throw new RuntimeException("Problem creating creterion.Cannot parse field "+field);
+                throw new RuntimeException("Problem creating creterion.Cannot parse field " + field);
             } catch (NumberFormatException ex) {
-                throw new RuntimeException("Problem creating creterion.Number format problem in field  "+field);
+                throw new RuntimeException("Problem creating creterion.Number format problem in field  " + field);
             } catch (UnsupportedDataTypeException ex) {
-                throw new RuntimeException("Problem creating creterion.Unsupported data type in field "+field);
+                throw new RuntimeException("Problem creating creterion.Unsupported data type in field " + field);
             }
         }
 

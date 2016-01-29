@@ -5,6 +5,23 @@
  */
 package gumga.framework.domain;
 
+import br.com.insula.opes.CpfCnpj;
+import gumga.framework.domain.domains.usertypes.GumgaAddressUserType;
+import gumga.framework.domain.domains.usertypes.GumgaBarCodeUserType;
+import gumga.framework.domain.domains.usertypes.GumgaBooleanUserType;
+import gumga.framework.domain.domains.usertypes.GumgaCEPUserType;
+import gumga.framework.domain.domains.usertypes.GumgaCNPJUserType;
+import gumga.framework.domain.domains.usertypes.GumgaCPFUserType;
+import gumga.framework.domain.domains.usertypes.GumgaEMailUserType;
+import gumga.framework.domain.domains.usertypes.GumgaGeoLocationUserType;
+import gumga.framework.domain.domains.usertypes.GumgaIP4UserType;
+import gumga.framework.domain.domains.usertypes.GumgaIP6UserType;
+import gumga.framework.domain.domains.usertypes.GumgaMoneyUserType;
+import gumga.framework.domain.domains.usertypes.GumgaMultiLineStringUserType;
+import gumga.framework.domain.domains.usertypes.GumgaOiUserType;
+import gumga.framework.domain.domains.usertypes.GumgaPhoneNumberUserType;
+import gumga.framework.domain.domains.usertypes.GumgaTimeUserType;
+import gumga.framework.domain.domains.usertypes.GumgaURLUserType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.Normalizer;
@@ -27,7 +44,7 @@ import org.hibernate.type.StandardBasicTypes;
  */
 public class GumgaQueryParserProvider {
 
-    public static Map<Class<?>, CriterionParser> defaultMap=null;
+    public static Map<Class<?>, CriterionParser> defaultMap = null;
 
     public static final Map<Class<?>, CriterionParser> getH2LikeMap() {
         return getBaseMap();
@@ -50,7 +67,7 @@ public class GumgaQueryParserProvider {
         mySqlMap.put(String.class, AbstractStringCriterionParser.POSTGRESQL_STRING_CRITERION_PARSER);
         return mySqlMap;
     }
-    
+
     private static final CriterionParser STRING_CRITERION_PARSER_WITHOUT_TRANSLATE = new CriterionParser() {
         @Override
         public Criterion parse(String field, String value) {
@@ -69,7 +86,9 @@ public class GumgaQueryParserProvider {
     };
 
     /**
-     * Use <code>gumga.framework.domain.AbstractStringCriterionParser</code> instead
+     * Use <code>gumga.framework.domain.AbstractStringCriterionParser</code>
+     * instead
+     *
      * @deprecated
      */
     @Deprecated
@@ -86,7 +105,7 @@ public class GumgaQueryParserProvider {
             }
             String ignoraAcentos = "upper({alias}." + field + ") like (?)";
 
-            ignoraAcentos = "upper(translate({alias}." + field + ",'"+AbstractStringCriterionParser.SOURCE_CHARS+"','"+AbstractStringCriterionParser.TARGET_CHARS+"')) like (?)"; //NAO FUNCIONA NO MYSQL
+            ignoraAcentos = "upper(translate({alias}." + field + ",'" + AbstractStringCriterionParser.SOURCE_CHARS + "','" + AbstractStringCriterionParser.TARGET_CHARS + "')) like (?)"; //NAO FUNCIONA NO MYSQL
 
             return Restrictions.sqlRestriction(ignoraAcentos, "%" + value + "%", StandardBasicTypes.STRING);
         }
@@ -211,6 +230,24 @@ public class GumgaQueryParserProvider {
         parsers.put(BigInteger.class, BIGINTEGER_CRITERION_PARSER);
         parsers.put(BigDecimal.class, BIGDECIMAL_CRITERION_PARSER);
         parsers.put(Date.class, DATE_CRITERION_PARSER);
+        parsers.put(CpfCnpj.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE); //Domínio da Insula utilizado na DB1
+        parsers.put(GumgaAddressUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaBooleanUserType.class, BOOLEAN_CRITERION_PARSER);
+        parsers.put(GumgaBarCodeUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaCEPUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaCNPJUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaCPFUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaEMailUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaGeoLocationUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaIP4UserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaIP6UserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaMoneyUserType.class, BIGDECIMAL_CRITERION_PARSER);
+        parsers.put(GumgaMultiLineStringUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaPhoneNumberUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaTimeUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaOiUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+        parsers.put(GumgaURLUserType.class, STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
+
         return parsers;
     }
 

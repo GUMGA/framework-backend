@@ -1,9 +1,11 @@
 package gumga.framework.domain;
 
+import br.com.insula.opes.CpfCnpj;
 import gumga.framework.domain.domains.GumgaOi;
 import java.io.Serializable;
 
 import gumga.framework.core.GumgaIdable;
+import gumga.framework.domain.domains.usertypes.CpfCnpjUserType;
 import gumga.framework.domain.domains.*;
 import gumga.framework.domain.domains.usertypes.*;
 import java.util.Objects;
@@ -38,18 +40,20 @@ import org.hibernate.annotations.TypeDefs;
     @TypeDef(name = "gumgaphonenumber", defaultForType = GumgaPhoneNumber.class, typeClass = GumgaPhoneNumberUserType.class),
     @TypeDef(name = "gumgatime", defaultForType = GumgaTime.class, typeClass = GumgaTimeUserType.class),
     @TypeDef(name = "gumgaoi", defaultForType = GumgaOi.class, typeClass = GumgaOiUserType.class),
-    @TypeDef(name = "gumgaurl", defaultForType = GumgaURL.class, typeClass = GumgaURLUserType.class)
+    @TypeDef(name = "gumgaurl", defaultForType = GumgaURL.class, typeClass = GumgaURLUserType.class),
+    @TypeDef(name = "cpfcnpj", defaultForType = CpfCnpj.class, typeClass = CpfCnpjUserType.class)
+
 })
 @EntityListeners(GumgaMultiTenancyListener.class)
 public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable<ID>, Serializable {
 
     public static final String SEQ_NAME = "SEQ";
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO , generator = SEQ_NAME)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = SEQ_NAME)
     protected ID id;
 
     protected GumgaOi oi;
-    
+
     public GumgaModel() {
     }
 

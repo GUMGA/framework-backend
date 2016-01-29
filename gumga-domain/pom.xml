@@ -10,7 +10,25 @@
 
     <artifactId>gumga-domain</artifactId>
 
+    <repositories>
+        <repository>
+            <id>maven-oss-insula</id>
+            <name>Insula Maven OSS Releases Repository</name>
+            <url>http://maven-oss.insula.com.br/releases</url>
+        </repository>
+    </repositories>
+
+
+
     <dependencies>
+        
+        <dependency>
+            <groupId>br.com.insula</groupId>
+            <artifactId>opes</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
