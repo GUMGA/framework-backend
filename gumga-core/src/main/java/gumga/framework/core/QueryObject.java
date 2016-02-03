@@ -3,18 +3,47 @@ package gumga.framework.core;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * Classe para representar os parâmetros de uma pesquisa enviada ao Framework
+ * @author Equipe Gumga
+ */
+
 public class QueryObject {
 
     public static final String SIMPLE = "SIMPLE";
     public static final String EMPTY = "[]";
 
+    /**
+     * Objeto JSON que representa uma pequisa avançada
+     */
     private String aqo = EMPTY;
+    /**
+     * Trecho HQL que representa uma pequisa avançada FROM Classe obj WHERE .... 
+     */
     private String aq = SIMPLE;
+    /**
+     * Critério da pesquisa simples
+     */
     private String q = "";
+    /**
+     * Posição inicial esperada no retorno
+     */
     private int start = 0;
+    /**
+     * Tamanho da página
+     */
     private int pageSize = 10;
+    /**
+     * Atributo de ordenaçao
+     */
     private String sortField = "";
+    /**
+     * Ordem de ordenação ascendente ou descendente
+     */
     private String sortDir = "asc";
+    /**
+     * Atributos para pesquisa simples
+     */
     private String[] searchFields;
 
     public String getAqo() {

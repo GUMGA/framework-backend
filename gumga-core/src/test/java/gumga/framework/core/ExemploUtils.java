@@ -1,4 +1,8 @@
-package gumga.framework.core.utils;
+/**
+ *   Classe exempo para utilização de c
+ * 
+ */
+package gumga.framework.core;
 
 public class ExemploUtils {
 	

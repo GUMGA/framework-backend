@@ -1,5 +1,8 @@
 package gumga.framework.core;
-
+/**
+ * Representa um elemento do AQO
+ * @author munif
+ */
 public class QueryObjectElement {
 
     private String attribute;

@@ -3,7 +3,11 @@ package gumga.framework.core;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
+/**
+ * Representa um resultado de uma pesquisa
+ * @author Equipe Gumga
+ * @param <T> Tipo de cada elemento resultante da pesquisa
+ */
 public class SearchResult<T> {
 
 	private final int pageSize;

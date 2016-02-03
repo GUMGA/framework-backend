@@ -4,8 +4,22 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+/**
+ * Classe utilitária para facilitar reflexão.
+ *
+ * @author Equipe Gumga
+ */
 public class ReflectionUtils {
 
+    /**
+     * Procura um atributo pelo nome em uma classe ou em suas superclasses
+     * recursivamente na ordem inversa da hierarquia. Inicialmente na classe,
+     * depois na super classe e assim respectivamente.
+     *
+     * @param clazz classe que inicia a busca
+     * @param name nome do atributo
+     * @return Atributo encontrado, retorna null se não encontrado.
+     */
     public static Field getField(Class clazz, String name) {
         try {
             Field toReturn = clazz.getDeclaredField(name);
@@ -19,10 +33,29 @@ public class ReflectionUtils {
         return null;
     }
 
+    /**
+     * Procura um atributo pelo nome em uma classe ou em suas superclasses na
+     * ordem inversa da hierarquia. Inicialmente na classe, depois na super
+     * classe e assim respectivamente. * Procura y
+     *
+     * @param clazz classe a se procurada
+     * @param name nome do atributo
+     * @return atributo ou null se não encontrar
+     */
     public static Field findField(Class<?> clazz, String name) {
         return findField(clazz, name, null);
     }
 
+    /**
+     * Procura um atributo pelo nome e/ou tipo em uma classe ou em suas
+     * superclasses na ordem inversa da hierarquia. Inicialmente na classe,
+     * depois na super classe e assim respectivamente. * Procura y
+     *
+     * @param clazz classe a se procurada
+     * @param name nome do atributo
+     * @param type tipo do atriburo
+     * @return atributo ou null se não encontrar
+     */
     public static Field findField(Class<?> clazz, String name, Class<?> type) {
         if (clazz == null) {
             throw new IllegalArgumentException("Class must not be null");
@@ -49,10 +82,22 @@ public class ReflectionUtils {
         return null;
     }
 
+    /**
+     * Infere o tipo genérico de uma classe, por exemplo, em uma lista, deseja-se saber o tipo que foi utilizado na lista. 
+     * @param clazz Classe 
+     * @return Tipo genérico
+     */
     public static Class<?> inferGenericType(Class<?> clazz) {
         return inferGenericType(clazz, 0);
     }
 
+
+    /**
+     * Infere um dos tipos genérico de uma classe, por exemplo, em um mapa, deseja-se saber um dos dois tipos que foi utilizado no mapa. 
+     * @param clazz Classe 
+     * @param index posição do tipo
+     * @return Tipo genérico
+     */
     public static Class<?> inferGenericType(Class<?> clazz, int index) {
         Type superClass = clazz.getGenericSuperclass();
         return (Class<?>) ((ParameterizedType) superClass).getActualTypeArguments()[index];

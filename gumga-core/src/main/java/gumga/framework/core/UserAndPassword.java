@@ -6,7 +6,7 @@
 package gumga.framework.core;
 
 /**
- *
+ * Claasse utilizada para troca de senhas em várias camadas do Framework
  * @author munif
  */
 public class UserAndPassword {
