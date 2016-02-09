@@ -6,6 +6,7 @@ import gumga.framework.core.utils.ReflectionUtils;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -29,10 +30,15 @@ public class HibernateQueryObject {
 
         this.queryObject = queryObject;
 
-        this.parsers = GumgaQueryParserProvider.defaultMap;
+        this.parsers=new HashMap<>(GumgaQueryParserProvider.defaultMap);
+
 
         if (null == GumgaQueryParserProvider.defaultMap) {
             throw new RuntimeException("GumgaQueryParserProvider.defaultMap must be set in Application configuration");
+        }
+
+        if (!queryObject.isPhonetic()) {
+            this.parsers.put(String.class, GumgaQueryParserProvider.STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
         }
 
         this.queryObject.setQ(Normalizer.normalize(queryObject.getQ(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toUpperCase());

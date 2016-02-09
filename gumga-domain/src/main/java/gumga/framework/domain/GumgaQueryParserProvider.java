@@ -68,7 +68,7 @@ public class GumgaQueryParserProvider {
         return mySqlMap;
     }
 
-    private static final CriterionParser STRING_CRITERION_PARSER_WITHOUT_TRANSLATE = new CriterionParser() {
+    protected static final CriterionParser STRING_CRITERION_PARSER_WITHOUT_TRANSLATE = new CriterionParser() {
         @Override
         public Criterion parse(String field, String value) {
 

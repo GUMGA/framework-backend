@@ -5,9 +5,9 @@ import java.util.Collections;
 
 /**
  * Classe para representar os parâmetros de uma pesquisa enviada ao Framework
+ *
  * @author Equipe Gumga
  */
-
 public class QueryObject {
 
     public static final String SIMPLE = "SIMPLE";
@@ -18,7 +18,7 @@ public class QueryObject {
      */
     private String aqo = EMPTY;
     /**
-     * Trecho HQL que representa uma pequisa avançada FROM Classe obj WHERE .... 
+     * Trecho HQL que representa uma pequisa avançada FROM Classe obj WHERE ....
      */
     private String aq = SIMPLE;
     /**
@@ -45,6 +45,19 @@ public class QueryObject {
      * Atributos para pesquisa simples
      */
     private String[] searchFields;
+
+    /**
+     * Indica pesquisa fonética ou não
+     */
+    private boolean phonetic = true;
+
+    public boolean isPhonetic() {
+        return phonetic;
+    }
+
+    public void setPhonetic(boolean phonetic) {
+        this.phonetic = phonetic;
+    }
 
     public String getAqo() {
         return aqo;
@@ -134,7 +147,7 @@ public class QueryObject {
 
     @Override
     public String toString() {
-        return "QueryObject{" + "aq=" + aq + ", q=" + q + ", start=" + start + ", pageSize=" + pageSize + ", sortField=" + sortField + ", sortDir=" + sortDir + ", searchFields=" + Arrays.asList(searchFields == null ? Collections.EMPTY_LIST : searchFields) + '}';
+        return "QueryObject{ phonetic="+phonetic + ", aq=" + aq + ", q=" + q + ", start=" + start + ", pageSize=" + pageSize + ", sortField=" + sortField + ", sortDir=" + sortDir + ", searchFields=" + Arrays.asList(searchFields == null ? Collections.EMPTY_LIST : searchFields) + '}';
     }
 
 }
