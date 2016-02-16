@@ -7,21 +7,30 @@ package gumga.framework.presentation.api;
 
 import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.application.GumgaService;
-import gumga.framework.application.GumgaTempFileService;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -31,13 +40,13 @@ public interface CSVGeneratorAPI {
 
     static final String CSV_SEPARATOR = ";";
     static final String CSV_LINE_DELIMITER = "\r\n";
-    static final Logger log=LoggerFactory.getLogger(CSVGeneratorAPI.class);
+    static final Logger log = LoggerFactory.getLogger(CSVGeneratorAPI.class);
 
     GumgaService getGumgaService();
 
     @org.springframework.transaction.annotation.Transactional
     @ApiOperation(value = "csv", notes = "Gera resultado da pesquisa em um arquivo CSV.")
-    @RequestMapping(value = "/csv", method = RequestMethod.GET) 
+    @RequestMapping(value = "/csv", method = RequestMethod.GET)
     @ResponseBody
     default void geraCSV(HttpServletResponse response) throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -52,6 +61,74 @@ public interface CSVGeneratorAPI {
             sb.append(objectToCsvLine(obj));
         }
         response.getWriter().write(sb.toString());
+    }
+
+    @ApiOperation(value = "csvupload", notes = "Faz importação via csv.")
+    @RequestMapping(method = RequestMethod.POST, value = "/csvupload")
+    default SearchResult<String> csvUpload(@RequestParam MultipartFile csv) throws IOException {
+        Class clazz = getGumgaService().clazz();
+        InputStreamReader isr = new InputStreamReader(csv.getInputStream());
+        BufferedReader bf = new BufferedReader(isr);
+        String linha;
+        String atributos[] = bf.readLine().split(CSV_SEPARATOR);
+        Field idField = getIdField(clazz);
+        Map<String, String> atributoValor = new HashMap<>();
+        Map<String, Field> atributoField = new HashMap<>();
+        for (String atributo : atributos) {
+            atributoValor.put(atributo, null);
+        }
+        for (Field f : getAllAtributes(clazz)) {
+            f.setAccessible(true);
+            atributoField.put(f.getName(), f);
+        }
+        int numeroLinha = 0;
+        List<String> problemas = new ArrayList<>();
+        while ((linha = bf.readLine()) != null) {
+            numeroLinha++;
+            String coluna = "";
+            try {
+                String valores[] = linha.split(CSV_SEPARATOR);
+                for (int i = 0; i < atributos.length; i++) {
+                    atributoValor.put(atributos[i], valores[i]);
+                }
+                Object entidade;
+                String stringChave = atributoValor.get(idField.getName());
+                if (stringChave != null && !stringChave.trim().isEmpty()) {
+                    entidade = getGumgaService().view(new Long(stringChave));
+                } else {
+                    entidade = clazz.newInstance();
+                }
+                for (int i = 0; i < atributos.length; i++) {
+                    coluna = atributos[i];
+                    Field atributo = atributoField.get(coluna);
+                    if (coluna.equals(idField.getName())) {
+                        continue;
+                    }
+                    if (coluna.equals("oi")) {
+                        continue;
+                    }
+                    Class type = atributo.getType();
+                    String valorString = atributoValor.get(atributos[i]);
+                    if (valorString == null || valorString.trim().isEmpty()) {
+                        continue;
+                    }
+                    if (type.isAnnotationPresent(Entity.class)) {
+                        
+                    } else if (type.equals(Date.class)) {
+                        
+                    } else {
+                        Constructor constructorString = type.getConstructor(String.class);
+                        Object valorAtributo = constructorString.newInstance(valorString);
+                        atributo.set(entidade, valorAtributo);
+                    }
+                }
+                getGumgaService().save(entidade);
+            } catch (Exception ex) {
+                problemas.add("Linha:" + numeroLinha + " Coluna:" + coluna + " Problema:" + ex);
+                ex.printStackTrace();
+            }
+        }
+        return new SearchResult<String>(0, problemas.size(), problemas.size(), problemas);
     }
 
     public static String classToCsvTitle(Class clazz) {
