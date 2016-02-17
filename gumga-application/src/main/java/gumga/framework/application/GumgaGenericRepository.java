@@ -141,6 +141,23 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return resource;
     }
 
+    /**
+     * Generic findOne
+     *
+     * @param clazz Classe a ser pesquisada
+     * @param id id a ser pesquisado
+     * @return objeto encontrado ou null
+     */
+    @Override
+    public Object genericFindOne(Class clazz, Object id) {
+        Object result = entityManager.find(clazz, id);
+        if (result == null) {
+            throw new EntityNotFoundException("cannot find " + clazz.getName() + " with id: " + id);
+        }
+        checkOwnership(result);
+        return result;
+    }
+
     private Session session() {
         return entityManager.unwrap(Session.class);
     }
@@ -420,7 +437,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return aRetornar;
     }
 
-    private void checkOwnership(T o) throws EntityNotFoundException {
+    private void checkOwnership(Object o) throws EntityNotFoundException {
         if (GumgaThreadScope.ignoreCheckOwnership.get() != null && GumgaThreadScope.ignoreCheckOwnership.get()) {
             return;
         }

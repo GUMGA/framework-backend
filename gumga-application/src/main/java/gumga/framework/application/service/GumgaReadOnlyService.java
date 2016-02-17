@@ -53,4 +53,10 @@ public abstract class GumgaReadOnlyService<T extends GumgaIdable<?>, ID extends 
         return entity;
     }
 
+    @Transactional(readOnly = true)
+    public Object genercView(Class clazz, ID id) {
+        Object entity = repository.genericFindOne(clazz, id);
+        return entity;
+    }
+
 }

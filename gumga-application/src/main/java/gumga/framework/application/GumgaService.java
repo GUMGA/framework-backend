@@ -53,6 +53,12 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
         return entity;
     }
 
+    @Transactional(readOnly = true)
+    public Object genercView(Class clazz, ID id) {
+        Object entity = repository.genericFindOne(clazz, id);
+        return entity;
+    }
+
     public void beforeDelete(T entity) {
     }
 
