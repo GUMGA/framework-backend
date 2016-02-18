@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>gumga.framework</groupId>
+  <artifactId>gumga-validation</artifactId>
+  <versioning>
+    <versions>
+      <version>1.2.5-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20160218175000</lastUpdated>
+  </versioning>
+</metadata>
