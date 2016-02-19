@@ -31,6 +31,8 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -45,6 +47,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     protected final JpaEntityInformation<T, ID> entityInformation;
     protected final EntityManager entityManager;
+    private static final Logger log = LoggerFactory.getLogger(GumgaGenericRepository.class);
 
     public GumgaGenericRepository(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
@@ -73,8 +76,8 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (!sortField.isEmpty()) {
             createAliasIfNecessary(pesquisa, sortField);
             pesquisa.addOrder(sortType.equals("asc") ? asc(sortField).ignoreCase() : desc(sortField).ignoreCase());
-            pesquisa.addOrder(asc("id")); //GUMGA-478
         }
+        pesquisa.addOrder(asc("id")); //GUMGA-478
 
         return pesquisa.setFirstResult(query.getStart()).setMaxResults(query.getPageSize()).list();
     }
@@ -92,7 +95,9 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(entityInformation.getJavaType());
         Pesquisa<T> pesquisa = search().add(or(fieldsCriterions));
 
-        if (hasMultitenancy()) {
+        //TODO ANYMARKET PODER CONSULTAR INTERNAMENTE TODOS OS REGISTROS (ATRAVESSANDO)
+//        if (hasMultitenancy() && (gumgaValues.allowAnonymSearchForAll()) && GumgaThreadScope.organizationCode.get() != null) {
+        if (hasMultitenancy() && GumgaThreadScope.organizationCode.get() != null) {
             String oiValue = (GumgaThreadScope.organizationCode.get() == null) ? "" : GumgaThreadScope.organizationCode.get();
             Criterion multitenancyCriterion = or(like("oi", oiValue, MatchMode.START), Restrictions.isNull("oi"));
             pesquisa.add(multitenancyCriterion);
@@ -354,31 +359,27 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public List<T> findAll() {
         if (hasMultitenancy()) {
-            throw new RuntimeException(noMultiTenancyMessage());
+            log.error("NOMULTITENACYIMPL -> " + noMultiTenancyMessage());
         }
         return super.findAll();
     }
 
     @Override
     public boolean exists(ID id) {
-        if (hasMultitenancy()) {
-            throw new RuntimeException(noMultiTenancyMessage());
-        }
         return super.exists(id);
     }
 
     @Override
     public T getOne(ID id) {
-        if (hasMultitenancy()) {
-            throw new RuntimeException(noMultiTenancyMessage());
-        }
-        return super.getOne(id);
+        T objectFind = super.getOne(id);
+        checkOwnership(objectFind);
+        return objectFind;
     }
 
     @Override
     public void deleteAllInBatch() {
         if (hasMultitenancy()) {
-            throw new RuntimeException(noMultiTenancyMessage());
+            log.error("NOMULTITENACYIMPL -> " + noMultiTenancyMessage());
         }
         super.deleteAllInBatch();
     }
@@ -386,7 +387,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void deleteAll() {
         if (hasMultitenancy()) {
-            throw new RuntimeException(noMultiTenancyMessage());
+            log.error("NOMULTITENACYIMPL -> " + noMultiTenancyMessage());
         }
         super.deleteAll();
     }
@@ -394,23 +395,32 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void deleteInBatch(Iterable<T> entities) {
         if (hasMultitenancy()) {
-            throw new RuntimeException(noMultiTenancyMessage());
+            log.error("NOMULTITENACYIMPL -> " + noMultiTenancyMessage());
         }
         super.deleteInBatch(entities);
     }
 
     @Override
     public void delete(Iterable<? extends T> entities) {
+        if (hasMultitenancy()) {
+            log.error("NOMULTITENACYIMPL -> " + noMultiTenancyMessage());
+        }
         super.delete(entities);
     }
 
     @Override
     public void delete(T entity) {
+        if (hasMultitenancy()) {
+            log.error("NOMULTITENACYIMPL -> " + noMultiTenancyMessage());
+        }
         super.delete(entity);
     }
 
     @Override
     public void delete(ID id) {
+        if (hasMultitenancy()) {
+            log.error("NOMULTITENACYIMPL -> " + noMultiTenancyMessage());
+        }
         super.delete(id);
     }
 
@@ -444,11 +454,15 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (!o.getClass().isAnnotationPresent(GumgaMultitenancy.class)) {
             return;
         }
+        if (GumgaThreadScope.organizationCode.get() == null) {
+            return;
+        }
+
         GumgaModel object = (GumgaModel) o;
         if (hasMultitenancy()) {
             if (object.getOi() != null) {
                 if (GumgaThreadScope.organizationCode.get() == null || !object.getOi().getValue().startsWith(GumgaThreadScope.organizationCode.get())) {
-                    throw new EntityNotFoundException("cannot find object of " + entityInformation.getJavaType() + " with id: " + object.getId() + " in your organization");
+                    throw new EntityNotFoundException("cannot find object of " + entityInformation.getJavaType() + " with id: " + object.getId() + " in your organization: " + GumgaThreadScope.organizationCode.get());
                 }
             }
         }

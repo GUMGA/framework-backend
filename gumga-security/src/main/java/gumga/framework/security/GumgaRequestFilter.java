@@ -25,6 +25,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     
     private static final Logger log=LoggerFactory.getLogger(HandlerInterceptorAdapter.class);
+    private static final Logger logGumga =LoggerFactory.getLogger(GumgaRequestFilter.class);
 
     private final String softwareId;
 
@@ -120,6 +121,22 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         response.setStatus(gsc.httpStatus.value());
         response.getOutputStream().write(("Error:" + errorMessage).getBytes());
         return false;
+    }
+
+    public void saveLog(AuthorizatonResponse ar, HttpServletRequest request, String operationKey, String endPoint, String method, boolean allowed, String token) {
+        if (gumgaValues.isLogActive()) {
+            GumgaLog gl = new GumgaLog(ar.getLogin(), request.getRemoteAddr(), ar.getOrganizationCode(),
+                ar.getOrganization(), softwareId, operationKey, endPoint, method, allowed);
+            gls.save(gl);
+        }
+        if(gumgaValues.isLogRequestOnConsole()) {
+            String contextRoot = request.getContextPath();
+            String pathInfo = request.getRequestURI().substring(request.getRequestURI().indexOf(contextRoot));
+            if (!gumgaValues.getUrlsToNotLog().contains(pathInfo)) {
+                logGumga.info(String.format("Request anymarket from[%s] - login[%s] [%s][%s] [%s]- software[%s][%s] - destino[%s - %s - %s]", request.getRemoteAddr(),
+                    ar.getLogin(), ar.getOrganizationCode(), ar.getOrganization(), token, softwareId, operationKey, method, pathInfo, allowed));
+            }
+        }
     }
 
     public void saveLog(AuthorizatonResponse ar, HttpServletRequest requset, String operationKey, String endPoint, String method, boolean a) {
