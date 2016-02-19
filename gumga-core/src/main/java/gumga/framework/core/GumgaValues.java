@@ -1,5 +1,9 @@
 package gumga.framework.core;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Interface que deve ser implementada para alterar comportamentos padrão do
  * framework.
@@ -43,6 +47,22 @@ public interface GumgaValues {
      */
     default boolean isLogActive() {
         return true;
+    }
+
+    /**
+     * Para não logar no banco
+     * @return
+     */
+    default boolean isLogRequestOnConsole() {
+        return false;
+    }
+
+    /**
+     * Lista de paths de urls que serão ignoradas do log
+     * @return
+     */
+    default Set<String> getUrlsToNotLog() {
+        return new HashSet<String>();
     }
 
     /**

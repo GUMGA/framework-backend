@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Locale;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -107,6 +108,7 @@ public class GumgaMoneyTest {
     }
     
     @Test
+    @Ignore
     public void testFormatCurrency() {
         CurrencyFormatter.replaceSymbol("BRL", "R$");
         GumgaMoney hundred = new GumgaMoney(GumgaMoney.HUNDRED);
