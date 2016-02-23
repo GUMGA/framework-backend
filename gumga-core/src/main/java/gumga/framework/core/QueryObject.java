@@ -49,7 +49,7 @@ public class QueryObject {
     /**
      * Indica pesquisa fonética ou não
      */
-    private boolean phonetic = true;
+    private boolean phonetic = false;
 
     public boolean isPhonetic() {
         return phonetic;
