@@ -31,7 +31,7 @@ public interface GumgaValues {
      * @return URL da api do sistema de segurança
      */
     default String getGumgaSecurityUrl() {
-        return "http://www.gumga.com.br/security/publicoperations";
+        return "http://www.gumga.com.br/security-api/publicoperations";
     }
 
     /**

@@ -34,8 +34,8 @@ class GumgaSecurityProxy {
         restTemplate = new RestTemplate();
     }
 
-    @ApiOperation(value = "create",notes = "Cria token através do usuário e senha informados.")
-    @RequestMapping(value="/create/{user}/{password}",method = RequestMethod.GET)
+    @ApiOperation(value = "create", notes = "Cria token através do usuário e senha informados.")
+    @RequestMapping(value = "/create/{user}/{password}", method = RequestMethod.GET)
     public ResponseEntity create(@PathVariable String user, @PathVariable String password) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/create/" + user + "/" + password;
         Map resposta = restTemplate.getForObject(url, Map.class);
@@ -46,7 +46,7 @@ class GumgaSecurityProxy {
         return new ResponseEntity(resposta, response.httpStatus);
     }
 
-    @ApiOperation(value = "delete",notes = "Faz logout do usuário fazendo o token informado expirar.")
+    @ApiOperation(value = "delete", notes = "Faz logout do usuário fazendo o token informado expirar.")
     @RequestMapping(value = "/{token}", method = RequestMethod.DELETE)
     public Map delete(@PathVariable String token) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/" + token;
@@ -54,7 +54,7 @@ class GumgaSecurityProxy {
         return GumgaSecurityCode.OK.response();
     }
 
-    @ApiOperation(value = "login",notes = "Faz o login recebendo o objeto UserAndPassword.")
+    @ApiOperation(value = "login", notes = "Faz o login recebendo o objeto UserAndPassword.")
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody UserAndPassword login) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token";
@@ -73,7 +73,7 @@ class GumgaSecurityProxy {
         return resposta;
     }
 
-    @ApiOperation(value = "changePassword",notes = "Altera a senha do usuário informados pelo objeto UserAndPassword.")
+    @ApiOperation(value = "changePassword", notes = "Altera a senha do usuário informados pelo objeto UserAndPassword.")
     @RequestMapping(method = RequestMethod.PUT)
     public Map changePassword(@RequestBody UserAndPassword login) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token";
@@ -83,7 +83,7 @@ class GumgaSecurityProxy {
 
     @Transactional
     @ApiOperation(value = "organizations", notes = "Lista as organizações associadas ao token informado.")
-    @RequestMapping(value="/organizations/{token}",method = RequestMethod.GET)
+    @RequestMapping(value = "/organizations/{token}", method = RequestMethod.GET)
     public List organizations(@PathVariable String token) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/organizations/" + token;
         List resposta = restTemplate.getForObject(url, List.class);
@@ -92,10 +92,34 @@ class GumgaSecurityProxy {
 
     @Transactional
     @ApiOperation(value = "organizations", notes = "Lista as operações associadas ao software e token informados.")
-    @RequestMapping(value="/operations/{software}/{token}",method = RequestMethod.GET)
+    @RequestMapping(value = "/operations/{software}/{token}", method = RequestMethod.GET)
     public Set operations(@PathVariable String software, @PathVariable String token) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/operations/" + software + "/" + token;
         Set resposta = restTemplate.getForObject(url, Set.class);
+        return resposta;
+    }
+
+    @ApiOperation(value = "lostPassword", notes = "Permite recuperar a senha, enviando um e-mail para o login informado.")
+    @RequestMapping(method = RequestMethod.GET, value = "/lostpassword/{login:.+}")
+    public Map lostPassword(@PathVariable String login) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/lostpassword/" + login+"/";
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+
+    @ApiOperation(value = "changeByTicket", notes = "Verifica se o ticket já foi utilizado e altera a senha do usuário.")
+    @RequestMapping(method = RequestMethod.GET, value = "/lostpassword/{code}/{password}")
+    public Map changeByTicket(@PathVariable String code, @PathVariable String password) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/lostpassword/" + code + "/" + password;
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+
+    @ApiOperation(value = "findByTicket", notes = "Busca um ticket pelo código.")
+    @RequestMapping(method = RequestMethod.GET, value = "/searchticket/{code}")
+    public Map findByTicket(@PathVariable String code) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/searchticket/" + code;
+        Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
     }
 

@@ -61,7 +61,7 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
             BindingResult result) {
         GumgaUserData gud = new GumgaUserData();
         gud.setUserLogin(GumgaThreadScope.login.get());
-        gud.setKey("aq;" + qts.getPage());
+        gud.setKey("aq;" + qts.getPage()+";"+qts.getName());
         gud.setDescription(qts.getName());
         gud.setValue(qts.getData());
         guds.save(gud);

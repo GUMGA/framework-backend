@@ -107,6 +107,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             GumgaThreadScope.organizationCode.set(ar.getOrganizationCode());
             GumgaThreadScope.operationKey.set(operationKey);
             GumgaThreadScope.gumgaToken.set(token);
+            GumgaThreadScope.softwareName.set(softwareId);
             saveLog(ar, request, operationKey, endPoint, method, ar.isAllowed());
             if (ar.isAllowed()) {
                 return true;

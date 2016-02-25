@@ -30,8 +30,7 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
     @Transactional
     @ApiOperation(value = "save", notes = "Salva o objeto correspodente.")
     @RequestMapping(method = RequestMethod.POST)
-    public RestResponse<T> save(@RequestBody @Valid T model,
-            BindingResult result) {
+    public RestResponse<T> save(@RequestBody @Valid T model, BindingResult result) {
         beforeSave(model);
         T entity = saveOrCry(model, result);
         return new RestResponse<T>(entity, getEntitySavedMessage(entity));

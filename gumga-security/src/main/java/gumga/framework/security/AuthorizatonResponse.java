@@ -29,8 +29,6 @@ public class AuthorizatonResponse {
         this.reason = reason;
         this.key = key;
     }
-    
-    
 
     public String getOrganization() {
         return organization;
