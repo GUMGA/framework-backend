@@ -27,7 +27,7 @@ import org.springframework.web.client.RestTemplate;
  * @author munif
  */
 @RestController
-@RequestMapping("/proxy/softwarevalues")
+@RequestMapping("/api/proxy/softwarevalues")
 public class GumgaSoftwareValuesProxy {
 
     @Autowired
