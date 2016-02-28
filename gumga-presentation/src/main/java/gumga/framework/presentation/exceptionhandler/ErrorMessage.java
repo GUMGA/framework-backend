@@ -1,25 +1,27 @@
-package gumga.framework.presentation;
+package gumga.framework.presentation.exceptionhandler;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class GumgaErrorMessage {
+@XmlRootElement
+public class ErrorMessage {
 
     private List<String> errors;
 
-    public GumgaErrorMessage() {
+    public ErrorMessage() {
     }
 
-    public GumgaErrorMessage(List<String> errors) {
+    public ErrorMessage(List<String> errors) {
         this.errors = errors;
     }
 
-    public GumgaErrorMessage(String error) {
+    public ErrorMessage(String error) {
         this(Collections.singletonList(error));
     }
 
-    public GumgaErrorMessage(String... errors) {
+    public ErrorMessage(String... errors) {
         this(Arrays.asList(errors));
     }
 
