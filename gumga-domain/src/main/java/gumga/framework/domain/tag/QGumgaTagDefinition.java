@@ -10,7 +10,6 @@ import com.mysema.query.types.Path;
 import com.mysema.query.types.path.PathInits;
 import gumga.framework.domain.tag.GumgaTagDefinition;
 
-
 /**
  * QGumgaTagDefinition is a Querydsl query type for GumgaTagDefinition
  */
@@ -47,4 +46,3 @@ public class QGumgaTagDefinition extends EntityPathBase<GumgaTagDefinition> {
     }
 
 }
-

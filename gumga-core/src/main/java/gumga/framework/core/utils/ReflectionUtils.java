@@ -83,18 +83,21 @@ public class ReflectionUtils {
     }
 
     /**
-     * Infere o tipo genérico de uma classe, por exemplo, em uma lista, deseja-se saber o tipo que foi utilizado na lista. 
-     * @param clazz Classe 
+     * Infere o tipo genérico de uma classe, por exemplo, em uma lista,
+     * deseja-se saber o tipo que foi utilizado na lista.
+     *
+     * @param clazz Classe
      * @return Tipo genérico
      */
     public static Class<?> inferGenericType(Class<?> clazz) {
         return inferGenericType(clazz, 0);
     }
 
-
     /**
-     * Infere um dos tipos genérico de uma classe, por exemplo, em um mapa, deseja-se saber um dos dois tipos que foi utilizado no mapa. 
-     * @param clazz Classe 
+     * Infere um dos tipos genérico de uma classe, por exemplo, em um mapa,
+     * deseja-se saber um dos dois tipos que foi utilizado no mapa.
+     *
+     * @param clazz Classe
      * @param index posição do tipo
      * @return Tipo genérico
      */

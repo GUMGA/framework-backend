@@ -26,43 +26,41 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 /**
- * Translator do Hibernate para o tipo Classification
+ * UserType que permite serializar o tipo dentro do Hibernate
  */
 public class GumgaClassificationUserType extends ImmutableUserType {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException, SQLException {
-		String value = rs.getString(names[0]);
-		if (rs.wasNull()) {
-			return null;
-		} else {
-			return GumgaClassification.fromString(value);
-		}
-	}
+    @Override
+    public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException, SQLException {
+        String value = rs.getString(names[0]);
+        if (rs.wasNull()) {
+            return null;
+        } else {
+            return GumgaClassification.fromString(value);
+        }
+    }
 
-	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
-			throws HibernateException, SQLException {
-		if (value == null) {
-			st.setNull(index, Types.VARCHAR);
-		} else {
-			GumgaClassification classification = (GumgaClassification) value;
-			st.setString(index, classification.toString());
-		}
-	}
+    @Override
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
+            throws HibernateException, SQLException {
+        if (value == null) {
+            st.setNull(index, Types.VARCHAR);
+        } else {
+            GumgaClassification classification = (GumgaClassification) value;
+            st.setString(index, classification.toString());
+        }
+    }
 
-	@Override
-	public Class<?> returnedClass() {
-		return GumgaClassification.class;
-	}
+    @Override
+    public Class<?> returnedClass() {
+        return GumgaClassification.class;
+    }
 
-	@Override
-	public int[] sqlTypes() {
-		return new int[] { Types.VARCHAR };
-	}
-
-
+    @Override
+    public int[] sqlTypes() {
+        return new int[]{Types.VARCHAR};
+    }
 
 }

@@ -9,7 +9,6 @@ import javax.annotation.Generated;
 import com.mysema.query.types.Path;
 import gumga.framework.domain.tag.GumgaTagValueDefinition;
 
-
 /**
  * QGumgaTagValueDefinition is a Querydsl query type for GumgaTagValueDefinition
  */
@@ -44,4 +43,3 @@ public class QGumgaTagValueDefinition extends EntityPathBase<GumgaTagValueDefini
     }
 
 }
-

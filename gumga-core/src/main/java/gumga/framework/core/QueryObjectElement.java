@@ -1,6 +1,8 @@
 package gumga.framework.core;
+
 /**
  * Representa um elemento do AQO
+ *
  * @author munif
  */
 public class QueryObjectElement {
@@ -10,9 +12,9 @@ public class QueryObjectElement {
     private String value;
 
     public QueryObjectElement() {
-        attribute="NO_ATTRIBUTE";
-        hql="NO_HQL";
-        value="NO_VALUE";
+        attribute = "NO_ATTRIBUTE";
+        hql = "NO_HQL";
+        value = "NO_VALUE";
     }
 
     public String getAttribute() {

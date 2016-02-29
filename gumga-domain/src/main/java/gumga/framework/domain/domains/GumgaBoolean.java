@@ -6,13 +6,14 @@
 package gumga.framework.domain.domains;
 
 /**
+ * Representa um boolean, criado para introduzir os domínios da GUMGA
  *
  * @author munif
  */
 public class GumgaBoolean extends GumgaDomain {
 
-    private static final String TRUE_LABEL = "TRUE"; //Poderia ser GREEN_LABEL
-    private static final String FALSE_LABEL = "FALSE"; //Poderia ser RED_LABEL
+    private static final String TRUE_LABEL = "TRUE";
+    private static final String FALSE_LABEL = "FALSE";
 
     private boolean value;
 

@@ -21,6 +21,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
+/**
+ * Classe super importante para o framework. Esta classe deve ser a "mãe" de
+ * todas as entidades gerenciadas pelo framework
+ *
+ * @author munif
+ */
 @MappedSuperclass
 @TypeDefs({
     @TypeDef(name = "gumgaaddress", defaultForType = GumgaAddress.class, typeClass = GumgaAddressUserType.class),

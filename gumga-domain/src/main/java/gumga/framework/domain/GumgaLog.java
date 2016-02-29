@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.domain;
-
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -14,6 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
+ * Entidade utilizada para armazenar log no banco de dados.
  *
  * @author munif
  */

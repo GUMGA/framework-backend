@@ -8,6 +8,7 @@ package gumga.framework.domain.domains;
 import java.util.Objects;
 
 /**
+ * Representa um email
  *
  * @author munif
  */

@@ -37,7 +37,6 @@ public class GumgaShortYoutubeURL implements GumgaYoutubeURL {
         return this.url.toString();
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {

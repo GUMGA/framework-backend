@@ -18,9 +18,11 @@ public class SearchUtils {
 
     /**
      * Aplica um filtro nos valores de um Enum e retorna em um SearchResult
+     *
      * @param <E> Tipo do enum
      * @param enumClass Tipo do enum
-     * @param query Pesquisa (será considerado apenas pesquisa simples iniciando com esta query)
+     * @param query Pesquisa (será considerado apenas pesquisa simples iniciando
+     * com esta query)
      * @return Resultado da aplicação do filtro
      */
     public static <E extends Enum<E>> SearchResult<E> filterEnum(Class<E> enumClass, QueryObject query) {

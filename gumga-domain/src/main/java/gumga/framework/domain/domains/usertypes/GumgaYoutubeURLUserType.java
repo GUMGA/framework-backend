@@ -29,39 +29,37 @@ import java.sql.Types;
  */
 public class GumgaYoutubeURLUserType extends ImmutableUserType {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws SQLException {
-		String value = rs.getString(names[0]);
-		if (rs.wasNull()) {
-			return null;
-		} else {
-			return GumgaYoutubeURL.fromString(value);
-		}
-	}
+    @Override
+    public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws SQLException {
+        String value = rs.getString(names[0]);
+        if (rs.wasNull()) {
+            return null;
+        } else {
+            return GumgaYoutubeURL.fromString(value);
+        }
+    }
 
-	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
-			throws SQLException {
-		if (value == null) {
-			st.setNull(index, Types.VARCHAR);
-		} else {
+    @Override
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
+            throws SQLException {
+        if (value == null) {
+            st.setNull(index, Types.VARCHAR);
+        } else {
             GumgaYoutubeURL url = (GumgaYoutubeURL) value;
-			st.setString(index, url.toString());
-		}
-	}
+            st.setString(index, url.toString());
+        }
+    }
 
-	@Override
-	public Class<?> returnedClass() {
-		return GumgaYoutubeURL.class;
-	}
+    @Override
+    public Class<?> returnedClass() {
+        return GumgaYoutubeURL.class;
+    }
 
-	@Override
-	public int[] sqlTypes() {
-		return new int[] { Types.VARCHAR };
-	}
-
-
+    @Override
+    public int[] sqlTypes() {
+        return new int[]{Types.VARCHAR};
+    }
 
 }

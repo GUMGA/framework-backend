@@ -5,6 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * Representa dados do do usuário. Útil para armazenar configurações específicas
+ * do usuário, como consultas, parâmetros, etc..
+ *
+ * @author munif
+ */
 @Entity
 @SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_USER_DATA")
 @Table(name = "gumga_user_data")
@@ -15,16 +21,16 @@ public class GumgaUserData extends GumgaModel<Long> {
     @Column(name = "data_key")
     private String key;
     private String description;
-    @Column(name = "data_value",length = 4096)
+    @Column(name = "data_value", length = 4096)
     private String value;
 
     public GumgaUserData() {
     }
 
-    public GumgaUserData(String description,String key, String value) {
+    public GumgaUserData(String description, String key, String value) {
         this.key = key;
         this.value = value;
-        this.description=description;
+        this.description = description;
     }
 
     public String getUserLogin() {

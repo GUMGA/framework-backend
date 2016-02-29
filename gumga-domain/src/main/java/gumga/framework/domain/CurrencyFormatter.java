@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.domain;
 
 import gumga.framework.domain.domains.GumgaMoney;
@@ -15,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
+ * Classe formatadora para moeda
  *
  * @author gyowanny
  */
@@ -29,8 +25,8 @@ public class CurrencyFormatter {
     private String format;
 
     private DecimalFormat formatter;
-    
-    private static Map<String,String> symbolMap = new HashMap<>();
+
+    private static Map<String, String> symbolMap = new HashMap<>();
 
     public CurrencyFormatter() {
         buildPattern();
@@ -52,50 +48,53 @@ public class CurrencyFormatter {
         buildPattern();
     }
 
-    public static void replaceSymbol(String originalSymbol, String replacement){
+    public static void replaceSymbol(String originalSymbol, String replacement) {
         symbolMap.put(originalSymbol, replacement);
     }
-    
+
     /**
      * Formata o valor como moeda adicionando o Simbolo da mesma.
+     *
      * @param value O valor a ser formatado
      * @return Valor formatado como moeda
      */
-    public String format(GumgaMoney value){
+    public String format(GumgaMoney value) {
         return format(value.getValue(), true);
     }
-    
-     /**
+
+    /**
      * Formata o valor como moeda adicionando o Simbolo da mesma.
+     *
      * @param value O valor a ser formatado
      * @return Valor formatado como moeda
      */
-    public String format(BigDecimal value){
+    public String format(BigDecimal value) {
         return format(value, true);
     }
-    
+
     /**
      * Formata o valor como moeda.
+     *
      * @param value O valor a ser formatado
      * @param withSymbol Se deve incluir o simbolo da moeda no valor formatado
      * @return Valor formatado como moeda
      */
-    public String format(GumgaMoney value, boolean withSymbol){
+    public String format(GumgaMoney value, boolean withSymbol) {
         return format(value.getValue(), withSymbol);
     }
-    
+
     /**
      * Formata o valor como moeda.
+     *
      * @param value O valor a ser formatado
      * @param withSymbol Se deve incluir o simbolo da moeda no valor formatado
      * @return Valor formatado como moeda
      */
-    public String format(BigDecimal value, boolean withSymbol){
+    public String format(BigDecimal value, boolean withSymbol) {
         String formattedValue = formatter.format(value);
         return withSymbol ? String.format("%s %s", symbol, formattedValue) : formattedValue;
     }
-    
-    
+
     protected void buildPattern() {
         Currency currency = Currency.getInstance(locale);
         if (decimalPrecision == -1) {

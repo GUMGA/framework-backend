@@ -1,6 +1,3 @@
-/*
- * Gerado automaticamente por GUMGAGenerator em 16/11/2015 16:42:05
- */
 package gumga.framework.domain.tag;
 
 import gumga.framework.domain.GumgaModel;
@@ -9,9 +6,13 @@ import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+/**
+ * Representa um tag genérica
+ *
+ * @author munif
+ */
 @Entity
 @SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_TAG")
-//             123456789012345678
 @Table(name = "gumga_tag")
 @GumgaMultitenancy
 public class GumgaTag extends GumgaModel<Long> {
@@ -37,7 +38,7 @@ public class GumgaTag extends GumgaModel<Long> {
     public GumgaTag(GumgaTagDefinition definition) {
         this.definition = definition;
     }
-    
+
     public String getObjectType() {
         return objectType;
     }
@@ -70,14 +71,14 @@ public class GumgaTag extends GumgaModel<Long> {
         this.definition = definition;
     }
 
-    public void addValues(GumgaTagValueDefinition valDef, String... values){
+    public void addValues(GumgaTagValueDefinition valDef, String... values) {
         this.values = new ArrayList<>();
-        for (String value: values){
+        for (String value : values) {
             addValue(valDef, value);
         }
     }
-    
-    public void addValue(GumgaTagValueDefinition valDef, String value){
+
+    public void addValue(GumgaTagValueDefinition valDef, String value) {
         this.values.add(new GumgaTagValue(valDef, value));
     }
 
@@ -85,6 +86,5 @@ public class GumgaTag extends GumgaModel<Long> {
     public String toString() {
         return "GumgaTag{" + "version=" + version + ", objectType=" + objectType + ", objectId=" + objectId + ", values=" + values + ", definition=" + definition + '}';
     }
-    
-    
+
 }

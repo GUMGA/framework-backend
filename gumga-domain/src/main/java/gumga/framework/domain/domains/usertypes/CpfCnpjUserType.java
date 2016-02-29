@@ -30,37 +30,36 @@ import java.sql.Types;
  */
 public class CpfCnpjUserType extends ImmutableUserType {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws SQLException {
-		String value = rs.getString(names[0]);
-		if (rs.wasNull()) {
-			return null;
-		} else {
-			return CpfCnpj.fromString(value);
-		}
-	}
+    @Override
+    public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws SQLException {
+        String value = rs.getString(names[0]);
+        if (rs.wasNull()) {
+            return null;
+        } else {
+            return CpfCnpj.fromString(value);
+        }
+    }
 
-	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws SQLException {
-		if (value == null) {
-			st.setNull(index, Types.VARCHAR);
-		} else {
+    @Override
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws SQLException {
+        if (value == null) {
+            st.setNull(index, Types.VARCHAR);
+        } else {
             CpfCnpj document = (CpfCnpj) value;
-			st.setString(index, document.toString());
-		}
-	}
+            st.setString(index, document.toString());
+        }
+    }
 
-	@Override
-	public Class<?> returnedClass() {
-		return CpfCnpj.class;
-	}
+    @Override
+    public Class<?> returnedClass() {
+        return CpfCnpj.class;
+    }
 
-	@Override
-	public int[] sqlTypes() {
-		return new int[] { Types.VARCHAR };
-	}
-
+    @Override
+    public int[] sqlTypes() {
+        return new int[]{Types.VARCHAR};
+    }
 
 }

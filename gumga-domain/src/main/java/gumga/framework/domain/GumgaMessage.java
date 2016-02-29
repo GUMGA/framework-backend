@@ -7,6 +7,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
+/**
+ * Representa um mensagem entre dois usuários.
+ *
+ * @author munif
+ */
 @Entity
 @SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_MESSAGE")
 @Table(name = "gumga_message")

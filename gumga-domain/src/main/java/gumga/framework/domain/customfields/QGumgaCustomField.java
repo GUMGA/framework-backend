@@ -8,7 +8,6 @@ import com.mysema.query.types.PathMetadata;
 import javax.annotation.Generated;
 import com.mysema.query.types.Path;
 
-
 /**
  * QGumgaCustomField is a Querydsl query type for GumgaCustomField
  */
@@ -61,4 +60,3 @@ public class QGumgaCustomField extends EntityPathBase<GumgaCustomField> {
     }
 
 }
-

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.domain;
 
 import java.text.Normalizer;
@@ -14,15 +9,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ * Esta classe é utilizada internamente ao framework para prover compatibilidade
+ * entre os bancos em relação a acentuação e buscas fonéticas.
+ *
  * @author gyowanny
  */
-public abstract class AbstractStringCriterionParser implements CriterionParser{
+public abstract class AbstractStringCriterionParser implements CriterionParser {
+
     private static final Logger logger = LoggerFactory.getLogger(AbstractStringCriterionParser.class);
-    
+
     public static final String SOURCE_CHARS = "âàãáÁÂÀÃéêÉÊíÍóôõÓÔÕüúÜÚÇç";
     public static final String TARGET_CHARS = "AAAAAAAAEEEEIIOOOOOOUUUUCC";
-    
+
     @Override
     public Criterion parse(String field, String value) {
 
@@ -37,19 +35,17 @@ public abstract class AbstractStringCriterionParser implements CriterionParser{
 
         //ignoraAcentos = "upper(translate({alias}." + field + ",'"+SOURCE_CHARS+"','"+TARGET_CHARS+"')) like (?)"; //NAO FUNCIONA NO MYSQL
         String soundex = createSoundexExpression(field, value);
-        
-        if (logger.isDebugEnabled()){
-            logger.debug("Soundex search: "+soundex);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Soundex search: " + soundex);
         }
-        
+
         return Restrictions.sqlRestriction(soundex, "%" + value + "%", StandardBasicTypes.STRING);
     }
-    
+
     public abstract String createSoundexExpression(String field, String value);
 
-    
     /* DATABASE SPECIFIC IMPLEMENTATIONS */
-    
     /**
      * Oracle String Criterion Parser
      */
@@ -57,26 +53,29 @@ public abstract class AbstractStringCriterionParser implements CriterionParser{
 
         @Override
         public String createSoundexExpression(String field, String value) {
-            return "upper(translate({alias}." + field + ",'"+SOURCE_CHARS+"','"+TARGET_CHARS+"')) like (?)";
+            return "upper(translate({alias}." + field + ",'" + SOURCE_CHARS + "','" + TARGET_CHARS + "')) like (?)";
         }
     };
-    
+
     /**
      * MYSQL String Criterion Parser
      */
     public static final AbstractStringCriterionParser MYSQL_STRING_CRITERION_PARSER = new AbstractStringCriterionParser() {
-        
+
         @Override
         public String createSoundexExpression(String field, String value) {
-            return "SOUNDEX("+field+") LIKE SOUNDEX( (?) )";
+            return "SOUNDEX(" + field + ") LIKE SOUNDEX( (?) )";
         }
     };
-    
+
+    /**
+     * POSTGRESQL String Criterion Parser
+     */
     public static final AbstractStringCriterionParser POSTGRESQL_STRING_CRITERION_PARSER = new AbstractStringCriterionParser() {
 
         @Override
         public String createSoundexExpression(String field, String value) {
-            return "dmetaphone("+field+") = dmetaphone( (?) )";
+            return "dmetaphone(" + field + ") = dmetaphone( (?) )";
         }
     };
 }

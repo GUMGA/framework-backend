@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.domain.domains;
 
 import java.io.Serializable;
@@ -22,41 +17,42 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
+ * Representa um quantidade monetária
  *
  * @author munif
  */
-public class GumgaMoney extends Number implements Serializable{
+public class GumgaMoney extends Number implements Serializable {
 
     public static final BigDecimal HUNDRED = BigDecimal.TEN.multiply(BigDecimal.TEN);
-    
+
     private BigDecimal value;
-    
-    public GumgaMoney(){
+
+    public GumgaMoney() {
         value = BigDecimal.ZERO;
-    }    
-    
-    public GumgaMoney(BigDecimal other){
-        if (other == null){
+    }
+
+    public GumgaMoney(BigDecimal other) {
+        if (other == null) {
             value = BigDecimal.ZERO;
-        }else{
+        } else {
             value = new BigDecimal(other.toString());
             value.setScale(other.scale());
         }
     }
-    
-    public BigDecimal getValue(){
+
+    public BigDecimal getValue() {
         return value;
     }
-    
-    public static GumgaMoney valueOf(String str){
+
+    public static GumgaMoney valueOf(String str) {
         return new GumgaMoney(new BigDecimal(str));
     }
-    
-    public static GumgaMoney valueOf(double val){
+
+    public static GumgaMoney valueOf(double val) {
         return new GumgaMoney(BigDecimal.valueOf(val));
     }
-    
-    public static GumgaMoney valueOf(double val, int scale){
+
+    public static GumgaMoney valueOf(double val, int scale) {
         BigDecimal v = BigDecimal.valueOf(val);
         v.setScale(scale);
         return new GumgaMoney(v);
@@ -81,70 +77,70 @@ public class GumgaMoney extends Number implements Serializable{
     public double doubleValue() {
         return value.doubleValue();
     }
-    
+
     public GumgaMoney add(GumgaMoney val) {
         return new GumgaMoney(value.add(val.value).setScale(value.scale()));
     }
-    
-    public GumgaMoney subtract(GumgaMoney val){
+
+    public GumgaMoney subtract(GumgaMoney val) {
         return new GumgaMoney(value.subtract(val.value).setScale(value.scale()));
     }
-    
-    public GumgaMoney multiply(GumgaMoney val){
+
+    public GumgaMoney multiply(GumgaMoney val) {
         return new GumgaMoney(value.multiply(val.value).setScale(value.scale()));
     }
-    
-    public GumgaMoney divideBy(GumgaMoney val){
+
+    public GumgaMoney divideBy(GumgaMoney val) {
         return new GumgaMoney(value.divide(val.value).setScale(value.scale()));
     }
-    
-    public GumgaMoney divideBy(GumgaMoney val, RoundingMode roundingMode){
+
+    public GumgaMoney divideBy(GumgaMoney val, RoundingMode roundingMode) {
         return divideBy(val, value.scale(), roundingMode);
     }
-    
-    public GumgaMoney divideBy(GumgaMoney val, int scale, RoundingMode roundingMode){
+
+    public GumgaMoney divideBy(GumgaMoney val, int scale, RoundingMode roundingMode) {
         return new GumgaMoney(value.divide(val.value).setScale(scale, roundingMode));
     }
-    
+
     public GumgaMoney percentageOf(GumgaMoney val) {
-        if (val == null){
+        if (val == null) {
             throw new RuntimeException("Base value can't be null");
         }
         BigDecimal percentage = value.divide(val.getValue()).multiply(HUNDRED).setScale(value.scale());
         return new GumgaMoney(percentage);
     }
-    
-    public GumgaMoney discountPercentage(BigDecimal discountPercentage){
+
+    public GumgaMoney discountPercentage(BigDecimal discountPercentage) {
         return discountPercentage(discountPercentage, RoundingMode.CEILING);
     }
-    
+
     public GumgaMoney discountPercentage(BigDecimal discountPercentage, RoundingMode roundingMode) {
         return discountPercentage(discountPercentage, value.scale(), roundingMode);
     }
-    
+
     public GumgaMoney discountPercentage(BigDecimal discountPercentage, int scale, RoundingMode roundingMode) {
         GumgaMoney discountValue = new GumgaMoney(discountPercentage.divide(HUNDRED).multiply(value).setScale(scale, roundingMode));
         return subtract(discountValue);
     }
-    
-    public boolean isPositive(){
+
+    public boolean isPositive() {
         return value.signum() >= 1;
     }
-    
-    public boolean isNegative(){
+
+    public boolean isNegative() {
         return value.signum() == -1;
     }
 
-    public int compareTo(GumgaMoney other){
+    public int compareTo(GumgaMoney other) {
         return value.compareTo(other.value);
     }
-    
+
     @Override
     public String toString() {
         String val;
         if (value != null) {
             val = value.setScale(2, RoundingMode.UP).toString();
-        }else{
+        } else {
             val = "NAN";
         }
         return val;
@@ -161,7 +157,7 @@ public class GumgaMoney extends Number implements Serializable{
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
-        }  
+        }
         if (getClass() != obj.getClass()) {
             return false;
         }
@@ -171,15 +167,15 @@ public class GumgaMoney extends Number implements Serializable{
         }
         return true;
     }
-    
-    public void setScale(int scale){
-        if (value != null){
+
+    public void setScale(int scale) {
+        if (value != null) {
             value = value.setScale(scale);
         }
     }
-    
-    public void setScale(int scale, RoundingMode roundingMode){
-        if (value != null){
+
+    public void setScale(int scale, RoundingMode roundingMode) {
+        if (value != null) {
             value = value.setScale(scale, roundingMode);
         }
     }

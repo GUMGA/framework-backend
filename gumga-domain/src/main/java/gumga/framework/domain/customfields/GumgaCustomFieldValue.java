@@ -16,6 +16,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
+/**
+ * Armazena o valor de um atributo genérico
+ *
+ * @author munif
+ */
 @Entity
 @SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_FIELD_VALUE")
 //             123456789012345678

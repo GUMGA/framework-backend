@@ -1,13 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.domain.domains;
 
 import java.util.Objects;
 
 /**
+ * Domínio de Endereço da Gumga, muito importante, quando for utiliza-lo,
+ * colocar na entidade os nomes da colunas como no exemplo a seguir:<br>
+ * {@literal @}Columns(columns = {<br> {@literal @}Column(name =
+ * "endereco_zip_code"),<br> {@literal @}Column(name =
+ * "endereco_premisse_type"),<br> {@literal @}Column(name =
+ * "endereco_premisse"),<br> {@literal @}Column(name = "endereco_number"),<br>
+ * {@literal @}Column(name = "endereco_information"),<br>
+ * {@literal @}Column(name = "endereco_neighbourhood"),<br>
+ * {@literal @}Column(name = "endereco_localization"),<br>
+ * {@literal @}Column(name = "endereco_state"),<br> {@literal @}Column(name =
+ * "endereco_country")<br>
+ * })<br>
+ * private GumgaAddress endereco;<br>
  *
  * @author munif
  */

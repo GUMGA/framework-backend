@@ -8,8 +8,13 @@ import java.util.Map;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+/**
+ * Super classe para classe que irão possuir atributos genéricos
+ *
+ * @author munif
+ */
 @MappedSuperclass
-public class GumgaCustomizableModel<ID extends Serializable>  extends GumgaModel<ID> {
+public class GumgaCustomizableModel<ID extends Serializable> extends GumgaModel<ID> {
 
     @Transient
     private final Map<String, GumgaCustomFieldValue> gumgaCustomFields;

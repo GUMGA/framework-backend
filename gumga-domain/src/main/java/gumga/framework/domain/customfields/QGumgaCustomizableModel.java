@@ -8,7 +8,6 @@ import com.mysema.query.types.PathMetadata;
 import javax.annotation.Generated;
 import com.mysema.query.types.Path;
 
-
 /**
  * QGumgaCustomizableModel is a Querydsl query type for GumgaCustomizableModel
  */
@@ -29,18 +28,17 @@ public class QGumgaCustomizableModel extends EntityPathBase<GumgaCustomizableMod
 
     @SuppressWarnings("all")
     public QGumgaCustomizableModel(String variable) {
-        super((Class)GumgaCustomizableModel.class, forVariable(variable));
+        super((Class) GumgaCustomizableModel.class, forVariable(variable));
     }
 
     @SuppressWarnings("all")
     public QGumgaCustomizableModel(Path<? extends GumgaCustomizableModel> path) {
-        super((Class)path.getType(), path.getMetadata());
+        super((Class) path.getType(), path.getMetadata());
     }
 
     @SuppressWarnings("all")
     public QGumgaCustomizableModel(PathMetadata<?> metadata) {
-        super((Class)GumgaCustomizableModel.class, metadata);
+        super((Class) GumgaCustomizableModel.class, metadata);
     }
 
 }
-

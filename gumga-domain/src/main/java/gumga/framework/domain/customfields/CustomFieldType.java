@@ -1,6 +1,7 @@
 package gumga.framework.domain.customfields;
 
 /**
+ * Tipos possíveis para atributos genéricos
  *
  * @author munif
  */

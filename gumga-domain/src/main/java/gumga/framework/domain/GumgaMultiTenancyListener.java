@@ -10,6 +10,8 @@ import gumga.framework.core.GumgaThreadScope;
 import javax.persistence.PrePersist;
 
 /**
+ * Esta classe é utilizada pelo framework para "marcar" as entidades com o
+ * código da organização e proporcional o MultiTenancy
  *
  * @author munif
  */

@@ -18,6 +18,10 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Permite utilizar um QueryObject do framework em com o Hibernate.
+ */
+
 public class HibernateQueryObject {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -30,8 +34,7 @@ public class HibernateQueryObject {
 
         this.queryObject = queryObject;
 
-        this.parsers=new HashMap<>(GumgaQueryParserProvider.defaultMap);
-
+        this.parsers = new HashMap<>(GumgaQueryParserProvider.defaultMap);
 
         if (null == GumgaQueryParserProvider.defaultMap) {
             throw new RuntimeException("GumgaQueryParserProvider.defaultMap must be set in Application configuration");

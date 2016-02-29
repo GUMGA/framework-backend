@@ -19,6 +19,8 @@ import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 
 /**
+ * Representa a transação para auditoria, armazena dados como horário, ip da
+ * requisição e usuário.
  *
  * @author munif
  */

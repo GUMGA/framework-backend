@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.domain.domains.usertypes;
 
 import gumga.framework.domain.domains.GumgaFile;
@@ -19,8 +14,7 @@ import org.hibernate.type.Type;
 import org.hibernate.usertype.CompositeUserType;
 
 /**
- *
- * @author munif
+ * UserType que permite serializar o tipo dentro do Hibernate
  */
 public class GumgaFileUserType implements CompositeUserType {
 

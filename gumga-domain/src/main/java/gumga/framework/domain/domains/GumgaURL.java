@@ -2,6 +2,11 @@ package gumga.framework.domain.domains;
 
 import java.util.Objects;
 
+/**
+ * Representa uma URL genérica
+ *
+ * @author munif
+ */
 public class GumgaURL extends GumgaDomain {
 
     private String value;

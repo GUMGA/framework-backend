@@ -8,7 +8,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * URL do Youtube
+ * Representa uma URL do Youtube
+ *
+ * @author munif
  */
 public interface GumgaYoutubeURL {
 
@@ -18,7 +20,6 @@ public interface GumgaYoutubeURL {
      * @return O identificador do video
      */
     String getVideoId();
-
 
     /**
      * Cria um YoutubeURL de uma String
@@ -34,7 +35,7 @@ public interface GumgaYoutubeURL {
             if (GumgaWebsiteYoutubeURL.accept(url)) {
                 return new GumgaWebsiteYoutubeURL(url);
 
-            } else if (GumgaShortYoutubeURL.accept(url)){
+            } else if (GumgaShortYoutubeURL.accept(url)) {
                 return new GumgaShortYoutubeURL(url);
 
             } else {

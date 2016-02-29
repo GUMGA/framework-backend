@@ -5,6 +5,10 @@ import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaObjectAndRevision;
 import java.util.List;
 
+/**
+ * Service com a operação de view, find, obter a classe e listas as versões
+ * anteriores
+ */
 public interface GumgaReadableServiceable<T> {
 
     public SearchResult<T> pesquisa(QueryObject queryObject);

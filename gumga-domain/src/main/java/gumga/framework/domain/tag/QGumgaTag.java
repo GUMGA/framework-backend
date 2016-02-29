@@ -11,7 +11,6 @@ import com.mysema.query.types.path.PathInits;
 import gumga.framework.domain.tag.GumgaTag;
 import gumga.framework.domain.tag.GumgaTagValue;
 
-
 /**
  * QGumgaTag is a Querydsl query type for GumgaTag
  */
@@ -63,4 +62,3 @@ public class QGumgaTag extends EntityPathBase<GumgaTag> {
     }
 
 }
-

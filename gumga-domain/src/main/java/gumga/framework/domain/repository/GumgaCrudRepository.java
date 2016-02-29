@@ -13,6 +13,11 @@ import java.util.Map;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
+/**
+ * Cria um repositório para CRUD TIPADO
+ *
+ * @author munif
+ */
 @NoRepositoryBean
 public interface GumgaCrudRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, GumgaRepository<T, ID> {
 
@@ -25,7 +30,7 @@ public interface GumgaCrudRepository<T, ID extends Serializable> extends JpaRepo
     List<GumgaObjectAndRevision> listOldVersions(ID id);
 
     <A> SearchResult<A> advancedSearch(String selectQueryWithoutWhere, String countObjt, String ordenationId, QueryObject whereQuery);
-    
+
     Object genericFindOne(Class clazz, Object id);
 
 }

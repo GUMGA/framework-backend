@@ -51,6 +51,7 @@ public interface GumgaValues {
 
     /**
      * Para não logar no banco
+     *
      * @return
      */
     default boolean isLogRequestOnConsole() {
@@ -59,6 +60,7 @@ public interface GumgaValues {
 
     /**
      * Lista de paths de urls que serão ignoradas do log
+     *
      * @return
      */
     default Set<String> getUrlsToNotLog() {

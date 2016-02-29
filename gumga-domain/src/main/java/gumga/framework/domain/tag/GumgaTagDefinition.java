@@ -1,6 +1,3 @@
-/*
- * Gerado automaticamente por GUMGAGenerator em 16/11/2015 16:41:56
- */
 package gumga.framework.domain.tag;
 
 import gumga.framework.domain.GumgaModel;
@@ -9,9 +6,13 @@ import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+/**
+ * Representa a definição de um TAG
+ *
+ * @author munif
+ */
 @Entity
 @SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_TAG_DEF")
-//             123456789012345678
 @Table(name = "gumga_tag_def")
 @GumgaMultitenancy
 public class GumgaTagDefinition extends GumgaModel<Long> {
@@ -54,8 +55,10 @@ public class GumgaTagDefinition extends GumgaModel<Long> {
         }
         attributes.add(new GumgaTagValueDefinition(name));
     }
-    
-    public void addAttributes(String... names){
-        for(String name: names) addAttribute(name);
+
+    public void addAttributes(String... names) {
+        for (String name : names) {
+            addAttribute(name);
+        }
     }
 }

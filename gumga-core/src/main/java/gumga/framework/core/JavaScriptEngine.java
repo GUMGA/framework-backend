@@ -7,8 +7,10 @@ import java.util.logging.Logger;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+
 /**
  * Interpretador Javascript para backend
+ *
  * @author munif
  */
 public class JavaScriptEngine {
@@ -16,7 +18,9 @@ public class JavaScriptEngine {
     private final static ScriptEngineManager engineManager = new ScriptEngineManager();
 
     /**
-     * Avalia o valor do script com o contexto de objetos java passados no map e retora um objeto.
+     * Avalia o valor do script com o contexto de objetos java passados no map e
+     * retora um objeto.
+     *
      * @param script script a ser executado
      * @param objects objetos java a serem inseridos no contexto javascript
      * @return valor resultante
@@ -37,7 +41,9 @@ public class JavaScriptEngine {
     }
 
     /**
-     * Avalia o valor do script com o contexto de objetos java passados no map e retora uma data.
+     * Avalia o valor do script com o contexto de objetos java passados no map e
+     * retora uma data.
+     *
      * @param script script a ser executado
      * @param objects objetos java a serem inseridos no contexto javascript
      * @return valor resultante

@@ -21,7 +21,8 @@ public interface GumgaTemplateEngineService<INPUT, OUTPUT_WRITER, OUTPUT> {
      * concrete implementations. Useful to place the template engine
      * configuration.
      *
-     * @throws TemplateEngineException Exception thrown when something goes wrong while initializing the implementation
+     * @throws TemplateEngineException Exception thrown when something goes
+     * wrong while initializing the implementation
      */
     public void init() throws TemplateEngineException;
 
@@ -45,9 +46,10 @@ public interface GumgaTemplateEngineService<INPUT, OUTPUT_WRITER, OUTPUT> {
      *
      * @param values The values to be merged with the template
      * @param template The template to be parsed
-     * @param out The object responsible to save the output file. It may be
-     * an OutputStream for example.
-     * @throws TemplateEngineException When something goes wrong while parsing the template
+     * @param out The object responsible to save the output file. It may be an
+     * OutputStream for example.
+     * @throws TemplateEngineException When something goes wrong while parsing
+     * the template
      */
     public void parse(INPUT values, String template, OUTPUT_WRITER out) throws TemplateEngineException;
 
@@ -58,7 +60,8 @@ public interface GumgaTemplateEngineService<INPUT, OUTPUT_WRITER, OUTPUT> {
      * @param values The values to be merged with the template
      * @param template The template to be parsed
      * @return The result specified by the OUTPUT generic type
-     * @throws TemplateEngineException When something goes wrong while parsing the template
+     * @throws TemplateEngineException When something goes wrong while parsing
+     * the template
      */
     public OUTPUT parse(INPUT values, String template) throws TemplateEngineException;
 }

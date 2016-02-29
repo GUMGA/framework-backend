@@ -9,6 +9,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
+ * Esta é a anotação que "marca" as entidades como Multitenancy. Apenas as
+ * entidades com esta anotação serão gerenciadas com Multitenancy
  *
  * @author munif
  */

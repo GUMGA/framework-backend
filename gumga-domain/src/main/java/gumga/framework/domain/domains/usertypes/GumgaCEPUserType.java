@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.domain.domains.usertypes;
 
 import gumga.framework.domain.domains.GumgaCEP;
@@ -14,8 +9,7 @@ import org.hibernate.engine.spi.SessionImplementor;
 import java.sql.Types;
 
 /**
- *
- * @author munif
+ * UserType que permite serializar o tipo dentro do Hibernate
  */
 public class GumgaCEPUserType extends MutableUserType {
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.domain.domains.usertypes;
 
 import gumga.framework.domain.domains.GumgaImage;
@@ -19,8 +14,7 @@ import org.hibernate.type.Type;
 import org.hibernate.usertype.CompositeUserType;
 
 /**
- *
- * @author munif
+ * UserType que permite serializar o tipo dentro do Hibernate
  */
 public class GumgaImageUserType implements CompositeUserType {
 
@@ -73,8 +67,7 @@ public class GumgaImageUserType implements CompositeUserType {
         boolean isEqual = false;
         if (o1 == o2) {
             isEqual = true;
-        }
-        else if (null == o1 || null == o2) {
+        } else if (null == o1 || null == o2) {
             isEqual = false;
         } else {
             isEqual = o1.equals(o2);
@@ -130,12 +123,11 @@ public class GumgaImageUserType implements CompositeUserType {
      */
     @Override
     public Object deepCopy(final Object value) throws HibernateException {
-        
-        
-        if (value==null){
+
+        if (value == null) {
             return null;
         }
-        
+
         final GumgaImage recebido = (GumgaImage) value;
         final GumgaImage aRetornar = new GumgaImage(recebido);
         return aRetornar;
@@ -176,7 +168,7 @@ public class GumgaImageUserType implements CompositeUserType {
     public Object replace(final Object original, final Object target,
             final SessionImplementor paramSessionImplementor, final Object owner)
             throws HibernateException {
-        
+
         return this.deepCopy(original);
     }
 }

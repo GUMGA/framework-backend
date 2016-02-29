@@ -25,7 +25,8 @@ public abstract class GumgaAbstractTemplateEngineAdapter implements
      * Checks if the given folder exists. If not it tries to created it.
      *
      * @param _folder The folder to be checked
-     * @throws FileSystemException Throws this exception if something goes wrong with the template folder
+     * @throws FileSystemException Throws this exception if something goes wrong
+     * with the template folder
      */
     public void checkFolder(String _folder) throws FileSystemException {
         if (_folder == null || _folder.isEmpty()) {

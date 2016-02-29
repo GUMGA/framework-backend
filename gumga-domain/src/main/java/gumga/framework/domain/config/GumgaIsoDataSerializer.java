@@ -16,13 +16,14 @@ import org.springframework.stereotype.Component;
 
 /**
  * Quando o formato não é @Temporal(javax.persistence.TemporalType.DATE) e não
- * @Temporal(javax.persistence.TemporalType.TIMESTAMP) o framework envia a data
- * em formato simples, não iso, ocasionando problemas. Assim, foi criado um
- * formatador para estes casos sem impactar nos sistemas que já tratam as datas.
- * Para utilizar a formatação, utilizar como no exemplo:
+ * {@literal @}Temporal(javax.persistence.TemporalType.TIMESTAMP) o framework
+ * envia a data em formato simples, não iso, ocasionando problemas. Assim, foi
+ * criado um formatador para estes casos sem impactar nos sistemas que já tratam
+ * as datas. Para utilizar a formatação, utilizar como no exemplo:<br>
  *
- * @JsonSerialize(using = GumgaIsoDataSerializer.class)
- * @Temporal(javax.persistence.TemporalType.DATE) private Date viewedAt;
+ * {@literal @}JsonSerialize(using = GumgaIsoDataSerializer.class)<br>
+ * {@literal @}Temporal(javax.persistence.TemporalType.DATE) private Date
+ * viewedAt;<br>
  *
  *
  * @author munif

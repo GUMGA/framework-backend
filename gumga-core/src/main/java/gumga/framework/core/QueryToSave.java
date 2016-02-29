@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 /**
  * Representa uma pesquisa em para armazenar em GumgaUserData
+ *
  * @author munif
  */
 public class QueryToSave implements Serializable {

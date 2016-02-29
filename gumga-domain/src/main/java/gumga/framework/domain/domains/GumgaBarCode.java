@@ -8,6 +8,7 @@ package gumga.framework.domain.domains;
 import java.util.Objects;
 
 /**
+ * Representa um código de barras
  *
  * @author munif
  */

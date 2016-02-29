@@ -7,6 +7,7 @@ package gumga.framework.core;
 
 /**
  * Claasse utilizada para troca de senhas em várias camadas do Framework
+ *
  * @author munif
  */
 public class UserAndPassword {
@@ -16,7 +17,7 @@ public class UserAndPassword {
     private String password;
 
     private String newPassword;
-    
+
     public UserAndPassword() {
         this.user = "empty";
         this.password = null;

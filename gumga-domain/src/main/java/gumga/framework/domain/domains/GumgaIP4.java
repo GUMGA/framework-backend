@@ -8,6 +8,7 @@ package gumga.framework.domain.domains;
 import java.util.Objects;
 
 /**
+ * Representa um IP4
  *
  * @author munif
  */

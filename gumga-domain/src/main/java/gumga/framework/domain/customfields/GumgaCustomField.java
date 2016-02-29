@@ -10,6 +10,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
+ * Representa um atributo genérico
  *
  * @author munif
  */

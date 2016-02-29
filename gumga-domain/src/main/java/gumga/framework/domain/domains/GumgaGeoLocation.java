@@ -6,6 +6,7 @@
 package gumga.framework.domain.domains;
 
 /**
+ * Representa uma posição com latitude e longitude
  *
  * @author munif
  */

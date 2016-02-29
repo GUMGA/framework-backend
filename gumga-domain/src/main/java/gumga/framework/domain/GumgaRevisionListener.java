@@ -9,6 +9,7 @@ import gumga.framework.core.GumgaThreadScope;
 import org.hibernate.envers.RevisionListener;
 
 /**
+ * Registra o ouvinte de eventos do Envers para controle de versão do usuário.
  *
  * @author munif
  */

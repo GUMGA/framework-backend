@@ -45,9 +45,9 @@ public class GumgaThreadScope {
      * token da requisição
      */
     public final static ThreadLocal<String> gumgaToken = new ThreadLocal<>();
-    
+
     /**
-     *  id do Software que fez a requisição
+     * id do Software que fez a requisição
      */
     public final static ThreadLocal<String> softwareName = new ThreadLocal<>();
 

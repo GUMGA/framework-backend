@@ -147,7 +147,7 @@ public class QueryObject {
 
     @Override
     public String toString() {
-        return "QueryObject{ phonetic="+phonetic + ", aq=" + aq + ", q=" + q + ", start=" + start + ", pageSize=" + pageSize + ", sortField=" + sortField + ", sortDir=" + sortDir + ", searchFields=" + Arrays.asList(searchFields == null ? Collections.EMPTY_LIST : searchFields) + '}';
+        return "QueryObject{ phonetic=" + phonetic + ", aq=" + aq + ", q=" + q + ", start=" + start + ", pageSize=" + pageSize + ", sortField=" + sortField + ", sortDir=" + sortDir + ", searchFields=" + Arrays.asList(searchFields == null ? Collections.EMPTY_LIST : searchFields) + '}';
     }
 
 }

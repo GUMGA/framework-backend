@@ -12,10 +12,15 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Cria um repositório Tipado para QueryDSL
+ *
+ * @author munif
+ */
 @NoRepositoryBean
 public interface GumgaQueryDSLRepository<T, ID extends Serializable> extends GumgaCrudRepository<T, ID>, QueryDslPredicateExecutor<T> {
-	
-	List<T> findAll(Predicate predicate, OrderSpecifier<?>... orders);
+
+    List<T> findAll(Predicate predicate, OrderSpecifier<?>... orders);
 
     List<T> findAll(Predicate specification);
 

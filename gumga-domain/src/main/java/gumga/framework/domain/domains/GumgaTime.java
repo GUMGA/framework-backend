@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
+ * Representa o tempo com alguns facilitadores
  *
  * @author munif
  */

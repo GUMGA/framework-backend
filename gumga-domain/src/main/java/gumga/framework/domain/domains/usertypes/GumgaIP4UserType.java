@@ -8,6 +8,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import java.sql.Types;
 
+/**
+ * UserType que permite serializar o tipo dentro do Hibernate
+ */
 public class GumgaIP4UserType extends MutableUserType {
 
     @Override

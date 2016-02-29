@@ -8,6 +8,8 @@ package gumga.framework.domain.domains;
 import java.util.Objects;
 
 /**
+ * Representa um String, mas que quando utilizado irá gerar uma caixa de texto
+ * com multilinhas
  *
  * @author munif
  */

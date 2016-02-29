@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 /**
  * Claasse base para qualquer entidade que possui um atributo ID
+ *
  * @author Equipe Gumga
  */
 public interface GumgaIdable<T extends Serializable> {
-	
-	T getId();
+
+    T getId();
 
 }
