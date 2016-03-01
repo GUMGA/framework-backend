@@ -3,9 +3,10 @@
   <groupId>gumga.framework</groupId>
   <artifactId>gumga-backend-all</artifactId>
   <versioning>
+    <release>1.2.5</release>
     <versions>
-      <version>1.2.5-SNAPSHOT</version>
+      <version>1.2.5</version>
     </versions>
-    <lastUpdated>20160229203101</lastUpdated>
+    <lastUpdated>20160301120749</lastUpdated>
   </versioning>
 </metadata>
