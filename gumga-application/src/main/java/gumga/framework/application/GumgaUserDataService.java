@@ -29,4 +29,8 @@ public class GumgaUserDataService extends GumgaService<GumgaUserData, Long> {
         return super.pesquisa(qo);
     }
 
+    public GumgaUserData findByUserLoginAndKey(String userLogin, String key) {
+        return repository.findByUserLoginAndKey(userLogin,key);
+    }
+
 }

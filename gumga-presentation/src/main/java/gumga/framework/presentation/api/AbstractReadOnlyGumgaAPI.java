@@ -1,6 +1,5 @@
 package gumga.framework.presentation.api;
 
-
 import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.application.GumgaUserDataService;
 import gumga.framework.application.tag.GumgaTagDefinitionService;
@@ -28,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 @RestController
 public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<T> {
 
@@ -41,7 +38,6 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
     @Autowired
     protected GumgaTagService gts;
 
-    
     public AbstractReadOnlyGumgaAPI(GumgaReadableServiceable<T> service) {
         this.service = service;
     }
@@ -59,10 +55,15 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
     @RequestMapping(value = "saq", method = RequestMethod.POST)
     public String save(@RequestBody @Valid QueryToSave qts,
             BindingResult result) {
-        GumgaUserData gud = new GumgaUserData();
-        gud.setUserLogin(GumgaThreadScope.login.get());
-        gud.setKey("aq;" + qts.getPage()+";"+qts.getName());
-        gud.setDescription(qts.getName());
+        String key = "aq;" + qts.getPage() + ";" + qts.getName();
+        String userLogin = GumgaThreadScope.login.get();
+        GumgaUserData gud = guds.findByUserLoginAndKey(userLogin, key);
+        if (gud == null) {
+            gud = new GumgaUserData();
+            gud.setUserLogin(userLogin);
+            gud.setKey(key);
+            gud.setDescription(qts.getName());
+        }
         gud.setValue(qts.getData());
         guds.save(gud);
         return "OK";
@@ -92,20 +93,20 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
         return ((GumgaUserDataService) guds).searchByKeyPrefix(prefix);
 
     }
-    
+
     @Transactional
-    @RequestMapping(method = RequestMethod.GET,value = "tags")
+    @RequestMapping(method = RequestMethod.GET, value = "tags")
     public SearchResult<GumgaTagDefinition> listAllTags(QueryObject query) {
         SearchResult<GumgaTagDefinition> pesquisa = gtds.pesquisa(query);
         return new SearchResult<>(query, pesquisa.getCount(), pesquisa.getValues());
     }
-    
-    @Transactional
-    @RequestMapping(method = RequestMethod.GET,value = "tags/{objectId}")
-    public List<GumgaTag> listTagsOfEspecificObject( @PathVariable("objectId") Long objectId){
 
-        List<GumgaTag> tags = gts.findByObjectTypeAndObjectId(clazz().getCanonicalName()  , objectId);
-        for (GumgaTag tag:tags){
+    @Transactional
+    @RequestMapping(method = RequestMethod.GET, value = "tags/{objectId}")
+    public List<GumgaTag> listTagsOfEspecificObject(@PathVariable("objectId") Long objectId) {
+
+        List<GumgaTag> tags = gts.findByObjectTypeAndObjectId(clazz().getCanonicalName(), objectId);
+        for (GumgaTag tag : tags) {
             Hibernate.initialize(tag.getValues());
         }
         return tags;
