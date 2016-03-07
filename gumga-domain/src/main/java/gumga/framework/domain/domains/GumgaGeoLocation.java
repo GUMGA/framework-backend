@@ -8,6 +8,9 @@ package gumga.framework.domain.domains;
 /**
  * Representa uma posição com latitude e longitude
  *
+ * Como é um domínio composto, deve possuir Columns(columns = { Column(name =
+ * "location_latitude"), Column(name = "location_longitude") })
+ *
  * @author munif
  */
 public class GumgaGeoLocation extends GumgaDomain {

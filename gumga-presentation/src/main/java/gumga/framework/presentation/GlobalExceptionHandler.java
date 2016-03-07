@@ -61,20 +61,29 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
         gumgaLoggerService.logToFile(ex.toString(), 4);
         logger.info("InvalidEntity", ex);
         return handleExceptionInternal(ex, error, headers, HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public @ResponseBody
-    ErrorResource illegalArgument(HttpServletRequest req, Exception ex) {
+    ErrorResource unprocessableEntity(HttpServletRequest req, Exception ex) {
         gumgaLoggerService.logToFile(ex.toString(), 4);
-        logger.warn("IllegalArgument", ex);
-        return new ErrorResource("IllegalArgument", "Invalid request", ex.getMessage());
+        logger.warn("Unprocessable Entity", ex);
+        return new ErrorResource("Unprocessable Entity", "Unprocessable Entity", ex.getMessage());
     }
+
+
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public @ResponseBody
+//    ErrorResource illegalArgument(HttpServletRequest req, Exception ex) {
+//        gumgaLoggerService.logToFile(ex.toString(), 4);
+//        logger.warn("IllegalArgument", ex);
+//        return new ErrorResource("IllegalArgument", "Invalid request", ex.getMessage());
+//    }
 
     @ExceptionHandler({ConstraintViolationException.class, DataIntegrityViolationException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
