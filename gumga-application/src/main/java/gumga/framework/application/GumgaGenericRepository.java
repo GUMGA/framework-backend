@@ -98,7 +98,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         //TODO ANYMARKET PODER CONSULTAR INTERNAMENTE TODOS OS REGISTROS (ATRAVESSANDO)
 //        if (hasMultitenancy() && (gumgaValues.allowAnonymSearchForAll()) && GumgaThreadScope.organizationCode.get() != null) {
         if (hasMultitenancy() && GumgaThreadScope.organizationCode.get() != null) {
-            String oiValue = (GumgaThreadScope.organizationCode.get() == null) ? "" : GumgaThreadScope.organizationCode.get();
+            String oiValue = (GumgaThreadScope.organizationCode.get() == null) ? "" : getMultitenancyPattern();
             Criterion multitenancyCriterion = or(like("oi", oiValue, MatchMode.START), Restrictions.isNull("oi"));
             pesquisa.add(multitenancyCriterion);
         }
@@ -114,6 +114,27 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     public boolean hasMultitenancy() {
         return entityInformation.getJavaType().isAnnotationPresent(GumgaMultitenancy.class);
+    }
+
+    public String getMultitenancyPattern() {
+        GumgaMultitenancy tenacy = entityInformation.getJavaType().getAnnotation(GumgaMultitenancy.class);
+        GumgaMultitenancyPolicy policy = tenacy.policy();
+        String toReturn = GumgaThreadScope.organizationCode.get();
+        if (toReturn==null){
+            toReturn="";
+        }
+        switch (policy) {
+            case ORGANIZATIONAL:
+                int firstPointPosition = toReturn.indexOf('.');
+                toReturn = toReturn.substring(0, firstPointPosition + 1);
+                break;
+            case TOP_DOWN:
+            default:
+            //Usa o OI como está no threadscope
+
+        }
+        System.out.println("----------------------> MultitenancyPattern "+toReturn);
+        return toReturn;
     }
 
     private void createAliasIfNecessary(Pesquisa<T> pesquisa, String field) {
@@ -187,7 +208,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
         String modelo = "from %s obj WHERE %s";
         if (hasMultitenancy()) {
-            modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + GumgaThreadScope.organizationCode.get() + "%%')  AND (%s) ";
+            modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + getMultitenancyPattern() + "%%')  AND (%s) ";
         }
 
         String hqlConsulta = "";
@@ -279,7 +300,6 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     @Override
     public <S extends T> S save(S entity) {
-        //setOi(entity);
         return super.save(entity);
     }
 
@@ -461,7 +481,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         GumgaModel object = (GumgaModel) o;
         if (hasMultitenancy()) {
             if (object.getOi() != null) {
-                if (GumgaThreadScope.organizationCode.get() == null || !object.getOi().getValue().startsWith(GumgaThreadScope.organizationCode.get())) {
+                if (GumgaThreadScope.organizationCode.get() == null || !object.getOi().getValue().startsWith(getMultitenancyPattern())) {
                     throw new EntityNotFoundException("cannot find object of " + entityInformation.getJavaType() + " with id: " + object.getId() + " in your organization: " + GumgaThreadScope.organizationCode.get());
                 }
             }

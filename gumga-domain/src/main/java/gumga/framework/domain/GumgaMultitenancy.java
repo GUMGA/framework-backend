@@ -16,5 +16,8 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface GumgaMultitenancy {
+    
+    public GumgaMultitenancyPolicy policy() default GumgaMultitenancyPolicy.TOP_DOWN;
+    
 
 }

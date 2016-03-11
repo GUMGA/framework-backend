@@ -1,7 +1,6 @@
 package gumga.framework.domain.domains;
 
 import com.google.common.base.Objects;
-import gumga.framework.domain.GumgaMultitenancy;
 
 /**
  * Representa o código organizacional, fundamental para o Multitenancy.
