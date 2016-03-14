@@ -3,6 +3,8 @@ package gumga.framework.core.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe utilitária para facilitar reflexão.
@@ -104,6 +106,21 @@ public class ReflectionUtils {
     public static Class<?> inferGenericType(Class<?> clazz, int index) {
         Type superClass = clazz.getGenericSuperclass();
         return (Class<?>) ((ParameterizedType) superClass).getActualTypeArguments()[index];
+    }
+
+    /**
+     * Atribui um valor a o atributo ID por reflexão
+     * @param object
+     * @param id 
+     */
+    public static void setId(Object object, Object id) {
+        try {
+            Field field = getField(object.getClass(), "id");
+            field.setAccessible(true);
+            field.set(object, id);
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
+            Logger.getLogger(ReflectionUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
