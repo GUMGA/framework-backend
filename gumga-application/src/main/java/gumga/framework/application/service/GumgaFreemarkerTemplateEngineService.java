@@ -89,8 +89,7 @@ public class GumgaFreemarkerTemplateEngineService extends GumgaAbstractTemplateE
                 Path resourcePath = Paths.get(resourceUrl.toURI());
                 for (File file : resourcePath.toFile().listFiles()) {
                     File destination = new File(this.templateFolder + File.separator + file.getName());
-                    destination.createNewFile();
-                    if (!java.nio.file.Files.isSameFile(file.toPath(), destination.toPath())) {
+                    if (!destination.exists()) {
                         Files.copy(file, destination);
                     }
                 }
@@ -101,8 +100,8 @@ public class GumgaFreemarkerTemplateEngineService extends GumgaAbstractTemplateE
             } catch (IOException ex) {
                 throw new TemplateEngineException("An error occurred while initializating the template engine", ex);
             } catch (URISyntaxException e) {
-            	throw new TemplateEngineException("An error occurred while initializating the template engine", e);
-			}
+                throw new TemplateEngineException("An error occurred while initializating the template engine", e);
+            }
         }
     }
 }

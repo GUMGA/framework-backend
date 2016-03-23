@@ -6,6 +6,7 @@
 package gumga.framework.security;
 
 import com.wordnik.swagger.annotations.ApiOperation;
+import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.core.UserAndPassword;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +103,15 @@ class GumgaSecurityProxy {
     @ApiOperation(value = "lostPassword", notes = "Permite recuperar a senha, enviando um e-mail para o login informado.")
     @RequestMapping(method = RequestMethod.GET, value = "/lostpassword/{login:.+}")
     public Map lostPassword(@PathVariable String login) {
-        String url = gumgaValues.getGumgaSecurityUrl() + "/token/lostpassword/" + login+"/";
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/lostpassword/" + login + "/";
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+
+    @ApiOperation(value = "lostSoftwarePassword", notes = "Permite recuperar a senha, enviando um e-mail para o login informado.")
+    @RequestMapping(method = RequestMethod.GET, value = "/lostsoftwarepassword/{software}/{login:.+}")
+    public Map lostSoftwarePassword(@PathVariable String software,@PathVariable String login) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/lostsoftwarepassword/" + software + "/"+login + "/";
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
     }
