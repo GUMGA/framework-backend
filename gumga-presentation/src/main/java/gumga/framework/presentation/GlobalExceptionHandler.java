@@ -38,7 +38,7 @@ import org.springframework.web.util.WebUtils;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
+    
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Autowired
@@ -75,7 +75,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ErrorResource("Unprocessable Entity", "Unprocessable Entity", ex.getMessage());
     }
 
-
 //    @ExceptionHandler(IllegalArgumentException.class)
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
 //    public @ResponseBody
@@ -84,7 +83,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //        logger.warn("IllegalArgument", ex);
 //        return new ErrorResource("IllegalArgument", "Invalid request", ex.getMessage());
 //    }
-
+    
+    
     @ExceptionHandler({ConstraintViolationException.class, DataIntegrityViolationException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
     public @ResponseBody
@@ -191,6 +191,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, WebRequest.SCOPE_REQUEST);
         }
+        System.out.println("---------------------____>" + ex);
         return new ResponseEntity<Object>(new ErrorResource("BAD Request", ex.getClass().getSimpleName(), ex.getMessage()), headers, status);
     }
 
