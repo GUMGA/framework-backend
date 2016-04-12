@@ -13,11 +13,13 @@ import gumga.framework.validation.validator.string.NotNullOrEmptyValidator;
 
 import java.util.Date;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 
 public class GumgaValidatorTest {
 
@@ -144,5 +146,20 @@ public class GumgaValidatorTest {
 				.check(NAME_FIELD, "", notNullOrEmpty()).check();
 
 	}
+	
+	@Test
+	public void mustShowAMessageOfError() {	
+	  try {
+	    GumgaValidator
+	      .get()
+	      .check(NAME_FIELD, "", "The name field can't be equals empty", notNullOrEmpty())
+	      .check();
+	    Assert.fail();
+	  } catch(InvalidEntityException e) {		
+	    FieldError error = e.getErrors().getFieldError(NAME_FIELD);			
+	    assertEquals(NAME_FIELD, error.getField()); 
+	    assertEquals("The name field can't be equals empty", error.getDefaultMessage());
+	  }
+	}	
 
 }
