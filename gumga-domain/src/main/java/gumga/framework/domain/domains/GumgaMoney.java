@@ -135,15 +135,22 @@ public class GumgaMoney extends Number implements Serializable {
         return value.compareTo(other.value);
     }
 
+//    @Override
+//    public String toString() {
+
+//        return "GumgaMoney{value: "+value+"}";
+//    }
+
+
     @Override
     public String toString() {
         String val;
-        if (value != null) {
-            val = value.setScale(2, RoundingMode.UP).toString();
+        if (this.value != null) {
+            val = this.value.setScale(2, RoundingMode.UP).toString();
         } else {
             val = "NAN";
         }
-        return val;
+        return "{" + "\"value\":" + val + '}';
     }
 
     @Override
