@@ -5,10 +5,13 @@
  */
 package gumga.framework.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gumga.framework.application.GumgaLogService;
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.domain.GumgaLog;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -23,13 +26,15 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * @author munif
  */
 public class GumgaRequestFilter extends HandlerInterceptorAdapter {
-    
-    private static final Logger log=LoggerFactory.getLogger(HandlerInterceptorAdapter.class);
-    private static final Logger logGumga =LoggerFactory.getLogger(GumgaRequestFilter.class);
+
+    private static final Logger log = LoggerFactory.getLogger(HandlerInterceptorAdapter.class);
+    private static final Logger logGumga = LoggerFactory.getLogger(GumgaRequestFilter.class);
 
     private final String softwareId;
 
     private final RestTemplate restTemplate;
+
+    private ObjectMapper mapper;
 
     @Autowired
     private GumgaLogService gls;
@@ -55,11 +60,13 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     public GumgaRequestFilter() {
         softwareId = "SomeSoftware";
         restTemplate = new RestTemplate();
+        mapper = new ObjectMapper();
     }
 
     public GumgaRequestFilter(String si) {
         softwareId = si;
         restTemplate = new RestTemplate();
+        mapper = new ObjectMapper();
     }
 
     @Override
@@ -68,6 +75,8 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         String token = "not initialized";
         String errorMessage = "Error";
         String errorResponse = GumgaSecurityCode.SECURITY_INTERNAL_ERROR.toString();
+        AuthorizatonResponse ar = new AuthorizatonResponse();
+        String operationKey = "NOOP";
         try {
             token = request.getHeader("gumgaToken");
             if (token == null) {
@@ -78,7 +87,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             }
             String endPoint = request.getRequestURL().toString();
             String method = request.getMethod();
-            String operationKey = "NOOP";
+
             HandlerMethod hm = (HandlerMethod) o;
             GumgaOperationKey gumgaOperationKeyMethodAnnotation = hm.getMethodAnnotation(GumgaOperationKey.class);
             if (gumgaOperationKeyMethodAnnotation != null) {
@@ -100,7 +109,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
             String url = gumgaValues.getGumgaSecurityUrl() + "/token/authorize/" + softwareId + "/" + token + "/" + request.getRemoteAddr() + "/" + operationKey + "/";
 
-            AuthorizatonResponse ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
+            ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(request.getRemoteAddr());
             GumgaThreadScope.organization.set(ar.getOrganization());
@@ -120,22 +129,27 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         }
         GumgaSecurityCode gsc = GumgaSecurityCode.valueOf(errorResponse);
         response.setStatus(gsc.httpStatus.value());
-        response.getOutputStream().write(("Error:" + errorMessage).getBytes());
+        Map<String, Object> resposta = new HashMap<>();
+        resposta.put("response", ar.getResponse());
+        resposta.put("operation", operationKey);
+        mapper.writeValue(response.getOutputStream(), resposta);
+
+        //response.getOutputStream().write(("Error:" + errorMessage).getBytes());
         return false;
     }
 
     public void saveLog(AuthorizatonResponse ar, HttpServletRequest request, String operationKey, String endPoint, String method, boolean allowed, String token) {
         if (gumgaValues.isLogActive()) {
             GumgaLog gl = new GumgaLog(ar.getLogin(), request.getRemoteAddr(), ar.getOrganizationCode(),
-                ar.getOrganization(), softwareId, operationKey, endPoint, method, allowed);
+                    ar.getOrganization(), softwareId, operationKey, endPoint, method, allowed);
             gls.save(gl);
         }
-        if(gumgaValues.isLogRequestOnConsole()) {
+        if (gumgaValues.isLogRequestOnConsole()) {
             String contextRoot = request.getContextPath();
             String pathInfo = request.getRequestURI().substring(request.getRequestURI().indexOf(contextRoot));
             if (!gumgaValues.getUrlsToNotLog().contains(pathInfo)) {
                 logGumga.info(String.format("Request anymarket from[%s] - login[%s] [%s][%s] [%s]- software[%s][%s] - destino[%s - %s - %s]", request.getRemoteAddr(),
-                    ar.getLogin(), ar.getOrganizationCode(), ar.getOrganization(), token, softwareId, operationKey, method, pathInfo, allowed));
+                        ar.getLogin(), ar.getOrganizationCode(), ar.getOrganization(), token, softwareId, operationKey, method, pathInfo, allowed));
             }
         }
     }

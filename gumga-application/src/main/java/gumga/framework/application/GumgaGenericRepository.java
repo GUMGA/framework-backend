@@ -133,7 +133,6 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
             //Usa o OI como está no threadscope
 
         }
-        System.out.println("----------------------> MultitenancyPattern "+toReturn);
         return toReturn;
     }
 
