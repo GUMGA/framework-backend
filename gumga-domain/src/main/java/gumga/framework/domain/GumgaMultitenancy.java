@@ -19,5 +19,7 @@ public @interface GumgaMultitenancy {
     
     public GumgaMultitenancyPolicy policy() default GumgaMultitenancyPolicy.TOP_DOWN;
     
+    public boolean allowPublics() default true;
+    
 
 }

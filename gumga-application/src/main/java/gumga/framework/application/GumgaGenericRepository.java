@@ -95,11 +95,14 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(entityInformation.getJavaType());
         Pesquisa<T> pesquisa = search().add(or(fieldsCriterions));
 
-        //TODO ANYMARKET PODER CONSULTAR INTERNAMENTE TODOS OS REGISTROS (ATRAVESSANDO)
-//        if (hasMultitenancy() && (gumgaValues.allowAnonymSearchForAll()) && GumgaThreadScope.organizationCode.get() != null) {
         if (hasMultitenancy() && GumgaThreadScope.organizationCode.get() != null) {
-            String oiValue = (GumgaThreadScope.organizationCode.get() == null) ? "" : getMultitenancyPattern();
-            Criterion multitenancyCriterion = or(like("oi", oiValue, MatchMode.START), Restrictions.isNull("oi"));
+            String oiValue = (GumgaThreadScope.organizationCode.get() == null) ? "" : GumgaThreadScope.organizationCode.get();
+            Criterion multitenancyCriterion;
+            if (getDomainClass().getAnnotation(GumgaMultitenancy.class).allowPublics()) {
+                multitenancyCriterion = or(like("oi", oiValue, MatchMode.START), Restrictions.isNull("oi"));
+            } else {
+                multitenancyCriterion = or(like("oi", oiValue, MatchMode.START));
+            }
             pesquisa.add(multitenancyCriterion);
         }
 
@@ -120,8 +123,8 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         GumgaMultitenancy tenacy = entityInformation.getJavaType().getAnnotation(GumgaMultitenancy.class);
         GumgaMultitenancyPolicy policy = tenacy.policy();
         String toReturn = GumgaThreadScope.organizationCode.get();
-        if (toReturn==null){
-            toReturn="";
+        if (toReturn == null) {
+            toReturn = "";
         }
         switch (policy) {
             case ORGANIZATIONAL:
@@ -207,7 +210,12 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
         String modelo = "from %s obj WHERE %s";
         if (hasMultitenancy()) {
-            modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + getMultitenancyPattern() + "%%')  AND (%s) ";
+            if (getDomainClass().getAnnotation(GumgaMultitenancy.class).allowPublics()) {
+                modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + GumgaThreadScope.organizationCode.get() + "%%')  AND (%s) ";
+            }
+            else{
+                modelo = "from %s obj WHERE (obj.oi like '" + GumgaThreadScope.organizationCode.get() + "%%')  AND (%s) ";
+            }
         }
 
         String hqlConsulta = "";

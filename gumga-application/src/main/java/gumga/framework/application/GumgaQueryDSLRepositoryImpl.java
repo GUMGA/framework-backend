@@ -8,6 +8,7 @@ import com.mysema.query.types.path.ComparablePath;
 import com.mysema.query.types.path.PathBuilder;
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.SearchResult;
+import gumga.framework.domain.GumgaMultitenancy;
 import gumga.framework.domain.domains.GumgaOi;
 import gumga.framework.domain.repository.GumgaQueryDSLRepository;
 import gumga.framework.domain.repository.ISpecification;
@@ -142,10 +143,14 @@ public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends Gum
     }
 
     private BooleanExpression getOiExpression() {
+        GumgaMultitenancy annotation = getDomainClass().getAnnotation(GumgaMultitenancy.class);
         String result = GumgaThreadScope.organizationCode.get();
         result = Strings.isNullOrEmpty(result) ? "" : result;
         ComparablePath<GumgaOi> oi = new ComparablePath<>(GumgaOi.class, PathMetadataFactory.forProperty(this.path, "oi"));
-        return oi.stringValue().startsWith(result).or(oi.isNull());
+        if (annotation.allowPublics()) {
+            return oi.stringValue().startsWith(result).or(oi.isNull());
+        }
+        return oi.stringValue().startsWith(result);
     }
 
 }
