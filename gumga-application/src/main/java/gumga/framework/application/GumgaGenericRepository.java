@@ -57,13 +57,15 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     @Override
     public SearchResult<T> search(QueryObject query) {
+        
+        System.out.println("------------------>Search "+query);
 
         if (query.isAdvanced()) {
             return advancedSearch(query);
         }
 
         Long count = count(query);
-        List<T> data = getOrdered(query);
+        List<T> data = query.isCountOnly() ? Collections.EMPTY_LIST : getOrdered(query);
 
         return new SearchResult<T>(query, count, data);
     }
@@ -212,8 +214,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (hasMultitenancy()) {
             if (getDomainClass().getAnnotation(GumgaMultitenancy.class).allowPublics()) {
                 modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + GumgaThreadScope.organizationCode.get() + "%%')  AND (%s) ";
-            }
-            else{
+            } else {
                 modelo = "from %s obj WHERE (obj.oi like '" + GumgaThreadScope.organizationCode.get() + "%%')  AND (%s) ";
             }
         }
@@ -230,7 +231,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         Long total = (Long) qConta.getSingleResult();
         qConsulta.setMaxResults(query.getPageSize());
         qConsulta.setFirstResult(query.getStart());
-        List resultList = qConsulta.getResultList();
+        List resultList = query.isCountOnly() ? Collections.emptyList() : qConsulta.getResultList();
         return new SearchResult<T>(query, total, resultList);
     }
 

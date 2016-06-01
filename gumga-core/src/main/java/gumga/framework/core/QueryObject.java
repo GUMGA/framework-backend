@@ -44,12 +44,25 @@ public class QueryObject {
     /**
      * Atributos para pesquisa simples
      */
-    private String[] searchFields;
+        private String[] searchFields;
 
     /**
      * Indica pesquisa fonética ou não
      */
     private boolean phonetic = false;
+
+    /**
+     * Apenas conta, sem trazer os resultados
+     */
+    private boolean countOnly = false;
+
+    public boolean isCountOnly() {
+        return countOnly;
+    }
+
+    public void setCountOnly(boolean countOnly) {
+        this.countOnly = countOnly;
+    }
 
     public boolean isPhonetic() {
         return phonetic;
