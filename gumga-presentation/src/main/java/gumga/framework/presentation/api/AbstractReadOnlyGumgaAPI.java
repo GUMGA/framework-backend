@@ -1,6 +1,7 @@
 package gumga.framework.presentation.api;
 
 import com.wordnik.swagger.annotations.ApiOperation;
+import gumga.framework.annotations.GumgaSwagger;
 import gumga.framework.application.GumgaUserDataService;
 import gumga.framework.application.tag.GumgaTagDefinitionService;
 import gumga.framework.application.tag.GumgaTagService;
@@ -42,6 +43,7 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
         this.service = service;
     }
 
+    @GumgaSwagger
     @Transactional
     @ApiOperation(value = "search", notes = "Faz uma pesquisa pela query informada através do objeto QueryObjet, os atributos são aq, q, start, pageSize, sortField, sortDir e searchFields.")
     @RequestMapping(method = RequestMethod.GET)
@@ -69,6 +71,7 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
         return "OK";
     }
 
+    @GumgaSwagger
     @Transactional
     @ApiOperation(value = "load", notes = "Carrega entidade pelo id informado.")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

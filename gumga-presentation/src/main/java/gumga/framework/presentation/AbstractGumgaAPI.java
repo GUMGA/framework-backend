@@ -1,6 +1,7 @@
 package gumga.framework.presentation;
 
 import com.wordnik.swagger.annotations.ApiOperation;
+import gumga.framework.annotations.GumgaSwagger;
 import gumga.framework.domain.GumgaServiceable;
 import gumga.framework.presentation.api.AbstractNoDeleteGumgaAPI;
 
@@ -24,6 +25,7 @@ public abstract class AbstractGumgaAPI<T> extends AbstractNoDeleteGumgaAPI<T> {
         this.service = service;
     }
 
+    @GumgaSwagger
     @Transactional
     @ResponseStatus(value = HttpStatus.OK)
     @ApiOperation(value = "delete", notes = "Deleta objeto com o id correspondente.")
