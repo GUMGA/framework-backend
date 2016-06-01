@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -130,6 +131,15 @@ class GumgaSecurityProxy {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/searchticket/" + code;
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
+    }
+
+    @ApiOperation(value = "getAllOperations", notes = "Retorna as operações que o usuário está autorizado a executar na instância corrente.")
+    @RequestMapping(value = "/operations/{software}/{token:.+}", method = RequestMethod.GET)
+    public List<Map> getAllOperations(@PathVariable String software, @PathVariable String token) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/operations/" + software + "/" + token + "/";
+        System.out.println("operations url --------> "+url);
+        Map[] response = restTemplate.getForObject(url, Map[].class);
+        return Arrays.asList(response);
     }
 
 }
