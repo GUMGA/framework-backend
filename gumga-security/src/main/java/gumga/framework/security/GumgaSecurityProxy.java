@@ -94,9 +94,9 @@ class GumgaSecurityProxy {
 
     @Transactional
     @ApiOperation(value = "organizations", notes = "Lista as operações associadas ao software e token informados.")
-    @RequestMapping(value = "/operations/{software}/{token}", method = RequestMethod.GET)
+    @RequestMapping(value = "/operations/{software}/{token:.+}", method = RequestMethod.GET)
     public Set operations(@PathVariable String software, @PathVariable String token) {
-        String url = gumgaValues.getGumgaSecurityUrl() + "/token/operations/" + software + "/" + token;
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/operations/" + software + "/" + token + "/";
         Set resposta = restTemplate.getForObject(url, Set.class);
         return resposta;
     }
@@ -131,15 +131,6 @@ class GumgaSecurityProxy {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/searchticket/" + code;
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
-    }
-
-    @ApiOperation(value = "getAllOperations", notes = "Retorna as operações que o usuário está autorizado a executar na instância corrente.")
-    @RequestMapping(value = "/operations/{software}/{token:.+}", method = RequestMethod.GET)
-    public List<Map> getAllOperations(@PathVariable String software, @PathVariable String token) {
-        String url = gumgaValues.getGumgaSecurityUrl() + "/token/operations/" + software + "/" + token + "/";
-        System.out.println("operations url --------> "+url);
-        Map[] response = restTemplate.getForObject(url, Map[].class);
-        return Arrays.asList(response);
     }
 
 }
