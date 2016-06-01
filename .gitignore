@@ -6,5 +6,6 @@
 .metadata/
 Servers/
 *.iml
-.idea/*
+.idea/**
+.idea
 /target/
