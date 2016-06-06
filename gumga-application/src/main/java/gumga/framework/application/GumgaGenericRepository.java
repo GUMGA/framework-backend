@@ -57,9 +57,6 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     @Override
     public SearchResult<T> search(QueryObject query) {
-        
-        System.out.println("------------------>Search "+query);
-
         if (query.isAdvanced()) {
             return advancedSearch(query);
         }

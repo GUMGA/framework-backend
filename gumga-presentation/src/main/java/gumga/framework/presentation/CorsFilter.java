@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author munif
  */
-@WebFilter(filterName = "CorsFilter", urlPatterns = {"/*"})
+@WebFilter(filterName = "CorsFilter", urlPatterns = {"/*"},asyncSupported = true)
 public class CorsFilter implements Filter {
 
     @Override

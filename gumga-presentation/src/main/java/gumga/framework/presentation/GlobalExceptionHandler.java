@@ -191,7 +191,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, WebRequest.SCOPE_REQUEST);
         }
-        System.out.println("---------------------____>" + ex);
         return new ResponseEntity<Object>(new ErrorResource("BAD Request", ex.getClass().getSimpleName(), ex.getMessage()), headers, status);
     }
 

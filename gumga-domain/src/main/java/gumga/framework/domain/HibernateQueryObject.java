@@ -39,7 +39,7 @@ public class HibernateQueryObject {
         if (null == GumgaQueryParserProvider.defaultMap) {
             throw new RuntimeException("GumgaQueryParserProvider.defaultMap must be set in Application configuration");
         }
-        System.out.println("-------------PHONETIC->"+queryObject.isPhonetic());
+        
 
         if (!queryObject.isPhonetic()) {
             this.parsers.put(String.class, GumgaQueryParserProvider.STRING_CRITERION_PARSER_WITHOUT_TRANSLATE);
