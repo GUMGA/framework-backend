@@ -33,4 +33,6 @@ public interface GumgaCrudRepository<T, ID extends Serializable> extends JpaRepo
 
     Object genericFindOne(Class clazz, Object id);
 
+    SearchResult<T> findAllWithTenancy();
+
 }

@@ -506,4 +506,10 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return msg;
     }
 
+    public SearchResult<T> findAllWithTenancy() {
+        QueryObject qo = new QueryObject();
+        qo.setPageSize(Integer.MAX_VALUE - 1);
+        return search(qo);
+    }
+    
 }
