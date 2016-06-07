@@ -75,7 +75,7 @@ public interface CSVGeneratorAPI {
         InputStreamReader isr = new InputStreamReader(csv.getInputStream());
         BufferedReader bf = new BufferedReader(isr);
         String linha;
-        String atributos[] = bf.readLine().split(CSV_SEPARATOR);
+        String[] atributos = bf.readLine().split(CSV_SEPARATOR);
         numeroLinha++;
         Field idField = getIdField(clazz);
         Map<String, String> atributoValor = new HashMap<>();
@@ -95,7 +95,7 @@ public interface CSVGeneratorAPI {
                 continue;
             }
             try {
-                String valores[] = linha.split(CSV_SEPARATOR);
+                String[] valores = linha.split(CSV_SEPARATOR);
                 for (int i = 0; i < valores.length; i++) {
                     atributoValor.put(atributos[i], valores[i]);
                 }
@@ -158,7 +158,7 @@ public interface CSVGeneratorAPI {
         InputStreamReader isr = new InputStreamReader(csv.getInputStream());
         BufferedReader bf = new BufferedReader(isr);
         String linha;
-        String atributos[] = bf.readLine().split(CSV_SEPARATOR);
+        String[] atributos = bf.readLine().split(CSV_SEPARATOR);
         numeroLinha++;
         Field idField = getIdField(clazz);
         Map<String, String> atributoValor = new HashMap<>();
@@ -178,7 +178,7 @@ public interface CSVGeneratorAPI {
                 continue;
             }
             try {
-                String valores[] = linha.split(CSV_SEPARATOR);
+                String[] valores = linha.split(CSV_SEPARATOR);
                 for (int i = 0; i < valores.length; i++) {
                     atributoValor.put(atributos[i], valores[i]);
                 }
