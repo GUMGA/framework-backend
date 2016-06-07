@@ -24,7 +24,7 @@ public abstract class GumgaNoDeleteGateway<A extends GumgaIdable<?>, DTO> implem
 	@Override
 	public SearchResult<DTO> pesquisa(QueryObject query) {
 		SearchResult<A> pesquisa = delegate.pesquisa(query);
-		return new SearchResult<DTO>(query, pesquisa.getCount(), translator.from((List<A>) pesquisa.getValues()));
+		return new SearchResult<>(query, pesquisa.getCount(), translator.from((List<A>) pesquisa.getValues()));
 	}
 
 	@Override

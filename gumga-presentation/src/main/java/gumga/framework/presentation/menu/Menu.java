@@ -43,7 +43,7 @@ public class Menu {
 	}
 	
 	public List<MenuComponent> flat() {
-		List<MenuComponent> flatted = new LinkedList<MenuComponent>();
+		List<MenuComponent> flatted = new LinkedList<>();
 		
 		for (MenuComponent item : menu) 
 			flatted.addAll(item.flat());
