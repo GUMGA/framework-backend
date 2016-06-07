@@ -30,7 +30,7 @@ public class GumgaWebsiteYoutubeURL implements GumgaYoutubeURL {
         try {
             String[] queryParts = url.getQuery().split("&");
             for (String param : queryParts) {
-                String pair[] = param.split("=");
+                String[] pair = param.split("=");
                 String key = URLDecoder.decode(pair[0], "UTF-8");
                 if (key.equals("v")) {
                     return Optional.of(URLDecoder.decode(pair[1], "UTF-8"));
