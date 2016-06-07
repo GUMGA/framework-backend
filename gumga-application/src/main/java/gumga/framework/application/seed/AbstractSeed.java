@@ -26,7 +26,7 @@ public abstract class AbstractSeed<T extends GumgaIdable<ID>, ID extends Seriali
 		File file = new File(url.getFile());
 		
 		BufferedReader source = new BufferedReader(new FileReader(file));
-		String line = null;
+		String line;
 		int count = 0;
 
 		while ((line = source.readLine()) != null) {

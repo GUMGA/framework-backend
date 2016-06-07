@@ -64,7 +64,7 @@ public class GumgaImageUserType implements CompositeUserType {
 
     @Override
     public boolean equals(final Object o1, final Object o2) throws HibernateException {
-        boolean isEqual = false;
+        boolean isEqual;
         if (o1 == o2) {
             isEqual = true;
         } else if (null == o1 || null == o2) {

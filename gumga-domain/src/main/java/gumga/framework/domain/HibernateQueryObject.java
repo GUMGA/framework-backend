@@ -76,7 +76,7 @@ public class HibernateQueryObject {
 
     private Criterion createCriterion(String field, String value, Class<?> clazz) throws ParseException, NumberFormatException, UnsupportedDataTypeException {
         String[] chain = field.split("\\.");
-        Class<?> type = null;
+        Class<?> type;
 
         if (chain.length > 1) {
             Class<?> superType = ReflectionUtils.findField(clazz, chain[0]).getType();
