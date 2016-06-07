@@ -20,6 +20,9 @@ public class GumgaGenericRepositoryHelper {
 
     private static Map<GumgaHqlEntry, GumgaHqlElement> hqlConverter;
 
+    private GumgaGenericRepositoryHelper() {
+    }
+
     public static Map<GumgaHqlEntry, GumgaHqlElement> getHqlConverter() {
         if (hqlConverter == null) {
             hqlConverter = new HashMap<>();

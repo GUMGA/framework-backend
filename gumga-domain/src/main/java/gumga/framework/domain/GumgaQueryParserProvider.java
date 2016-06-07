@@ -43,6 +43,9 @@ public class GumgaQueryParserProvider {
 
     public static Map<Class<?>, CriterionParser> defaultMap = null;
 
+    private GumgaQueryParserProvider() {
+    }
+
     public static final Map<Class<?>, CriterionParser> getH2LikeMap() {
         return getBaseMap();
     }
