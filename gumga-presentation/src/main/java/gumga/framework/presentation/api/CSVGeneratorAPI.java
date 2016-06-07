@@ -147,7 +147,7 @@ public interface CSVGeneratorAPI {
                 ex.printStackTrace();
             }
         }
-        return new SearchResult<String>(0, problemas.size(), problemas.size(), problemas);
+        return new SearchResult<>(0, problemas.size(), problemas.size(), problemas);
     }
 
     @ApiOperation(value = "csvuploadvalidate", notes = "Faz validação da importação via csv.")
@@ -229,7 +229,7 @@ public interface CSVGeneratorAPI {
                 ex.printStackTrace();
             }
         }
-        return new SearchResult<String>(0, problemas.size(), problemas.size(), problemas);
+        return new SearchResult<>(0, problemas.size(), problemas.size(), problemas);
     }
 
     public static String classToCsvTitle(Class clazz) {

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class MenuGrupo extends MenuComponent {
 
-	private final List<MenuComponent> itens = new LinkedList<MenuComponent>();
+	private final List<MenuComponent> itens = new LinkedList<>();
 	
 	public MenuGrupo(String label) {
 		super(label);

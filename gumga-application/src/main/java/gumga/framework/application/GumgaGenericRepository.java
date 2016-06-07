@@ -64,7 +64,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         Long count = count(query);
         List<T> data = query.isCountOnly() ? Collections.EMPTY_LIST : getOrdered(query);
 
-        return new SearchResult<T>(query, count, data);
+        return new SearchResult<>(query, count, data);
     }
 
     private List<T> getOrdered(QueryObject query) {
@@ -229,7 +229,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         qConsulta.setMaxResults(query.getPageSize());
         qConsulta.setFirstResult(query.getStart());
         List resultList = query.isCountOnly() ? Collections.emptyList() : qConsulta.getResultList();
-        return new SearchResult<T>(query, total, resultList);
+        return new SearchResult<>(query, total, resultList);
     }
 
     @Override
@@ -253,7 +253,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         qConsulta.setFirstResult(whereQuery.getStart());
         List resultList = qConsulta.getResultList();
 
-        return new SearchResult<A>(whereQuery, total, resultList);
+        return new SearchResult<>(whereQuery, total, resultList);
     }
 
     public SearchResult<T> search(String hql, Map<String, Object> params) {
@@ -265,7 +265,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         }
         List<T> result = query.getResultList();
         int total = result.size();
-        return new SearchResult<T>(0, total, total, result);
+        return new SearchResult<>(0, total, total, result);
     }
 
     @Override

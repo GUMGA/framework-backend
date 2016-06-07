@@ -26,7 +26,7 @@ public class SearchUtils {
      * @return Resultado da aplicação do filtro
      */
     public static <E extends Enum<E>> SearchResult<E> filterEnum(Class<E> enumClass, QueryObject query) {
-        List<E> filtered = new ArrayList<E>();
+        List<E> filtered = new ArrayList<>();
 
         for (E value : enumClass.getEnumConstants()) {
             if (StringUtils.startsWithIgnoreCase(value.name(), query.getQ())) {
@@ -36,7 +36,7 @@ public class SearchUtils {
 
         sortEnum(query.getSortDir(), filtered);
         List<E> paginated = paginate(query.getStart(), query.getPageSize(), filtered);
-        return new SearchResult<E>(query, filtered.size(), paginated);
+        return new SearchResult<>(query, filtered.size(), paginated);
     }
 
     private static <T> List<T> paginate(int start, int pageSize, List<T> filtered) {
@@ -47,9 +47,9 @@ public class SearchUtils {
 
     private static <E extends Enum<E>> void sortEnum(String direction, List<E> filtered) {
         if ("asc".equalsIgnoreCase(direction)) {
-            sort(filtered, new EnumNameComparator<E>());
+            sort(filtered, new EnumNameComparator<>());
         } else if ("desc".equalsIgnoreCase(direction)) {
-            sort(filtered, new EnumNameComparator<E>());
+            sort(filtered, new EnumNameComparator<>());
             reverse(filtered);
         }
     }

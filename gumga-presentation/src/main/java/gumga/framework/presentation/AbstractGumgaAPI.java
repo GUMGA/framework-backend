@@ -33,7 +33,7 @@ public abstract class AbstractGumgaAPI<T> extends AbstractNoDeleteGumgaAPI<T> {
     public RestResponse<T> delete(@PathVariable Long id) {
         T entity = service.view(id);
         service.delete(entity);
-        return new RestResponse<T>(getEntityDeletedMessage(entity));
+        return new RestResponse<>(getEntityDeletedMessage(entity));
     }
 
     public void setService(GumgaServiceable<T> service) {

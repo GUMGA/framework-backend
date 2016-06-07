@@ -64,7 +64,7 @@ public interface GumgaValues {
      * @return
      */
     default Set<String> getUrlsToNotLog() {
-        return new HashSet<String>();
+        return new HashSet<>();
     }
 
     /**

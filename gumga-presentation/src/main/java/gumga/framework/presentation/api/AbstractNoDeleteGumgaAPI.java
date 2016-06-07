@@ -35,7 +35,7 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
     public RestResponse<T> save(@RequestBody @Valid T model, BindingResult result) {
         beforeSave(model);
         T entity = saveOrCry(model, result);
-        return new RestResponse<T>(entity, getEntitySavedMessage(entity));
+        return new RestResponse<>(entity, getEntitySavedMessage(entity));
     }
 
     @GumgaSwagger
@@ -46,7 +46,7 @@ public abstract class AbstractNoDeleteGumgaAPI<T> extends
             @Valid @RequestBody T model, BindingResult result) {
         beforeUpdate(id, model);
         T entity = saveOrCry(model, result);
-        return new RestResponse<T>(entity, getEntityUpdateMessage(entity));
+        return new RestResponse<>(entity, getEntityUpdateMessage(entity));
     }
 
     private T saveOrCry(T model, BindingResult result) {

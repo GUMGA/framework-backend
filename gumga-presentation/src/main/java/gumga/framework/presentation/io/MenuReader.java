@@ -79,7 +79,7 @@ public class MenuReader {
 		Pattern pattern = Pattern.compile("\\{(.*?)\\}");
 		Matcher matchPattern = pattern.matcher(menuOption);
 
-		Map<String, String> properties = new HashMap<String, String>();
+		Map<String, String> properties = new HashMap<>();
 
 		while (matchPattern.find()) {
 			String propertiesInline = matchPattern.group(1).trim();
