@@ -15,7 +15,7 @@ import javax.script.ScriptException;
  */
 public class JavaScriptEngine {
 
-    private final static ScriptEngineManager engineManager = new ScriptEngineManager();
+    private static final ScriptEngineManager engineManager = new ScriptEngineManager();
 
     /**
      * Avalia o valor do script com o contexto de objetos java passados no map e
