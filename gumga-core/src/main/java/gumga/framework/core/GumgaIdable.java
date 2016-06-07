@@ -7,6 +7,7 @@ import java.io.Serializable;
  *
  * @author Equipe Gumga
  */
+@FunctionalInterface
 public interface GumgaIdable<T extends Serializable> {
 
     T getId();

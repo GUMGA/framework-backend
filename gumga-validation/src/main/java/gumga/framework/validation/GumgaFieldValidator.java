@@ -12,6 +12,7 @@ import com.google.common.base.Optional;
  * 
  * @param <T>
  */
+@FunctionalInterface
 public interface GumgaFieldValidator<T> {
 
 	public Optional<GumgaValidationError> validate(T value, Errors errors);
