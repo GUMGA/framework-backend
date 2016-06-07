@@ -23,6 +23,9 @@ public class MenuReader {
 	private static Logger logger = Logger.getLogger(MenuReader.class
 			.getCanonicalName());
 
+	private MenuReader() {
+	}
+
 	public static Menu loadMenu() throws IOException {
 		return digesterMenu(loadMenuFile());
 	}

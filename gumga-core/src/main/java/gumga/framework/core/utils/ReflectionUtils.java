@@ -13,6 +13,9 @@ import java.util.logging.Logger;
  */
 public class ReflectionUtils {
 
+    private ReflectionUtils() {
+    }
+
     /**
      * Procura um atributo pelo nome em uma classe ou em suas superclasses
      * recursivamente na ordem inversa da hierarquia. Inicialmente na classe,

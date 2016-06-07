@@ -16,6 +16,9 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class SearchUtils {
 
+    private SearchUtils() {
+    }
+
     /**
      * Aplica um filtro nos valores de um Enum e retorna em um SearchResult
      *
