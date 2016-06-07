@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
  */
 public class EntityValidatorSupport {
 
-    private final static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-    private final static Logger logger = LoggerFactory.getLogger(EntityValidatorSupport.class);
+    private static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    private static final Logger logger = LoggerFactory.getLogger(EntityValidatorSupport.class);
 
     public static void assertEntidadeConsistente(GumgaModel<Long> resource) {
         Set<ConstraintViolation<GumgaModel<Long>>> violations = validator.validate(resource);

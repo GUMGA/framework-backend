@@ -20,41 +20,41 @@ public class GumgaThreadScope {
     /**
      * Ip da requisição
      */
-    public final static ThreadLocal<String> ip = new ThreadLocal<>();
+    public static final ThreadLocal<String> ip = new ThreadLocal<>();
     /**
      * login do usuário da requisição
      */
-    public final static ThreadLocal<String> login = new ThreadLocal<>();
+    public static final ThreadLocal<String> login = new ThreadLocal<>();
     /**
      * nome organização do usuário da requisição
      */
-    public final static ThreadLocal<String> organization = new ThreadLocal<>();
+    public static final ThreadLocal<String> organization = new ThreadLocal<>();
     /**
      * código da organização do usuário da requisição
      */
-    public final static ThreadLocal<String> organizationCode = new ThreadLocal<>();
+    public static final ThreadLocal<String> organizationCode = new ThreadLocal<>();
     /**
      * chave da operação da requisição
      */
-    public final static ThreadLocal<String> operationKey = new ThreadLocal<>();
+    public static final ThreadLocal<String> operationKey = new ThreadLocal<>();
     /**
      * irá ignorar a checagem de propriedade dos registros do Tenacy
      */
-    public final static ThreadLocal<Boolean> ignoreCheckOwnership = new ThreadLocal<>();
+    public static final ThreadLocal<Boolean> ignoreCheckOwnership = new ThreadLocal<>();
     /**
      * token da requisição
      */
-    public final static ThreadLocal<String> gumgaToken = new ThreadLocal<>();
+    public static final ThreadLocal<String> gumgaToken = new ThreadLocal<>();
 
     /**
      * id do Software que fez a requisição
      */
-    public final static ThreadLocal<String> softwareName = new ThreadLocal<>();
+    public static final ThreadLocal<String> softwareName = new ThreadLocal<>();
 
     /**
      * @return o parâmetro a ser utilizado na comparação do Tenancy
      */
-    public final static String getOiWildCard() {
+    public static final String getOiWildCard() {
         if (organizationCode.get() == null) {
             return "%";
         }
