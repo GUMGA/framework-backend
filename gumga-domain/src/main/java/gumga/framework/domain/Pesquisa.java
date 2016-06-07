@@ -223,7 +223,7 @@ public class Pesquisa<T> implements Criteria {
 
     @Override
     public List<T> list() throws HibernateException {
-        List<T> newList = new LinkedList<T>();
+        List<T> newList = new LinkedList<>();
         for (Object obj : criteria.list()) {
             newList.add(clazz.cast(obj));
         }

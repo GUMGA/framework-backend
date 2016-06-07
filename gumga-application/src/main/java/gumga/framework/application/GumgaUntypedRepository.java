@@ -75,7 +75,7 @@ public class GumgaUntypedRepository {
     }
 
     public static List<Field> getTodosAtributos(Class classe) throws SecurityException {
-        List<Field> aRetornar = new ArrayList<Field>();
+        List<Field> aRetornar = new ArrayList<>();
         if (!classe.getSuperclass().equals(Object.class)) {
             aRetornar.addAll(getTodosAtributos(classe.getSuperclass()));
         }
