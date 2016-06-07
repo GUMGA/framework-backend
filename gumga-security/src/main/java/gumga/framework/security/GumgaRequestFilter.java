@@ -45,13 +45,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     private ThreadLocal<Long> tempo = new ThreadLocal<>();
 
     @Autowired(required = false)
-    private ApiOperationTranslator aot = new ApiOperationTranslator() {
-
-        @Override
-        public String getOperation(String url, String method) {
-            return "NOOP";
-        }
-    };
+    private ApiOperationTranslator aot = (url, method) -> "NOOP";
 
     public void setAot(ApiOperationTranslator aot) {
         this.aot = aot;

@@ -65,21 +65,18 @@ public class GumgaQueryParserProvider {
         return mySqlMap;
     }
 
-    protected static final CriterionParser STRING_CRITERION_PARSER_WITHOUT_TRANSLATE = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
+    protected static final CriterionParser STRING_CRITERION_PARSER_WITHOUT_TRANSLATE = (field, value) -> {
 
-            value = Normalizer.normalize(value, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        value = Normalizer.normalize(value, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
 
-            String[] chain = field.split("\\.");
+        String[] chain = field.split("\\.");
 
-            if (chain.length > 1) {
-                return Restrictions.like(field, value, MatchMode.ANYWHERE).ignoreCase();
-            }
-            String caseInsensitive = "upper({alias}." + field + ") like (?)";
-
-            return Restrictions.sqlRestriction(caseInsensitive, "%" + value + "%", StandardBasicTypes.STRING);
+        if (chain.length > 1) {
+            return Restrictions.like(field, value, MatchMode.ANYWHERE).ignoreCase();
         }
+        String caseInsensitive = "upper({alias}." + field + ") like (?)";
+
+        return Restrictions.sqlRestriction(caseInsensitive, "%" + value + "%", StandardBasicTypes.STRING);
     };
 
     /**
@@ -89,121 +86,74 @@ public class GumgaQueryParserProvider {
      * @deprecated
      */
     @Deprecated
-    private static final CriterionParser STRING_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
+    private static final CriterionParser STRING_CRITERION_PARSER = (field, value) -> {
 
-            value = Normalizer.normalize(value, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        value = Normalizer.normalize(value, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
 
-            String[] chain = field.split("\\.");
+        String[] chain = field.split("\\.");
 
-            if (chain.length > 1) {
-                return Restrictions.like(field, value, MatchMode.ANYWHERE).ignoreCase();
-            }
-            String ignoraAcentos = "upper({alias}." + field + ") like (?)";
-
-            ignoraAcentos = "upper(translate({alias}." + field + ",'" + AbstractStringCriterionParser.SOURCE_CHARS + "','" + AbstractStringCriterionParser.TARGET_CHARS + "')) like (?)"; //NAO FUNCIONA NO MYSQL
-
-            return Restrictions.sqlRestriction(ignoraAcentos, "%" + value + "%", StandardBasicTypes.STRING);
+        if (chain.length > 1) {
+            return Restrictions.like(field, value, MatchMode.ANYWHERE).ignoreCase();
         }
+        String ignoraAcentos = "upper({alias}." + field + ") like (?)";
+
+        ignoraAcentos = "upper(translate({alias}." + field + ",'" + AbstractStringCriterionParser.SOURCE_CHARS + "','" + AbstractStringCriterionParser.TARGET_CHARS + "')) like (?)"; //NAO FUNCIONA NO MYSQL
+
+        return Restrictions.sqlRestriction(ignoraAcentos, "%" + value + "%", StandardBasicTypes.STRING);
     };
 
-    private static final CriterionParser CHARACTER_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
-            if (value.length() == 1) {
-                return eq(field, new Character(value.charAt(0)));
-            }
+    private static final CriterionParser CHARACTER_CRITERION_PARSER = (field, value) -> {
+        if (value.length() == 1) {
+            return eq(field, new Character(value.charAt(0)));
+        }
 
+        throw new IllegalArgumentException(value);
+    };
+
+    private static final CriterionParser BOOLEAN_CRITERION_PARSER = (field, value) -> {
+        value = value.toLowerCase();
+
+        if (value.equals("sim")) {
+            value = "true";
+        } else if (value.equals("não") || value.equals("nao")) {
+            value = "false";
+        }
+
+        if (value.equals("true") || value.equals("false")) {
+            return eq(field, new Boolean(value));
+        }
+
+        throw new IllegalArgumentException(value);
+    };
+
+    private static final CriterionParser SHORT_CRITERION_PARSER = (field, value) -> eq(field, new Short(value));
+
+    private static final CriterionParser INTEGER_CRITERION_PARSER = (field, value) -> eq(field, new Integer(value));
+
+    private static final CriterionParser LONG_CRITERION_PARSER = (field, value) -> eq(field, new Long(value));
+
+    private static final CriterionParser FLOAT_CRITERION_PARSER = (field, value) -> eq(field, new Float(value));
+
+    private static final CriterionParser DOUBLE_CRITERION_PARSER = (field, value) -> eq(field, new Double(value));
+
+    private static final CriterionParser BIGINTEGER_CRITERION_PARSER = (field, value) -> eq(field, new BigInteger(value));
+
+    private static final CriterionParser BIGDECIMAL_CRITERION_PARSER = (field, value) -> eq(field, new BigDecimal(value));
+
+    private static final CriterionParser DATE_CRITERION_PARSER = (field, value) -> {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+            Date minDate = formatter.parse(value);
+            Date maxDate = new Date(minDate.getTime() + DAYS.toMillis(1));
+
+            Conjunction and = Restrictions.conjunction();
+            and.add(Restrictions.ge(field, minDate));
+            and.add(Restrictions.lt(field, maxDate));
+
+            return and;
+        } catch (ParseException e) {
             throw new IllegalArgumentException(value);
-        }
-    };
-
-    private static final CriterionParser BOOLEAN_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
-            value = value.toLowerCase();
-
-            if (value.equals("sim")) {
-                value = "true";
-            } else if (value.equals("não") || value.equals("nao")) {
-                value = "false";
-            }
-
-            if (value.equals("true") || value.equals("false")) {
-                return eq(field, new Boolean(value));
-            }
-
-            throw new IllegalArgumentException(value);
-        }
-    };
-
-    private static final CriterionParser SHORT_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
-            return eq(field, new Short(value));
-        }
-    };
-
-    private static final CriterionParser INTEGER_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
-            return eq(field, new Integer(value));
-        }
-    };
-
-    private static final CriterionParser LONG_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
-            return eq(field, new Long(value));
-        }
-    };
-
-    private static final CriterionParser FLOAT_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
-            return eq(field, new Float(value));
-        }
-    };
-
-    private static final CriterionParser DOUBLE_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
-            return eq(field, new Double(value));
-        }
-    };
-
-    private static final CriterionParser BIGINTEGER_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
-            return eq(field, new BigInteger(value));
-        }
-    };
-
-    private static final CriterionParser BIGDECIMAL_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
-            return eq(field, new BigDecimal(value));
-        }
-    };
-
-    private static final CriterionParser DATE_CRITERION_PARSER = new CriterionParser() {
-        @Override
-        public Criterion parse(String field, String value) {
-            try {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-                Date minDate = formatter.parse(value);
-                Date maxDate = new Date(minDate.getTime() + DAYS.toMillis(1));
-
-                Conjunction and = Restrictions.conjunction();
-                and.add(Restrictions.ge(field, minDate));
-                and.add(Restrictions.lt(field, maxDate));
-
-                return and;
-            } catch (ParseException e) {
-                throw new IllegalArgumentException(value);
-            }
         }
     };
 
