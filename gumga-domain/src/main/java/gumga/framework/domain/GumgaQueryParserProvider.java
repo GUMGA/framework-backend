@@ -100,7 +100,7 @@ public class GumgaQueryParserProvider {
             if (chain.length > 1) {
                 return Restrictions.like(field, value, MatchMode.ANYWHERE).ignoreCase();
             }
-            String ignoraAcentos = "upper({alias}." + field + ") like (?)";
+            String ignoraAcentos;
 
             ignoraAcentos = "upper(translate({alias}." + field + ",'" + AbstractStringCriterionParser.SOURCE_CHARS + "','" + AbstractStringCriterionParser.TARGET_CHARS + "')) like (?)"; //NAO FUNCIONA NO MYSQL
 

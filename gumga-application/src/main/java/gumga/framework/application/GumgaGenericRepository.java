@@ -216,7 +216,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
             }
         }
 
-        String hqlConsulta = "";
+        String hqlConsulta;
         if (query.getSortField().isEmpty()) {
             hqlConsulta = String.format(modelo + " ORDER BY obj.id ", entityInformation.getEntityName(), query.getAq());
         } else {

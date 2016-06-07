@@ -72,7 +72,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         tempo.set(System.currentTimeMillis());
-        String token = "not initialized";
+        String token;
         String errorMessage = "Error";
         String errorResponse = GumgaSecurityCode.SECURITY_INTERNAL_ERROR.toString();
         AuthorizatonResponse ar = new AuthorizatonResponse();
