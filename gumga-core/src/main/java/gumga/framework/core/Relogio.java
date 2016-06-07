@@ -7,6 +7,7 @@ import java.util.Date;
  *
  * @author Equipe Gumga
  */
+@FunctionalInterface
 public interface Relogio {
 
     Date now();

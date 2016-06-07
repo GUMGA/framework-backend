@@ -7,6 +7,7 @@ import org.hibernate.criterion.Criterion;
  *
  * @author munif
  */
+@FunctionalInterface
 public interface CriterionParser {
 
     Criterion parse(String field, String value);

@@ -7,6 +7,7 @@ import java.io.IOException;
  *
  * @author munif
  */
+@FunctionalInterface
 public interface AppSeed {
 
     void loadSeed() throws IOException;

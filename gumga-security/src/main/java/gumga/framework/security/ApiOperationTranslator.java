@@ -9,6 +9,7 @@ package gumga.framework.security;
  *
  * @author munif
  */
+@FunctionalInterface
 public interface ApiOperationTranslator {
 
     String getOperation(String url, String method);
