@@ -1,12 +1,10 @@
 package gumga.framework.application;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
-
 import java.util.List;
-
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

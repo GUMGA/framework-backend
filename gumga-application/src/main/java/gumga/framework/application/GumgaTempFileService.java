@@ -7,7 +7,6 @@ package gumga.framework.application;
 
 import gumga.framework.core.GumgaValues;
 import gumga.framework.domain.domains.GumgaFile;
-import gumga.framework.domain.domains.GumgaImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

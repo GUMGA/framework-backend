@@ -5,11 +5,9 @@ import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaObjectAndRevision;
 import gumga.framework.domain.GumgaRepository;
 import gumga.framework.domain.Pesquisa;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 

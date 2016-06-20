@@ -9,12 +9,9 @@ import gumga.framework.core.exception.UnauthorizedException;
 import gumga.framework.presentation.validation.ErrorResource;
 import gumga.framework.presentation.validation.FieldErrorResource;
 import gumga.framework.validation.exception.InvalidEntityException;
-
 import java.util.List;
-
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
-
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

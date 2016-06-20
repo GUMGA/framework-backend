@@ -1,12 +1,11 @@
 package gumga.framework.presentation.api;
 
-import gumga.framework.domain.customfields.GumgaCustomField;
 import gumga.framework.application.GumgaService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import gumga.framework.domain.customfields.GumgaCustomField;
 import gumga.framework.presentation.GumgaAPI;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/gumgacustomfield")

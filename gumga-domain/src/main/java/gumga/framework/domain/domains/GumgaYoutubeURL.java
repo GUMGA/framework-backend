@@ -3,7 +3,6 @@ package gumga.framework.domain.domains;
 import com.google.common.base.Preconditions;
 import gumga.framework.domain.domains.youtube.GumgaShortYoutubeURL;
 import gumga.framework.domain.domains.youtube.GumgaWebsiteYoutubeURL;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 

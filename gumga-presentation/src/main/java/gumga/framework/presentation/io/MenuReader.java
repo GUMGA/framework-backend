@@ -1,10 +1,10 @@
 package gumga.framework.presentation.io;
 
+import com.google.common.io.CharStreams;
 import gumga.framework.presentation.menu.Menu;
 import gumga.framework.presentation.menu.MenuComponent;
 import gumga.framework.presentation.menu.MenuGrupo;
 import gumga.framework.presentation.menu.MenuItem;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,8 +15,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.common.io.CharStreams;
 
 public class MenuReader {
 

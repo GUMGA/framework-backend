@@ -5,8 +5,8 @@
  */
 package gumga.framework.domain;
 
-import gumga.framework.domain.domains.GumgaOi;
 import gumga.framework.core.GumgaThreadScope;
+import gumga.framework.domain.domains.GumgaOi;
 import javax.persistence.PrePersist;
 
 /**

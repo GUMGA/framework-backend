@@ -7,9 +7,7 @@ import gumga.framework.core.SearchResult;
 import gumga.framework.core.utils.ReflectionUtils;
 import gumga.framework.domain.service.GumgaReadableServiceable;
 import gumga.framework.presentation.GumgaTranslator;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class GumgaReadOnlyGateway<A extends GumgaIdable<?>, DTO> implements GumgaReadableServiceable<DTO> {

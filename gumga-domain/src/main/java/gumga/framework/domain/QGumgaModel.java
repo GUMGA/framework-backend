@@ -7,7 +7,6 @@ import com.mysema.query.types.path.ComparablePath;
 import com.mysema.query.types.path.EntityPathBase;
 import com.mysema.query.types.path.NumberPath;
 import com.mysema.query.types.path.SimplePath;
-import com.mysema.query.types.path.StringPath;
 import javax.annotation.Generated;
 
 /**

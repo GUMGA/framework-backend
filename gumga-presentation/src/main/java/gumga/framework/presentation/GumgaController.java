@@ -4,9 +4,7 @@ package gumga.framework.presentation;
 import gumga.framework.core.service.GumgaSecurityService;
 import gumga.framework.presentation.menu.GumgaMenuService;
 import gumga.framework.presentation.menu.Menu;
-
 import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

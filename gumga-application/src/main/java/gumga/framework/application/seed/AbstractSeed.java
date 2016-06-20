@@ -3,7 +3,6 @@ package gumga.framework.application.seed;
 import gumga.framework.application.GumgaService;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.domain.seed.AppSeed;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +10,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
-
 import org.springframework.transaction.annotation.Transactional;
 
 public abstract class AbstractSeed<T extends GumgaIdable<ID>, ID extends Serializable> implements AppSeed {

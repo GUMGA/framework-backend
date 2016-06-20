@@ -1,16 +1,14 @@
 package gumga.framework.validation.validator.common;
 
+import com.google.common.base.Optional;
+import gumga.framework.validation.GumgaValidationError;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import gumga.framework.validation.GumgaValidationError;
-
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
 import org.springframework.validation.Errors;
-
-import com.google.common.base.Optional;
 
 public class IsFalseValidatorTest {
 

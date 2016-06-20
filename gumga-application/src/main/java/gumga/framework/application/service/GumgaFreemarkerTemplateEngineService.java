@@ -6,14 +6,12 @@
 package gumga.framework.application.service;
 
 import com.google.common.io.Files;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import gumga.framework.core.exception.TemplateEngineException;
 import gumga.framework.core.service.GumgaAbstractTemplateEngineAdapter;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -23,7 +21,6 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-
 import org.springframework.stereotype.Service;
 
 /**

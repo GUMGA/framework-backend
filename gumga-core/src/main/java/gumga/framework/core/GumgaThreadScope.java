@@ -15,6 +15,7 @@ package gumga.framework.core;
  *
  * @author munif
  */
+
 public class GumgaThreadScope {
 
     /**
@@ -52,13 +53,9 @@ public class GumgaThreadScope {
     public static final ThreadLocal<String> softwareName = new ThreadLocal<>();
 
     /**
-     * @return o parâmetro a ser utilizado na comparação do Tenancy
+     * id da Organição que fez a requisição
      */
-    public static final String getOiWildCard() {
-        if (organizationCode.get() == null) {
-            return "%";
-        }
-        return organizationCode.get().concat("%");
-    }
+    public static final ThreadLocal<Long> organizationId = new ThreadLocal<>();
+
 
 }

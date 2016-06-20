@@ -1,15 +1,12 @@
 package br.com.gumga.domain.tag;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
-
-import com.mysema.query.types.path.*;
-
-import com.mysema.query.types.PathMetadata;
-import javax.annotation.Generated;
 import com.mysema.query.types.Path;
-import com.mysema.query.types.path.PathInits;
+import com.mysema.query.types.PathMetadata;
+import static com.mysema.query.types.PathMetadataFactory.*;
+import com.mysema.query.types.path.*;
 import gumga.framework.domain.tag.GumgaTag;
 import gumga.framework.domain.tag.GumgaTagValue;
+import javax.annotation.Generated;
 
 /**
  * QGumgaTag is a Querydsl query type for GumgaTag

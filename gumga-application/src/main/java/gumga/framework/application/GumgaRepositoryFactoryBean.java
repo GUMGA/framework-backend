@@ -1,20 +1,17 @@
 package gumga.framework.application;
 
 import gumga.framework.domain.repository.GumgaCrudAndQueryNotOnlyTypedRepository;
-import static org.springframework.data.querydsl.QueryDslUtils.QUERY_DSL_PRESENT;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 import gumga.framework.domain.repository.GumgaQueryDSLRepository;
-
 import java.io.Serializable;
-
 import javax.persistence.EntityManager;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import static org.springframework.data.querydsl.QueryDslUtils.QUERY_DSL_PRESENT;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 

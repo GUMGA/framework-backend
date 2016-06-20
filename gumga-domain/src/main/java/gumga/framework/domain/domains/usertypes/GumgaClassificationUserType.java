@@ -17,13 +17,12 @@
 package gumga.framework.domain.domains.usertypes;
 
 import gumga.framework.domain.domains.GumgaClassification;
-import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SessionImplementor;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SessionImplementor;
 
 /**
  * UserType que permite serializar o tipo dentro do Hibernate

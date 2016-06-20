@@ -3,15 +3,13 @@ package gumga.framework.application.tag;
 import gumga.framework.application.GumgaService;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
-import org.hibernate.Hibernate;
-
 import gumga.framework.domain.tag.GumgaTag;
 import gumga.framework.domain.tag.GumgaTagDefinition;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class GumgaTagService extends GumgaService<GumgaTag, Long> {

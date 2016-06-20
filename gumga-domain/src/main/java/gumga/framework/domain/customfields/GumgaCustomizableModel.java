@@ -2,7 +2,6 @@ package gumga.framework.domain.customfields;
 
 import gumga.framework.domain.GumgaModel;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.persistence.MappedSuperclass;

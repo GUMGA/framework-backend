@@ -17,12 +17,11 @@
 package gumga.framework.domain.domains.usertypes;
 
 import gumga.framework.domain.domains.GumgaYoutubeURL;
-import org.hibernate.engine.spi.SessionImplementor;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import org.hibernate.engine.spi.SessionImplementor;
 
 /**
  * UserType que permite serializar o tipo de URL do Youtube

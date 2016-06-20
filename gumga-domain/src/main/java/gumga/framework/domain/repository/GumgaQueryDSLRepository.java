@@ -4,13 +4,12 @@ import com.mysema.query.types.Expression;
 import com.mysema.query.types.OrderSpecifier;
 import com.mysema.query.types.Predicate;
 import gumga.framework.core.SearchResult;
+import java.io.Serializable;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * Cria um repositório Tipado para QueryDSL

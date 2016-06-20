@@ -1,13 +1,10 @@
 package gumga.framework.domain.customfields;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
-
-import com.mysema.query.types.path.*;
-
-import com.mysema.query.types.PathMetadata;
-import javax.annotation.Generated;
 import com.mysema.query.types.Path;
-import com.mysema.query.types.path.PathInits;
+import com.mysema.query.types.PathMetadata;
+import static com.mysema.query.types.PathMetadataFactory.*;
+import com.mysema.query.types.path.*;
+import javax.annotation.Generated;
 
 /**
  * QGumgaCustomFieldValue is a Querydsl query type for GumgaCustomFieldValue

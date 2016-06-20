@@ -3,13 +3,10 @@ package gumga.framework.application.service;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
-import gumga.framework.domain.GumgaModel;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 import gumga.framework.domain.service.GumgaReadableServiceable;
 import gumga.framework.domain.service.GumgaWritableServiceable;
-
 import java.io.Serializable;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

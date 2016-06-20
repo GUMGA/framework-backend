@@ -1,15 +1,13 @@
 package gumga.framework.validation;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.Maps;
 import gumga.framework.validation.exception.InvalidEntityException;
 import gumga.framework.validation.validator.GumgaCommonValidator;
-
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.MapBindingResult;
-
-import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
 
 /**
  * Classe que realiza a validação em uma lista de {@link GumgaFieldValidator}

@@ -1,7 +1,6 @@
 package gumga.framework.application.customfields;
 
 import gumga.framework.application.GumgaService;
-import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.QueryObject;
 import gumga.framework.domain.customfields.GumgaCustomField;
 import java.util.List;

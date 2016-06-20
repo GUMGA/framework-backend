@@ -2,15 +2,12 @@ package gumga.framework.application;
 
 import com.mysema.query.types.Path;
 import com.mysema.query.types.PathMetadata;
+import static com.mysema.query.types.PathMetadataFactory.forVariable;
 import com.mysema.query.types.path.ComparablePath;
 import com.mysema.query.types.path.EntityPathBase;
 import com.mysema.query.types.path.NumberPath;
 import com.mysema.query.types.path.StringPath;
-
-import static com.mysema.query.types.PathMetadataFactory.forVariable;
-import com.mysema.query.types.path.SimplePath;
 import gumga.framework.domain.domains.GumgaOi;
-import java.io.Serializable;
 
 /**
  * Created by rafael on 08/04/15.

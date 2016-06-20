@@ -17,7 +17,6 @@
 package gumga.framework.domain.domains.usertypes;
 
 import java.io.Serializable;
-
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
 

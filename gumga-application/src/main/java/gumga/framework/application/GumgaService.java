@@ -7,10 +7,8 @@ import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaObjectAndRevision;
 import gumga.framework.domain.GumgaServiceable;
 import gumga.framework.domain.repository.GumgaCrudRepository;
-
 import java.io.Serializable;
 import java.util.List;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

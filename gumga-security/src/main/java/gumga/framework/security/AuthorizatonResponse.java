@@ -12,6 +12,7 @@ package gumga.framework.security;
 public class AuthorizatonResponse {
 
     private String response;
+    private Long organizationId;
     private String organization;
     private String organizationCode;
     private String login;
@@ -21,13 +22,22 @@ public class AuthorizatonResponse {
     public AuthorizatonResponse() {
     }
 
-    public AuthorizatonResponse(String response, String organization, String organizationCode, String login, String reason, String key) {
+    public AuthorizatonResponse(String response, String organization, String organizationCode, String login, String reason, String key, Long oId) {
         this.response = response;
         this.organization = organization;
         this.organizationCode = organizationCode;
         this.login = login;
         this.reason = reason;
         this.key = key;
+        this.organizationId=oId;
+    }
+
+    public Long getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
     }
 
     public String getOrganization() {

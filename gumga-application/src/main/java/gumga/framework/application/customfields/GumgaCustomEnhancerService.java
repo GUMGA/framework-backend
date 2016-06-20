@@ -1,18 +1,12 @@
 package gumga.framework.application.customfields;
 
 import gumga.framework.core.GumgaIdable;
-import gumga.framework.core.JavaScriptEngine;
 import gumga.framework.domain.GumgaModel;
 import gumga.framework.domain.customfields.GumgaCustomField;
 import gumga.framework.domain.customfields.GumgaCustomFieldValue;
 import gumga.framework.domain.customfields.GumgaCustomizableModel;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import net.sf.cglib.beans.BeanGenerator;
-import net.sf.cglib.beans.BeanMap;
-import net.sf.cglib.proxy.Enhancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

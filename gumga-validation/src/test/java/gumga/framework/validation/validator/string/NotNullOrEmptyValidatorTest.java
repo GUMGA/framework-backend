@@ -1,13 +1,11 @@
 package gumga.framework.validation.validator.string;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import gumga.framework.validation.GumgaValidationError;
-
-import org.junit.Test;
-import org.springframework.validation.Errors;
-
 import com.google.common.base.Optional;
+import gumga.framework.validation.GumgaValidationError;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import org.springframework.validation.Errors;
 
 public class NotNullOrEmptyValidatorTest {
 

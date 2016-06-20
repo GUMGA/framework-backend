@@ -1,13 +1,10 @@
 package gumga.framework.domain.support;
 
 import gumga.framework.domain.GumgaModel;
-
 import java.util.Set;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
