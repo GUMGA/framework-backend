@@ -10,6 +10,9 @@ import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.core.UserAndPassword;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -131,6 +134,17 @@ class GumgaSecurityProxy {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/searchticket/" + code;
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
+    }
+
+    @ApiOperation(value = "", notes = "Buscar todos os usuarios por organização.")
+    @RequestMapping(method = RequestMethod.GET, value = "")
+    public Map findAllUserByOrganization() {
+        final HttpHeaders header = new HttpHeaders();
+        header.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        final HttpEntity<String> request = new HttpEntity(header);
+        final String url = "";
+        Map result = (Map) this.restTemplate.exchange(url, HttpMethod.GET, request, Map.class);
+        return result;
     }
 
 }
