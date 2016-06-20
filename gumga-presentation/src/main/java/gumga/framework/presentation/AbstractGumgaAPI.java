@@ -4,9 +4,6 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.annotations.GumgaSwagger;
 import gumga.framework.domain.GumgaServiceable;
 import gumga.framework.presentation.api.AbstractNoDeleteGumgaAPI;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;

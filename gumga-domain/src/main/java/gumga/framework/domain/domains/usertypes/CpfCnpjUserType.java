@@ -18,12 +18,11 @@ package gumga.framework.domain.domains.usertypes;
 
 import br.com.insula.opes.CpfCnpj;
 import br.com.insula.opes.hibernate.usertype.ImmutableUserType;
-import org.hibernate.engine.spi.SessionImplementor;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import org.hibernate.engine.spi.SessionImplementor;
 
 /**
  * UserType que permite serializar o tipo CPF/CNPJ dentro do Hibernate

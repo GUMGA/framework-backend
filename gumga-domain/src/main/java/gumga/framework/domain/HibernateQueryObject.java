@@ -2,17 +2,13 @@ package gumga.framework.domain;
 
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.utils.ReflectionUtils;
-
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-
 import javax.activation.UnsupportedDataTypeException;
-
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;

@@ -3,9 +3,7 @@ package gumga.framework.presentation;
 
 import gumga.framework.application.GumgaService;
 import gumga.framework.core.GumgaIdable;
-
 import java.io.Serializable;
-
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

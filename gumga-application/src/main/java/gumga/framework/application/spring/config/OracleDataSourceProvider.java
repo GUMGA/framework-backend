@@ -1,11 +1,9 @@
 package gumga.framework.application.spring.config;
 
-import gumga.framework.domain.GumgaQueryParserProvider;
-
-import javax.sql.DataSource;
-
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import gumga.framework.domain.GumgaQueryParserProvider;
+import javax.sql.DataSource;
 
 public class OracleDataSourceProvider implements DataSourceProvider {
 

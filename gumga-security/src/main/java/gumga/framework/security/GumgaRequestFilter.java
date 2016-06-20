@@ -97,13 +97,16 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 operationKey = apiName + "_" + hm.getMethod().getName();
             }
             if (endPoint.contains("public") || endPoint.contains("api-docs")) {
-                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public"), request, operationKey, endPoint, method, true);
+                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public",null), request, operationKey, endPoint, method, true);
                 return true;
             }
 
             String url = gumgaValues.getGumgaSecurityUrl() + "/token/authorize/" + softwareId + "/" + token + "/" + request.getRemoteAddr() + "/" + operationKey + "/";
 
             ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
+            
+            System.out.println("---"+this.getClass().getSimpleName()+"----->"+ar.getOrganizationId());
+            
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(request.getRemoteAddr());
             GumgaThreadScope.organization.set(ar.getOrganization());
@@ -111,6 +114,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             GumgaThreadScope.operationKey.set(operationKey);
             GumgaThreadScope.gumgaToken.set(token);
             GumgaThreadScope.softwareName.set(softwareId);
+            GumgaThreadScope.organizationId.set(ar.getOrganizationId());
             saveLog(ar, request, operationKey, endPoint, method, ar.isAllowed());
             if (ar.isAllowed()) {
                 return true;

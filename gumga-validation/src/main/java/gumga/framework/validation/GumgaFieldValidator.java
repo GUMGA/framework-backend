@@ -1,8 +1,7 @@
 package gumga.framework.validation;
 
-import org.springframework.validation.Errors;
-
 import com.google.common.base.Optional;
+import org.springframework.validation.Errors;
 
 /**
  * Interface que define a base de uma validação.

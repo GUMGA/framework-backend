@@ -1,17 +1,20 @@
 package gumga.framework.application;
 
-import com.google.common.base.Strings;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.types.*;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.ComparablePath;
 import com.mysema.query.types.path.PathBuilder;
-import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaMultitenancy;
 import gumga.framework.domain.domains.GumgaOi;
+import gumga.framework.domain.repository.GumgaMultitenancyUtil;
 import gumga.framework.domain.repository.GumgaQueryDSLRepository;
 import gumga.framework.domain.repository.ISpecification;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import javax.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -20,12 +23,6 @@ import org.springframework.data.jpa.repository.support.Querydsl;
 import org.springframework.data.querydsl.QSort;
 import org.springframework.data.querydsl.SimpleEntityPathResolver;
 import org.springframework.data.repository.NoRepositoryBean;
-
-import javax.persistence.EntityManager;
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-
 
 @NoRepositoryBean
 public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends GumgaGenericRepository<T, ID> implements GumgaQueryDSLRepository<T, ID> {
@@ -143,14 +140,14 @@ public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends Gum
     }
 
     private BooleanExpression getOiExpression() {
-        GumgaMultitenancy annotation = getDomainClass().getAnnotation(GumgaMultitenancy.class);
-        String result = GumgaThreadScope.organizationCode.get();
-        result = Strings.isNullOrEmpty(result) ? "" : result;
+        GumgaMultitenancy tenancy = getDomainClass().getAnnotation(GumgaMultitenancy.class);
+        String oiPattern=GumgaMultitenancyUtil.getMultitenancyPattern(tenancy);
         ComparablePath<GumgaOi> oi = new ComparablePath<>(GumgaOi.class, PathMetadataFactory.forProperty(this.path, "oi"));
-        if (annotation.allowPublics()) {
-            return oi.stringValue().startsWith(result).or(oi.isNull());
+        if (tenancy.allowPublics()) {
+            return oi.stringValue().startsWith(oiPattern).or(oi.isNull());
         }
-        return oi.stringValue().startsWith(result);
+         //System.out.println("--------MultitenancyPattern----->"+oiPattern);
+        return oi.stringValue().startsWith(oiPattern);
     }
 
 }

@@ -5,17 +5,15 @@ import gumga.framework.application.Car;
 import gumga.framework.application.CarRepository;
 import gumga.framework.application.CompanyService;
 import gumga.framework.application.SpringConfig;
-import static org.junit.Assert.assertNotNull;
 import gumga.framework.domain.tag.GumgaTag;
 import gumga.framework.domain.tag.GumgaTagDefinition;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.After;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

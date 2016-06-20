@@ -1,16 +1,11 @@
 package gumga.framework.application.service;
 
-import gumga.framework.application.customfields.GumgaCustomEnhancerService;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
-import gumga.framework.domain.customfields.GumgaCustomizableModel;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 import gumga.framework.domain.service.GumgaReadableServiceable;
-
 import java.io.Serializable;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

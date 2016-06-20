@@ -5,7 +5,6 @@
  */
 package gumga.framework.application.report;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import gumga.framework.application.SpringConfig;
 import gumga.framework.application.service.JasperReportService;
 import gumga.framework.application.service.ReportType;

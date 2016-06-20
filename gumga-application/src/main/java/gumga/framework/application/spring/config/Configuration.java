@@ -4,7 +4,6 @@ import gumga.framework.core.GumgaValues;
 import gumga.framework.core.exception.TemplateEngineException;
 import gumga.framework.core.service.GumgaAbstractTemplateEngineAdapter;
 import gumga.framework.core.service.GumgaPasswordService;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;

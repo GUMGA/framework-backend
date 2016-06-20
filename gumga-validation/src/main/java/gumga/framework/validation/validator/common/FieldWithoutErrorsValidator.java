@@ -1,11 +1,9 @@
 package gumga.framework.validation.validator.common;
 
+import com.google.common.base.Optional;
 import gumga.framework.validation.GumgaFieldValidator;
 import gumga.framework.validation.GumgaValidationError;
-
 import org.springframework.validation.Errors;
-
-import com.google.common.base.Optional;
 
 /**
  * Validate if the field has error

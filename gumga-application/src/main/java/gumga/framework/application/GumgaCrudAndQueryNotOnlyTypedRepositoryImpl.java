@@ -7,7 +7,6 @@ package gumga.framework.application;
 
 import com.mysema.query.jpa.impl.JPAQuery;
 import gumga.framework.domain.repository.GumgaCrudAndQueryNotOnlyTypedRepository;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;

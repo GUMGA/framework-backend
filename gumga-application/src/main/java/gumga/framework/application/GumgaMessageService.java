@@ -1,9 +1,8 @@
 package gumga.framework.application;
 
+import gumga.framework.domain.GumgaMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import gumga.framework.domain.GumgaMessage;
 
 @Service
 public class GumgaMessageService extends GumgaService<GumgaMessage, Long> {

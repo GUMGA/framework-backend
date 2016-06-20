@@ -5,11 +5,10 @@ import gumga.framework.application.QueryObjectLikeDecorator;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.tag.GumgaTagDefinition;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class GumgaTagDefinitionService extends GumgaService<GumgaTagDefinition, Long> {

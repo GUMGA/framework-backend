@@ -4,9 +4,7 @@ import gumga.framework.application.customfields.GumgaCustomEnhancerService;
 import gumga.framework.core.utils.ReflectionUtils;
 import gumga.framework.domain.customfields.GumgaCustomizableModel;
 import gumga.framework.domain.repository.GumgaCrudRepository;
-
 import java.io.Serializable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

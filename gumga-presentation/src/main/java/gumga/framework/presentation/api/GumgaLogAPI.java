@@ -9,7 +9,6 @@ import gumga.framework.application.GumgaService;
 import gumga.framework.domain.GumgaLog;
 import gumga.framework.presentation.GumgaAPI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

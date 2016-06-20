@@ -1,12 +1,10 @@
 package gumga.framework.domain.repository;
 
-import com.fasterxml.classmate.GenericType;
 import com.mysema.query.jpa.impl.JPAQuery;
-import org.springframework.data.repository.NoRepositoryBean;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import org.springframework.data.repository.NoRepositoryBean;
 
 /**
  * Cria um repositório para crude não tipado

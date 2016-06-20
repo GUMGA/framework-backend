@@ -6,7 +6,6 @@ import gumga.framework.application.GumgaUserDataService;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.GumgaUserData;
 import gumga.framework.presentation.GumgaAPI;
-import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -3,32 +3,30 @@ package gumga.framework.application;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import gumga.framework.core.GumgaThreadScope;
-import static org.hibernate.criterion.Order.asc;
-import static org.hibernate.criterion.Order.desc;
-import static org.hibernate.criterion.Projections.rowCount;
-import static org.hibernate.criterion.Restrictions.or;
-import static org.hibernate.criterion.Restrictions.like;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.QueryObjectElement;
 import gumga.framework.core.SearchResult;
 import gumga.framework.domain.*;
 import gumga.framework.domain.repository.GumgaCrudRepository;
-
+import gumga.framework.domain.repository.GumgaMultitenancyUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
+import static org.hibernate.criterion.Order.asc;
+import static org.hibernate.criterion.Order.desc;
+import static org.hibernate.criterion.Projections.rowCount;
 import org.hibernate.criterion.Restrictions;
+import static org.hibernate.criterion.Restrictions.like;
+import static org.hibernate.criterion.Restrictions.or;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.slf4j.Logger;
@@ -93,14 +91,16 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
         Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(entityInformation.getJavaType());
         Pesquisa<T> pesquisa = search().add(or(fieldsCriterions));
+        
+        
 
         if (hasMultitenancy() && GumgaThreadScope.organizationCode.get() != null) {
-            String oiValue = (GumgaThreadScope.organizationCode.get() == null) ? "" : GumgaThreadScope.organizationCode.get();
+            String oiPattern=GumgaMultitenancyUtil.getMultitenancyPattern(entityInformation.getJavaType().getAnnotation(GumgaMultitenancy.class));
             Criterion multitenancyCriterion;
             if (getDomainClass().getAnnotation(GumgaMultitenancy.class).allowPublics()) {
-                multitenancyCriterion = or(like("oi", oiValue, MatchMode.START), Restrictions.isNull("oi"));
+                multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.isNull("oi"));
             } else {
-                multitenancyCriterion = or(like("oi", oiValue, MatchMode.START));
+                multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START));
             }
             pesquisa.add(multitenancyCriterion);
         }
@@ -120,22 +120,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     public String getMultitenancyPattern() {
         GumgaMultitenancy tenacy = entityInformation.getJavaType().getAnnotation(GumgaMultitenancy.class);
-        GumgaMultitenancyPolicy policy = tenacy.policy();
-        String toReturn = GumgaThreadScope.organizationCode.get();
-        if (toReturn == null) {
-            toReturn = "";
-        }
-        switch (policy) {
-            case ORGANIZATIONAL:
-                int firstPointPosition = toReturn.indexOf('.');
-                toReturn = toReturn.substring(0, firstPointPosition + 1);
-                break;
-            case TOP_DOWN:
-            default:
-            //Usa o OI como está no threadscope
-
-        }
-        return toReturn;
+        return GumgaMultitenancyUtil.getMultitenancyPattern(tenacy);
     }
 
     private void createAliasIfNecessary(Pesquisa<T> pesquisa, String field) {
@@ -209,10 +194,12 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
         String modelo = "from %s obj WHERE %s";
         if (hasMultitenancy()) {
+            GumgaMultitenancy annotation = getDomainClass().getAnnotation(GumgaMultitenancy.class);
+            String multitenancyPattern = GumgaMultitenancyUtil.getMultitenancyPattern(annotation);
             if (getDomainClass().getAnnotation(GumgaMultitenancy.class).allowPublics()) {
-                modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + GumgaThreadScope.organizationCode.get() + "%%')  AND (%s) ";
+                modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
             } else {
-                modelo = "from %s obj WHERE (obj.oi like '" + GumgaThreadScope.organizationCode.get() + "%%')  AND (%s) ";
+                modelo = "from %s obj WHERE (obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
             }
         }
 

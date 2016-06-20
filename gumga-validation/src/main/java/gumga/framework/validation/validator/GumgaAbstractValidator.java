@@ -1,9 +1,8 @@
 package gumga.framework.validation.validator;
 
+import com.google.common.base.Optional;
 import gumga.framework.validation.GumgaFieldValidator;
 import gumga.framework.validation.GumgaValidationError;
-
-import com.google.common.base.Optional;
 
 /**
  * Helper class to validations

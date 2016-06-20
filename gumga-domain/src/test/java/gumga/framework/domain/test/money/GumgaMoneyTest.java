@@ -10,10 +10,10 @@ import gumga.framework.domain.domains.GumgaMoney;
 import java.math.BigDecimal;
 import java.util.Locale;
 import org.junit.After;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 

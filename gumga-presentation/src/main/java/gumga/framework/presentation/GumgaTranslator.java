@@ -2,7 +2,6 @@ package gumga.framework.presentation;
 
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.utils.ReflectionUtils;
-
 import java.util.LinkedList;
 import java.util.List;
 

@@ -1,20 +1,17 @@
 package gumga.framework.validation.validator.collection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import gumga.framework.validation.GumgaValidationError;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-
-import org.junit.Test;
-import org.springframework.validation.Errors;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import gumga.framework.validation.GumgaValidationError;
+import java.util.ArrayList;
+import java.util.HashSet;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import org.springframework.validation.Errors;
 
 public class NotEmptyCollectionValidatorTest {
 

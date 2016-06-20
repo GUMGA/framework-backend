@@ -6,19 +6,16 @@
 package gumga.framework.security;
 
 import com.wordnik.swagger.annotations.ApiOperation;
-import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.core.UserAndPassword;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
-import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *

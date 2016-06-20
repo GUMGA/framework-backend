@@ -1,22 +1,16 @@
 package gumga.framework.domain;
 
 import br.com.insula.opes.CpfCnpj;
-import gumga.framework.domain.domains.GumgaOi;
-import java.io.Serializable;
-
 import gumga.framework.core.GumgaIdable;
-import gumga.framework.domain.domains.usertypes.CpfCnpjUserType;
 import gumga.framework.domain.domains.*;
 import gumga.framework.domain.domains.usertypes.*;
+import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.EntityListeners;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;

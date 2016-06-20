@@ -1,19 +1,8 @@
 package gumga.framework.domain.domains;
 
 import java.io.Serializable;
-import static java.lang.String.format;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Currency;
-import java.util.Formattable;
-import static java.util.FormattableFlags.ALTERNATE;
-import static java.util.FormattableFlags.LEFT_JUSTIFY;
-import java.util.Formatter;
-import java.util.Locale;
 import java.util.Objects;
 
 /**

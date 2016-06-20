@@ -3,7 +3,6 @@ package gumga.framework.application;
 import gumga.framework.domain.GumgaModel;
 import gumga.framework.domain.GumgaMultitenancy;
 import gumga.framework.domain.customfields.GumgaCustomizableModel;
-
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 

@@ -1,22 +1,16 @@
 package gumga.framework.application.customfields;
 
-import static org.junit.Assert.*;
-
 import gumga.framework.application.Car;
 import gumga.framework.application.CarRepository;
 import gumga.framework.application.Company;
 import gumga.framework.application.CompanyService;
 import gumga.framework.application.SpringConfig;
-import gumga.framework.core.QueryObject;
-import static org.junit.Assert.assertNotNull;
 import gumga.framework.domain.customfields.CustomFieldType;
 import gumga.framework.domain.customfields.GumgaCustomField;
 import gumga.framework.domain.customfields.GumgaCustomFieldValue;
-
 import java.util.List;
-import java.util.Map;
+import static org.junit.Assert.*;
 import org.junit.Before;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

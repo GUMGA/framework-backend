@@ -1,9 +1,5 @@
 package gumga.framework.presentation.gateway;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import gumga.framework.application.service.GumgaNoDeleteService;
 import gumga.framework.core.GumgaIdable;
 import gumga.framework.core.QueryObject;
@@ -12,6 +8,8 @@ import gumga.framework.core.utils.ReflectionUtils;
 import gumga.framework.domain.service.GumgaReadableServiceable;
 import gumga.framework.domain.service.GumgaWritableServiceable;
 import gumga.framework.presentation.GumgaTranslator;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class GumgaNoDeleteGateway<A extends GumgaIdable<?>, DTO> implements GumgaReadableServiceable<DTO>, GumgaWritableServiceable<DTO> {
 

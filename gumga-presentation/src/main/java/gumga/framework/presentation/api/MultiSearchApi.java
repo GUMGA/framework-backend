@@ -9,8 +9,6 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.application.GumgaUntypedRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;

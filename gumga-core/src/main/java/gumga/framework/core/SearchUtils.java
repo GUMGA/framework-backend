@@ -1,12 +1,10 @@
 package gumga.framework.core;
 
+import java.util.ArrayList;
 import static java.util.Collections.reverse;
 import static java.util.Collections.sort;
-
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 
 /**

@@ -1,13 +1,10 @@
 package gumga.framework.validation.validator.collection;
 
+import com.google.common.base.Optional;
 import gumga.framework.validation.GumgaValidationError;
 import gumga.framework.validation.validator.GumgaAbstractValidator;
-
 import java.util.Collection;
-
 import org.springframework.validation.Errors;
-
-import com.google.common.base.Optional;
 
 /**
  * Validate is the {@link Collection} is not empty

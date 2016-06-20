@@ -1,9 +1,7 @@
 package gumga.framework.application.clock;
 
 import gumga.framework.domain.config.Dev;
-
 import java.util.Date;
-
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 

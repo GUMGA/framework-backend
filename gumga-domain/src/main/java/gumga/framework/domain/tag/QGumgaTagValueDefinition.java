@@ -1,13 +1,11 @@
 package br.com.gumga.domain.tag;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
-
-import com.mysema.query.types.path.*;
-
-import com.mysema.query.types.PathMetadata;
-import javax.annotation.Generated;
 import com.mysema.query.types.Path;
+import com.mysema.query.types.PathMetadata;
+import static com.mysema.query.types.PathMetadataFactory.*;
+import com.mysema.query.types.path.*;
 import gumga.framework.domain.tag.GumgaTagValueDefinition;
+import javax.annotation.Generated;
 
 /**
  * QGumgaTagValueDefinition is a Querydsl query type for GumgaTagValueDefinition

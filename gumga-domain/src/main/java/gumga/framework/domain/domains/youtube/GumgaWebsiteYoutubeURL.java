@@ -1,16 +1,14 @@
 package gumga.framework.domain.domains.youtube;
 
 import com.google.common.base.Objects;
+import static com.google.common.base.Preconditions.checkArgument;
 import gumga.framework.domain.domains.GumgaYoutubeURL;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Tipo de dado para videos do Youtube

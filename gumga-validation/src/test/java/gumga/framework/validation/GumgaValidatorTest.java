@@ -1,19 +1,17 @@
 package gumga.framework.validation;
 
+import gumga.framework.validation.exception.InvalidEntityException;
 import static gumga.framework.validation.validator.GumgaCommonValidator.notNull;
 import static gumga.framework.validation.validator.GumgaStringValidation.notNullOrEmpty;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import gumga.framework.validation.exception.InvalidEntityException;
 import gumga.framework.validation.validator.common.IsFalseValidator;
 import gumga.framework.validation.validator.common.IsTrueValidator;
 import gumga.framework.validation.validator.common.NotNullValidator;
 import gumga.framework.validation.validator.string.NotNullOrEmptyValidator;
-
 import java.util.Date;
-
 import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

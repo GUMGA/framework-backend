@@ -2,7 +2,6 @@ package gumga.framework.application;
 
 
 import gumga.framework.domain.GumgaModel;
-
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 

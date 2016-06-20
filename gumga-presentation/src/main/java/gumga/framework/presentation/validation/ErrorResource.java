@@ -1,7 +1,6 @@
 package gumga.framework.presentation.validation;
 
 import gumga.framework.presentation.RestResponse;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;

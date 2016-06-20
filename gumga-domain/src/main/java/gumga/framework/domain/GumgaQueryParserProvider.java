@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 import static java.util.concurrent.TimeUnit.DAYS;
 import org.hibernate.criterion.Conjunction;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import static org.hibernate.criterion.Restrictions.eq;
