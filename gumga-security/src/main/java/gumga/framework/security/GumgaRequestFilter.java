@@ -95,8 +95,8 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             if (o instanceof HandlerMethod) {
                 hm = (HandlerMethod) o;
             } else {
-                System.out.println("---HandlerMethod--->" + o.getClass());
-                hm = new HandlerMethod(o, this.getClass().getMethod("dummy"));
+                System.out.println("---HandlerMethod--->" + o.getClass()+" "+request.getMethod()+" "+request.getRequestURL());
+                return true;
             }
 
             GumgaOperationKey gumgaOperationKeyMethodAnnotation = hm.getMethodAnnotation(GumgaOperationKey.class);
