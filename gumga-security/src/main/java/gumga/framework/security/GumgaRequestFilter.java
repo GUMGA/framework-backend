@@ -19,7 +19,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerAdapter;
+import org.springframework.web.servlet.handler.AbstractHandlerMapping;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 /**
  *
@@ -63,6 +66,10 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         mapper = new ObjectMapper();
     }
 
+    public void dummy() {
+
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         tempo.set(System.currentTimeMillis());
@@ -82,7 +89,16 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             String endPoint = request.getRequestURL().toString();
             String method = request.getMethod();
 
-            HandlerMethod hm = (HandlerMethod) o;
+            HandlerMethod hm;
+
+            //TODO MUDANÇA DO SPRING DO 4.0.0 PARA 4.2.6
+            if (o instanceof HandlerMethod) {
+                hm = (HandlerMethod) o;
+            } else {
+                System.out.println("---HandlerMethod--->" + o.getClass());
+                hm = new HandlerMethod(o, this.getClass().getMethod("dummy"));
+            }
+
             GumgaOperationKey gumgaOperationKeyMethodAnnotation = hm.getMethodAnnotation(GumgaOperationKey.class);
             if (gumgaOperationKeyMethodAnnotation != null) {
                 operationKey = gumgaOperationKeyMethodAnnotation.value();
@@ -97,16 +113,16 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 operationKey = apiName + "_" + hm.getMethod().getName();
             }
             if (endPoint.contains("public") || endPoint.contains("api-docs")) {
-                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public",null), request, operationKey, endPoint, method, true);
+                saveLog(new AuthorizatonResponse("allow", "public", "public", "public", "public", "public", null), request, operationKey, endPoint, method, true);
                 return true;
             }
 
             String url = gumgaValues.getGumgaSecurityUrl() + "/token/authorize/" + softwareId + "/" + token + "/" + request.getRemoteAddr() + "/" + operationKey + "/";
 
             ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
-            
-            System.out.println("---"+this.getClass().getSimpleName()+"----->"+ar.getOrganizationId());
-            
+
+            System.out.println("---" + this.getClass().getSimpleName() + "----->" + ar.getOrganizationId());
+
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(request.getRemoteAddr());
             GumgaThreadScope.organization.set(ar.getOrganization());
@@ -168,6 +184,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         GumgaThreadScope.organization.remove();
         GumgaThreadScope.organizationCode.remove();
         GumgaThreadScope.operationKey.remove();
+        GumgaThreadScope.organizationId.remove();
     }
 
 }
