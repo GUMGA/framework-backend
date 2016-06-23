@@ -25,9 +25,7 @@ public interface GumgaCrudRepository<T, ID extends Serializable> extends JpaRepo
 
     SearchResult<T> search(String hql, Map<String, Object> params);
 
-    default SearchResult<T> search(String hql, Map<String, Object> params, int max, int first) {
-        return search(hql, params);
-    }
+    SearchResult<T> search(String hql, Map<String, Object> params, int max, int first);
 
     List<GumgaObjectAndRevision> listOldVersions(ID id);
 
