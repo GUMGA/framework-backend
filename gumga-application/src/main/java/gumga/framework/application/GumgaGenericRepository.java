@@ -91,11 +91,9 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
         Criterion[] fieldsCriterions = new HibernateQueryObject(query).getCriterions(entityInformation.getJavaType());
         Pesquisa<T> pesquisa = search().add(or(fieldsCriterions));
-        
-        
 
         if (hasMultitenancy() && GumgaThreadScope.organizationCode.get() != null) {
-            String oiPattern=GumgaMultitenancyUtil.getMultitenancyPattern(entityInformation.getJavaType().getAnnotation(GumgaMultitenancy.class));
+            String oiPattern = GumgaMultitenancyUtil.getMultitenancyPattern(entityInformation.getJavaType().getAnnotation(GumgaMultitenancy.class));
             Criterion multitenancyCriterion;
             if (getDomainClass().getAnnotation(GumgaMultitenancy.class).allowPublics()) {
                 multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.isNull("oi"));
@@ -243,6 +241,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return new SearchResult<>(whereQuery, total, resultList);
     }
 
+    @Override
     public SearchResult<T> search(String hql, Map<String, Object> params) {
         Query query = entityManager.createQuery(hql);
         if (params != null) {
@@ -250,6 +249,21 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
                 query.setParameter(key, params.get(key));
             }
         }
+        List<T> result = query.getResultList();
+        int total = result.size();
+        return new SearchResult<>(0, total, total, result);
+    }
+
+    @Override
+    public SearchResult<T> search(String hql, Map<String, Object> params, int max, int first) {
+        Query query = entityManager.createQuery(hql);
+        if (params != null) {
+            for (String key : params.keySet()) {
+                query.setParameter(key, params.get(key));
+            }
+        }
+        query.setMaxResults(max);
+        query.setFirstResult(first);
         List<T> result = query.getResultList();
         int total = result.size();
         return new SearchResult<>(0, total, total, result);
@@ -498,5 +512,5 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         qo.setPageSize(Integer.MAX_VALUE - 1);
         return search(qo);
     }
-    
+
 }
