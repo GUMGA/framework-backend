@@ -86,6 +86,8 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             if (token == null) {
                 token = "no token";
             }
+            GumgaThreadScope.gumgaToken.set(token);
+
             String endPoint = request.getRequestURL().toString();
             String method = request.getMethod();
 
@@ -126,7 +128,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             GumgaThreadScope.organization.set(ar.getOrganization());
             GumgaThreadScope.organizationCode.set(ar.getOrganizationCode());
             GumgaThreadScope.operationKey.set(operationKey);
-            GumgaThreadScope.gumgaToken.set(token);
+
             GumgaThreadScope.softwareName.set(softwareId);
             GumgaThreadScope.organizationId.set(ar.getOrganizationId());
             saveLog(ar, request, operationKey, endPoint, method, ar.isAllowed());

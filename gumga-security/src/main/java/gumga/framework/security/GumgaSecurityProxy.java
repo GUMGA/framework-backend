@@ -6,14 +6,21 @@
 package gumga.framework.security;
 
 import com.wordnik.swagger.annotations.ApiOperation;
+import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.core.UserAndPassword;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -128,6 +135,17 @@ class GumgaSecurityProxy {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/searchticket/" + code;
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
+    }
+
+    @ApiOperation(value = "/organizations/users", notes = "Buscar todos os usuarios por organização.")
+    @RequestMapping(method = RequestMethod.GET, value = "/organizations/users/{token}")
+    public List findAllUserByOrganization(@PathVariable String token) {
+
+        final String url = gumgaValues.getGumgaSecurityUrl() + "/token/organization/users?gumgaToken=" + token;
+
+        List result = this.restTemplate.getForObject(url, List.class);
+
+        return result;
     }
 
 }
