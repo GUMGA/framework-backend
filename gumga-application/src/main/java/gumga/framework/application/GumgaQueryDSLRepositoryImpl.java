@@ -146,7 +146,6 @@ public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends Gum
         if (tenancy.allowPublics()) {
             return oi.stringValue().startsWith(oiPattern).or(oi.isNull());
         }
-         //System.out.println("--------MultitenancyPattern----->"+oiPattern);
         return oi.stringValue().startsWith(oiPattern);
     }
 

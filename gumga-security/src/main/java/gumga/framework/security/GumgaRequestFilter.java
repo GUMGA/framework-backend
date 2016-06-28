@@ -95,7 +95,6 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             if (o instanceof HandlerMethod) {
                 hm = (HandlerMethod) o;
             } else {
-                System.out.println("---HandlerMethod--->" + o.getClass()+" "+request.getMethod()+" "+request.getRequestURL());
                 return true;
             }
 
@@ -121,7 +120,6 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
             ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
 
-            System.out.println("---" + this.getClass().getSimpleName() + "----->" + ar.getOrganizationId());
 
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(request.getRemoteAddr());

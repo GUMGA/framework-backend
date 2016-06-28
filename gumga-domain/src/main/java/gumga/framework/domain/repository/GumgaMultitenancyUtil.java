@@ -22,7 +22,6 @@ public class GumgaMultitenancyUtil {
             //Usa o OI como está no threadscope
 
         }
-        System.out.println("-----Util---GumgaMultitenancyPattern----->" + oiPattern);
         return oiPattern;
     }
 
