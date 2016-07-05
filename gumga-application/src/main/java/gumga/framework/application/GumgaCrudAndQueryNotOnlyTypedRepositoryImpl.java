@@ -22,7 +22,8 @@ public class GumgaCrudAndQueryNotOnlyTypedRepositoryImpl<T, ID extends Serializa
         super(entityInformation, entityManager);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
     public <E> E getUniqueResult(String hql, Class<E> type, Map<String, Object> param) {
         javax.persistence.Query query = entityManager.createQuery(hql);
         query.setMaxResults(1);
@@ -30,21 +31,22 @@ public class GumgaCrudAndQueryNotOnlyTypedRepositoryImpl<T, ID extends Serializa
         return type.cast(query.getSingleResult());
     }
 
-    
-    public List getResultList(String hql,  Map<String, Object> param) {
+    @Override
+    public List getResultList(String hql, Map<String, Object> param) {
         javax.persistence.Query query = entityManager.createQuery(hql);
         addParam(query, param);
         return query.getResultList();
     }
 
-    public List getResultList(String hql,  Map<String, Object> param, int maxResult) {
+    @Override
+    public List getResultList(String hql, Map<String, Object> param, int maxResult) {
         javax.persistence.Query query = entityManager.createQuery(hql);
         query.setMaxResults(maxResult);
         addParam(query, param);
         return query.getResultList();
     }
 
-    
+    @Override
     public List getResultList(String hql, Map<String, Object> param, int firstresult, int maxResult) {
         javax.persistence.Query query = entityManager.createQuery(hql);
         query.setMaxResults(maxResult);
@@ -53,7 +55,7 @@ public class GumgaCrudAndQueryNotOnlyTypedRepositoryImpl<T, ID extends Serializa
         return query.getResultList();
     }
 
-  
+    @Override
     public JPAQuery getJPAQuerydsl() {
         JPAQuery jpa = new JPAQuery(entityManager);
         return jpa;
@@ -61,13 +63,8 @@ public class GumgaCrudAndQueryNotOnlyTypedRepositoryImpl<T, ID extends Serializa
 
     private void addParam(Query q, Map<String, Object> params) {
         if (params != null) {
-            params.keySet().stream().forEach((key) -> {
-                q.setParameter(key, params.get(key));
-            });
+            params.keySet().stream().forEach(key -> q.setParameter(key, params.get(key)));
         }
     }
-
-
-
 
 }
