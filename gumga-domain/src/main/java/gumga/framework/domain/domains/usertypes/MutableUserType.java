@@ -43,10 +43,5 @@ public abstract class MutableUserType implements UserType, Serializable {
     public Object replace(Object original, Object target, Object owner) throws HibernateException {
         return deepCopy(original);
     }
-    
-    @Override
-    public int hashCode() {
-        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

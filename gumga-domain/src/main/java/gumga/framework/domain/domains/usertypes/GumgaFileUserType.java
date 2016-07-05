@@ -173,8 +173,4 @@ public class GumgaFileUserType implements CompositeUserType {
         return this.deepCopy(original);
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
-    }
 }

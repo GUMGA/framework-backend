@@ -75,10 +75,5 @@ public class GumgaURLUserType extends MutableUserType {
         final GumgaURL aRetornar = new GumgaURL(recebido);
         return aRetornar;
     }
-    
-    @Override
-    public int hashCode() {
-        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }
