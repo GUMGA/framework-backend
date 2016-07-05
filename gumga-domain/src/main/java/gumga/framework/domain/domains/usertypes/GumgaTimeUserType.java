@@ -80,5 +80,10 @@ public class GumgaTimeUserType extends MutableUserType {
         final GumgaTime aRetornar = new GumgaTime(recebido);
         return aRetornar;
     }
+    
+    @Override
+    public int hashCode() {
+        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

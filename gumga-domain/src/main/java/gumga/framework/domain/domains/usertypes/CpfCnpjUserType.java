@@ -61,4 +61,9 @@ public class CpfCnpjUserType extends ImmutableUserType {
         return new int[]{Types.VARCHAR};
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

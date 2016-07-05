@@ -64,5 +64,10 @@ public abstract class ImmutableUserType implements UserType, Serializable {
     public final Object replace(Object original, Object target, Object owner) throws HibernateException {
         return deepCopy(original);
     }
+    
+    @Override
+    public int hashCode() {
+        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

@@ -172,4 +172,9 @@ public class GumgaFileUserType implements CompositeUserType {
         //For mutable types at bare minimum return a deep copy of first argument
         return this.deepCopy(original);
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+    }
 }

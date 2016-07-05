@@ -76,5 +76,10 @@ public class GumgaMoneyUserType extends MutableUserType {
         final GumgaMoney aRetornar = new GumgaMoney(recebido.getValue());
         return aRetornar;
     }
+    
+    @Override
+    public int hashCode() {
+        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
