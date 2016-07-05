@@ -76,22 +76,24 @@ public class ErrorMessageHandlerExceptionResolver extends AbstractHandlerExcepti
             acceptedMediaTypes = Collections.singletonList(MediaType.ALL);
         }
         MediaType.sortByQualityValue(acceptedMediaTypes);
-        HttpOutputMessage outputMessage = new ServletServerHttpResponse(webRequest.getResponse());
-        Class<?> returnValueType = returnValue.getClass();
-        if (this.messageConverters != null) {
-            for (MediaType acceptedMediaType : acceptedMediaTypes) {
-                for (HttpMessageConverter messageConverter : this.messageConverters) {
-                    if (messageConverter.canWrite(returnValueType, acceptedMediaType)) {
-                        messageConverter.write(returnValue, acceptedMediaType, outputMessage);
-                        return new ModelAndView();
+        try (ServletServerHttpResponse outputMessage = new ServletServerHttpResponse(webRequest.getResponse())) {
+            Class<?> returnValueType = returnValue.getClass();
+            if (this.messageConverters != null) {
+                for (MediaType acceptedMediaType : acceptedMediaTypes) {
+                    for (HttpMessageConverter messageConverter : this.messageConverters) {
+                        if (messageConverter.canWrite(returnValueType, acceptedMediaType)) {
+                            messageConverter.write(returnValue, acceptedMediaType, outputMessage);
+                            return new ModelAndView();
+                        }
                     }
                 }
             }
+            if (logger.isWarnEnabled()) {
+                logger.warn("Could not find HttpMessageConverter that supports return type [" + returnValueType + "] and "
+                        + acceptedMediaTypes);
+            }
         }
-        if (logger.isWarnEnabled()) {
-            logger.warn("Could not find HttpMessageConverter that supports return type [" + returnValueType + "] and "
-                    + acceptedMediaTypes);
-        }
+
         return null;
     }
 

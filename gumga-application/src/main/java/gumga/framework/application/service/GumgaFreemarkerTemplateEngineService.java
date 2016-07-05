@@ -38,10 +38,6 @@ public class GumgaFreemarkerTemplateEngineService extends GumgaAbstractTemplateE
     private String templateFolder;
     private String defaultEncoding;
 
-    public GumgaFreemarkerTemplateEngineService() {
-
-    }
-
     public GumgaFreemarkerTemplateEngineService(String templateFolder,
             String defaultEncoding) {
         this.templateFolder = templateFolder;
@@ -90,7 +86,7 @@ public class GumgaFreemarkerTemplateEngineService extends GumgaAbstractTemplateE
                         Files.copy(file, destination);
                     }
                 }
-                cfg = new Configuration(Configuration.VERSION_2_3_22);
+                initStatic();
                 cfg.setDirectoryForTemplateLoading(new File(this.templateFolder));
                 cfg.setDefaultEncoding(this.defaultEncoding);
                 cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
@@ -100,5 +96,9 @@ public class GumgaFreemarkerTemplateEngineService extends GumgaAbstractTemplateE
                 throw new TemplateEngineException("An error occurred while initializating the template engine", e);
             }
         }
+    }
+
+    private static synchronized void initStatic() {
+        cfg = new Configuration(Configuration.VERSION_2_3_22);
     }
 }

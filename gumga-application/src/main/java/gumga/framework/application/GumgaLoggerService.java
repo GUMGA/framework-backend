@@ -18,13 +18,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GumgaLoggerService {
-    
-    private static final Logger log=LoggerFactory.getLogger(GumgaLogService.class);
 
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    private static final Logger log = LoggerFactory.getLogger(GumgaLogService.class);
+
+    private final SimpleDateFormat sdf;
 
     @Autowired
     private GumgaValues gumgaValues;
+
+    public GumgaLoggerService() {
+        this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    }
 
     public void logToFile(String msg, int level) {
         try {
@@ -36,7 +40,7 @@ public class GumgaLoggerService {
             fw.write(line);
             fw.close();
         } catch (IOException ex) {
-            log.error("Problema ao loggar no arquivo",ex);
+            log.error("Problema ao loggar no arquivo", ex);
         }
     }
 
