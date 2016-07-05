@@ -9,11 +9,13 @@ import gumga.framework.application.service.JasperReportService;
 import gumga.framework.application.service.ReportType;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -37,18 +39,18 @@ public abstract class AbstractReportAPI {
     }
 
     public void generateAndExportReport(String reportName, List data, Map<String, Object> params,
-            HttpServletRequest request, HttpServletResponse response, ReportType type) throws Exception {
+            HttpServletRequest request, HttpServletResponse response, ReportType type) throws JRException, IOException {
         InputStream is = getResourceAsInputStream(request, reportName);
         setContentType(response, reportName, type);
         reportService.exportReport(is, response.getOutputStream(), data, params, type);
     }
 
     public void generateAndExportHTMLReport(String reportName, String destFile, List data, Map<String, Object> params,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+            HttpServletRequest request, HttpServletResponse response) throws JRException, IOException {
         InputStream is = getResourceAsInputStream(request, reportName);
         setContentType(response, reportName, ReportType.HTML);
         reportService.exportReportToHtmlFile(is, data, params, destFile);
-        
+
         //Set the output content
         InputStream generatedIs = request.getServletContext().getResourceAsStream(destFile);
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();

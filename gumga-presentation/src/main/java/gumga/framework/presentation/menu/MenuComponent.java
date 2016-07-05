@@ -46,6 +46,7 @@ public abstract class MenuComponent implements Comparable<MenuComponent> {
 		return clazz;
 	}
 
+        @Override
 	public int compareTo(MenuComponent otherMenuItem) {
 		return label.compareTo(otherMenuItem.getLabel());
 	}

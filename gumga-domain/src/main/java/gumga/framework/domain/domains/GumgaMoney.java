@@ -93,7 +93,7 @@ public class GumgaMoney extends Number implements Serializable {
 
     public GumgaMoney percentageOf(GumgaMoney val) {
         if (val == null) {
-            throw new RuntimeException("Base value can't be null");
+            throw new GumgaMoneyException("Base value can't be null");
         }
         BigDecimal percentage = value.divide(val.getValue()).multiply(HUNDRED).setScale(value.scale());
         return new GumgaMoney(percentage);

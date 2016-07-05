@@ -17,11 +17,12 @@ public class MySqlDataSourceProvider implements DataSourceProvider {
     public DataSource createDataSource(String url, String user, String password) {
         return createDataSource(url, user, password, 5, 20);
     }
-    
+
     @Override
     public DataSource createDataSource(String url, String user, String password, int minConnections, int maxConnections) {
+        initDefaultMap();
         HikariConfig config = new HikariConfig();
-        GumgaQueryParserProvider.defaultMap = GumgaQueryParserProvider.getMySqlLikeMap();
+
         config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
         config.addDataSourceProperty("url", url);
         config.addDataSourceProperty("user", user);
@@ -37,6 +38,10 @@ public class MySqlDataSourceProvider implements DataSourceProvider {
     @Override
     public String getDialect() {
         return "org.hibernate.dialect.MySQLDialect";
+    }
+
+    public static synchronized void initDefaultMap() {
+        GumgaQueryParserProvider.defaultMap = GumgaQueryParserProvider.getMySqlLikeMap();
     }
 
 }

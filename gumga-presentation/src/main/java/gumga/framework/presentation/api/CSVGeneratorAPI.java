@@ -15,7 +15,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,10 +42,10 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface CSVGeneratorAPI {
 
-    static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    static final String CSV_SEPARATOR = ";";
-    static final String CSV_LINE_DELIMITER = "\r\n";
-    static final Logger log = LoggerFactory.getLogger(CSVGeneratorAPI.class);
+    final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    final String CSV_SEPARATOR = ";";
+    final String CSV_LINE_DELIMITER = "\r\n";
+    final Logger log = LoggerFactory.getLogger(CSVGeneratorAPI.class);
 
     GumgaService getGumgaService();
 
@@ -142,9 +144,8 @@ public interface CSVGeneratorAPI {
                 }
                 coluna = "ao salvar registro completo";
                 getGumgaService().save(entidade);
-            } catch (Exception ex) {
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | ParseException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
                 problemas.add("Linha:" + numeroLinha + " Coluna:" + coluna + " Problema:" + ex);
-                ex.printStackTrace();
             }
         }
         return new SearchResult<>(0, problemas.size(), problemas.size(), problemas);
@@ -224,9 +225,8 @@ public interface CSVGeneratorAPI {
                     }
                 }
                 coluna = "ao salvar registro completo";
-            } catch (Exception ex) {
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | ParseException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
                 problemas.add("Linha:" + numeroLinha + " Coluna:" + coluna + " Problema:" + ex);
-                ex.printStackTrace();
             }
         }
         return new SearchResult<>(0, problemas.size(), problemas.size(), problemas);

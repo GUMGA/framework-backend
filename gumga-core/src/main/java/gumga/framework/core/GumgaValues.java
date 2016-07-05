@@ -38,7 +38,7 @@ public interface GumgaValues {
      * segundos.
      */
     default long getDefaultTokenDuration() {
-        return 30 * 60 * 1000;
+        return 30l * 60l * 1000l;
     }
 
     /**

@@ -7,6 +7,7 @@ import gumga.framework.core.utils.ReflectionUtils;
 import gumga.framework.domain.AbstractStringCriterionParser;
 import gumga.framework.domain.GumgaQueryParserProvider;
 import gumga.framework.domain.domains.GumgaMoney;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 
 public class GumgaGenericRepositoryHelper {
@@ -104,8 +106,8 @@ public class GumgaGenericRepositoryHelper {
                 }
                 qoe.setValue(node.get("value").asText());
             }
-        } catch (Exception ex) {
-            throw new RuntimeException("Problem with Jackson "+ex.toString());
+        } catch (IOException ex) {
+            throw new GumgaGenericRepostoryHelperException(ex);
         }
         return aRetornar;
 
@@ -113,35 +115,31 @@ public class GumgaGenericRepositoryHelper {
 
     public static String hqlFromQoes(JpaEntityInformation entityInformation, List<QueryObjectElement> qoes) {
         String aRetornar = "";
-        try {
-            for (QueryObjectElement qoe : qoes) {
-                if ("NO_ATTRIBUTE".equals(qoe.getAttribute())) {
-                    aRetornar += " " + qoe.getValue() + " ";
-                } else {
-                    Class type = String.class;
-                    Field field = ReflectionUtils.findField(entityInformation.getJavaType(), qoe.getAttribute());
-                    if (field != null) {
-                        type = field.getType();
 
-                    }
-                    GumgaFieldStereotype fieldStereotype = getFieldStereotype(type);
-                    if (GumgaQueryParserProvider.defaultMap.equals(GumgaQueryParserProvider.getOracleLikeMap()) && fieldStereotype == GumgaFieldStereotype.TEXT) {
-                        aRetornar += "upper(translate(obj." + qoe.getAttribute()
-                                + ",'" + AbstractStringCriterionParser.SOURCE_CHARS + "','" + AbstractStringCriterionParser.TARGET_CHARS + "'"
-                                + ")" + ")";
-                    } else {
-                        aRetornar += "obj." + qoe.getAttribute();
-                    }
+        for (QueryObjectElement qoe : qoes) {
+            if ("NO_ATTRIBUTE".equals(qoe.getAttribute())) {
+                aRetornar += " " + qoe.getValue() + " ";
+            } else {
+                Class type = String.class;
+                Field field = ReflectionUtils.findField(entityInformation.getJavaType(), qoe.getAttribute());
+                if (field != null) {
+                    type = field.getType();
 
-                    GumgaHqlEntry het = new GumgaHqlEntry(fieldStereotype, qoe.getHql());
-                    GumgaHqlElement hel = getHqlConverter().get(het);
-                    aRetornar += hel.before + removeAcentos(qoe.getValue()).toUpperCase() + hel.after;
                 }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+                GumgaFieldStereotype fieldStereotype = getFieldStereotype(type);
+                if (GumgaQueryParserProvider.defaultMap.equals(GumgaQueryParserProvider.getOracleLikeMap()) && fieldStereotype == GumgaFieldStereotype.TEXT) {
+                    aRetornar += "upper(translate(obj." + qoe.getAttribute()
+                            + ",'" + AbstractStringCriterionParser.SOURCE_CHARS + "','" + AbstractStringCriterionParser.TARGET_CHARS + "'"
+                            + ")" + ")";
+                } else {
+                    aRetornar += "obj." + qoe.getAttribute();
+                }
 
+                GumgaHqlEntry het = new GumgaHqlEntry(fieldStereotype, qoe.getHql());
+                GumgaHqlElement hel = getHqlConverter().get(het);
+                aRetornar += hel.before + removeAcentos(qoe.getValue()).toUpperCase() + hel.after;
+            }
+        }
         return aRetornar;
     }
 
@@ -151,5 +149,5 @@ public class GumgaGenericRepositoryHelper {
         return str;
 
     }
-    
+
 }

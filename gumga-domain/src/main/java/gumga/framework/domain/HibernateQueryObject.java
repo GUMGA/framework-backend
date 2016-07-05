@@ -33,7 +33,7 @@ public class HibernateQueryObject {
         this.parsers = new HashMap<>(GumgaQueryParserProvider.defaultMap);
 
         if (null == GumgaQueryParserProvider.defaultMap) {
-            throw new RuntimeException("GumgaQueryParserProvider.defaultMap must be set in Application configuration");
+            throw new HibernateQueryObjectException("GumgaQueryParserProvider.defaultMap must be set in Application configuration");
         }
         
 
@@ -55,11 +55,11 @@ public class HibernateQueryObject {
             try {
                 criterions.add(createCriterion(field, queryObject.getQ(), clazz));
             } catch (ParseException ex) {
-                throw new RuntimeException("Problem creating creterion.Cannot parse field " + field);
+                throw new HibernateQueryObjectException("Problem creating creterion.Cannot parse field " + field);
             } catch (NumberFormatException ex) {
-                throw new RuntimeException("Problem creating creterion.Number format problem in field  " + field);
+                throw new HibernateQueryObjectException("Problem creating creterion.Number format problem in field  " + field);
             } catch (UnsupportedDataTypeException ex) {
-                throw new RuntimeException("Problem creating creterion.Unsupported data type in field " + field);
+                throw new HibernateQueryObjectException("Problem creating creterion.Unsupported data type in field " + field);
             }
         }
 
@@ -94,4 +94,14 @@ public class HibernateQueryObject {
         criterions.add(Restrictions.sqlRestriction("(1=0)"));
     }
 
+}
+
+
+class HibernateQueryObjectException extends RuntimeException{
+
+    public HibernateQueryObjectException(String message) {
+        super(message);
+    }
+    
+    
 }

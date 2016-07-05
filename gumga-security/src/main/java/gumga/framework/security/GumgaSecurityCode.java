@@ -34,7 +34,7 @@ public enum GumgaSecurityCode {
     TIME_NOT_ALLOWED(HttpStatus.FORBIDDEN),
     SECURITY_INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR);
 
-    public HttpStatus httpStatus;
+    public final HttpStatus httpStatus;
 
     GumgaSecurityCode(HttpStatus s) {
         httpStatus = s;

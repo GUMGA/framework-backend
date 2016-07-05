@@ -14,8 +14,8 @@ public class PostgreSqlDataSourceProvider implements DataSourceProvider {
 
     @Override
     public DataSource createDataSource(String url, String user, String password, int minConnections, int maxConnections) {
+        initDefaultMap();
         HikariConfig config = new HikariConfig();
-        GumgaQueryParserProvider.defaultMap = GumgaQueryParserProvider.getOracleLikeMap();
         config.setDataSourceClassName("org.postgresql.jdbc2.optional.SimpleDataSource");
         config.addDataSourceProperty("url", url);
         config.addDataSourceProperty("user", user);
@@ -30,6 +30,10 @@ public class PostgreSqlDataSourceProvider implements DataSourceProvider {
     @Override
     public String getDialect() {
         return "org.hibernate.dialect.PostgreSQLDialect";
+    }
+
+    public static synchronized void initDefaultMap() {
+        GumgaQueryParserProvider.defaultMap = GumgaQueryParserProvider.getOracleLikeMap();
     }
 
 }

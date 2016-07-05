@@ -22,22 +22,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class GumgaNotificationsServlet extends HttpServlet {
-
+    
     private static final long cycleTime = 5 * 60 * 1000l;
     private static final long intervalTime = 1000l;
     private static final long cycles = cycleTime / intervalTime;
-
+    
     @Autowired
     private GumgaMessageService messageService;
-
+    
     @RequestMapping("/notifications/viewed")
     protected void viewd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long l=new Long(request.getParameter("id"));
-        GumgaMessage gm=new GumgaMessage(l);
+        Long l = new Long(request.getParameter("id"));
+        GumgaMessage gm = new GumgaMessage(l);
         messageService.delete(gm);
-    
+        
     }
-
     
     @RequestMapping("/notifications/source")
     protected void notifications(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,10 +44,10 @@ public class GumgaNotificationsServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
         QueryObject qo = new QueryObject();
-        qo.setAq("destinationLogin='"+GumgaThreadScope.login.get()+"' and viewedIn is null ");
+        qo.setAq("destinationLogin='" + GumgaThreadScope.login.get() + "' and viewedIn is null ");
         qo.setAq("viewedIn is null ");
         qo.setPageSize(1000);
-
+        
         for (int i = 0; i < cycles; i++) {
             SearchResult<GumgaMessage> pesquisa = messageService.pesquisa(qo);
             String message = "data: {"
@@ -60,12 +59,12 @@ public class GumgaNotificationsServlet extends HttpServlet {
             try {
                 Thread.sleep(intervalTime);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log(e.getMessage());
             }
         }
         writer.close();
     }
-
+    
     @RequestMapping("/notifications/dummy")
     protected void dummyHtml(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -135,5 +134,5 @@ public class GumgaNotificationsServlet extends HttpServlet {
                 + "");
         writer.close();
     }
-
+    
 }

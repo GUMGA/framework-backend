@@ -22,7 +22,7 @@ public class MetadataAPI {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MetadataAPI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        throw new RuntimeException("Entity not present");
+        throw new MetadataAPIException("Entity not present");
     }
 
 }

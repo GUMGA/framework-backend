@@ -6,6 +6,7 @@ import gumga.framework.presentation.validation.Error;
 import gumga.framework.presentation.validation.ErrorResource;
 import gumga.framework.presentation.validation.FieldErrorResource;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -22,16 +23,15 @@ public abstract class AbstractProtoGumgaAPI<T> {
 
     @Autowired
     private Validator validator;
-    
+
     @Autowired
     protected GumgaCustomEnhancerService gces;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    
-    @RequestMapping(value="/new",method = RequestMethod.GET)
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
     public T initialState() {
-        T entity=initialValue();
+        T entity = initialValue();
         gces.setDefaultValues(entity);
         return entity;
     }
@@ -41,8 +41,8 @@ public abstract class AbstractProtoGumgaAPI<T> {
             Constructor<T> constructor = clazz().getDeclaredConstructor();
             constructor.setAccessible(true);
             return constructor.newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            throw new ProtoGumgaAPIException(e);
         }
     }
 
@@ -86,7 +86,7 @@ public abstract class AbstractProtoGumgaAPI<T> {
 
             return invalidEntity;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ProtoGumgaAPIException(e);
         }
     }
 

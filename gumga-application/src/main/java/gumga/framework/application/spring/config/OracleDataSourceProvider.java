@@ -11,11 +11,11 @@ public class OracleDataSourceProvider implements DataSourceProvider {
     public DataSource createDataSource(String url, String user, String password) {
         return createDataSource(url, user, password, 5, 20);
     }
-    
+
     @Override
     public DataSource createDataSource(String url, String user, String password, int minConnections, int maxConnections) {
+        initDefaultMap();
         HikariConfig config = new HikariConfig();
-        GumgaQueryParserProvider.defaultMap = GumgaQueryParserProvider.getOracleLikeMap();
         config.setDataSourceClassName("oracle.jdbc.pool.OracleDataSource");
         config.addDataSourceProperty("url", url);
         config.addDataSourceProperty("user", user);
@@ -30,6 +30,10 @@ public class OracleDataSourceProvider implements DataSourceProvider {
     @Override
     public String getDialect() {
         return "org.hibernate.dialect.Oracle10gDialect";
+    }
+
+    public static synchronized void initDefaultMap() {
+        GumgaQueryParserProvider.defaultMap = GumgaQueryParserProvider.getOracleLikeMap();
     }
 
 }

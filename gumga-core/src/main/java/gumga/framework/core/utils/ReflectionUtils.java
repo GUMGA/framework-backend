@@ -35,6 +35,7 @@ public class ReflectionUtils {
         if (!Object.class.equals(clazz.getSuperclass())) {
             return getField(clazz.getSuperclass(), name);
         }
+
         return null;
     }
 
@@ -113,8 +114,9 @@ public class ReflectionUtils {
 
     /**
      * Atribui um valor a o atributo ID por reflexão
+     *
      * @param object
-     * @param id 
+     * @param id
      */
     public static void setId(Object object, Object id) {
         try {

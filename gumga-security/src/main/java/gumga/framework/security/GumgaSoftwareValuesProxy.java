@@ -57,7 +57,6 @@ public class GumgaSoftwareValuesProxy {
             getRestTemplate().delete(url);
             return new RestResponse("OK");
         } catch (Exception ex) {
-            ex.printStackTrace();
             return new RestResponse(ex);
         }
     }
