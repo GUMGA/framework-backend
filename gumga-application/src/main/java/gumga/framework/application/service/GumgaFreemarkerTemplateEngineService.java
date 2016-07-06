@@ -38,6 +38,11 @@ public class GumgaFreemarkerTemplateEngineService extends GumgaAbstractTemplateE
     private String templateFolder;
     private String defaultEncoding;
 
+
+    public GumgaFreemarkerTemplateEngineService() {
+        //É necessario deixar um construtor default
+    }
+
     public GumgaFreemarkerTemplateEngineService(String templateFolder,
             String defaultEncoding) {
         this.templateFolder = templateFolder;
