@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>gumga.framework</groupId>
+  <artifactId>gumga-presentation</artifactId>
+  <version>1.2.10-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20160707.132131</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20160707132131</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>1.2.10-20160707.132131-1</value>
+        <updated>20160707132131</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.2.10-20160707.132131-1</value>
+        <updated>20160707132131</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <classifier>sources</classifier>
+        <extension>jar</extension>
+        <value>1.2.10-20160707.132131-1</value>
+        <updated>20160707132131</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
