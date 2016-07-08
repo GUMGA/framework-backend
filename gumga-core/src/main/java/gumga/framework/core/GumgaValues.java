@@ -1,6 +1,10 @@
 package gumga.framework.core;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -87,4 +91,21 @@ public interface GumgaValues {
     default String getTemplatesFolder() {
         return System.getProperty("user.home").concat("/gumgafiles/templates");
     }
+
+    default Properties getCustomFileProperties() {
+        Properties toReturn = new Properties();
+        try {
+            InputStream input = new FileInputStream(System.getProperty("user.home") + "/gumgafiles/" + getCustomPropertiesFileName());
+            toReturn.load(input);
+        } catch (IOException e) {
+            System.out.println("Utilizando properties padrão");
+        }
+        return toReturn;
+    }
+
+    default String getCustomPropertiesFileName() {
+        return "gumga-security.properties";
+
+    }
+
 }
