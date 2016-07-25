@@ -5,6 +5,9 @@
  */
 package gumga.framework.core;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Claasse que contem o escopo GUMGA, acessível de qualquer camada que é
  * preenchida pelo interceptor. Seu uso é recomendado na Integração e em
@@ -56,6 +59,11 @@ public class GumgaThreadScope {
      * id da Organição que fez a requisição
      */
     public static final ThreadLocal<Long> organizationId = new ThreadLocal<>();
+
+    /**
+     * perfis do usuario que está logado
+     */
+    public static final ThreadLocal<Map> authorizationResponse = new ThreadLocal<>();
 
 
 }
