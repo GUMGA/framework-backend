@@ -1,21 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package gumga.framework.security;
-
-import org.hibernate.annotations.SourceType;
+package security_v2;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Map;
 
-/**
- *
- * @author munif
- */
-public class AuthorizatonResponse {
+public class AuthorizationResponseV2 {
 
     private String response;
     private Long organizationId;
@@ -25,10 +14,10 @@ public class AuthorizatonResponse {
     private String reason;
     private String key;
 
-    public AuthorizatonResponse() {
+    public AuthorizationResponseV2() {
     }
 
-    public AuthorizatonResponse(String response, String organization, String organizationCode, String login, String reason, String key, Long oId) {
+    public AuthorizationResponseV2(String response, String organization, String organizationCode, String login, String reason, String key, Long oId) {
         this.response = response;
         this.organization = organization;
         this.organizationCode = organizationCode;
@@ -38,26 +27,26 @@ public class AuthorizatonResponse {
         this.organizationId=oId;
     }
 
-    public AuthorizatonResponse(Map mapAuthorizaton) {
+    public AuthorizationResponseV2(Map mapAuthorizaton) {
         mapAuthorizaton.forEach((key, value) -> {
-            Field[] fields = this.getClass().getDeclaredFields();
-            Arrays.stream(fields).forEach(field -> {
-                if(field.getName().equals(key.toString())) {
-                    if(field.getType().isAssignableFrom(Long.class)) {
-                        try {
-                            field.set(this, Long.valueOf(value.toString()));
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        try {
-                            field.set(this, value);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
+                Field[] fields = this.getClass().getDeclaredFields();
+                Arrays.stream(fields).forEach(field -> {
+                    if(field.getName().equals(key.toString())) {
+                        if(field.getType().isAssignableFrom(Long.class)) {
+                            try {
+                                field.set(this, Long.valueOf(value.toString()));
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                field.set(this, value);
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
-                }
-            });
+                });
         });
     }
 

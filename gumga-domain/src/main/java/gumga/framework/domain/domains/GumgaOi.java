@@ -1,6 +1,7 @@
 package gumga.framework.domain.domains;
 
 import com.google.common.base.Objects;
+import gumga.framework.core.GumgaThreadScope;
 
 /**
  * Representa o código organizacional, fundamental para o Multitenancy.
@@ -12,6 +13,7 @@ public class GumgaOi extends GumgaDomain implements Comparable<GumgaOi> {
     private String value;
 
     protected GumgaOi() {
+
     }
 
     public GumgaOi(String value) {
@@ -63,4 +65,11 @@ public class GumgaOi extends GumgaDomain implements Comparable<GumgaOi> {
 
         return this.value.compareTo(o.value);
     }
+
+    public static GumgaOi getCurrentOi() {
+        GumgaOi oi = new GumgaOi();
+        oi.value = GumgaThreadScope.organizationCode.get();
+        return oi;
+    }
+
 }

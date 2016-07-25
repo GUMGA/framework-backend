@@ -142,4 +142,12 @@ class GumgaSecurityProxy {
         return result;
     }
 
+    @ApiOperation(value = "/roles", notes = "Buscar todos os perfis.")
+    @RequestMapping(method = RequestMethod.GET, value = "/roles")
+    public List getAllRoles() {
+        final String url = gumgaValues.getGumgaSecurityUrl() + "/token/roles";
+        List result = this.restTemplate.getForObject(url, List.class);
+        return result;
+    }
+
 }

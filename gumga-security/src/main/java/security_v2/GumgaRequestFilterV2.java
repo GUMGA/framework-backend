@@ -1,19 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package gumga.framework.security;
+package security_v2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gumga.framework.application.GumgaLogService;
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.domain.GumgaLog;
-import java.util.HashMap;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import gumga.framework.security.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +13,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-/**
- *
- * @author munif
- */
-public class GumgaRequestFilter extends HandlerInterceptorAdapter {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class GumgaRequestFilterV2 extends HandlerInterceptorAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(HandlerInterceptorAdapter.class);
     private static final Logger logGumga = LoggerFactory.getLogger(GumgaRequestFilter.class);
@@ -51,13 +45,13 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         this.aot = aot;
     }
 
-    public GumgaRequestFilter() {
+    public GumgaRequestFilterV2() {
         softwareId = "SomeSoftware";
         restTemplate = new RestTemplate();
         mapper = new ObjectMapper();
     }
 
-    public GumgaRequestFilter(String si) {
+    public GumgaRequestFilterV2(String si) {
         softwareId = si;
         restTemplate = new RestTemplate();
         mapper = new ObjectMapper();
@@ -75,6 +69,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         String errorResponse = GumgaSecurityCode.SECURITY_INTERNAL_ERROR.toString();
         AuthorizatonResponse ar = new AuthorizatonResponse();
         String operationKey = "NOOP";
+
         try {
             token = request.getHeader("gumgaToken");
             if (token == null) {
@@ -115,11 +110,13 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
                 return true;
             }
 
-            String url = gumgaValues.getGumgaSecurityUrl() + "/token/authorize/" + softwareId + "/" + token + "/" + request.getRemoteAddr() + "/" + operationKey + "/";
+            String url = gumgaValues.getGumgaSecurityUrl() + "/token/authorize/" + softwareId + "/" + token + "/" + request.getRemoteAddr() + "/" + operationKey + "?version=v2";
 
 //            ar = restTemplate.getForObject(url, AuthorizatonResponse.class);
             Map authorizatonResponse = restTemplate.getForObject(url, Map.class);
+
             ar = new AuthorizatonResponse(authorizatonResponse);
+
 
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(request.getRemoteAddr());
@@ -127,7 +124,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
             GumgaThreadScope.organizationCode.set(ar.getOrganizationCode());
             GumgaThreadScope.operationKey.set(operationKey);
             GumgaThreadScope.organizationId.set(ar.getOrganizationId());
-
+            GumgaThreadScope.authorizationResponse.set(authorizatonResponse);
             GumgaThreadScope.operationKey.set(operationKey);
             GumgaThreadScope.ip.set(request.getRemoteAddr());
             GumgaThreadScope.softwareName.set(softwareId);
