@@ -6,6 +6,7 @@ import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.domain.domains.*;
 import gumga.framework.domain.domains.usertypes.*;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.util.Objects;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -59,6 +60,10 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
         Class classe = this.getClass();
         if (classe.isAnnotationPresent(GumgaMultitenancy.class)) {
             String oc = GumgaThreadScope.organizationCode.get();
+            if (oc == null) {
+                GumgaMultitenancy tenancy = this.getClass().getAnnotation(GumgaMultitenancy.class);
+                oc = tenancy.publicMarking().getMark();
+            }
             oi = new GumgaOi(oc);
         }
     }

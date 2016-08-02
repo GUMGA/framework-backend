@@ -201,7 +201,12 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
             GumgaMultitenancy gumgaMultiTenancy = getDomainClass().getAnnotation(GumgaMultitenancy.class);
             String multitenancyPattern = GumgaMultitenancyUtil.getMultitenancyPattern(gumgaMultiTenancy);
             if (gumgaMultiTenancy.allowPublics()) {
-                modelo = "from %s obj WHERE (obj.oi = '" + gumgaMultiTenancy.publicMarking().getMark() + "' OR obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
+                if (gumgaMultiTenancy.publicMarking() == TenancyPublicMarking.NULL) {
+                    modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
+                }
+                else{
+                    modelo = "from %s obj WHERE (obj.oi = '" + gumgaMultiTenancy.publicMarking().getMark() + "' OR obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
+                }
             } else {
                 modelo = "from %s obj WHERE (obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
             }
