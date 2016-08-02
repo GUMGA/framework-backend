@@ -3,10 +3,9 @@
   <groupId>gumga.framework</groupId>
   <artifactId>gumga-security</artifactId>
   <versioning>
-    <release>1.2.10</release>
     <versions>
-      <version>1.2.10</version>
+      <version>1.2.11-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20160802130848</lastUpdated>
+    <lastUpdated>20160802132738</lastUpdated>
   </versioning>
 </metadata>
