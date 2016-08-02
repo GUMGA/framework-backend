@@ -5,6 +5,7 @@
  */
 package gumga.framework.domain;
 
+import gumga.framework.core.TenancyPublicMarking;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -16,10 +17,11 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface GumgaMultitenancy {
-    
+
     public GumgaMultitenancyPolicy policy() default GumgaMultitenancyPolicy.TOP_DOWN;
-    
+
     public boolean allowPublics() default true;
-    
+
+    public TenancyPublicMarking publicMarking() default TenancyPublicMarking.NULL;
 
 }
