@@ -2,6 +2,7 @@ package gumga.framework.domain;
 
 import br.com.insula.opes.CpfCnpj;
 import gumga.framework.core.GumgaIdable;
+import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.domain.domains.*;
 import gumga.framework.domain.domains.usertypes.*;
 import java.io.Serializable;
@@ -44,7 +45,7 @@ import org.hibernate.annotations.TypeDefs;
     @TypeDef(name = "cpfcnpj", defaultForType = CpfCnpj.class, typeClass = CpfCnpjUserType.class)
 
 })
-@EntityListeners(GumgaMultiTenancyListener.class)
+//@EntityListeners(GumgaMultiTenancyListener.class)
 public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable<ID>, Serializable {
 
     public static final String SEQ_NAME = "SEQ";
@@ -55,6 +56,11 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     protected GumgaOi oi;
 
     public GumgaModel() {
+        Class classe = this.getClass();
+        if (classe.isAnnotationPresent(GumgaMultitenancy.class)) {
+            String oc = GumgaThreadScope.organizationCode.get();
+            oi = new GumgaOi(oc);
+        }
     }
 
     public GumgaModel(GumgaOi oi) {
