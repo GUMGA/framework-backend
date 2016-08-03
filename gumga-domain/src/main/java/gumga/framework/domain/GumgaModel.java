@@ -12,7 +12,9 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -54,6 +56,7 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     @GeneratedValue(strategy = GenerationType.AUTO, generator = SEQ_NAME)
     protected ID id;
 
+    @org.hibernate.annotations.Index(name = "oi_index")
     protected GumgaOi oi;
 
     public GumgaModel() {
