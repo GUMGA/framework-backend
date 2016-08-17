@@ -32,7 +32,8 @@ public enum GumgaSecurityCode {
     INSTANCE_EXPIRED(HttpStatus.FORBIDDEN),
     IP_NOT_ALLOWED(HttpStatus.FORBIDDEN),
     TIME_NOT_ALLOWED(HttpStatus.FORBIDDEN),
-    SECURITY_INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR);
+    SECURITY_INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR),
+    NO_SOFTWARE(HttpStatus.FORBIDDEN);
 
     public final HttpStatus httpStatus;
 
