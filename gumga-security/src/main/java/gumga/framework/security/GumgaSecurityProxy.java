@@ -6,6 +6,7 @@
 package gumga.framework.security;
 
 import com.wordnik.swagger.annotations.ApiOperation;
+import gumga.framework.core.FacebookRegister;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.core.UserAndPassword;
 
@@ -72,6 +73,14 @@ class GumgaSecurityProxy {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/facebook?email="+email+"&token="+facebookToken;
         System.out.print(url);
         Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+
+    @ApiOperation(value = "register-facebook", notes = "Cria usuário e organização com facebook")
+    @RequestMapping(value="/register-facebook", method = RequestMethod.POST)
+    public Map loginWithFacebook(@RequestBody FacebookRegister facebookRegister) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/register-facebook";
+        Map resposta = restTemplate.postForObject(url, facebookRegister, Map.class);
         return resposta;
     }
 
