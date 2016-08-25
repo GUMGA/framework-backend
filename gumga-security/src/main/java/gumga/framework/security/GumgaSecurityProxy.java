@@ -68,15 +68,11 @@ class GumgaSecurityProxy {
 
     @ApiOperation(value = "facebook", notes = "Faz o login com facebook recebendo email e token.")
     @RequestMapping(value="/facebook", method = RequestMethod.GET)
-    public ResponseEntity loginWithFacebook(@RequestParam("email") String email,@RequestParam("token") String facebookToken) {
+    public Map loginWithFacebook(@RequestParam("email") String email,@RequestParam("token") String facebookToken) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/facebook?email="+email+"&token="+facebookToken;
         System.out.print(url);
         Map resposta = restTemplate.getForObject(url, Map.class);
-        GumgaSecurityCode response = GumgaSecurityCode.OK; //TODO ESTÁ PARA MANTER COMPATÍVEL COM A VERSÃO ANTERIOR DO SEGURANÇA,
-        if (resposta.containsKey("response")) {
-            response = GumgaSecurityCode.valueOf("" + resposta.get("response"));
-        }
-        return new ResponseEntity(resposta, response.httpStatus);
+        return resposta;
     }
 
     @RequestMapping(value = "/{token}", method = RequestMethod.GET)
