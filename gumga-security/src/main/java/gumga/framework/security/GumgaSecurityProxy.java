@@ -9,6 +9,8 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.core.FacebookRegister;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.core.UserAndPassword;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import java.util.List;
 import java.util.Map;
@@ -116,6 +118,22 @@ class GumgaSecurityProxy {
         Set resposta = restTemplate.getForObject(url, Set.class);
         return resposta;
     }
+    
+    
+    @Transactional
+    @ApiOperation(value = "organizations", notes = "Lista as operações associadas ao software e token informados.")
+    @RequestMapping(value = "/operationskeys/{software}/{token:.+}", method = RequestMethod.GET)
+    public Set operationsKeys(@PathVariable String software, @PathVariable String token) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/operations/" + software + "/" + token + "/";
+        Set resposta = restTemplate.getForObject(url, Set.class);
+        HashSet<Object> keys = new HashSet<>();
+        for (Iterator it = resposta.iterator(); it.hasNext();) {
+            Map r = (Map) it.next();
+            keys.add(r.get("key"));
+        }
+        return keys;
+    }
+    
 
     @ApiOperation(value = "lostPassword", notes = "Permite recuperar a senha, enviando um e-mail para o login informado.")
     @RequestMapping(method = RequestMethod.GET, value = "/lostpassword/{login:.+}")
