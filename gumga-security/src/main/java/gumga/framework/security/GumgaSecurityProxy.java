@@ -76,6 +76,15 @@ class GumgaSecurityProxy {
         return resposta;
     }
 
+    @ApiOperation(value = "facebook", notes = "Faz o login com github recebendo email e token.")
+    @RequestMapping(value="/github", method = RequestMethod.GET)
+    public Map loginWithGitHub(@RequestParam("email") String email,@RequestParam("token") String gitToken) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/github?email="+email+"&token="+gitToken;
+        System.out.print(url);
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+
     @ApiOperation(value = "register-facebook", notes = "Cria usuário e organização com facebook")
     @RequestMapping(value="/register-facebook", method = RequestMethod.POST)
     public Map loginWithFacebook(@RequestBody FacebookRegister facebookRegister) {
