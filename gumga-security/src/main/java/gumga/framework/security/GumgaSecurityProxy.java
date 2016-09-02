@@ -202,7 +202,7 @@ class GumgaSecurityProxy {
     @RequestMapping(method = RequestMethod.POST, value = "/whois")
     public Map whois(@RequestBody UserImageDTO userImageDTO) {
         final String url = gumgaValues.getGumgaSecurityUrl() + "/facereco/whois";
-        Map resposta = restTemplate.getForObject(url, Map.class);
+        Map resposta = restTemplate.postForObject(url, userImageDTO, Map.class);
         return resposta;
     }
 
