@@ -6,6 +6,7 @@ import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.QueryObjectElement;
 import gumga.framework.core.SearchResult;
+import gumga.framework.core.TenancyPublicMarking;
 import gumga.framework.domain.*;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 import gumga.framework.domain.repository.GumgaMultitenancyUtil;
@@ -96,8 +97,13 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (hasMultitenancy() && GumgaThreadScope.organizationCode.get() != null) {
             String oiPattern = GumgaMultitenancyUtil.getMultitenancyPattern(entityInformation.getJavaType().getAnnotation(GumgaMultitenancy.class));
             Criterion multitenancyCriterion;
-            if (getDomainClass().getAnnotation(GumgaMultitenancy.class).allowPublics()) {
-                multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.isNull("oi"));
+            GumgaMultitenancy gumgaMultitenancy = getDomainClass().getAnnotation(GumgaMultitenancy.class);
+            if (gumgaMultitenancy.allowPublics()) {
+                if (gumgaMultitenancy.publicMarking() == TenancyPublicMarking.NULL) {
+                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.isNull("oi"));
+                } else {
+                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.eq("oi", gumgaMultitenancy.publicMarking().getMark()));
+                }
             } else {
                 multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START));
             }
@@ -192,10 +198,15 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 //        }
         String modelo = "from %s obj WHERE %s";
         if (hasMultitenancy()) {
-            GumgaMultitenancy annotation = getDomainClass().getAnnotation(GumgaMultitenancy.class);
-            String multitenancyPattern = GumgaMultitenancyUtil.getMultitenancyPattern(annotation);
-            if (getDomainClass().getAnnotation(GumgaMultitenancy.class).allowPublics()) {
-                modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
+            GumgaMultitenancy gumgaMultiTenancy = getDomainClass().getAnnotation(GumgaMultitenancy.class);
+            String multitenancyPattern = GumgaMultitenancyUtil.getMultitenancyPattern(gumgaMultiTenancy);
+            if (gumgaMultiTenancy.allowPublics()) {
+                if (gumgaMultiTenancy.publicMarking() == TenancyPublicMarking.NULL) {
+                    modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
+                }
+                else{
+                    modelo = "from %s obj WHERE (obj.oi = '" + gumgaMultiTenancy.publicMarking().getMark() + "' OR obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
+                }
             } else {
                 modelo = "from %s obj WHERE (obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
             }
@@ -322,7 +333,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public List<T> findAll(Specification<T> spec, Sort sort) {
         if (hasMultitenancy()) {
-            throw new  GumgaGenericRepositoryException(noMultiTenancyMessage());
+            throw new GumgaGenericRepositoryException(noMultiTenancyMessage());
         }
         return super.findAll(spec, sort);
     }

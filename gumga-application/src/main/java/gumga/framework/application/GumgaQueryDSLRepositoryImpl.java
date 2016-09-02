@@ -6,6 +6,7 @@ import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.ComparablePath;
 import com.mysema.query.types.path.PathBuilder;
 import gumga.framework.core.SearchResult;
+import gumga.framework.core.TenancyPublicMarking;
 import gumga.framework.domain.GumgaMultitenancy;
 import gumga.framework.domain.domains.GumgaOi;
 import gumga.framework.domain.repository.GumgaMultitenancyUtil;
@@ -141,10 +142,13 @@ public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends Gum
 
     private BooleanExpression getOiExpression() {
         GumgaMultitenancy tenancy = getDomainClass().getAnnotation(GumgaMultitenancy.class);
-        String oiPattern=GumgaMultitenancyUtil.getMultitenancyPattern(tenancy);
+        String oiPattern = GumgaMultitenancyUtil.getMultitenancyPattern(tenancy);
         ComparablePath<GumgaOi> oi = new ComparablePath<>(GumgaOi.class, PathMetadataFactory.forProperty(this.path, "oi"));
         if (tenancy.allowPublics()) {
-            return oi.stringValue().startsWith(oiPattern).or(oi.isNull());
+            if (tenancy.publicMarking().equals(TenancyPublicMarking.NULL)) {
+                return oi.stringValue().startsWith(oiPattern).or(oi.isNull());
+            }
+            return oi.stringValue().startsWith(oiPattern).or(oi.eq(GumgaOi.MARK_PUBLIC));
         }
         return oi.stringValue().startsWith(oiPattern);
     }

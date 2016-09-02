@@ -2,6 +2,7 @@ package gumga.framework.domain.domains;
 
 import com.google.common.base.Objects;
 import gumga.framework.core.GumgaThreadScope;
+import gumga.framework.core.TenancyPublicMarking;
 
 /**
  * Representa o código organizacional, fundamental para o Multitenancy.
@@ -71,5 +72,8 @@ public class GumgaOi extends GumgaDomain implements Comparable<GumgaOi> {
         oi.value = GumgaThreadScope.organizationCode.get();
         return oi;
     }
+
+    public static final GumgaOi MARK_PUBLIC = new GumgaOi(TenancyPublicMarking.PUBLIC.getMark());
+    public static final GumgaOi MARK_NULL = new GumgaOi(TenancyPublicMarking.NULL.getMark());
 
 }

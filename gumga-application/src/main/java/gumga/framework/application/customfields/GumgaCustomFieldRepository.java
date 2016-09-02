@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface GumgaCustomFieldRepository extends GumgaCrudRepository<GumgaCustomField, Long> {
 
-    //@Query("from GumgaCustomField obj where obj.clazz =(?1) and obj.oi.value like (?2)")
     List<GumgaCustomField> findByClazz(String clazz);
 
 }

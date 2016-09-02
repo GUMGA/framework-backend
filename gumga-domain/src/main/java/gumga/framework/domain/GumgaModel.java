@@ -2,15 +2,19 @@ package gumga.framework.domain;
 
 import br.com.insula.opes.CpfCnpj;
 import gumga.framework.core.GumgaIdable;
+import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.domain.domains.*;
 import gumga.framework.domain.domains.usertypes.*;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.util.Objects;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -44,7 +48,7 @@ import org.hibernate.annotations.TypeDefs;
     @TypeDef(name = "cpfcnpj", defaultForType = CpfCnpj.class, typeClass = CpfCnpjUserType.class)
 
 })
-@EntityListeners(GumgaMultiTenancyListener.class)
+//@EntityListeners(GumgaMultiTenancyListener.class)
 public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable<ID>, Serializable {
 
     public static final String SEQ_NAME = "SEQ";
@@ -52,9 +56,19 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     @GeneratedValue(strategy = GenerationType.AUTO, generator = SEQ_NAME)
     protected ID id;
 
+    @org.hibernate.annotations.Index(name = "oi_index")
     protected GumgaOi oi;
 
     public GumgaModel() {
+        Class classe = this.getClass();
+        if (classe.isAnnotationPresent(GumgaMultitenancy.class)) {
+            String oc = GumgaThreadScope.organizationCode.get();
+            if (oc == null) {
+                GumgaMultitenancy tenancy = this.getClass().getAnnotation(GumgaMultitenancy.class);
+                oc = tenancy.publicMarking().getMark();
+            }
+            oi = new GumgaOi(oc);
+        }
     }
 
     public GumgaModel(GumgaOi oi) {

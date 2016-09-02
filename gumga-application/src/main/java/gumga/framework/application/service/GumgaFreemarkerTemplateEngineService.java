@@ -100,6 +100,10 @@ public class GumgaFreemarkerTemplateEngineService extends GumgaAbstractTemplateE
             } catch (URISyntaxException e) {
                 throw new TemplateEngineException("An error occurred while initializating the template engine", e);
             }
+            catch (java.nio.file.FileSystemNotFoundException ex){
+                System.out.println("------->Templates não encontrados."+ex);
+            }
+            
         }
     }
 

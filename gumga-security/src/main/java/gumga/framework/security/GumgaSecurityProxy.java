@@ -6,8 +6,11 @@
 package gumga.framework.security;
 
 import com.wordnik.swagger.annotations.ApiOperation;
+import gumga.framework.core.FacebookRegister;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.core.UserAndPassword;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +72,32 @@ class GumgaSecurityProxy {
         return new ResponseEntity(resposta, response.httpStatus);
     }
 
+    @ApiOperation(value = "facebook", notes = "Faz o login com facebook recebendo email e token.")
+    @RequestMapping(value="/facebook", method = RequestMethod.GET)
+    public Map loginWithFacebook(@RequestParam("email") String email,@RequestParam("token") String facebookToken) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/facebook?email="+email+"&token="+facebookToken;
+        System.out.print(url);
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+
+    @ApiOperation(value = "facebook", notes = "Faz o login com github recebendo email e token.")
+    @RequestMapping(value="/github", method = RequestMethod.GET)
+    public Map loginWithGitHub(@RequestParam("email") String email,@RequestParam("token") String gitToken) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/github?email="+email+"&token="+gitToken;
+        System.out.print(url);
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+
+    @ApiOperation(value = "register-facebook", notes = "Cria usuário e organização com facebook")
+    @RequestMapping(value="/register-facebook", method = RequestMethod.POST)
+    public Map loginWithFacebook(@RequestBody FacebookRegister facebookRegister) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/register-facebook";
+        Map resposta = restTemplate.postForObject(url, facebookRegister, Map.class);
+        return resposta;
+    }
+
     @RequestMapping(value = "/{token}", method = RequestMethod.GET)
     public Map get(@PathVariable String token) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/public/token/" + token;
@@ -101,6 +130,22 @@ class GumgaSecurityProxy {
         Set resposta = restTemplate.getForObject(url, Set.class);
         return resposta;
     }
+    
+    
+    @Transactional
+    @ApiOperation(value = "organizations", notes = "Lista as operações associadas ao software e token informados.")
+    @RequestMapping(value = "/operationskeys/{software}/{token:.+}", method = RequestMethod.GET)
+    public Set operationsKeys(@PathVariable String software, @PathVariable String token) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/operations/" + software + "/" + token + "/";
+        Set resposta = restTemplate.getForObject(url, Set.class);
+        HashSet<Object> keys = new HashSet<>();
+        for (Iterator it = resposta.iterator(); it.hasNext();) {
+            Map r = (Map) it.next();
+            keys.add(r.get("key"));
+        }
+        return keys;
+    }
+    
 
     @ApiOperation(value = "lostPassword", notes = "Permite recuperar a senha, enviando um e-mail para o login informado.")
     @RequestMapping(method = RequestMethod.GET, value = "/lostpassword/{login:.+}")

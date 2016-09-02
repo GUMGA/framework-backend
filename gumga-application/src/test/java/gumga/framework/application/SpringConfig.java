@@ -44,6 +44,8 @@ public class SpringConfig {
 
         Properties properties = new Properties();
         properties.put("eclipselink.weaving", "false");
+        properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.format_sql", "true");
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
