@@ -9,10 +9,13 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.core.UserAndPassword;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.transaction.Transactional;
+
+import gumga.framework.domain.domains.GumgaImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -150,4 +153,42 @@ class GumgaSecurityProxy {
         return result;
     }
 
+    @ApiOperation(value = "/whois", notes = "Verificar o usuario.")
+    @RequestMapping(method = RequestMethod.POST, value = "/whois")
+    public Map whois(@RequestBody UserImageDTO userImageDTO) {
+        final String url = gumgaValues.getGumgaSecurityUrl() + "/facereco/whois";
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+
+}
+
+class UserImageDTO {
+    private String metadados;
+    private GumgaImage image;
+    private byte[] imageData;
+
+    public String getMetadados() {
+        return metadados;
+    }
+
+    public void setMetadados(String metadados) {
+        this.metadados = metadados;
+    }
+
+    public GumgaImage getImage() {
+        return image;
+    }
+
+    public void setImage(GumgaImage image) {
+        this.image = image;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
 }
