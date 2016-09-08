@@ -9,11 +9,16 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.core.FacebookRegister;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.core.UserAndPassword;
+import java.util.HashSet;
+import java.util.Iterator;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.transaction.Transactional;
+
+import gumga.framework.domain.domains.GumgaImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -76,6 +81,15 @@ class GumgaSecurityProxy {
         return resposta;
     }
 
+    @ApiOperation(value = "facebook", notes = "Faz o login com github recebendo email e token.")
+    @RequestMapping(value="/github", method = RequestMethod.GET)
+    public Map loginWithGitHub(@RequestParam("email") String email,@RequestParam("token") String gitToken) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/github?email="+email+"&token="+gitToken;
+        System.out.print(url);
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+
     @ApiOperation(value = "register-facebook", notes = "Cria usuário e organização com facebook")
     @RequestMapping(value="/register-facebook", method = RequestMethod.POST)
     public Map loginWithFacebook(@RequestBody FacebookRegister facebookRegister) {
@@ -116,6 +130,22 @@ class GumgaSecurityProxy {
         Set resposta = restTemplate.getForObject(url, Set.class);
         return resposta;
     }
+    
+    
+    @Transactional
+    @ApiOperation(value = "organizations", notes = "Lista as operações associadas ao software e token informados.")
+    @RequestMapping(value = "/operationskeys/{software}/{token:.+}", method = RequestMethod.GET)
+    public Set operationsKeys(@PathVariable String software, @PathVariable String token) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/operations/" + software + "/" + token + "/";
+        Set resposta = restTemplate.getForObject(url, Set.class);
+        HashSet<Object> keys = new HashSet<>();
+        for (Iterator it = resposta.iterator(); it.hasNext();) {
+            Map r = (Map) it.next();
+            keys.add(r.get("key"));
+        }
+        return keys;
+    }
+    
 
     @ApiOperation(value = "lostPassword", notes = "Permite recuperar a senha, enviando um e-mail para o login informado.")
     @RequestMapping(method = RequestMethod.GET, value = "/lostpassword/{login:.+}")
@@ -168,4 +198,42 @@ class GumgaSecurityProxy {
         return result;
     }
 
+    @ApiOperation(value = "/whois", notes = "Verificar o usuario.")
+    @RequestMapping(method = RequestMethod.POST, value = "/whois")
+    public Map whois(@RequestBody UserImageDTO userImageDTO) {
+        final String url = gumgaValues.getGumgaSecurityUrl() + "/facereco/whois";
+        Map resposta = restTemplate.postForObject(url, userImageDTO, Map.class);
+        return resposta;
+    }
+
+}
+
+class UserImageDTO {
+    private String metadados;
+    private GumgaImage image;
+    private byte[] imageData;
+
+    public String getMetadados() {
+        return metadados;
+    }
+
+    public void setMetadados(String metadados) {
+        this.metadados = metadados;
+    }
+
+    public GumgaImage getImage() {
+        return image;
+    }
+
+    public void setImage(GumgaImage image) {
+        this.image = image;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
 }
