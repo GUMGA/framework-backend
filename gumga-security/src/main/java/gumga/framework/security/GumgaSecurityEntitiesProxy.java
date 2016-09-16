@@ -85,6 +85,46 @@ public class GumgaSecurityEntitiesProxy {
         return ResponseEntity.noContent().build();
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/remove-user-organization/{idUser}/{oi}")
+    public ResponseEntity<Void> removerUserOfOrganization(@PathVariable Long idUser, @PathVariable String oi) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/remove-user-organization/"+idUser+"/"+oi+"/");
+        final Map result = this.restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), Map.class).getBody();
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/role-by-instance")
+    public  ResponseEntity<List<Map>> getRoleByInstance() {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/role-by-instance");
+        final List<Map> result = this.restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), List.class).getBody();
+
+        return ResponseEntity.ok(result);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/add-user-role/{idUser}/{idRole}")
+    public ResponseEntity<Void> addUserInRole(@PathVariable Long idUser, @PathVariable Long idRole) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/add-user-role/"+idUser+"/"+idRole);
+        final Map result = this.restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), Map.class).getBody();
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/remove-user-role/{idUser}/{idRole}")
+    public ResponseEntity<Void> removeUserOfRole(@PathVariable Long idUser, @PathVariable Long idRole) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/remove-user-role/"+idUser+"/"+idRole);
+        final Map result = this.restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), Map.class).getBody();
+
+        return ResponseEntity.noContent().build();
+    }
+
 }
 
 
