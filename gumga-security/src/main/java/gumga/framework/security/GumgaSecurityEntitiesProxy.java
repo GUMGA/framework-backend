@@ -125,6 +125,41 @@ public class GumgaSecurityEntitiesProxy {
         return ResponseEntity.noContent().build();
     }
 
+
+    @RequestMapping(method = RequestMethod.POST, path = "/user-image")
+    public ResponseEntity<Map> saveImageUser(@RequestBody Map userImage) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/userimage");
+
+        final Map result = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<Map>(userImage, headers), Map.class).getBody();
+
+        return ResponseEntity.ok(result);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/image-by-user/{idUser}")
+    public ResponseEntity<List<Map>> getAllImageByUser(@PathVariable Long idUser) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/userimage/user-id/" + idUser);
+
+        final List<Map> result = this.restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<List>(headers), List.class).getBody();
+
+        return ResponseEntity.ok(result);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/remove-image/{idImage}")
+    public ResponseEntity<Void> removeImage(@PathVariable Long idImage) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/userimage/" + idImage);
+
+        this.restTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity<List>(headers), Map.class);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
 
 
