@@ -10,10 +10,12 @@ import gumga.framework.application.GumgaLogService;
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.GumgaValues;
 import gumga.framework.domain.GumgaLog;
+
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
- *
  * @author munif
  */
 public class GumgaRequestFilter extends HandlerInterceptorAdapter {
@@ -74,6 +75,7 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
         String errorMessage = "Error";
         String errorResponse = GumgaSecurityCode.SECURITY_INTERNAL_ERROR.toString();
         AuthorizatonResponse ar = new AuthorizatonResponse();
+        GumgaThreadScope.softwareName.set(softwareId);
         String operationKey = "NOOP";
         try {
             token = request.getHeader("gumgaToken");
@@ -130,7 +132,6 @@ public class GumgaRequestFilter extends HandlerInterceptorAdapter {
 
             GumgaThreadScope.operationKey.set(operationKey);
             GumgaThreadScope.ip.set(request.getRemoteAddr());
-            GumgaThreadScope.softwareName.set(softwareId);
 
             saveLog(ar, request, operationKey, endPoint, method, ar.isAllowed());
             if (ar.isAllowed()) {
