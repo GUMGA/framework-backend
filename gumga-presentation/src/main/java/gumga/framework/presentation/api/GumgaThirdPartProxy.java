@@ -26,7 +26,7 @@ public class GumgaThirdPartProxy {
     @ApiOperation(value = "searchCep",notes = "Pesquisa informações do cep informado.")
     @RequestMapping(value = "cep/{cep}",method = RequestMethod.GET)
     public Map buscaCep(@PathVariable String cep) {
-        String url = "http://gumga.com.br/public/busca-cep/"+cep;
+        String url = "http://gumga.com.br/services-api/public/busca-cep/"+cep;
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
     }
