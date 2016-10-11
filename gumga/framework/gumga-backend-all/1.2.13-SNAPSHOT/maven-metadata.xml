@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>gumga.framework</groupId>
+  <artifactId>gumga-backend-all</artifactId>
+  <version>1.2.13-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20161011.131033</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20161011131033</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.2.13-20161011.131033-1</value>
+        <updated>20161011131033</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
