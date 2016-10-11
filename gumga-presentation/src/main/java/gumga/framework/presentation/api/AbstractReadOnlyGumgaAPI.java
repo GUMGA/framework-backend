@@ -52,8 +52,8 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
 
     @GumgaSwagger
     @Transactional
-    @ApiOperation(value = "search", notes = "Faz uma pesquisa pela query informada através do objeto QueryObjet, os atributos são aq, q, start, pageSize, sortField, sortDir e searchFields.")
-    @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "search", notes = "Faz uma pesquisa pela query informada através do objeto QueryObjet, os atributos são aq, q, start, pageSize, sortField, sortDir e searchFields. Além disso, possibilita filtar os atributos na saída através do parâmetro gumgaFields no header.")
+    @RequestMapping(value = "lw", method = RequestMethod.GET)
     public SearchResult<T> pesquisa(HttpServletRequest request, QueryObject query) {
         SearchResult<T> pesquisa = service.pesquisa(query);
         String gumgaFields = request.getHeader("gumgaFields");
@@ -66,6 +66,15 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
             }
             return new SearchResult(query, pesquisa.getCount(), toReturn);
         }
+        return new SearchResult<>(query, pesquisa.getCount(), pesquisa.getValues());
+    }
+    
+        @GumgaSwagger
+    @Transactional
+    @ApiOperation(value = "search", notes = "Faz uma pesquisa pela query informada através do objeto QueryObjet, os atributos são aq, q, start, pageSize, sortField, sortDir e searchFields.")
+    @RequestMapping(method = RequestMethod.GET)
+    public SearchResult<T> pesquisa(QueryObject query) {
+        SearchResult<T> pesquisa = service.pesquisa(query);
         return new SearchResult<>(query, pesquisa.getCount(), pesquisa.getValues());
     }
 
