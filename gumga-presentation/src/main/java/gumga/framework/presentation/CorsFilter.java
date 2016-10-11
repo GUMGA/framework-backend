@@ -34,7 +34,7 @@ public class CorsFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS,HEAD");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type, gumgaToken, Connection");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, gumgaToken, Connection, userRecognition");
         fc.doFilter(request, response);
     }
 

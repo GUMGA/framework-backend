@@ -3,6 +3,8 @@ package gumga.framework.core.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -126,6 +128,26 @@ public class ReflectionUtils {
         } catch (IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(ReflectionUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Retorna um mapa com os valores dos atributos que estão em um objetos
+     *
+     * @param fields 
+     * @param obj
+     */
+      public static Map<String, Object> objectFieldsToMap(String[] fields, Object obj) {
+        Map<String, Object> row = new HashMap<>();
+        for (String f : fields) {
+            try {
+                Field field = ReflectionUtils.getField(obj.getClass(), f.trim());
+                field.setAccessible(true);
+                row.put(f.trim(), field.get(obj));
+            } catch (Exception ex) {
+                Logger.getLogger(ReflectionUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return row;
     }
 
 }
