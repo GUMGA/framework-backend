@@ -49,6 +49,22 @@ public class GumgaSecurityEntitiesProxy {
 
         return response;
     }
+    
+    @ApiOperation(value = "getOrganizationFatByOi", notes = "Buscar todas as organizações pelo oi.")
+    @RequestMapping(method = RequestMethod.GET, value = "/organizations/fatbyoi/{oi:.+}")
+    public Map getOrganizationFatByOi(@PathVariable String oi) {
+        final String param = "?gumgaToken=" + GumgaThreadScope.gumgaToken.get() + "&pageSize=" + (Integer.MAX_VALUE - 1);
+        final String url = gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/organization/fatbyoi/").concat(oi + "/") + param;
+        Map  response = new HashedMap();
+        try {
+            response = restTemplate.getForObject(url, Map.class);
+            return response;
+        } catch (Exception e) {
+            response.put(403, "Acesso negado!" +  e);
+        }
+
+        return response;
+    }
 
     @RequestMapping(method = RequestMethod.GET, path = "/user-by-email/{email}")
     public ResponseEntity<Map> getUserByEmail(@PathVariable String email) {
