@@ -14,6 +14,7 @@ Framework Backend
 =======================================
 - Create class GumgaTenancyUtils that contains the method changeOi
 - System.out.println changed to Logger.log
+- GumgaRevisionEntity passa a utilizar o sequence SEQREV e não mais o hibernate_sequence
 
 1.2.13 and Before
 =============
