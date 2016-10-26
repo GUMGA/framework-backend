@@ -12,7 +12,6 @@ import gumga.framework.core.UserAndPassword;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -76,7 +75,6 @@ class GumgaSecurityProxy {
     @RequestMapping(value="/facebook", method = RequestMethod.GET)
     public Map loginWithFacebook(@RequestParam("email") String email,@RequestParam("token") String facebookToken) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/facebook?email="+email+"&token="+facebookToken;
-        System.out.print(url);
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
     }
@@ -85,7 +83,6 @@ class GumgaSecurityProxy {
     @RequestMapping(value="/github", method = RequestMethod.GET)
     public Map loginWithGitHub(@RequestParam("email") String email,@RequestParam("token") String gitToken) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/github?email="+email+"&token="+gitToken;
-        System.out.print(url);
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
     }
