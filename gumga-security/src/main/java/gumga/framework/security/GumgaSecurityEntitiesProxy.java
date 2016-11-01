@@ -1,6 +1,5 @@
 package gumga.framework.security;
 
-
 import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.GumgaValues;
@@ -39,28 +38,28 @@ public class GumgaSecurityEntitiesProxy {
     public Map getAllOrganizations() {
         final String param = "?gumgaToken=" + GumgaThreadScope.gumgaToken.get() + "&pageSize=" + (Integer.MAX_VALUE - 1);
         final String url = gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/organization") + param;
-        Map  response = new HashedMap();
+        Map response = new HashedMap();
         try {
             response = restTemplate.getForObject(url, Map.class);
             return response;
         } catch (Exception e) {
-            response.put(403, "Acesso negado!" +  e);
+            response.put(403, "Acesso negado!" + e);
         }
 
         return response;
     }
-    
+
     @ApiOperation(value = "getOrganizationFatByOi", notes = "Buscar todas as organizações pelo oi.")
     @RequestMapping(method = RequestMethod.GET, value = "/organizations/fatbyoi/{oi:.+}")
     public Map getOrganizationFatByOi(@PathVariable String oi) {
         final String param = "?gumgaToken=" + GumgaThreadScope.gumgaToken.get() + "&pageSize=" + (Integer.MAX_VALUE - 1);
         final String url = gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/organization/fatbyoi/").concat(oi + "/") + param;
-        Map  response = new HashedMap();
+        Map response = new HashedMap();
         try {
             response = restTemplate.getForObject(url, Map.class);
             return response;
         } catch (Exception e) {
-            response.put(403, "Acesso negado!" +  e);
+            response.put(403, "Acesso negado!" + e);
         }
 
         return response;
@@ -70,7 +69,7 @@ public class GumgaSecurityEntitiesProxy {
     public ResponseEntity<Map> getUserByEmail(@PathVariable String email) {
         final HttpHeaders headers = new HttpHeaders();
         headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
-        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/user-by-email/"+email+"/");
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/user-by-email/" + email + "/");
         final Map result = this.restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(email, headers), Map.class).getBody();
         return ResponseEntity.ok(result);
     }
@@ -81,9 +80,9 @@ public class GumgaSecurityEntitiesProxy {
         headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
         final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/create-user");
         final Map result = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<Map>(user, headers), Map.class).getBody();
-        if(result.get("id") != null) {
+        if (result.get("id") != null) {
             final Long id = Long.valueOf(result.get("id").toString());
-            if(id > 0l) {
+            if (id > 0l) {
                 addUserInOrganization(id);
             }
         }
@@ -95,7 +94,7 @@ public class GumgaSecurityEntitiesProxy {
     public ResponseEntity<Void> addUserInOrganization(@PathVariable Long idUser) {
         final HttpHeaders headers = new HttpHeaders();
         headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
-        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/add-user-organization/"+idUser+"/"+GumgaThreadScope.organizationId.get());
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/add-user-organization/" + idUser + "/" + GumgaThreadScope.organizationId.get());
         final Map result = this.restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), Map.class).getBody();
 
         return ResponseEntity.noContent().build();
@@ -105,14 +104,14 @@ public class GumgaSecurityEntitiesProxy {
     public ResponseEntity<Void> removerUserOfOrganization(@PathVariable Long idUser, @PathVariable String oi) {
         final HttpHeaders headers = new HttpHeaders();
         headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
-        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/remove-user-organization/"+idUser+"/"+oi+"/");
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/remove-user-organization/" + idUser + "/" + oi + "/");
         final Map result = this.restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), Map.class).getBody();
 
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/role-by-instance")
-    public  ResponseEntity<List<Map>> getRoleByInstance() {
+    public ResponseEntity<List<Map>> getRoleByInstance() {
         final HttpHeaders headers = new HttpHeaders();
         headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
         final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/role-by-instance");
@@ -125,7 +124,7 @@ public class GumgaSecurityEntitiesProxy {
     public ResponseEntity<Void> addUserInRole(@PathVariable Long idUser, @PathVariable Long idRole) {
         final HttpHeaders headers = new HttpHeaders();
         headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
-        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/add-user-role/"+idUser+"/"+idRole);
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/add-user-role/" + idUser + "/" + idRole);
         final Map result = this.restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), Map.class).getBody();
 
         return ResponseEntity.noContent().build();
@@ -135,12 +134,11 @@ public class GumgaSecurityEntitiesProxy {
     public ResponseEntity<Void> removeUserOfRole(@PathVariable Long idUser, @PathVariable Long idRole) {
         final HttpHeaders headers = new HttpHeaders();
         headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
-        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/remove-user-role/"+idUser+"/"+idRole);
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/gumga-security/remove-user-role/" + idUser + "/" + idRole);
         final Map result = this.restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), Map.class).getBody();
 
         return ResponseEntity.noContent().build();
     }
-
 
     @RequestMapping(method = RequestMethod.POST, path = "/user-image")
     public ResponseEntity<Map> saveImageUser(@RequestBody Map userImage) {
@@ -175,7 +173,43 @@ public class GumgaSecurityEntitiesProxy {
         return ResponseEntity.noContent().build();
     }
 
+    @ApiOperation(value = "/whois", notes = "Verificar o usuario.")
+    @RequestMapping(method = RequestMethod.POST, value = "/whois")
+    public Map whois(@RequestBody UserImageDTO userImageDTO) {
+        final String url = gumgaValues.getGumgaSecurityUrl().replace("publicoperations", "api") + "/facereco/whois";
+        Map resposta = restTemplate.postForObject(url, userImageDTO, Map.class);
+        return resposta;
+    }
+
+    class UserImageDTO {
+
+        private String metadados;
+        private GumgaImage image;
+        private byte[] imageData;
+
+        public String getMetadados() {
+            return metadados;
+        }
+
+        public void setMetadados(String metadados) {
+            this.metadados = metadados;
+        }
+
+        public GumgaImage getImage() {
+            return image;
+        }
+
+        public void setImage(GumgaImage image) {
+            this.image = image;
+        }
+
+        public byte[] getImageData() {
+            return imageData;
+        }
+
+        public void setImageData(byte[] imageData) {
+            this.imageData = imageData;
+        }
+    }
 
 }
-
-
