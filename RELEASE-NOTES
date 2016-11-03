@@ -18,6 +18,8 @@ Framework Backend
 - Added method in the class AbstractGumgaService methods gumgaOiForSearchWithWildCard and gumgaOiForSearch
 - Created Class NoMultiTenancyException
 - Route to whois changed to a non-plublic route.
+- Método adicionado na interface ApiOperationTranslator para possibilitar traduções mais complexas baseadas no request
+
 
 1.2.13 and Before
 =============
