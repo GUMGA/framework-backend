@@ -118,7 +118,17 @@ class GumgaSecurityProxy {
         List resposta = restTemplate.getForObject(url, List.class);
         return resposta;
     }
-
+    
+    
+    @Transactional
+    @ApiOperation(value = "change organization", notes = "Altera a organização do token.")
+    @RequestMapping(value = "/changeorganization/{token}/{orgId}", method = RequestMethod.GET)
+    public Object changeOrganization(@PathVariable String token, @PathVariable Long orgId) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/changeorganization/" + token+"/"+orgId;
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+    
     @Transactional
     @ApiOperation(value = "organizations", notes = "Lista as operações associadas ao software e token informados.")
     @RequestMapping(value = "/operations/{software}/{token:.+}", method = RequestMethod.GET)
