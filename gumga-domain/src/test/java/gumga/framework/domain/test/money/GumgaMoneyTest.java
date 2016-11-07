@@ -5,8 +5,11 @@
  */
 package gumga.framework.domain.test.money;
 
+import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.domain.CurrencyFormatter;
+import gumga.framework.domain.GumgaTenancyUtils;
 import gumga.framework.domain.domains.GumgaMoney;
+import gumga.framework.domain.domains.GumgaOi;
 import java.math.BigDecimal;
 import java.util.Locale;
 import org.junit.After;

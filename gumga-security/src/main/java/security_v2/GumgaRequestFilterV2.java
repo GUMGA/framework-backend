@@ -39,7 +39,7 @@ public class GumgaRequestFilterV2 extends HandlerInterceptorAdapter {
     private ThreadLocal<Long> tempo = new ThreadLocal<>();
 
     @Autowired(required = false)
-    private ApiOperationTranslator aot = (url, method) -> "NOOP";
+    private ApiOperationTranslator aot;
 
     public void setAot(ApiOperationTranslator aot) {
         this.aot = aot;
@@ -98,7 +98,7 @@ public class GumgaRequestFilterV2 extends HandlerInterceptorAdapter {
             if (gumgaOperationKeyMethodAnnotation != null) {
                 operationKey = gumgaOperationKeyMethodAnnotation.value();
             } else {
-                operationKey = aot.getOperation(endPoint, method);
+                operationKey = aot.getOperation(endPoint, method, request);
             }
             if (operationKey.equals("NOOP")) {
                 String apiName = hm.getBean().getClass().getSimpleName();
@@ -118,7 +118,6 @@ public class GumgaRequestFilterV2 extends HandlerInterceptorAdapter {
             Map authorizatonResponse = restTemplate.getForObject(url, Map.class);
 
             ar = new AuthorizatonResponse(authorizatonResponse);
-
 
             GumgaThreadScope.login.set(ar.getLogin());
             GumgaThreadScope.ip.set(request.getRemoteAddr());

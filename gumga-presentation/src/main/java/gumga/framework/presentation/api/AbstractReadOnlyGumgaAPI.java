@@ -9,13 +9,21 @@ import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.QueryToSave;
 import gumga.framework.core.SearchResult;
+import gumga.framework.core.utils.ReflectionUtils;
 import gumga.framework.domain.GumgaObjectAndRevision;
 import gumga.framework.domain.GumgaServiceable;
 import gumga.framework.domain.GumgaUserData;
 import gumga.framework.domain.service.GumgaReadableServiceable;
 import gumga.framework.domain.tag.GumgaTag;
 import gumga.framework.domain.tag.GumgaTagDefinition;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +52,25 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
 
     @GumgaSwagger
     @Transactional
+    @ApiOperation(value = "search", notes = "Faz uma pesquisa pela query informada através do objeto QueryObjet, os atributos são aq, q, start, pageSize, sortField, sortDir e searchFields. Além disso, possibilita filtar os atributos na saída através do parâmetro gumgaFields no header.")
+    @RequestMapping(value = "lw", method = RequestMethod.GET)
+    public SearchResult<T> pesquisa(HttpServletRequest request, QueryObject query) {
+        SearchResult<T> pesquisa = service.pesquisa(query);
+        String gumgaFields = request.getHeader("gumgaFields");
+        if (gumgaFields != null) {
+            String fields[] = gumgaFields.split(",");
+            List<Map<String, Object>> toReturn = new ArrayList<>();
+            for (Object obj : pesquisa.getValues()) {
+                Map<String, Object> row = ReflectionUtils.objectFieldsToMap(fields, obj);
+                toReturn.add(row);
+            }
+            return new SearchResult(query, pesquisa.getCount(), toReturn);
+        }
+        return new SearchResult<>(query, pesquisa.getCount(), pesquisa.getValues());
+    }
+    
+        @GumgaSwagger
+    @Transactional
     @ApiOperation(value = "search", notes = "Faz uma pesquisa pela query informada através do objeto QueryObjet, os atributos são aq, q, start, pageSize, sortField, sortDir e searchFields.")
     @RequestMapping(method = RequestMethod.GET)
     public SearchResult<T> pesquisa(QueryObject query) {
@@ -54,7 +81,8 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
     @Transactional
     @ApiOperation(value = "saveQuery", notes = "Salva a consulta avançada.")
     @RequestMapping(value = "saq", method = RequestMethod.POST)
-    public String save(@RequestBody @Valid QueryToSave qts,
+    public String save(@RequestBody
+            @Valid QueryToSave qts,
             BindingResult result) {
         String key = "aq;" + qts.getPage() + ";" + qts.getName();
         String userLogin = GumgaThreadScope.login.get();
@@ -75,7 +103,12 @@ public abstract class AbstractReadOnlyGumgaAPI<T> extends AbstractProtoGumgaAPI<
     @ApiOperation(value = "load", notes = "Carrega entidade pelo id informado.")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public T load(@PathVariable Long id) {
-        return service.view(id);
+        //String gumgaFields = request.getHeader("gumgaFields");
+        T view = service.view(id);
+        //if (gumgaFields != null) {
+        //return ReflectionUtils.objectFieldsToMap(gumgaFields.split(","), view);
+        //}
+        return view;
     }
 
     @Transactional
