@@ -198,13 +198,13 @@ class GumgaSecurityProxy {
         return result;
     }
 
-    @ApiOperation(value = "/whois", notes = "Verificar o usuario.")
-    @RequestMapping(method = RequestMethod.POST, value = "/whois")
-    public Map whois(@RequestBody UserImageDTO userImageDTO) {
-        final String url = gumgaValues.getGumgaSecurityUrl() + "/facereco/whois";
-        Map resposta = restTemplate.postForObject(url, userImageDTO, Map.class);
-        return resposta;
-    }
+//    @ApiOperation(value = "/whois", notes = "Verificar o usuario.")
+//    @RequestMapping(method = RequestMethod.POST, value = "/whois")
+//    public Map whois(@RequestBody UserImageDTO userImageDTO) {
+//        final String url = gumgaValues.getGumgaSecurityUrl() + "/facereco/whois";
+//        Map resposta = restTemplate.postForObject(url, userImageDTO, Map.class);
+//        return resposta;
+//    }
 
 }
 

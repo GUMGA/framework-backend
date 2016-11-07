@@ -160,6 +160,18 @@ public class GumgaSecurityEntitiesProxy {
     }
 
 
+    @RequestMapping(method = RequestMethod.POST, path = "/facereco/whois")
+    public ResponseEntity<Map> facerecoWhois(@RequestBody Map userImage) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/facereco/whois");
+
+        final Map result = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<Map>(userImage, headers), Map.class).getBody();
+
+        return ResponseEntity.ok(result);
+    }
+
+
 }
 
 
