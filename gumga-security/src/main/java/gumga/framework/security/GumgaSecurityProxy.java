@@ -12,7 +12,6 @@ import gumga.framework.core.UserAndPassword;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -76,7 +75,6 @@ class GumgaSecurityProxy {
     @RequestMapping(value="/facebook", method = RequestMethod.GET)
     public Map loginWithFacebook(@RequestParam("email") String email,@RequestParam("token") String facebookToken) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/facebook?email="+email+"&token="+facebookToken;
-        System.out.print(url);
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
     }
@@ -85,7 +83,6 @@ class GumgaSecurityProxy {
     @RequestMapping(value="/github", method = RequestMethod.GET)
     public Map loginWithGitHub(@RequestParam("email") String email,@RequestParam("token") String gitToken) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/github?email="+email+"&token="+gitToken;
-        System.out.print(url);
         Map resposta = restTemplate.getForObject(url, Map.class);
         return resposta;
     }
@@ -115,13 +112,23 @@ class GumgaSecurityProxy {
 
     @Transactional
     @ApiOperation(value = "organizations", notes = "Lista as organizações associadas ao token informado.")
-    @RequestMapping(value = "/organizations/{token}", method = RequestMethod.GET)
+    @RequestMapping(value = "/organizations/{token:.+}", method = RequestMethod.GET)
     public List organizations(@PathVariable String token) {
         String url = gumgaValues.getGumgaSecurityUrl() + "/token/organizations/" + token;
         List resposta = restTemplate.getForObject(url, List.class);
         return resposta;
     }
-
+    
+    
+    @Transactional
+    @ApiOperation(value = "change organization", notes = "Altera a organização do token.")
+    @RequestMapping(value = "/changeorganization/{token}/{orgId}", method = RequestMethod.GET)
+    public Object changeOrganization(@PathVariable String token, @PathVariable Long orgId) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/changeorganization/" + token+"/"+orgId;
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+    
     @Transactional
     @ApiOperation(value = "organizations", notes = "Lista as operações associadas ao software e token informados.")
     @RequestMapping(value = "/operations/{software}/{token:.+}", method = RequestMethod.GET)
@@ -198,14 +205,6 @@ class GumgaSecurityProxy {
         return result;
     }
 
-    @ApiOperation(value = "/whois", notes = "Verificar o usuario.")
-    @RequestMapping(method = RequestMethod.POST, value = "/whois")
-    public Map whois(@RequestBody UserImageDTO userImageDTO) {
-        final String url = gumgaValues.getGumgaSecurityUrl() + "/facereco/whois";
-        Map resposta = restTemplate.postForObject(url, userImageDTO, Map.class);
-        return resposta;
-    }
-
 }
 
 class UserImageDTO {
@@ -236,4 +235,5 @@ class UserImageDTO {
     public void setImageData(byte[] imageData) {
         this.imageData = imageData;
     }
+
 }

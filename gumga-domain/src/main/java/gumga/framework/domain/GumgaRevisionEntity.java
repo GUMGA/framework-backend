@@ -25,14 +25,14 @@ import org.hibernate.envers.RevisionTimestamp;
  * @author munif
  */
 @Entity
-@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_REVISION_ENTITY")
+@SequenceGenerator(name = "SEQREV", sequenceName = "SEQREV")
 @RevisionEntity(GumgaRevisionListener.class)
 public class GumgaRevisionEntity implements Serializable {
-
+    public static final String SEQREV = "SEQREV";
     private static final long serialVersionUID = 1L;
     @RevisionNumber
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = SEQREV)
     private Long id;
     @RevisionTimestamp
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)

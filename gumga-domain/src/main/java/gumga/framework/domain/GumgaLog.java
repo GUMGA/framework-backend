@@ -19,16 +19,24 @@ public class GumgaLog extends GumgaModel<Long> {
 
     @Column(name = "gumga_login")
     private String login;
+    @Column(name = "gumga_ip")
     private String ip;
+    @Column(name = "gumga_organization_code")
     private String organizationCode;
+    @Column(name = "gumga_organization")
     private String organization;
+    @Column(name = "gumga_software")
     private String software;
+    @Column(name = "gumga_operation")
     private String operarationKey;
+    @Column(name = "gumga_endpoint")
     private String endPoint;
+    @Column(name = "gumga_method")
     private String method;
     @Column(name = "was_allowed")
     private boolean allowed;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Column(name = "gumga_moment")
     private Date quando;
 
     public GumgaLog() {

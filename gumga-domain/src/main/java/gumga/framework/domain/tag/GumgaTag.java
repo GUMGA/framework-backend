@@ -27,6 +27,7 @@ public class GumgaTag extends GumgaModel<Long> {
     private Long objectId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "g_values")
     private List<GumgaTagValue> values = new ArrayList<>();
 
     @ManyToOne

@@ -1,17 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.security;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
  * @author munif
  */
-@FunctionalInterface
 public interface ApiOperationTranslator {
 
-    String getOperation(String url, String method);
+    default String getOperation(String url, String method) {
+        return "NOOP";
+    }
+
+    default String getOperation(String url, String method, HttpServletRequest request) {
+        return getOperation(url, method);
+    }
 
 }

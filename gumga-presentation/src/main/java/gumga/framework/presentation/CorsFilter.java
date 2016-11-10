@@ -6,6 +6,8 @@
 package gumga.framework.presentation;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -25,7 +27,7 @@ public class CorsFilter implements Filter {
 
     @Override
     public void init(FilterConfig fc) throws ServletException {
-        System.out.println("Gumga CORS FILTER ENABLED");
+        Logger.getLogger(CorsFilter.class.getName()).log(Level.INFO,"Gumga CORS FILTER ENABLED");
     }
 
     @Override

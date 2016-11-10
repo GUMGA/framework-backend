@@ -1,11 +1,14 @@
 package gumga.framework.core;
 
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Interface que deve ser implementada para alterar comportamentos padrão do
@@ -98,7 +101,7 @@ public interface GumgaValues {
             InputStream input = new FileInputStream(System.getProperty("user.home") + "/gumgafiles/" + getCustomPropertiesFileName());
             toReturn.load(input);
         } catch (IOException e) {
-            System.out.println("Utilizando properties padrão");
+            Logger.getLogger(GumgaValues.class.getName()).log(Level.INFO,"Utilizando properties padrão");
         }
         return toReturn;
     }
