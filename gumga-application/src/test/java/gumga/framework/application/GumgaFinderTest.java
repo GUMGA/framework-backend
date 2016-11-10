@@ -1,5 +1,6 @@
 package gumga.framework.application;
 
+import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
 import java.util.List;
@@ -15,6 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SpringConfig.class})
 public class GumgaFinderTest {
+
+    public GumgaFinderTest() {
+        GumgaThreadScope.organizationCode.set("1.");
+        GumgaThreadScope.login.set("gumga@gumga.com.br");
+    }
+    
+    
 
     @Autowired
     private CompanyService service;

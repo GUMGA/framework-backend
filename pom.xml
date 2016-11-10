@@ -13,7 +13,7 @@
 
     <groupId>gumga.framework</groupId>
     <artifactId>gumga-backend-all</artifactId>
-    <version>1.2.14</version>
+    <version>1.2.15-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Gumga Framework Backend</name>
 

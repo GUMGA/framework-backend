@@ -10,6 +10,7 @@ import gumga.framework.core.TenancyPublicMarking;
 import gumga.framework.domain.*;
 import gumga.framework.domain.repository.GumgaCrudRepository;
 import gumga.framework.domain.repository.GumgaMultitenancyUtil;
+import gumga.framework.domain.shared.GumgaSharedModel;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -97,16 +98,25 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (hasMultitenancy() && GumgaThreadScope.organizationCode.get() != null) {
             String oiPattern = GumgaMultitenancyUtil.getMultitenancyPattern(entityInformation.getJavaType().getAnnotation(GumgaMultitenancy.class));
             Criterion multitenancyCriterion;
+            Criterion sharedCriterion = or();
+            if (GumgaSharedModel.class.isAssignableFrom(entityInformation.getJavaType())) {
+                sharedCriterion = or(
+                        like("gumgaOrganizations", "," + oiPattern + ",", MatchMode.ANYWHERE),
+                        like("gumgaUsers", "," + GumgaThreadScope.login.get() + ",", MatchMode.ANYWHERE)
+                );
+
+            }
             GumgaMultitenancy gumgaMultitenancy = getDomainClass().getAnnotation(GumgaMultitenancy.class);
             if (gumgaMultitenancy.allowPublics()) {
                 if (gumgaMultitenancy.publicMarking() == TenancyPublicMarking.NULL) {
-                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.isNull("oi"));
+                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.isNull("oi"), sharedCriterion);
                 } else {
-                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.eq("oi", gumgaMultitenancy.publicMarking().getMark()));
+                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.eq("oi", gumgaMultitenancy.publicMarking().getMark()), sharedCriterion);
                 }
             } else {
-                multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START));
+                multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), sharedCriterion);
             }
+
             pesquisa.add(multitenancyCriterion);
         }
 
@@ -199,17 +209,22 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         String modelo = "from %s obj WHERE %s";
         if (hasMultitenancy()) {
             GumgaMultitenancy gumgaMultiTenancy = getDomainClass().getAnnotation(GumgaMultitenancy.class);
-            String multitenancyPattern = GumgaMultitenancyUtil.getMultitenancyPattern(gumgaMultiTenancy);
+            String oiPattern = GumgaMultitenancyUtil.getMultitenancyPattern(gumgaMultiTenancy);
+            String sharedCriterion = " ";
+            if (GumgaSharedModel.class.isAssignableFrom(entityInformation.getJavaType())) {
+                sharedCriterion = "or (obj.gumgaOrganizations like '%%," + oiPattern + ",%%' or "
+                        + "obj.gumgaUsers like '%%," + GumgaThreadScope.login.get() + ",%%') ";
+            }
             if (gumgaMultiTenancy.allowPublics()) {
                 if (gumgaMultiTenancy.publicMarking() == TenancyPublicMarking.NULL) {
-                    modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
-                }
-                else{
-                    modelo = "from %s obj WHERE (obj.oi = '" + gumgaMultiTenancy.publicMarking().getMark() + "' OR obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
+                    modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + oiPattern + "%%' "+sharedCriterion+")  AND (%s) ";
+                } else {
+                    modelo = "from %s obj WHERE (obj.oi = '" + gumgaMultiTenancy.publicMarking().getMark() + "' OR obj.oi like '" + oiPattern + "%%' "+sharedCriterion+")  AND (%s) ";
                 }
             } else {
-                modelo = "from %s obj WHERE (obj.oi like '" + multitenancyPattern + "%%')  AND (%s) ";
+                modelo = "from %s obj WHERE (obj.oi like '" + oiPattern + "%%' "+sharedCriterion+")  AND (%s) ";
             }
+            System.out.println("--------------------_>"+modelo);
         }
 
         String hqlConsulta;
