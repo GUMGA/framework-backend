@@ -206,3 +206,34 @@ class GumgaSecurityProxy {
     }
 
 }
+
+class UserImageDTO {
+    private String metadados;
+    private GumgaImage image;
+    private byte[] imageData;
+
+    public String getMetadados() {
+        return metadados;
+    }
+
+    public void setMetadados(String metadados) {
+        this.metadados = metadados;
+    }
+
+    public GumgaImage getImage() {
+        return image;
+    }
+
+    public void setImage(GumgaImage image) {
+        this.image = image;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+}

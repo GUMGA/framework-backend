@@ -1,5 +1,6 @@
 package gumga.framework.security;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.wordnik.swagger.annotations.ApiOperation;
 import gumga.framework.core.GumgaThreadScope;
 import gumga.framework.core.GumgaValues;
@@ -181,35 +182,17 @@ public class GumgaSecurityEntitiesProxy {
         return resposta;
     }
 
-    class UserImageDTO {
+    @RequestMapping(method = RequestMethod.POST, path = "/facereco/whois")
+    public ResponseEntity<Map> facerecoWhois(@RequestBody Map userImage) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        final String url = this.gumgaValues.getGumgaSecurityUrl().replace("/publicoperations", "/api/facereco/whois");
+        System.out.println("URL: " + url);
+        final Map result = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<Map>(userImage, headers), Map.class).getBody();
 
-        private String metadados;
-        private GumgaImage image;
-        private byte[] imageData;
-
-        public String getMetadados() {
-            return metadados;
-        }
-
-        public void setMetadados(String metadados) {
-            this.metadados = metadados;
-        }
-
-        public GumgaImage getImage() {
-            return image;
-        }
-
-        public void setImage(GumgaImage image) {
-            this.image = image;
-        }
-
-        public byte[] getImageData() {
-            return imageData;
-        }
-
-        public void setImageData(byte[] imageData) {
-            this.imageData = imageData;
-        }
+        return ResponseEntity.ok(result);
     }
 
+
 }
+
