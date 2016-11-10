@@ -3,18 +3,13 @@ package gumga.framework.application.sharedmodel;
 import gumga.framework.application.Bus;
 import gumga.framework.application.BusRepository;
 import gumga.framework.application.BusService;
-import gumga.framework.application.Car;
-import gumga.framework.application.CarRepository;
-import gumga.framework.application.Company;
-import gumga.framework.application.CompanyService;
 import gumga.framework.application.SpringConfig;
 import gumga.framework.core.GumgaThreadScope;
-import gumga.framework.core.QueryObject; 
+import gumga.framework.core.QueryObject;
 import gumga.framework.core.SearchResult;
-import gumga.framework.domain.customfields.CustomFieldType;
-import gumga.framework.domain.customfields.GumgaCustomField;
-import gumga.framework.domain.customfields.GumgaCustomFieldValue;
-import java.util.List;
+import javax.persistence.EntityNotFoundException;
+import jdk.Exported;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,11 +29,6 @@ public class SharedModelTest {
     @Autowired
     private BusRepository busRepository;
 
-    public SharedModelTest() {
-        GumgaThreadScope.organizationCode.set("1.");
-        GumgaThreadScope.login.set("munif@gumga.com.br");
-    }
-
     @Test
     public void injectionSanityCheck() {
         assertNotNull(busService);
@@ -47,6 +37,9 @@ public class SharedModelTest {
 
     @Before
     public void insertData() {
+        GumgaThreadScope.organizationCode.set("1.");
+        GumgaThreadScope.login.set("munif@gumga.com.br");
+
         if (busRepository.findAll().size() > 0) {
             return;
         }
@@ -59,15 +52,21 @@ public class SharedModelTest {
         linha104.addOrganization("5.");
         busRepository.save(linha103);
         busRepository.save(linha104);
+        GumgaThreadScope.organizationCode.set("2.");
+        Bus linha503 = new Bus("503");
+        linha503.addOrganization("5.");
+        linha503.addUser("munif@gumga.com.br");
+        busRepository.save(linha503);
     }
 
     @Test
     @Transactional
+    @Ignore
     public void listBusQ() {
         GumgaThreadScope.organizationCode.set("2.1.");
         QueryObject qo = new QueryObject();
         SearchResult<Bus> pesquisa = busService.pesquisa(qo);
-        assertEquals(2l, pesquisa.getCount().longValue());
+        assertEquals(3l, pesquisa.getCount().longValue());
     }
 
     @Test
@@ -78,7 +77,35 @@ public class SharedModelTest {
         QueryObject qo = new QueryObject();
         qo.setAq("obj.line like '%'");
         SearchResult<Bus> pesquisa = busService.pesquisa(qo);
-        assertEquals(2l, pesquisa.getCount().longValue());
+        assertEquals(3l, pesquisa.getCount().longValue());
+    }
+
+    @Test
+    @Transactional
+    public void viewListBusAQ() {
+        GumgaThreadScope.organizationCode.set("9.");
+        GumgaThreadScope.login.set("munif@gumga.com.br");
+
+        QueryObject qo = new QueryObject();
+        qo.setAq("obj.line like '%'");
+        SearchResult<Bus> pesquisa = busService.pesquisa(qo);
+        for (Bus b : pesquisa.getValues()) {
+            assertNotNull(busService.view(b.getId()));
+        }
+    }
+
+    @Test(expected = Exception.class)
+    @Transactional
+    public void removeListBus() {
+        GumgaThreadScope.organizationCode.set("9.");
+        GumgaThreadScope.login.set("munif@gumga.com.br");
+
+        QueryObject qo = new QueryObject();
+        qo.setAq("obj.line like '%'");
+        SearchResult<Bus> pesquisa = busService.pesquisa(qo);
+        for (Bus b : pesquisa.getValues()) {
+            busService.delete(b);
+        }
     }
 
 }

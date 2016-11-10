@@ -11,4 +11,11 @@ public class BusService extends GumgaService<Bus, Long> {
         super(repository);
     }
 
+    @Override
+    public void delete(Bus resource) {
+        super.delete(resource); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+
 }

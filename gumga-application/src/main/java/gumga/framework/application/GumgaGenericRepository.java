@@ -98,23 +98,31 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         if (hasMultitenancy() && GumgaThreadScope.organizationCode.get() != null) {
             String oiPattern = GumgaMultitenancyUtil.getMultitenancyPattern(entityInformation.getJavaType().getAnnotation(GumgaMultitenancy.class));
             Criterion multitenancyCriterion;
-            Criterion sharedCriterion = or();
+            Criterion sharedCriterion;
+            GumgaMultitenancy gumgaMultitenancy = getDomainClass().getAnnotation(GumgaMultitenancy.class);
             if (GumgaSharedModel.class.isAssignableFrom(entityInformation.getJavaType())) {
                 sharedCriterion = or(
                         like("gumgaOrganizations", "," + oiPattern + ",", MatchMode.ANYWHERE),
                         like("gumgaUsers", "," + GumgaThreadScope.login.get() + ",", MatchMode.ANYWHERE)
                 );
 
-            }
-            GumgaMultitenancy gumgaMultitenancy = getDomainClass().getAnnotation(GumgaMultitenancy.class);
-            if (gumgaMultitenancy.allowPublics()) {
-                if (gumgaMultitenancy.publicMarking() == TenancyPublicMarking.NULL) {
-                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.isNull("oi"), sharedCriterion);
+                if (gumgaMultitenancy.allowPublics()) {
+                    if (gumgaMultitenancy.publicMarking() == TenancyPublicMarking.NULL) {
+                        multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.isNull("oi"), sharedCriterion);
+                    } else {
+                        multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.eq("oi", gumgaMultitenancy.publicMarking().getMark()), sharedCriterion);
+                    }
                 } else {
-                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.eq("oi", gumgaMultitenancy.publicMarking().getMark()), sharedCriterion);
+                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), sharedCriterion);
+                }
+            } else if (gumgaMultitenancy.allowPublics()) {
+                if (gumgaMultitenancy.publicMarking() == TenancyPublicMarking.NULL) {
+                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.isNull("oi"));
+                } else {
+                    multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), Restrictions.eq("oi", gumgaMultitenancy.publicMarking().getMark()));
                 }
             } else {
-                multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START), sharedCriterion);
+                multitenancyCriterion = or(like("oi", oiPattern, MatchMode.START));
             }
 
             pesquisa.add(multitenancyCriterion);
@@ -159,6 +167,16 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
 
     @Override
     public T findOne(ID id) {
+        if (GumgaSharedModel.class.isAssignableFrom(entityInformation.getJavaType())) {
+            QueryObject qo=new QueryObject();
+            qo.setAq("obj.id="+id);
+            SearchResult<T> search = this.search(qo);
+            if (search.getCount()==1){
+                return search.getValues().get(0);
+            }
+            throw new EntityNotFoundException("cannot find " + entityInformation.getJavaType() + " with id: " + id);
+        }
+        
         T resource = super.findOne(id);
 
         if (resource == null) {
@@ -217,14 +235,13 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
             }
             if (gumgaMultiTenancy.allowPublics()) {
                 if (gumgaMultiTenancy.publicMarking() == TenancyPublicMarking.NULL) {
-                    modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + oiPattern + "%%' "+sharedCriterion+")  AND (%s) ";
+                    modelo = "from %s obj WHERE (obj.oi is null OR obj.oi like '" + oiPattern + "%%' " + sharedCriterion + ")  AND (%s) ";
                 } else {
-                    modelo = "from %s obj WHERE (obj.oi = '" + gumgaMultiTenancy.publicMarking().getMark() + "' OR obj.oi like '" + oiPattern + "%%' "+sharedCriterion+")  AND (%s) ";
+                    modelo = "from %s obj WHERE (obj.oi = '" + gumgaMultiTenancy.publicMarking().getMark() + "' OR obj.oi like '" + oiPattern + "%%' " + sharedCriterion + ")  AND (%s) ";
                 }
             } else {
-                modelo = "from %s obj WHERE (obj.oi like '" + oiPattern + "%%' "+sharedCriterion+")  AND (%s) ";
+                modelo = "from %s obj WHERE (obj.oi like '" + oiPattern + "%%' " + sharedCriterion + ")  AND (%s) ";
             }
-            System.out.println("--------------------_>"+modelo);
         }
 
         String hqlConsulta;
@@ -463,7 +480,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void delete(T entity) {
         if (hasMultitenancy()) {
-            log.error("NOMULTITENACYIMPL -> " + noMultiTenancyMessage());
+            checkOwnership(entity);
         }
         super.delete(entity);
     }
@@ -471,7 +488,7 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
     @Override
     public void delete(ID id) {
         if (hasMultitenancy()) {
-            log.error("NOMULTITENACYIMPL -> " + noMultiTenancyMessage());
+            checkOwnership(findOne(id));
         }
         super.delete(id);
     }
