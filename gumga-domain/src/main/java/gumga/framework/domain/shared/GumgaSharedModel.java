@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gumga.framework.domain.shared;
 
 import gumga.framework.domain.GumgaModel;
@@ -18,10 +13,12 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class GumgaSharedModel<ID extends Serializable> extends GumgaModel<ID> {
 
-    @Column(name = "gumga_orgs", length = 4096)
+    public static final int MAX_LENGTH = 4096;
+
+    @Column(name = "gumga_orgs", length = MAX_LENGTH)
     private String gumgaOrganizations;
 
-    @Column(name = "gumga_users", length = 4096)
+    @Column(name = "gumga_users", length = MAX_LENGTH)
     private String gumgaUsers;
 
     public GumgaSharedModel() {
@@ -47,11 +44,11 @@ public class GumgaSharedModel<ID extends Serializable> extends GumgaModel<ID> {
     }
 
     public void addOrganization(String oi) {
-        gumgaOrganizations = StringList.add(gumgaOrganizations, oi);
+        gumgaOrganizations = StringList.add(gumgaOrganizations, oi, MAX_LENGTH);
     }
 
     public void addUser(String login) {
-        gumgaUsers = StringList.add(gumgaUsers, login);
+        gumgaUsers = StringList.add(gumgaUsers, login, MAX_LENGTH);
     }
 
     public void removeOrganization(String oi) {
@@ -74,9 +71,13 @@ public class GumgaSharedModel<ID extends Serializable> extends GumgaModel<ID> {
 
 class StringList {
 
-    public static String add(String base, String value) {
+    public static String add(String base, String value, int max) {
         if (!contains(base, value)) {
-            return base + value + ",";
+            String toReturn = base + value + ",";
+            if (toReturn.length() > max) {
+                throw new MaximumSharesExceededException("Capacidade de compartilhamentos excedida.");
+            }
+            return toReturn;
         }
         return base;
     }
@@ -94,6 +95,8 @@ class StringList {
     }
 
 }
+
+
 
 //  ,abacaxi,laranja,fanta-laranja,coca,guarana,
 // ,coca,guarana,

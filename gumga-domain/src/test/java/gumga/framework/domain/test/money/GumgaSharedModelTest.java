@@ -5,6 +5,7 @@
  */
 package gumga.framework.domain.test.money;
 
+import gumga.framework.domain.shared.MaximumSharesExceededException;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,15 +24,31 @@ public class GumgaSharedModelTest {
         shared.addUser("gumga@gumga.com.br");
         assertEquals(",gumga@gumga.com.br,", shared.getGumgaUsers());
     }
-    
+
+    @Test(expected = MaximumSharesExceededException.class)
+    public void testMaximumUsersSharesExceeded() {
+        TestEntitySharedModel shared = new TestEntitySharedModel();
+        for (int i = 0; i < 1000; i++) {
+            shared.addUser("users" + i + "@gumga.com.br");
+        }
+    }
+
+    @Test(expected = MaximumSharesExceededException.class)
+    public void testMaximumOrganizationsSharesExceeded() {
+        TestEntitySharedModel shared = new TestEntitySharedModel();
+        for (int i = 0; i < 1000; i++) {
+            shared.addOrganization(i+".");
+        }
+    }
+
     @Test
     public void testAddUserWithTwoValues() {
         TestEntitySharedModel shared = new TestEntitySharedModel();
         shared.addUser("gumga@gumga.com.br");
         shared.addUser("suporte@gumga.com.br");
         assertEquals(",gumga@gumga.com.br,suporte@gumga.com.br,", shared.getGumgaUsers());
-    }    
-    
+    }
+
     @Test
     public void testRemoveUser() {
         TestEntitySharedModel shared = new TestEntitySharedModel();
@@ -39,8 +56,8 @@ public class GumgaSharedModelTest {
         assertEquals(",gumga@gumga.com.br,", shared.getGumgaUsers());
         shared.removeUser("gumga@gumga.com.br");
         assertEquals(",", shared.getGumgaOrganizations());
-    }    
-    
+    }
+
     @Test
     public void testRemoveAllUser() {
         TestEntitySharedModel shared = new TestEntitySharedModel();
@@ -48,7 +65,7 @@ public class GumgaSharedModelTest {
         assertEquals(",gumga@gumga.com.br,", shared.getGumgaUsers());
         shared.removeAllUser();
         assertEquals(",", shared.getGumgaUsers());
-    }    
+    }
 
     @Test
     public void testAddOganization() {
