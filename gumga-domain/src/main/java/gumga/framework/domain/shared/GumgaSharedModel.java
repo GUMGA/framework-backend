@@ -4,6 +4,7 @@ import gumga.framework.domain.GumgaModel;
 import gumga.framework.domain.domains.GumgaOi;
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.Lob;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -15,10 +16,12 @@ public class GumgaSharedModel<ID extends Serializable> extends GumgaModel<ID> {
 
     public static final int MAX_LENGTH = 4096;
 
-    @Column(name = "gumga_orgs", length = MAX_LENGTH)
+    @Lob
+    @Column(name = "gumga_orgs")
     private String gumgaOrganizations;
 
-    @Column(name = "gumga_users", length = MAX_LENGTH)
+    @Lob
+    @Column(name = "gumga_users")
     private String gumgaUsers;
 
     public GumgaSharedModel() {
