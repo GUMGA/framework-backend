@@ -6,6 +6,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Lob;
 import javax.persistence.MappedSuperclass;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -14,14 +15,10 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class GumgaSharedModel<ID extends Serializable> extends GumgaModel<ID> {
 
-    public static final int MAX_LENGTH = 4096;
-
-    @Lob
-    @Column(name = "gumga_orgs")
+    public static final int MAX_LENGTH = 2048;
+    @Column(name = "gumga_orgs",length = MAX_LENGTH)
     private String gumgaOrganizations;
-
-    @Lob
-    @Column(name = "gumga_users")
+    @Column(name = "gumga_users",length = MAX_LENGTH)
     private String gumgaUsers;
 
     public GumgaSharedModel() {
@@ -98,8 +95,6 @@ class StringList {
     }
 
 }
-
-
 
 //  ,abacaxi,laranja,fanta-laranja,coca,guarana,
 // ,coca,guarana,

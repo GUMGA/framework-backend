@@ -61,7 +61,6 @@ public class SharedModelTest {
 
     @Test
     @Transactional
-    @Ignore
     public void listBusQ() {
         GumgaThreadScope.organizationCode.set("2.1.");
         QueryObject qo = new QueryObject();
