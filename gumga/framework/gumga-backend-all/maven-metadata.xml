@@ -4,8 +4,8 @@
   <artifactId>gumga-backend-all</artifactId>
   <versioning>
     <versions>
-      <version>1.2.15-SNAPSHOT</version>
+      <version>1.2.16-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20161125163233</lastUpdated>
+    <lastUpdated>20161129110118</lastUpdated>
   </versioning>
 </metadata>
