@@ -9,6 +9,16 @@
 Framework Backend
 
 
+1.2.16
+ - Integração com o reconhecimento de voz
+ - Biblioteca para interpretação de linguagem natural
+
+
+1.2.15
+- GumgaSharedModel (Compartilhamento de objetos)
+- MaximumUsersSharesExceeded
+
+
 1.2.14
 =======================================
 - Create class GumgaTenancyUtils that contains the method changeOi

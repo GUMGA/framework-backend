@@ -51,7 +51,7 @@ public abstract class GumgaModel<ID extends Serializable> implements GumgaIdable
     @GeneratedValue(strategy = GenerationType.AUTO, generator = SEQ_NAME)
     protected ID id;
 
-    @org.hibernate.annotations.Index(name = "oi_index")
+//    @org.hibernate.annotations.Index(name = "oi_index")
     protected GumgaOi oi;
 
     public GumgaModel() {

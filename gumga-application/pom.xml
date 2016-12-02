@@ -4,7 +4,7 @@
     <parent>
         <groupId>gumga.framework</groupId>
         <artifactId>gumga-backend-all</artifactId>
-        <version>1.2.14</version>
+        <version>1.2.16</version>
     </parent>
     <artifactId>gumga-application</artifactId>
     
@@ -123,6 +123,18 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.cogroo.lang.pt_br</groupId>
+            <artifactId>cogroo-ann-pt_br</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.10</version>
         </dependency>
     </dependencies>
 

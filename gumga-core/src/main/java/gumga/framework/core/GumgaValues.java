@@ -18,6 +18,10 @@ import java.util.logging.Logger;
  */
 public interface GumgaValues {
 
+    default String getGumgaNLPBasePackage(){
+        return "gumga.framework";
+    };
+
     /**
      *
      * @return Tempo padrão de expiração do ticket para troca de senha.
