@@ -3,9 +3,10 @@
   <groupId>gumga.framework</groupId>
   <artifactId>gumga-core</artifactId>
   <versioning>
+    <release>1.2.16</release>
     <versions>
-      <version>1.2.16-SNAPSHOT</version>
+      <version>1.2.16</version>
     </versions>
-    <lastUpdated>20161130170049</lastUpdated>
+    <lastUpdated>20161202103853</lastUpdated>
   </versioning>
 </metadata>
