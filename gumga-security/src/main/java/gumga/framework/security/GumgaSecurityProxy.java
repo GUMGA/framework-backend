@@ -205,6 +205,14 @@ class GumgaSecurityProxy {
         return result;
     }
 
+    @ApiOperation(value = "google-plus", notes = "Faz o login com google-plus recebendo email e token.")
+    @RequestMapping(value="/google-plus", method = RequestMethod.GET)
+    public Map loginWithGooglePlus(@RequestParam("email") String email,@RequestParam("token") String facebookToken) {
+        String url = gumgaValues.getGumgaSecurityUrl() + "/token/google-plus?email="+email+"&token="+facebookToken;
+        Map resposta = restTemplate.getForObject(url, Map.class);
+        return resposta;
+    }
+
 }
 
 class UserImageDTO {
