@@ -6,8 +6,10 @@
 package gumga.framework.presentation.api.voice;
 
 import gumga.framework.application.nlp.GumgaNLP;
+import static gumga.framework.core.utils.NumericUtils.unsignedToBytes;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,11 +61,14 @@ public class VoiceReceiverAPI {
         Map<String, Object> problemas = new HashMap<>();
         try {
             som = som.replaceFirst("data:audio/wav;base64,", "");
+            byte[] decode = Base64.getDecoder().decode(som.substring(0, 512));
+            int sampleRate = unsignedToBytes(decode[27]) * 256 * 256 * 256 + unsignedToBytes(decode[26]) * 256 * 256 + unsignedToBytes(decode[25]) * 256 + unsignedToBytes(decode[24]) * 1;
+
             RestTemplate restTemplate = new RestTemplate();
             Map<String, Object> config = new HashMap<>();
 
             config.put("encoding", "LINEAR16");
-            config.put("sampleRate", "44000");
+            config.put("sampleRate", ""+sampleRate);
             config.put("languageCode", "pt-BR");
             config.put("maxAlternatives", "1");
             config.put("profanityFilter", "false");
