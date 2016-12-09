@@ -54,7 +54,7 @@ public class DatabaseConfigSupport {
         properties.put("eclipselink.weaving", "false");
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
         properties.put("hibernate.dialect", provider.getDialect());
-        properties.put("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
+        properties.put("hibernate.ejb.naming_strategy", "br.com.gumga.security.infrastructure.GumgaNamingStrategy");
         properties.put("hibernate.connection.charSet", "UTF-8");
         properties.put("hibernate.connection.characterEncoding", "UTF-8");
         properties.put("hibernate.connection.useUnicode", "true");
