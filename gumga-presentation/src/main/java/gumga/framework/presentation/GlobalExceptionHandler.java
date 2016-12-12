@@ -9,7 +9,9 @@ import gumga.framework.core.exception.UnauthorizedException;
 import gumga.framework.presentation.validation.ErrorResource;
 import gumga.framework.presentation.validation.FieldErrorResource;
 import gumga.framework.validation.exception.InvalidEntityException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import org.hibernate.exception.ConstraintViolationException;
@@ -88,7 +90,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ErrorResource constraintViolation(HttpServletRequest req, Exception ex) {
         gumgaLoggerService.logToFile(ex.toString(), 4);
         logger.warn("Error on operation", ex);
-        return new ErrorResource("ConstraintViolation", "Error on operation", ex.getMessage());
+        ErrorResource errorResource = new ErrorResource("ConstraintViolation", "Error on operation", ex.getMessage());
+        if (ex.getCause() instanceof ConstraintViolationException){
+            Map<String,String> data=new HashMap<>();
+            ConstraintViolationException cve=(ConstraintViolationException) ex.getCause();
+            data.put("ConstraintName",cve.getConstraintName());
+            data.put("Message",cve.getMessage());
+            data.put("SQL",cve.getSQL());
+            data.put("SQLState",cve.getSQLState());
+            data.put("ErrorCode",""+cve.getErrorCode());
+            errorResource.setData(data);
+        }
+        return errorResource;
     }
 
     /*

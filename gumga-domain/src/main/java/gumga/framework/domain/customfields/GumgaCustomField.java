@@ -15,9 +15,9 @@ import javax.persistence.Table;
  * @author munif
  */
 @Entity
-@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_CUSTOM_FIELD")
+@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_CTM_FLD")
 //             123456789012345678
-@Table(name = "gumga_custom_field")
+@Table(name = "gumga_ctm_fld")
 @GumgaMultitenancy
 public class GumgaCustomField extends GumgaModel<Long> {
 

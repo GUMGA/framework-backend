@@ -22,9 +22,9 @@ import javax.persistence.Temporal;
  * @author munif
  */
 @Entity
-@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_FIELD_VALUE")
+@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_FLD_VLE")
 //             123456789012345678
-@Table(name = "gumga_field_value")
+@Table(name = "gumga_fld_vle")
 @GumgaMultitenancy
 public class GumgaCustomFieldValue extends GumgaModel<Long> {
 
