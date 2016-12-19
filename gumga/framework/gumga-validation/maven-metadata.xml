@@ -3,10 +3,9 @@
   <groupId>gumga.framework</groupId>
   <artifactId>gumga-validation</artifactId>
   <versioning>
-    <release>1.2.17</release>
     <versions>
-      <version>1.2.17</version>
+      <version>1.2.18-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20161212174317</lastUpdated>
+    <lastUpdated>20161219134057</lastUpdated>
   </versioning>
 </metadata>
