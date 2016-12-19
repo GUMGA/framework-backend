@@ -8,6 +8,12 @@
 =======================================
 Framework Backend
 
+1.2.18
+   CENTOS
+
+
+
+
 1.2.17
  - GumgaNamingStrategy implements NamingStrategy BETA!!!!
  - Objetos criados em /api/voice
