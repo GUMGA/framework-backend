@@ -28,7 +28,7 @@ mvn -v
 
 [Para instalar o JAVA em seu sistema.](http://www.oracle.com/technetwork/pt/java/javase/downloads/index.html)
 
-[I'm an inline-style link](https://maven.apache.org/)
+[maven.apache](https://maven.apache.org/)
 
 
 ## Running the tests
