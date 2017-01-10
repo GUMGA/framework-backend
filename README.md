@@ -4,7 +4,15 @@ O GUMGA FRAMEWORK BACKEND possibilita a criação de APIs JAVA com diversas func
 
 ## Getting Started
 
-O framework da gumga ~~está~~ estará disponível através de repositório no mavencentral e para utilizá-lo recomenda-se a criação do projeto via archetype da gumga. 
+O framework da gumga ~~está~~ estará disponível através de repositório no mavencentral e para utilizá-lo recomenda-se a criação do projeto via archetype da gumga que cria a estrutura básica de um projeto.
+```shell
+mvn archetype:generate -DinteractiveMode=false -DarchetypeGroupId=br.com.gumga  -DarchetypeArtifactId=projeto-archetype  -DgroupId=br.com.gumgademo  -DartifactId=exemplo -Dversion=0.1
+```
+
+
+![archetype](https://github.com/GUMGA/framework-backend/blob/master/docs/img/archetype.gif)
+
+
 
 ### Prerequisites
 
