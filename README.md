@@ -199,7 +199,7 @@ Para fazer deploy de aplicações criadas com o framwork, utilize os arquivos WA
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+Utilizamos [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/gumga/framework-backend/tags). 
 
 ## Authors
 
