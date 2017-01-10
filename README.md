@@ -203,8 +203,9 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Munif Gebara Junior** - *Initial work* - [Munif](http://www.munif.com.br)
+* **Munif Gebara Junior** - *Documentação incial* - [Munif](http://www.munif.com.br)
 
 ## License
 
-MIT License - [LICENSE.md](LICENSE.md) 
+MIT License - [LICENSE.md](https://opensource.org/licenses/MIT) 
+
