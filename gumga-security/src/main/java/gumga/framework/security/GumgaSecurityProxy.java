@@ -39,6 +39,7 @@ class GumgaSecurityProxy {
         restTemplate = new RestTemplate();
     }
 
+
     @ApiOperation(value = "create", notes = "Cria token através do usuário e senha informados.")
     @RequestMapping(value = "/create/{user}/{password}", method = RequestMethod.GET)
     public ResponseEntity create(@PathVariable String user, @PathVariable String password) {

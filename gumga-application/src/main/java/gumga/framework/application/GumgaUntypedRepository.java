@@ -50,6 +50,11 @@ public class GumgaUntypedRepository {
         return fullTextEntityManager.createFullTextQuery(query, entidade).getResultList();
     }
 
+    /**
+     * Fazer a pesquisa com os atributos que estão anotados com {@link org.hibernate.search.annotations.Field}
+     * @param text
+     * @return
+     */
     public List<Object> fullTextSearch(String text) {
         List aRetornar = new ArrayList();
 
@@ -72,6 +77,12 @@ public class GumgaUntypedRepository {
         return aRetornar;
     }
 
+    /**
+     * Pegar todos os atributos de uma classe
+     * @param classe objeto que voce deseja pegar os atributos
+     * @return
+     * @throws SecurityException
+     */
     public static List<Field> getTodosAtributos(Class classe) throws SecurityException {
         List<Field> aRetornar = new ArrayList<>();
         if (!classe.getSuperclass().equals(Object.class)) {
@@ -81,6 +92,10 @@ public class GumgaUntypedRepository {
         return aRetornar;
     }
 
+    /**
+     * Pegar as entidades que estão anotadas com {@link Indexed}
+     * @return
+     */
     private List<Class> getAllIndexedEntities() {
         List<Class> aRetornar = new ArrayList<>();
         Session session = em.unwrap(Session.class);

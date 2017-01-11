@@ -58,12 +58,8 @@ public class GumgaRepositoryFactoryBean<R extends JpaRepository<T, I>, T, I exte
 		return QUERY_DSL_PRESENT && QueryDslPredicateExecutor.class.isAssignableFrom(repositoryInterface);
 	}
         
-        private static boolean isQueryNoTyped(Class<?> repositoryInterface){
-
-            
-            return GumgaCrudAndQueryNotOnlyTypedRepository.class.isAssignableFrom(repositoryInterface);
-
-       
-        }
+	private static boolean isQueryNoTyped(Class<?> repositoryInterface){
+		return GumgaCrudAndQueryNotOnlyTypedRepository.class.isAssignableFrom(repositoryInterface);
+	}
 	
 }

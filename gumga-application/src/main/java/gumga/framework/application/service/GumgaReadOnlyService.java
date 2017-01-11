@@ -18,9 +18,17 @@ public abstract class GumgaReadOnlyService<T extends GumgaIdable<?>, ID extends 
         super(repository);
     }
 
+    /**
+     * Processo executado antes do método Pesquisa da classe {@link GumgaReadableServiceable}
+     * @param query
+     */
     public void beforePesquisa(QueryObject query) {
     }
 
+    /**
+     * Processo executado apos do método Pesquisa da classe {@link GumgaReadableServiceable}
+     * @param result
+     */
     public void afterPesquisa(SearchResult<T> result) {
     }
 
@@ -33,12 +41,25 @@ public abstract class GumgaReadOnlyService<T extends GumgaIdable<?>, ID extends 
         return result;
     }
 
+    /**
+     * Processo executado antes do método view da classe {@link GumgaReadableServiceable}
+     * @param id
+     */
     public void beforeView(ID id) {
     }
 
+    /**
+     * Processo executado apos do método view da classe {@link GumgaReadableServiceable}
+     * @param entity
+     */
     public void afterView(T entity) {
     }
 
+    /**
+     * Pesquisa a entidade tipada na classe {@link GumgaReadableServiceable} pela primary key
+     * @param id
+     * @return
+     */
     @Transactional(readOnly = true)
     public T view(ID id) {
         beforeView(id);
@@ -48,6 +69,12 @@ public abstract class GumgaReadOnlyService<T extends GumgaIdable<?>, ID extends 
         return entity;
     }
 
+    /**
+     * Pesquisa a entidade passada no parametro pela primary key da entidade do parametro
+     * @param clazz entidade a ser pesquisada
+     * @param id primary key da entidade
+     * @return
+     */
     @Transactional(readOnly = true)
     public Object genercView(Class clazz, ID id) {
         Object entity = repository.genericFindOne(clazz, id);

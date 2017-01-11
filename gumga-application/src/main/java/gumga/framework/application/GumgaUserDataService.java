@@ -23,12 +23,23 @@ public class GumgaUserDataService extends GumgaService<GumgaUserData, Long> {
         entity.setUserLogin(GumgaThreadScope.login.get());
     }
 
+    /**
+     * Encontrar GumgaUserData baseado no atributo key da classe @{@link GumgaUserData}
+     * @param prefix
+     * @return
+     */
     public SearchResult<GumgaUserData> searchByKeyPrefix(String prefix) {
         QueryObject qo = new QueryObject();
         qo.setAq(String.format("obj.userLogin='%s' and obj.key like '%s%%'", GumgaThreadScope.login.get(), prefix));
         return super.pesquisa(qo);
     }
 
+    /**
+     * Encontrar GumgaUserData baseado no atributo userLogin e key da classe @{@link GumgaUserData}
+     * @param userLogin
+     * @param key
+     * @return
+     */
     public GumgaUserData findByUserLoginAndKey(String userLogin, String key) {
         return repository.findByUserLoginAndKey(userLogin,key);
     }

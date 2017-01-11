@@ -138,6 +138,10 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return pesquisa;
     }
 
+    /**
+     * Verificar se a entidade utiliza o Multitenancy da Gumga
+     * @return true se tiver e false caso não tiver anotada com @{@link GumgaMultitenancy}
+     */
     public boolean hasMultitenancy() {
         return entityInformation.getJavaType().isAnnotationPresent(GumgaMultitenancy.class);
     }
@@ -166,6 +170,11 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return Pesquisa.createCriteria(session(), entityInformation.getJavaType());
     }
 
+    /**
+     * Pesquisa sql por id utilizando o Multitenancy se a entidade estiver anotada com @{@link GumgaMultitenancy}
+     * @param id
+     * @return entidade tipada na interface @{@link GumgaCrudRepository}
+     */
     @Override
     public T findOne(ID id) {
         if (GumgaSharedModel.class.isAssignableFrom(entityInformation.getJavaType())) {
@@ -208,6 +217,11 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return entityManager.unwrap(Session.class);
     }
 
+    /**
+     * Faz uma pesquisa no banco baseado na entidade que está tipada na interface {@link GumgaCrudRepository}
+     * @param query
+     * @return
+     */
     private SearchResult<T> advancedSearch(QueryObject query) {
 //        if (query.getAq().startsWith("{")) {
 //            try {
@@ -338,16 +352,34 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         super.flush();
     }
 
+    /**
+     * salvar entidades utilizando o Multitenancy se a entidade estiver anotada com @{@link GumgaMultitenancy}
+     * @param entities
+     * @param <S>
+     * @return lista das entidades salvas
+     */
     @Override
     public <S extends T> List<S> save(Iterable<S> entities) {
         return super.save(entities);
     }
 
+    /**
+     * salvar entidade utilizando o Multitenancy se a entidade estiver com @{@link GumgaMultitenancy}
+     * @param entity
+     * @param <S>
+     * @return entidade salva
+     */
     @Override
     public <S extends T> S saveAndFlush(S entity) {
         return super.saveAndFlush(entity);
     }
 
+    /**
+     * salvar entidade utilizando o Multitenancy se a entidade estiver anotada com @{@link GumgaMultitenancy}
+     * @param entity
+     * @param <S>
+     * @return entidade salva
+     */
     @Override
     public <S extends T> S save(S entity) {
         return super.save(entity);
@@ -358,19 +390,36 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return super.count(spec);
     }
 
+    /**
+     * Procurar a quantiadde de registro na base dados baseado na entidade tipada na interface @{@link GumgaCrudRepository}
+     * @return quantidade de registro encontrados
+     */
     @Override
     public long count() {
         return super.count();
     }
 
+    /**
+     * Pesquisa na base de dados baseado na entidade tipada na interface @{@link GumgaCrudRepository} com os filtro passados
+     * @param spec filtro a ser utilizado na pesquisa
+     * @param sort a ordem que voce deseja retornar o dados
+     * @return
+     */
     @Override
     public List<T> findAll(Specification<T> spec, Sort sort) {
+
         if (hasMultitenancy()) {
             throw new GumgaGenericRepositoryException(noMultiTenancyMessage());
         }
         return super.findAll(spec, sort);
     }
 
+    /**
+     * Pesquisa na base de dados baseado na entidade tipada na interface @{@link GumgaCrudRepository} com os filtro passados
+     * @param spec filtro a ser utilizado na pesquisa
+     * @param pageable paginação
+     * @return
+     */
     @Override
     public Page<T> findAll(Specification<T> spec, Pageable pageable) {
         if (hasMultitenancy()) {
@@ -379,6 +428,11 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return super.findAll(spec, pageable);
     }
 
+    /**
+     * Pesquisa na base de dados baseado na entidade tipada na interface @{@link GumgaCrudRepository} com os filtro passados
+     * @param spec filtro a ser utilizado na pesquisa
+     * @return
+     */
     @Override
     public List<T> findAll(Specification<T> spec) {
         if (hasMultitenancy()) {
@@ -387,6 +441,11 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return super.findAll(spec);
     }
 
+    /**
+     * Pesquisa na base de dados baseado na entidade tipada na interface @{@link GumgaCrudRepository} com os filtro passados
+     * @param spec filtro a ser utilizado na pesquisa
+     * @return
+     */
     @Override
     public T findOne(Specification<T> spec) {
         if (hasMultitenancy()) {
@@ -395,6 +454,11 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return super.findOne(spec);
     }
 
+    /**
+     * Pesquisa na base de dados baseado na entidade tipada na interface @{@link GumgaCrudRepository} com os filtro passados
+     * @param pageable parametros da paginação
+     * @return
+     */
     @Override
     public Page<T> findAll(Pageable pageable) {
         if (hasMultitenancy()) {
@@ -403,6 +467,11 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return super.findAll(pageable);
     }
 
+    /**
+     * Pesquisa na base de dados baseado na entidade tipada na interface @{@link GumgaCrudRepository} com os filtro passados
+     * @param sort ordem de retorno dos dados
+     * @return
+     */
     @Override
     public List<T> findAll(Sort sort) {
         if (hasMultitenancy()) {
@@ -426,6 +495,10 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return toReturn;
     }
 
+    /**
+     * Pesquisa na base de dados baseado na entidade tipada na interface @{@link GumgaCrudRepository} com os filtro passados
+     * @return
+     */
     @Override
     public List<T> findAll() {
         if (hasMultitenancy()) {
@@ -434,11 +507,21 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         return super.findAll();
     }
 
+    /**
+     * Verificar se objecto salvo no banco ja existe.
+     * @param id valor a ser pequisado na primary key da entidade
+     * @return
+     */
     @Override
     public boolean exists(ID id) {
         return super.exists(id);
     }
 
+    /**
+     * Pesquisar a entidade tipada na interface @{@link GumgaCrudRepository} com Multitenancy caso a entidade esteja anotada com @{@link GumgaMultitenancy}
+     * @param id
+     * @return
+     */
     @Override
     public T getOne(ID id) {
         T objectFind = super.getOne(id);
@@ -454,6 +537,9 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         super.deleteAllInBatch();
     }
 
+    /**
+     * Remove todas as entidades tipada na interface @{@link GumgaCrudRepository} da base dados
+     */
     @Override
     public void deleteAll() {
         if (hasMultitenancy()) {
@@ -478,6 +564,10 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         super.delete(entities);
     }
 
+    /**
+     * Remove a entidade tipada na interface @{@link GumgaCrudRepository} da base dados
+     * @param entity entidade a ser removida
+     */
     @Override
     public void delete(T entity) {
         if (hasMultitenancy()) {
@@ -486,6 +576,10 @@ public class GumgaGenericRepository<T, ID extends Serializable> extends SimpleJp
         super.delete(entity);
     }
 
+    /**
+     * Remove a entidade tipada na interface @{@link GumgaCrudRepository} da base dados
+     * @param id primary key da entidade a ser removida da base
+     */
     @Override
     public void delete(ID id) {
         if (hasMultitenancy()) {
