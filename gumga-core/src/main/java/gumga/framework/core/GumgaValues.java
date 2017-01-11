@@ -99,6 +99,10 @@ public interface GumgaValues {
         return System.getProperty("user.home").concat("/gumgafiles/templates");
     }
 
+    /**
+     *
+     * @return propeties de configuração do usuario
+     */
     default Properties getCustomFileProperties() {
         Properties toReturn = new Properties();
         try {
@@ -110,9 +114,12 @@ public interface GumgaValues {
         return toReturn;
     }
 
+    /**
+     *
+     * @return arquivo de configuração da applicação
+     */
     default String getCustomPropertiesFileName() {
         return "gumga-security.properties";
-
     }
 
 }

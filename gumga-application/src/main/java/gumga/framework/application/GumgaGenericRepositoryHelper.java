@@ -25,6 +25,10 @@ public class GumgaGenericRepositoryHelper {
     private GumgaGenericRepositoryHelper() {
     }
 
+    /**
+     * Faz substituição dos operadores especificados no atributo hqlConverter para operadores do tipo SQL
+     * @return
+     */
     public static Map<GumgaHqlEntry, GumgaHqlElement> getHqlConverter() {
         if (hqlConverter == null) {
             hqlConverter = new HashMap<>();
@@ -88,6 +92,11 @@ public class GumgaGenericRepositoryHelper {
         return GumgaFieldStereotype.DEFAULT;
     }
 
+    /**
+     * Gera um Objeto QueryObject através de uma String.
+     * @param s
+     * @return
+     */
     public static List<QueryObjectElement> qoeFromString(String s) {
         List<QueryObjectElement> aRetornar = new ArrayList<>();
         try {
@@ -113,6 +122,12 @@ public class GumgaGenericRepositoryHelper {
 
     }
 
+    /**
+     * Gera um HQL através das informações da entidade e do QueryObject especificado por parâmetro.
+     * @param entityInformation
+     * @param qoes
+     * @return
+     */
     public static String hqlFromQoes(JpaEntityInformation entityInformation, List<QueryObjectElement> qoes) {
         String aRetornar = "";
 
@@ -143,6 +158,11 @@ public class GumgaGenericRepositoryHelper {
         return aRetornar;
     }
 
+    /**
+     * Remove acentos do parametro especificado
+     * @param str valor
+     * @return parametro sem acentos
+     */
     public static String removeAcentos(String str) {
         str = Normalizer.normalize(str, Normalizer.Form.NFD);
         str = str.replaceAll("[^\\p{ASCII}]", "");

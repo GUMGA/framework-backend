@@ -26,6 +26,11 @@ public class GumgaTempFileService {
     @Autowired
     private GumgaValues gumgaValues;
 
+    /**
+     * Criar um arquivo temporario
+     * @param gumgaFile
+     * @return
+     */
     public String create(GumgaFile gumgaFile) {
         String tempFileName = "uploadData" + (System.currentTimeMillis() * 1000 + new Random().nextInt(1000));
 
@@ -44,6 +49,11 @@ public class GumgaTempFileService {
         return "error";
     }
 
+    /**
+     * Remove o arquivo temporario
+     * @param fileName nome do arquivo a ser removido
+     * @return
+     */
     public String delete(String fileName) {
         try { //TODO Arrumar o tratamento da Exception
             File file = new File(gumgaValues.getUploadTempDir() + "/" + fileName);
@@ -55,6 +65,11 @@ public class GumgaTempFileService {
         return "error";
     }
 
+    /**
+     * Encontrar o arquivo temporario
+     * @param tempFileName nome do arquivo a ser procurado
+     * @return
+     */
     public GumgaFile find(String tempFileName) {
         if (tempFileName == null||tempFileName.isEmpty()){
             return null;

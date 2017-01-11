@@ -21,9 +21,17 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
         super(repository);
     }
 
+    /**
+     * Processo executado antes do Método pesquisa da classe @{@link GumgaService}
+     * @param query
+     */
     public void beforePesquisa(QueryObject query) {
     }
 
+    /**
+     * Processo executado apos do Método pesquisa da classe @{@link GumgaService}
+     * @param result
+     */
     public void afterPesquisa(SearchResult<T> result) {
     }
 
@@ -35,12 +43,25 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
         return result;
     }
 
+    /**
+     * Processo executado antes do Método view da classe @{@link GumgaService}
+     * @param id
+     */
     public void beforeView(ID id) {
     }
 
+    /**
+     * Processo executado apos o Método view da classe @{@link GumgaService}
+     * @param entity
+     */
     public void afterView(T entity) {
     }
 
+    /**
+     * Pesquisa a entidade na base de dados por primary key
+     * @param id
+     * @return
+     */
     @Transactional(readOnly = true)
     public T view(ID id) {
         beforeView(id);
@@ -51,18 +72,35 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
         return entity;
     }
 
+    /**
+     * Procura a entidade pela primary key
+     * @param clazz entidade a ser procurada
+     * @param id primary key da entidade
+     * @return
+     */
     @Transactional(readOnly = true)
     public Object genercView(Class clazz, ID id) {
         Object entity = repository.genericFindOne(clazz, id);
         return entity;
     }
 
+    /**
+     * Processo executado antes do Método delete da classe {@link GumgaServiceable}
+     * @param entity
+     */
     public void beforeDelete(T entity) {
     }
 
+    /**
+     * Processo executado apos do Método delete da classe {@link GumgaServiceable}
+     */
     public void afterDelete() {
     }
 
+    /**
+     * Remove a entidade da base de dados
+     * @param resource entidade a ser removida
+     */
     @Transactional
     public void delete(T resource) {
         beforeDelete(resource);
@@ -89,18 +127,39 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
         }
     }
 
+    /**
+     * Processo executado antes do Método save da classe {@link GumgaServiceable}
+     * @param entity
+     */
     public void beforeSave(T entity) {
     }
 
+    /**
+     * Processo executado antes do Método update da classe {@link GumgaServiceable}
+     * @param entity
+     */
     public void beforeUpdate(T entity) {
     }
 
+    /**
+     * Processo executado apos do Método save da classe {@link GumgaServiceable}
+     * @param entity
+     */
     public void afterSave(T entity) {
     }
 
+    /**
+     * Processo executado apos do Método update da classe {@link GumgaServiceable}
+     * @param entity
+     */
     public void afterUpdate(T entity) {
     }
 
+    /**
+     * Salva a entidade na base de dados com Multitenancy se a entidade estiver anotada com {@link gumga.framework.domain.GumgaMultitenancy}
+     * @param resource
+     * @return
+     */
     @Transactional
     public T save(T resource) {
         boolean isNew = (resource.getId() == null);
@@ -115,10 +174,18 @@ public abstract class GumgaService<T extends GumgaIdable<ID>, ID extends Seriali
         return entity;
     }
 
+    /**
+     * Sincronizar os dados do EntityManager com o banco de dados
+     */
     public void forceFlush() {
         repository.flush();
     }
 
+    /**
+     * Retornar as versões anteriores das entidades marcadas pelas auditoria
+     * @param id
+     * @return
+     */
     @Transactional(readOnly = true)
     public List<GumgaObjectAndRevision> listOldVersions(ID id) {
         List<GumgaObjectAndRevision> oldVersions = repository.listOldVersions(id);

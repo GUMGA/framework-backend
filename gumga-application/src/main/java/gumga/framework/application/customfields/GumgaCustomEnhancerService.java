@@ -35,10 +35,19 @@ public class GumgaCustomEnhancerService {
         }
     }
 
+    /**
+     * Criar uma nova instancia de um attributo generico
+     * @param cf
+     * @return
+     */
     public GumgaCustomFieldValue newValue(GumgaCustomField cf) {
         return new GumgaCustomFieldValue(cf);
     }
 
+    /**
+     * Carregar os attributos genericos do objeto
+     * @param gumgaModel
+     */
     public void loadCustomFields(Object gumgaModel) {
         if (!(gumgaModel instanceof GumgaCustomizableModel)) {
             return;
@@ -54,6 +63,10 @@ public class GumgaCustomEnhancerService {
         }
     }
 
+    /**
+     * Salvar atributos genericos
+     * @param gumgaModel
+     */
     public void saveCustomFields(GumgaIdable gumgaModel) {
         if (!(gumgaModel instanceof GumgaCustomizableModel)) {
             return;
@@ -70,6 +83,10 @@ public class GumgaCustomEnhancerService {
 
     }
 
+    /**
+     * Remover atributos genericos
+     * @param gumgaModel
+     */
     public void deleteCustomFields(GumgaIdable gumgaModel) {
         if (!(gumgaModel instanceof GumgaCustomizableModel)) {
             return;

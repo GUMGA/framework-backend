@@ -30,6 +30,11 @@ public class GumgaLoggerService {
         this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     }
 
+    /**
+     * Adiciona uma mensagem no gumgalog.txt
+     * @param msg mensagem a ser adicionada no arquivo
+     * @param level index da execption do StrackTrace
+     */
     public void logToFile(String msg, int level) {
         try {
             String line = createLogLine(msg, level);
@@ -44,6 +49,12 @@ public class GumgaLoggerService {
         }
     }
 
+    /**
+     *
+     * @param msg mensagem do log
+     * @param level index da execption do StrackTrace
+     * @return
+     */
     public String createLogLine(String msg, int level) {
         StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[level];
         String line = sdf.format(new Date()) + " " + stackTraceElement.getClassName() + " " + stackTraceElement.getMethodName() + " " + stackTraceElement.getLineNumber() + " " + msg + "\n";

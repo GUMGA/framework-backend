@@ -43,14 +43,29 @@ public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends Gum
         return createQuery(predicate).uniqueResult(path);
     }
 
+    /**
+     * Pesquisa todos os registro da entidade tipada na classe {@link GumgaQueryDSLRepositoryImpl}
+     * @return
+     */
     public List<T> findAll() {
         return createQuery().list(path);
     }
 
+    /**
+     * Pesquisa todos os registro da entidade tipada na classe {@link GumgaQueryDSLRepositoryImpl}
+     * @param predicate filtro da pesquisa
+     * @return
+     */
     public List<T> findAll(Predicate predicate) {
         return findAll(toSpecification(predicate), path);
     }
 
+    /**
+     * Pesquisa todos os registro da entidade tipada na classe {@link GumgaQueryDSLRepositoryImpl}
+     * @param predicate filtro da pesquisa
+     * @param orders   ordem dos dados
+     * @return
+     */
     public List<T> findAll(Predicate predicate, OrderSpecifier<?>... orders) {
         JPQLQuery query = createQuery(predicate);
         query = querydsl.applySorting(new QSort(orders), query);
@@ -108,6 +123,12 @@ public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends Gum
         return specification.createQuery(querydsl.createQuery(path)).uniqueResult(projection);
     }
 
+    /**
+     * Pesquisa todos os registro da entidade tipada na classe {@link GumgaQueryDSLRepositoryImpl}
+     * @param predicate filtros da pesquisa
+     * @param pageable configurações de paginação
+     * @return
+     */
     @Override
     public Page<T> findAll(Predicate predicate, Pageable pageable) {
         return findAll(toSpecification(predicate), pageable, path);
@@ -122,6 +143,11 @@ public class GumgaQueryDSLRepositoryImpl<T, ID extends Serializable> extends Gum
         return new SearchResult<>(page.getOffset(), page.getPageSize(), result.getTotalElements(), result.getContent());
     }
 
+    /**
+     * Criar uma nova Jpaquery com os filtros e com multitenancy se a classe tiver anotada com {@link GumgaMultitenancy}
+     * @param predicate filtro dos dados
+     * @return
+     */
     public JPQLQuery createQuery(Predicate... predicate) {
         return createQuery(toSpecification(predicate));
     }

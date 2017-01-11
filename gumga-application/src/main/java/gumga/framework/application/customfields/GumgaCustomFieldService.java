@@ -18,15 +18,30 @@ public class GumgaCustomFieldService extends GumgaService<GumgaCustomField, Long
         this.repository = repository;
     }
 
+    /**
+     * Retonar a lista de atributos genericos da classe passada por parametro
+     * @param clazzName
+     * @return
+     */
     List<GumgaCustomField> findByClass(String clazzName) {
         return repository.search(getQueryObject(clazzName)).getValues();
 
     }
 
+    /**
+     * Retonar a lista de atributos genericos da classe passada por parametro
+     * @param c
+     * @return
+     */
     List<GumgaCustomField> findByClass(Class c) {
         return findByClass(c.getName());
     }
 
+    /**
+     * Retonar a lista de atributos genericos da classe passada por parametro
+     * @param obj
+     * @return
+     */
     List<GumgaCustomField> findByClass(Object obj) {
         return findByClass(obj.getClass());
     }
