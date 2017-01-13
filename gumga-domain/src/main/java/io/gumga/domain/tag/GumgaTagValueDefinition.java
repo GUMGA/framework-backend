@@ -15,8 +15,8 @@ import javax.validation.constraints.NotNull;
  * @author munif
  */
 @Entity
-@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_TAG_VAL_DEF")
-@Table(name = "gumga_tag_vdef")
+@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GTAG_VALU_DEFI")
+@Table(name = "gtag_vdefi")
 @GumgaMultitenancy
 public class GumgaTagValueDefinition extends GumgaModel<Long> {
 

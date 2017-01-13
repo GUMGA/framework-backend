@@ -17,19 +17,23 @@ import java.util.*;
 public class GumgaNLP {
 
     public static final String NO_NAME = "_NO_NAME";
-    private final Analyzer cogroo;
-    private final Reflections reflections;
-    private final Set<Class<?>> classOfInterest;
+    private Analyzer cogroo;
+    private Reflections reflections;
+    private Set<Class<?>> classOfInterest;
 
     @Autowired
     public GumgaNLP(GumgaValues gumgaValues) {
         String basePackage = gumgaValues.getGumgaNLPBasePackage();
-        ComponentFactory factory = ComponentFactory.create(new Locale("pt", "BR"));
-        cogroo = factory.createPipe();
-        reflections = new Reflections(basePackage);
-        System.out.println("ReflectionsConfiguration------->" + reflections.getConfiguration().getUrls());
-        classOfInterest = reflections.getTypesAnnotatedWith(GumgaNLPThing.class);
-        System.out.println("GumgaNLP ------" + basePackage + "----->" + classOfInterest);
+        try {
+            ComponentFactory factory = ComponentFactory.create(new Locale("pt", "BR"));
+            cogroo = factory.createPipe();
+            reflections = new Reflections(basePackage);
+            System.out.println("ReflectionsConfiguration------->" + reflections.getConfiguration().getUrls());
+            classOfInterest = reflections.getTypesAnnotatedWith(GumgaNLPThing.class);
+            System.out.println("GumgaNLP ------" + basePackage + "----->" + classOfInterest);
+        } catch (Exception ex) {
+            System.out.println("GumgaNLP ------" + basePackage + "-----> NOT WORKING IN THIS SYSTEM " + ex);
+        }
     }
 
     private enum Estados {

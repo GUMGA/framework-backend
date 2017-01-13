@@ -12,8 +12,8 @@ import javax.persistence.Table;
  * @author munif
  */
 @Entity
-@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_USER_DATA")
-@Table(name = "gumga_user_data")
+@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUSER_GDATA")
+@Table(name = "guser_gdata")
 @GumgaMultitenancy
 public class GumgaUserData extends GumgaModel<Long> {
 

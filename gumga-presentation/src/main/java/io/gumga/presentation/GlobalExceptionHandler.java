@@ -1,3 +1,4 @@
+
 package io.gumga.presentation;
 
 import io.gumga.application.GumgaLoggerService;
@@ -28,7 +29,9 @@ import org.springframework.web.util.WebUtils;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -85,7 +88,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ErrorResource constraintViolation(HttpServletRequest req, Exception ex) {
         gumgaLoggerService.logToFile(ex.toString(), 4);
         logger.warn("Error on operation", ex);
-        return new ErrorResource("ConstraintViolation", "Error on operation", ex.getMessage());
+        ErrorResource errorResource = new ErrorResource("ConstraintViolation", "Error on operation", ex.getMessage());
+        if (ex.getCause() instanceof ConstraintViolationException){
+            Map<String,String> data=new HashMap<>();
+            ConstraintViolationException cve=(ConstraintViolationException) ex.getCause();
+            data.put("ConstraintName",cve.getConstraintName());
+            data.put("Message",cve.getMessage());
+            data.put("SQL",cve.getSQL());
+            data.put("SQLState",cve.getSQLState());
+            data.put("ErrorCode",""+cve.getErrorCode());
+            errorResource.setData(data);
+        }
+        return errorResource;
     }
 
     /*

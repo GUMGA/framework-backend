@@ -9,8 +9,8 @@ import java.util.Date;
  * @author munif
  */
 @Entity
-@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_LOG")
-@Table(name = "gumga_log")
+@SequenceGenerator(name = GumgaModel.SEQ_NAME, sequenceName = "SEQ_GUMGA_GLOG")
+@Table(name = "gumga_glog")
 public class GumgaLog extends GumgaModel<Long> {
 
     @Column(name = "gumga_login")
@@ -51,7 +51,7 @@ public class GumgaLog extends GumgaModel<Long> {
         this.method = method;
         this.quando = new Date();
         this.allowed = a;
-    }
+    }    
 
     public String getLogin() {
         return login;
