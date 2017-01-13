@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>gumga.framework</groupId>
+        <groupId>io.gumga</groupId>
         <artifactId>gumga-backend-all</artifactId>
         <version>1.2.5-SNAPSHOT</version>
     </parent>
@@ -12,19 +12,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>gumga.framework</groupId>
+            <groupId>io.gumga</groupId>
             <artifactId>gumga-core</artifactId>
         </dependency>
 
         
         
         <dependency>
-            <groupId>gumga.framework</groupId>
+            <groupId>io.gumga</groupId>
             <artifactId>gumga-domain</artifactId>
         </dependency>
         
         <dependency>
-            <groupId>gumga.framework</groupId>
+            <groupId>io.gumga</groupId>
             <artifactId>gumga-application</artifactId>
         </dependency>
 
